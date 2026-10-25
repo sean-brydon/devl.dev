@@ -1,0 +1,20 @@
+{
+  "name": "Product Shot Hero",
+  "description": "A split hero with a tilted, layered app mock that leans toward your pointer, floating cards at different depths, and a quiet logo row underneath.",
+  "kind": "block",
+  "category": "Heroes",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "hero",
+    "landing page",
+    "product screenshot",
+    "app mock",
+    "parallax",
+    "3d tilt",
+    "logo row",
+    "split hero",
+    "social proof"
+  ],
+  "no": 146
+}

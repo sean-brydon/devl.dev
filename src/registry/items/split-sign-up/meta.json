@@ -1,0 +1,19 @@
+{
+  "name": "Split Sign-up",
+  "description": "A two-panel sign-up: the form validates as you go (live email check, password rules that tick off, a strength bar) beside a product glimpse and rotating customer quotes that fold below on phones.",
+  "kind": "block",
+  "category": "Auth",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "sign up",
+    "register",
+    "create account",
+    "auth",
+    "split layout",
+    "password strength",
+    "inline validation",
+    "testimonial"
+  ],
+  "no": 162
+}

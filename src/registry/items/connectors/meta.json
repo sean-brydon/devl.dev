@@ -1,0 +1,13 @@
+{
+  "name": "Connectors",
+  "description": "Browse every app your product plugs into, with a sticky search, category filters that glide, connect buttons that spin and settle into a quiet connected state, and a slide-over for permissions and settings.",
+  "kind": "screen",
+  "category": "Product",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "integrations",
+    "app directory"
+  ],
+  "no": 190
+}

@@ -1,0 +1,12 @@
+{
+  "name": "Hairline Shell",
+  "description": "An app frame drawn edge to edge on single hairlines, with header and footer rules running straight across, a marker that slides along the edge to the current page and a dense issue list you can walk with J and K.",
+  "kind": "screen",
+  "category": "Shells",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "flat app shell"
+  ],
+  "no": 179
+}

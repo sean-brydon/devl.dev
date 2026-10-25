@@ -1,0 +1,13 @@
+{
+  "name": "Connector Marketplace",
+  "description": "A place to browse the apps that plug into your product: filter by category, search, and connect one through a short permissions step that shows the link being made.",
+  "kind": "block",
+  "category": "Apps",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "app directory",
+    "integrations"
+  ],
+  "no": 170
+}

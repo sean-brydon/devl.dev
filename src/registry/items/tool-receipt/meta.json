@@ -1,0 +1,13 @@
+{
+  "name": "Tool Receipt",
+  "description": "Every tool call your agent makes prints as a little thermal receipt with its time, tokens and cost; tap one to unroll the arguments and result, failed calls get a red VOID stamp and a Retry, and a whole run stacks up on a spike with a running total.",
+  "kind": "component",
+  "category": "Mission Control",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "tool call",
+    "function call"
+  ],
+  "no": 30
+}

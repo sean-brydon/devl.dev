@@ -1,0 +1,18 @@
+{
+  "name": "Quota Ring",
+  "description": "A small usage ring that turns amber, then red, as it crosses its thresholds, with a tooltip that breaks the number down and counts down to the reset.",
+  "kind": "component",
+  "category": "Status",
+  "isNew": true,
+  "keywords": [
+    "quota",
+    "usage",
+    "limit",
+    "ring",
+    "progress",
+    "tooltip",
+    "countdown",
+    "billing"
+  ],
+  "no": 71
+}

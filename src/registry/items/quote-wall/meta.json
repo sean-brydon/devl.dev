@@ -1,0 +1,13 @@
+{
+  "name": "Quote Wall",
+  "description": "Customer quotes stacked in columns that drift past in opposite directions and settle the moment you stop to read one.",
+  "kind": "block",
+  "category": "Marketing",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "testimonials",
+    "reviews"
+  ],
+  "no": 149
+}

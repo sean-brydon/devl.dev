@@ -1,0 +1,13 @@
+{
+  "name": "Triage Desk",
+  "description": "Work through agent output one card at a time, riskiest first, with the shaky parts marked and explained and a single key to approve, edit, reject or skip.",
+  "kind": "component",
+  "category": "Trust & Control",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "review queue",
+    "moderation"
+  ],
+  "no": 34
+}

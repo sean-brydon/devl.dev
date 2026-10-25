@@ -1,0 +1,17 @@
+{
+  "name": "Active Users Line",
+  "description": "bklit's line chart comparing weekly active users with last year: a quiet grey line for 2025, a dashed tail for this week's projection, and a legend that toggles the comparison.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "line-chart",
+  "isNew": true,
+  "keywords": [
+    "line chart",
+    "comparison",
+    "year over year",
+    "bklit",
+    "visx"
+  ],
+  "no": 94
+}

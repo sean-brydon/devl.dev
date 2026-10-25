@@ -1,0 +1,17 @@
+{
+  "name": "Orders Trend",
+  "description": "bklit's composed chart pairing weekly order bars with a rolling-average line on one time axis, so the noise and the trend read together in a single tooltip.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "composed-chart",
+  "isNew": true,
+  "keywords": [
+    "composed chart",
+    "bars and line",
+    "moving average",
+    "bklit",
+    "visx"
+  ],
+  "no": 90
+}

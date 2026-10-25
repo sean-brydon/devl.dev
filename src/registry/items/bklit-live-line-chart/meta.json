@@ -1,0 +1,18 @@
+{
+  "name": "Live Traffic Line",
+  "description": "bklit's live line chart streaming requests per second: the line glides in as each sample lands, a value badge rides the tip, you can scrub back to any second, and pause freezes the window to read it.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "live-line-chart",
+  "isNew": true,
+  "keywords": [
+    "live chart",
+    "real-time",
+    "streaming",
+    "monitoring",
+    "bklit",
+    "visx"
+  ],
+  "no": 95
+}

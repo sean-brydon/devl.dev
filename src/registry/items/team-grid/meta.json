@@ -1,0 +1,19 @@
+{
+  "name": "Team Grid",
+  "description": "Team cards with tinted initials portraits, roles and a ticking local clock; hover, focus or tap one and a short bio with links slides over, plus a team filter and a we're-hiring card.",
+  "kind": "block",
+  "category": "Content",
+  "isNew": true,
+  "keywords": [
+    "team",
+    "about us",
+    "team members",
+    "people",
+    "staff",
+    "avatars",
+    "bio",
+    "hiring",
+    "careers"
+  ],
+  "no": 160
+}

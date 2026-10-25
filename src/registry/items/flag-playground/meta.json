@@ -1,0 +1,20 @@
+{
+  "name": "Flag Playground",
+  "description": "Paste a user as JSON and watch every flag decide, rule by rule: each condition ticks or crosses, the winning rule lights up, later ones grey out, and the served variant swaps in. Broken JSON and wrong types get called out instead of quietly failing.",
+  "kind": "component",
+  "category": "Filters",
+  "poweredBy": "qnot",
+  "isNew": true,
+  "keywords": [
+    "feature flags",
+    "flag debugger",
+    "evaluation",
+    "user context",
+    "targeting",
+    "json",
+    "rule evaluation",
+    "why did this flag",
+    "qnot"
+  ],
+  "no": 60
+}

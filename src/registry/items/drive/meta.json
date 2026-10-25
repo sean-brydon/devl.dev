@@ -1,0 +1,13 @@
+{
+  "name": "Drive",
+  "description": "A home for your folders with tabs, search and sort, a grid and list switch where every card glides and shrinks into its row, stars for the ones you need often and new-from-template cards with tiny drawn previews.",
+  "kind": "screen",
+  "category": "Product",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "files",
+    "folders"
+  ],
+  "no": 188
+}

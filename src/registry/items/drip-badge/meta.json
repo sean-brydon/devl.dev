@@ -1,0 +1,17 @@
+{
+  "name": "Drip Badge",
+  "description": "A notification count made of liquid: a new one makes a droplet drip off the bottom, reading one pinches a piece off the side, and the number rolls either way.",
+  "kind": "component",
+  "category": "Liquid",
+  "isNew": true,
+  "keywords": [
+    "badge",
+    "notification badge",
+    "counter",
+    "unread count",
+    "indicator",
+    "goo",
+    "liquid"
+  ],
+  "no": 5
+}

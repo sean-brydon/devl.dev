@@ -1,0 +1,18 @@
+{
+  "name": "Not Found",
+  "description": "A 404 with a compass that dithers between headings until you move your mouse or start searching, plus a did-you-mean fix for the typo, inline search and popular links.",
+  "kind": "block",
+  "category": "Content",
+  "isNew": true,
+  "keywords": [
+    "404",
+    "not found",
+    "error page",
+    "missing page",
+    "did you mean",
+    "search",
+    "empty state",
+    "illustration"
+  ],
+  "no": 159
+}

@@ -1,0 +1,17 @@
+{
+  "name": "Flip Clock",
+  "description": "A split-flap countdown where each changed digit's top flap falls away under gravity, darkening as it turns, and the new lower flap lands with one small rebound.",
+  "kind": "motion",
+  "category": "Text",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "split flap",
+    "countdown",
+    "flip counter",
+    "timer",
+    "clock",
+    "solari"
+  ],
+  "no": 215
+}

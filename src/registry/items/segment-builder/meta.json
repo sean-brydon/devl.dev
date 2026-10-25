@@ -1,0 +1,21 @@
+{
+  "name": "Segment Builder",
+  "description": "Describe an audience in a few rules and watch it form: the head count rolls, the size bar slides, and real people from your sample glide in and out of the list as each rule tightens or loosens.",
+  "kind": "component",
+  "category": "Filters",
+  "poweredBy": "qnot",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "segment builder",
+    "audience builder",
+    "cohort",
+    "user segments",
+    "targeting",
+    "rules",
+    "audience size",
+    "crm filters",
+    "qnot"
+  ],
+  "no": 65
+}

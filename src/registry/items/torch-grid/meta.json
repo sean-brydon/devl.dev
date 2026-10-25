@@ -1,0 +1,17 @@
+{
+  "name": "Torch Grid",
+  "description": "One soft light follows your pointer across a grid of cards, washing over the one you're on and catching the rims of its neighbours across the gaps.",
+  "kind": "motion",
+  "category": "Cursor",
+  "isNew": true,
+  "keywords": [
+    "spotlight",
+    "glow cards",
+    "border glow",
+    "hover effect",
+    "feature grid",
+    "bento",
+    "spotlight cards"
+  ],
+  "no": 223
+}

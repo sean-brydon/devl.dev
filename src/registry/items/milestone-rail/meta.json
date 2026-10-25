@@ -1,0 +1,13 @@
+{
+  "name": "Milestone Rail",
+  "description": "Your onboarding steps on a vertical rail that fills in as each one is done, with a progress bar and percentage keeping count up top.",
+  "kind": "component",
+  "category": "Getting Started",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "progress tracker",
+    "onboarding"
+  ],
+  "no": 144
+}

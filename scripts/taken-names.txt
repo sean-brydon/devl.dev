@@ -1,0 +1,19 @@
+# Names and concepts NOT to use for new items.
+# 1) Another library's catalogue (don't reuse these names or near-copies of their concept + feature list):
+AI Answer, Chat Composer, Thinking State, Writing Assistant, Thinking Loader, Combobox, Command Menu, Date Range Picker,
+Dropzone, OTP Input, Segmented Control, Stepper Form, Toaster, Usage Meter, Agent Cursors, Agent Graph, Agent Inbox,
+Agent Lanes, Agent Ledger, Agent Queue, Agent Steering, Agent Tree, Autonomy Dial, Cited Answer, Compact Breakdown,
+Context Map, Context Window, Decision Tree, Delegate Board, Experiment Card, Fan-out Grid, Integration Picker,
+Integration Settings, KPI Chart, Memory Panel, Message Actions, Model Picker, Parallel Attempts, Permission Request,
+Plan vs Actual, Profile Menu, Project Card, Prompt Library, Review Center, Tips Panel, Tool Call Card, Trace Waterfall,
+Approval Card, Breakdown Chart, Button, Data Table, Filter Menu, Reaction Bar, Smart Recommendation, Agent Plan,
+Billing Schedule, Change Summary, Comments Panel, Email Draft, Progress Tracker, Comment Thread, Inline Diff, Setup Guide,
+Decision Inbox, Notification Stack, App Shell Flat, App Shell Inset, App Shell Workspace, Assistant Home, Folders, Folder,
+Integrations, Agent Chat, CRM, Analytics, Agent Run, Settings & Billing, Onboarding, Evals, Client Context,
+Invoice & Credit Note, Logo Marquee, Metrics Dashboard, Pricing Plans, Task Board, Testimonial Wall, AI Workspace,
+App Directory, KPI Board, Agent Gallery, Cover Flow, Frost Cloud, Glow Cloud, Glow Keyboard, Integration Beam,
+Logo Cluster, Model Wheel, Project Flow, DACH Region, Empty Calendar, Integration Flow, Voice Orb, Tab Overload,
+World Map Continental, Ghosted Chat, Lead Sourcing, Enrichment Orbit, Outreach Branches, Glass Folder, Side Folder,
+Team Invite, Layer Stack, Agent Team, Integration Grid, Blur Crossfade, Gradient Floor, Gradient Text, Grid Background,
+Number Ticker, Shimmer Loader, Text Reveal, Tilt Card
+# 2) devl's own existing items: see NAMING.md and src/registry/items/*/meta.json — don't duplicate them either.

@@ -1,0 +1,19 @@
+{
+  "name": "Habits",
+  "description": "A habit tracker that makes ticking things off feel good: checks fill and draw in a beat, counted habits fill like a glass, streaks roll up, and a week grid lets you patch the days you forgot to log.",
+  "kind": "screen",
+  "category": "Personal",
+  "isNew": true,
+  "keywords": [
+    "habit tracker",
+    "streaks",
+    "todo",
+    "checklist",
+    "daily",
+    "goals",
+    "week grid",
+    "bottom sheet",
+    "personal"
+  ],
+  "no": 205
+}

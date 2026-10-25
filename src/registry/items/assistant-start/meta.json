@@ -1,0 +1,13 @@
+{
+  "name": "Assistant Start",
+  "description": "The first screen of an AI assistant, with chats and projects down the side, a gooey orb that says hello and a prompt box that gathers tools and connected apps as context, then glides down into the conversation when you send.",
+  "kind": "screen",
+  "category": "AI",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "assistant home",
+    "chat start"
+  ],
+  "no": 181
+}

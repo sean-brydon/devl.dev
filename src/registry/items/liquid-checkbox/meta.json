@@ -1,0 +1,17 @@
+{
+  "name": "Liquid Checkbox",
+  "description": "A checkbox that fills with a little pour of liquid before the tick draws in, and drains when you uncheck it. A select-all box can sit part full as a list gets done.",
+  "kind": "component",
+  "category": "Liquid",
+  "isNew": true,
+  "keywords": [
+    "checkbox",
+    "checklist",
+    "todo",
+    "select all",
+    "indeterminate",
+    "liquid",
+    "animated checkbox"
+  ],
+  "no": 6
+}

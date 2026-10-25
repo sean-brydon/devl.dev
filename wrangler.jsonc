@@ -1,0 +1,31 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "devl",
+  "main": ".open-next/worker.js",
+  "compatibility_date": "2026-10-15",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "assets": {
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
+  },
+  "services": [
+    // Self-reference used by OpenNext for caching; must match "name".
+    { "binding": "WORKER_SELF_REFERENCE", "service": "devl" }
+  ],
+  "r2_buckets": [
+    // Create before the first deploy: wrangler r2 bucket create devl-opennext-cache
+    { "binding": "NEXT_INC_CACHE_R2_BUCKET", "bucket_name": "devl-opennext-cache" },
+    // Snapshots of sponsor and house-ad og:images: wrangler r2 bucket create devl-sponsor-images
+    { "binding": "SPONSOR_IMAGES", "bucket_name": "devl-sponsor-images" }
+  ],
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "devl-sponsors",
+      // Replace with the id printed by: wrangler d1 create devl-sponsors
+      "database_id": "b5fc9792-835d-471e-b13c-4e5b03a8e687",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "observability": { "enabled": true }
+}

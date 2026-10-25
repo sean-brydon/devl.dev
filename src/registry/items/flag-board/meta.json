@@ -1,0 +1,20 @@
+{
+  "name": "Flag Board",
+  "description": "Feature flags per environment: flip a flag, drag its rollout and see how many people that is, target segments with chips, and a kill switch you have to press and hold, with undo, before it turns everything off.",
+  "kind": "component",
+  "category": "Dev Tools",
+  "isNew": true,
+  "keywords": [
+    "feature flags",
+    "feature toggles",
+    "rollout",
+    "percentage rollout",
+    "targeting",
+    "segments",
+    "kill switch",
+    "environments",
+    "launch darkly",
+    "experiments"
+  ],
+  "no": 133
+}

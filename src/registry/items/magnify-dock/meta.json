@@ -1,0 +1,19 @@
+{
+  "name": "Magnify Dock",
+  "description": "An app dock that swells under your pointer on a stiff spring, bounces apps as they launch, marks running ones with a dot, and works from the keyboard too.",
+  "kind": "component",
+  "category": "Workspace",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "dock",
+    "macos dock",
+    "magnification",
+    "app launcher",
+    "taskbar",
+    "fisheye",
+    "toolbar",
+    "app icons"
+  ],
+  "no": 122
+}

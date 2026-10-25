@@ -1,0 +1,17 @@
+{
+  "name": "Incident Banner",
+  "description": "A dismissible status banner that moves through investigating, identified, monitoring and resolved: its colour, icon and progress track change with each update, and the timeline unfolds underneath.",
+  "kind": "component",
+  "category": "Status",
+  "isNew": true,
+  "keywords": [
+    "incident",
+    "status",
+    "banner",
+    "outage",
+    "timeline",
+    "alert",
+    "postmortem"
+  ],
+  "no": 70
+}

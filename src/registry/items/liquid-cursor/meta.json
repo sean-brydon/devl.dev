@@ -1,0 +1,17 @@
+{
+  "name": "Liquid Cursor",
+  "description": "Inside its card the pointer becomes a drop of liquid with a short trail; hover a link or button and the drop pours itself into that shape, then pinches free when you move on.",
+  "kind": "motion",
+  "category": "Liquid",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "goo cursor",
+    "custom cursor",
+    "cursor trail",
+    "blob cursor",
+    "hover effect",
+    "metaball"
+  ],
+  "no": 212
+}

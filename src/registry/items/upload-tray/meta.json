@@ -1,0 +1,13 @@
+{
+  "name": "Upload Tray",
+  "description": "Drop files in and each one fans out into its own card with a coloured type badge, live progress and time left, while a failed upload waits patiently for a retry.",
+  "kind": "component",
+  "category": "Forms",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "dropzone",
+    "file upload"
+  ],
+  "no": 44
+}

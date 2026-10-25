@@ -1,0 +1,14 @@
+{
+  "name": "Nudge",
+  "description": "One clear suggestion with an honest read on how sure it is, a couple of alternatives a tap away, and a short window to undo once you accept.",
+  "kind": "component",
+  "category": "Writing",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "recommendation",
+    "suggestion",
+    "confidence"
+  ],
+  "no": 41
+}

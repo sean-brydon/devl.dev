@@ -1,0 +1,18 @@
+{
+  "name": "Ticker Candlesticks",
+  "description": "bklit's candlestick chart as a stock card: green and red sessions, a crosshair that takes the colour of the candle under it, OHLC in the tooltip and a 1M/3M range switch.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "candlestick-chart",
+  "isNew": true,
+  "keywords": [
+    "candlestick",
+    "ohlc",
+    "stocks",
+    "finance",
+    "bklit",
+    "visx"
+  ],
+  "no": 88
+}

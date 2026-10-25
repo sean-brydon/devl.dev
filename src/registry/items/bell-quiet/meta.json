@@ -1,0 +1,19 @@
+{
+  "name": "Bell Quiet",
+  "description": "Empty-state art for notifications: a sleepy bell breathing out little z's \u2013 hover and it startles awake with a tiny ring, then dozes off again.",
+  "kind": "illustration",
+  "category": "Empty States",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "notifications",
+    "bell",
+    "empty state",
+    "inbox",
+    "caught up",
+    "sleep",
+    "quiet",
+    "alerts"
+  ],
+  "no": 229
+}

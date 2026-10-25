@@ -1,0 +1,13 @@
+{
+  "name": "File Tree",
+  "description": "A project tree that feels like your editor: arrow keys to open folders, git changes marked in colour, F2 to rename and drag to tidy things up.",
+  "kind": "component",
+  "category": "Workspace",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "explorer",
+    "folders"
+  ],
+  "no": 115
+}

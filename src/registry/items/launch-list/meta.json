@@ -1,0 +1,13 @@
+{
+  "name": "Launch List",
+  "description": "A getting-started list in tidy groups with a ring that fills as you go, where each task ticks and strikes through once it's done.",
+  "kind": "component",
+  "category": "Getting Started",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "setup guide",
+    "checklist"
+  ],
+  "no": 143
+}

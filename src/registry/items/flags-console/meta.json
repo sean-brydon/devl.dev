@@ -1,0 +1,21 @@
+{
+  "name": "Flags Console",
+  "description": "A whole flag console in one piece: search and filter your flags, pick one to edit its targeting rules and rollout per environment, and watch a live log of requests getting their variant, with a marker the moment your change takes effect.",
+  "kind": "block",
+  "category": "Filters",
+  "poweredBy": "qnot",
+  "isNew": true,
+  "keywords": [
+    "feature flags",
+    "flag console",
+    "flag dashboard",
+    "targeting",
+    "rollout",
+    "evaluation log",
+    "environments",
+    "launchdarkly",
+    "unleash",
+    "qnot"
+  ],
+  "no": 177
+}

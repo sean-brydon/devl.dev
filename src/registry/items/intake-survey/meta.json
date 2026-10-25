@@ -1,0 +1,18 @@
+{
+  "name": "Intake Survey",
+  "description": "A one-question-at-a-time onboarding survey: answer with A\u2013D, a quick blink confirms your pick before the next question glides in, multi-select with a limit, an optional free-text step and an editable summary at the end.",
+  "kind": "block",
+  "category": "Apps",
+  "isNew": true,
+  "keywords": [
+    "survey",
+    "onboarding",
+    "questionnaire",
+    "typeform",
+    "keyboard shortcuts",
+    "quiz",
+    "intake form",
+    "one question at a time"
+  ],
+  "no": 175
+}

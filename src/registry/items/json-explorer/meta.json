@@ -1,0 +1,19 @@
+{
+  "name": "JSON Explorer",
+  "description": "A JSON tree you can actually read: types in colour, key and item counts, inline previews of folded branches, copy-any-path, and a search that opens the tree down to every match and steps through them.",
+  "kind": "component",
+  "category": "Dev Tools",
+  "isNew": true,
+  "keywords": [
+    "json",
+    "json viewer",
+    "tree view",
+    "inspector",
+    "object explorer",
+    "copy path",
+    "search",
+    "api response",
+    "payload"
+  ],
+  "no": 134
+}

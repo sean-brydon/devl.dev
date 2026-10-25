@@ -1,0 +1,17 @@
+{
+  "name": "Donut Legend",
+  "description": "A donut and its legend wired both ways: point at a slice or a row and the slice swells, the rest step back and the centre figure rolls to it; click a row to take it out of the total.",
+  "kind": "component",
+  "category": "Numbers",
+  "isNew": true,
+  "keywords": [
+    "donut",
+    "pie",
+    "legend",
+    "breakdown",
+    "share",
+    "chart",
+    "spend"
+  ],
+  "no": 79
+}

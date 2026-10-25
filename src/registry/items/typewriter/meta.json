@@ -1,0 +1,16 @@
+{
+  "name": "Typewriter",
+  "description": "Types a phrase with a human rhythm, holds it long enough to read, then backspaces or selects it away and moves on; the caret only blinks while it waits.",
+  "kind": "motion",
+  "category": "Text",
+  "isNew": true,
+  "keywords": [
+    "typing animation",
+    "typed text",
+    "rotating text",
+    "animated placeholder",
+    "caret",
+    "text loop"
+  ],
+  "no": 218
+}

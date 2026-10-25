@@ -1,0 +1,13 @@
+{
+  "name": "Access Pass",
+  "description": "When an agent wants more access it hands you a boarding pass that says who, what and why; pick once, an hour or always, approve, and the stub tears off along the perforation into a little pass with a countdown and Revoke.",
+  "kind": "component",
+  "category": "Trust & Control",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "permission",
+    "scopes"
+  ],
+  "no": 33
+}

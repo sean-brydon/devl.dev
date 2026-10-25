@@ -1,0 +1,18 @@
+{
+  "name": "Radial Gauge",
+  "description": "A dial with threshold bands and a target notch: the needle springs to each new reading, the fill takes the colour of the band it lands in, and hovering a band names its range.",
+  "kind": "component",
+  "category": "Numbers",
+  "isNew": true,
+  "keywords": [
+    "gauge",
+    "dial",
+    "meter",
+    "speedometer",
+    "threshold",
+    "target",
+    "cpu",
+    "chart"
+  ],
+  "no": 83
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Delivery Tracker",
+  "description": "Live order tracking on a hand-drawn city map: the courier rides the route as the ETA counts down, you can zoom in to follow them, message with quick replies, and rate and tip once it lands.",
+  "kind": "screen",
+  "category": "Commerce",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "delivery",
+    "order tracking",
+    "map",
+    "courier",
+    "eta",
+    "live",
+    "food delivery",
+    "chat",
+    "rating"
+  ],
+  "no": 204
+}

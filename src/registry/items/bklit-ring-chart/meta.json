@@ -1,0 +1,18 @@
+{
+  "name": "Target Rings",
+  "description": "bklit's ring chart tracking quarterly revenue targets: one ring per goal, a centre that switches to the ring you hover, and a legend that lights up its ring in return.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "ring-chart",
+  "isNew": true,
+  "keywords": [
+    "ring chart",
+    "progress rings",
+    "targets",
+    "goals",
+    "bklit",
+    "visx"
+  ],
+  "no": 98
+}

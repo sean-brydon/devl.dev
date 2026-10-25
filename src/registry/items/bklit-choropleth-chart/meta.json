@@ -1,0 +1,19 @@
+{
+  "name": "Visitors Map",
+  "description": "bklit's choropleth chart shading a world map by visitors per country, with a hover tooltip, a colour key, a top-countries list underneath, and proper loading and retry states while the map loads.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "choropleth-chart",
+  "isNew": true,
+  "keywords": [
+    "choropleth",
+    "map",
+    "geo",
+    "world",
+    "analytics",
+    "bklit",
+    "visx"
+  ],
+  "no": 89
+}

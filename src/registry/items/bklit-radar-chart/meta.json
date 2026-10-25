@@ -1,0 +1,18 @@
+{
+  "name": "Model Eval Radar",
+  "description": "bklit's radar chart comparing two models across six evals: the big model's reach against the small one's speed and cost, with a legend that lifts one polygon and reads out its scores.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "radar-chart",
+  "isNew": true,
+  "keywords": [
+    "radar chart",
+    "spider chart",
+    "comparison",
+    "evals",
+    "bklit",
+    "visx"
+  ],
+  "no": 97
+}

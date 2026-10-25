@@ -1,0 +1,20 @@
+{
+  "name": "Notes",
+  "description": "A notes app with folders, pinned notes that glide to the top, search that highlights matches as you type, and an editor where typing \u201c[] \u201d, \u201c- \u201d or \u201c# \u201d turns a line into a checklist, bullet or heading.",
+  "kind": "screen",
+  "category": "Personal",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "notes",
+    "editor",
+    "checklist",
+    "todo",
+    "folders",
+    "pin",
+    "search",
+    "markdown",
+    "writing"
+  ],
+  "no": 208
+}

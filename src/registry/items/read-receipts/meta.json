@@ -1,0 +1,18 @@
+{
+  "name": "Read Receipts",
+  "description": "Tiny faces that glide down a conversation as people catch up, stacking under the last message they saw and folding into +N when it gets crowded.",
+  "kind": "component",
+  "category": "Together",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "seen by",
+    "read status",
+    "message status",
+    "group chat",
+    "delivered",
+    "avatars",
+    "read indicator"
+  ],
+  "no": 113
+}

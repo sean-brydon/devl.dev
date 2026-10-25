@@ -1,0 +1,13 @@
+{
+  "name": "Plan Review",
+  "description": "Look over an agent's plan before it starts, rename, reorder or drop steps, then follow each one on its own timer and pick up again from the step that broke.",
+  "kind": "component",
+  "category": "Trust & Control",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "agent plan",
+    "reorder steps"
+  ],
+  "no": 37
+}

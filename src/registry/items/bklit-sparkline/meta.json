@@ -1,0 +1,17 @@
+{
+  "name": "KPI Sparklines",
+  "description": "bklit's sparklines in a four-tile KPI overview: area, line and bar minis coloured by whether the trend is good, with each tile's number following your cursor to any day.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "sparkline",
+  "isNew": true,
+  "keywords": [
+    "sparkline",
+    "kpi",
+    "stat tiles",
+    "dashboard",
+    "bklit"
+  ],
+  "no": 101
+}

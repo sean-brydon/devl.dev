@@ -1,0 +1,22 @@
+{
+  "name": "Admin Users",
+  "description": "A members admin with seat and 2FA stats, role and status filters, a sortable table you can bulk-edit, an invite dialog that checks emails as chips, and a drawer with each person's devices and activity.",
+  "kind": "screen",
+  "category": "Product",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "admin",
+    "users",
+    "members",
+    "roles",
+    "permissions",
+    "invite",
+    "table",
+    "bulk actions",
+    "drawer",
+    "activity",
+    "team"
+  ],
+  "no": 193
+}

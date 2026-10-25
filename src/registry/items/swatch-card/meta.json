@@ -1,0 +1,18 @@
+{
+  "name": "Swatch Card",
+  "description": "A product card whose drawn bottle recolours as you hover the swatches and grows with the size you pick, with a price that rolls and an add button that turns into a stepper.",
+  "kind": "component",
+  "category": "Commerce",
+  "isNew": true,
+  "keywords": [
+    "product card",
+    "color swatches",
+    "variant picker",
+    "size selector",
+    "add to cart",
+    "e-commerce",
+    "shop",
+    "product tile"
+  ],
+  "no": 142
+}

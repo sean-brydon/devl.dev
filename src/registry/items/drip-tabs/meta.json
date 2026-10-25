@@ -1,0 +1,13 @@
+{
+  "name": "Drip Tabs",
+  "description": "Vertical settings tabs where the highlight runs down the rail like a bead of water, trailing a little drop that catches up and sinks back in.",
+  "kind": "component",
+  "category": "Liquid",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "vertical tabs",
+    "settings nav"
+  ],
+  "no": 4
+}

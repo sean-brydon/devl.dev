@@ -1,0 +1,21 @@
+{
+  "name": "Branch Graph",
+  "description": "A git log drawn as a graph: each branch gets its own coloured lane, merges sweep in on smooth curves, refs and tags sit on their commits, and hovering a row slides a detail card along with you.",
+  "kind": "component",
+  "category": "Dev Tools",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "git",
+    "commit graph",
+    "git log",
+    "branches",
+    "merge",
+    "history",
+    "version control",
+    "tags",
+    "commits",
+    "timeline"
+  ],
+  "no": 128
+}

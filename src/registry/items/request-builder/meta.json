@@ -1,0 +1,20 @@
+{
+  "name": "Request Builder",
+  "description": "A small API playground: pick a method, type a URL whose :path params and query light up and turn into fields, toggle headers, check the JSON body as you type, then send for a status pill, timing, size and a pretty response.",
+  "kind": "component",
+  "category": "Dev Tools",
+  "isNew": true,
+  "keywords": [
+    "api client",
+    "http request",
+    "rest",
+    "playground",
+    "postman",
+    "fetch",
+    "headers",
+    "json body",
+    "response viewer",
+    "status code"
+  ],
+  "no": 136
+}

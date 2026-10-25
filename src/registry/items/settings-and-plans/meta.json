@@ -1,0 +1,14 @@
+{
+  "name": "Settings & Plans",
+  "description": "Workspace, members, API keys and billing in one settings screen, with a calm sliding section nav, a members list that stacks neatly on phones, and keys, invites and usage bars that spring into place.",
+  "kind": "screen",
+  "category": "Product",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "settings",
+    "billing",
+    "members"
+  ],
+  "no": 192
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Signature Pad",
+  "description": "A place to sign with a finger, mouse or pen: strokes come out smooth and swell with pressure or slow down, with undo, a typed fallback and a stamped, timestamped signed state.",
+  "kind": "component",
+  "category": "Forms",
+  "isNew": true,
+  "keywords": [
+    "signature",
+    "signature pad",
+    "e-signature",
+    "sign",
+    "draw",
+    "canvas",
+    "esign",
+    "contract"
+  ],
+  "no": 54
+}

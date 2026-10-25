@@ -1,0 +1,21 @@
+{
+  "name": "Flag Targeting",
+  "description": "Targeting rules for a feature flag, per environment: if beta and in Europe serve the new checkout, roll out to 10% of everyone else, fall back when it's off, and see who gets what across 2,000 simulated users while you edit.",
+  "kind": "component",
+  "category": "Filters",
+  "poweredBy": "qnot",
+  "isNew": true,
+  "keywords": [
+    "feature flags",
+    "flag targeting",
+    "targeting rules",
+    "percentage rollout",
+    "a/b test",
+    "variants",
+    "environments",
+    "segments",
+    "launchdarkly",
+    "qnot"
+  ],
+  "no": 61
+}

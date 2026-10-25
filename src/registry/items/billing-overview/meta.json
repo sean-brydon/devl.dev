@@ -1,0 +1,19 @@
+{
+  "name": "Billing Overview",
+  "description": "A billing page in one glance: plan and seats, the next invoice with its cycle progress, a payment card that holds its colours in both themes, usage bars that warn near the limit, and invoices with a one-click retry.",
+  "kind": "block",
+  "category": "Dashboards",
+  "isNew": true,
+  "keywords": [
+    "billing",
+    "subscription",
+    "invoices",
+    "usage",
+    "payment method",
+    "credit card",
+    "plan",
+    "saas settings",
+    "overage"
+  ],
+  "no": 167
+}

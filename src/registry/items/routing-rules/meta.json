@@ -1,0 +1,20 @@
+{
+  "name": "Routing Rules",
+  "description": "Routing for a booking form: if company size is over 50 and the region is Europe, send it to Sales EU. Drag routes into order, see what share of last month each one caught, test a response to watch it land, and export the lot as one CASE WHEN.",
+  "kind": "component",
+  "category": "Filters",
+  "poweredBy": "qnot",
+  "isNew": true,
+  "keywords": [
+    "routing form",
+    "lead routing",
+    "routing rules",
+    "form logic",
+    "case when",
+    "first match",
+    "scheduling",
+    "round robin",
+    "qnot"
+  ],
+  "no": 62
+}

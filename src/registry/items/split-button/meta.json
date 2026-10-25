@@ -1,0 +1,17 @@
+{
+  "name": "Split Button",
+  "description": "A primary action with a menu of alternatives beside it: pick one and it runs, then takes the primary slot, its label springing to the new width.",
+  "kind": "component",
+  "category": "Workspace",
+  "isNew": true,
+  "keywords": [
+    "split button",
+    "dropdown button",
+    "button group",
+    "menu button",
+    "action menu",
+    "deploy button",
+    "merge button"
+  ],
+  "no": 126
+}

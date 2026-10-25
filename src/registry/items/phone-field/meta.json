@@ -1,0 +1,17 @@
+{
+  "name": "Phone Field",
+  "description": "A phone number field with a searchable country picker: it formats the number the local way as you type, drops the habitual leading zero, and spots the country when you paste a +44.",
+  "kind": "component",
+  "category": "Forms",
+  "isNew": true,
+  "keywords": [
+    "phone input",
+    "phone number",
+    "tel input",
+    "country code",
+    "country picker",
+    "international phone",
+    "e164"
+  ],
+  "no": 53
+}

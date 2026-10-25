@@ -1,0 +1,16 @@
+{
+  "name": "Marquee Text",
+  "description": "An oversized headline that scrolls forever in alternating solid and outlined words, gliding to a halt when you hover instead of freezing mid-word.",
+  "kind": "motion",
+  "category": "Text",
+  "isNew": true,
+  "keywords": [
+    "marquee",
+    "ticker",
+    "scrolling text",
+    "outline text",
+    "infinite scroll",
+    "hero headline"
+  ],
+  "no": 216
+}
