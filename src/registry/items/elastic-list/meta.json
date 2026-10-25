@@ -1,0 +1,17 @@
+{
+  "name": "Elastic List",
+  "description": "A scrolling list with real rubber-band edges: drag or flick past either end and it stretches with growing resistance, then springs back, pulling down from the top winds up a spinner that snaps when it's ready to refresh, and the wheel hands off to the page once you reach an end.",
+  "kind": "motion",
+  "category": "Surfaces",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "pull to refresh",
+    "rubber band",
+    "overscroll",
+    "momentum scroll",
+    "bounce",
+    "ios"
+  ],
+  "no": 245
+}

@@ -427,3 +427,13 @@ Shared fix: `margin.bottom: 36` wherever `XAxis`/`LiveXAxis` is used (bklit draw
 Workarounds to drop when bklit fixes them: radar `transform-none!` on the hovered polygon; the live chart's scoped y-label centring selector.
 
 Upstream issues for bklit: ChartTooltip dot colours matched by position not dataKey; XAxis fixed bottom offset; LiveLine default dot colours ignore stroke; LiveYAxis labels not centred on ticks; RingChart startAngle docs (−π/2 is 9 o'clock); RadarArea hover scale and fixed fill opacity; PieCenter hydration error under Next 16; Sankey hard-codes "sessions"; Sunburst siblings share a colour when zoomed and labels are too small; Gauge notch grow delay; tooltip dots on bar/candlestick should default off.
+
+## Wave 4: motion and illustrations, audited 2026-10-25
+
+19 shipped at 9 (#240–#258); 1 cut.
+
+Motion: liquid-fab 8→9 (reduced-motion liquid stuck on close), pour-progress 8.5→9, highlighter 8.5→9, margin-notes 8.5→9, card-deal 8.5→9, elastic-list 8→9 (wheel now hands off to the page at the list ends), lift-to-open 8→9, spotlight-text 7.5→9, ink-stamp 8.5→9, ticket-tear 8.5→9 (focus kept after confirm).
+
+Illustrations: sync-pair 7.5→9, webhook-relay 8.5→9, empty-bag 7.5→9, unplugged 8.5→9, carrier-bird 8→9, desk-bot 9, keyboard-cat 8→9 (cat now returns after leaving), night-owl 9, gift-box 8.5→9 (no longer featured: it half-filled the big tile).
+
+Cut: balloon-pup (6, redrawn to a self-scored 9, but its thin tube style doesn't match the other Characters). Archived in .cut/.

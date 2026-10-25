@@ -1,0 +1,20 @@
+{
+  "name": "Desk Bot",
+  "description": "A little desk robot that follows your cursor with glowing eyes, perks its antenna when you come close, and nods off after a few quiet seconds until you tap it awake.",
+  "kind": "illustration",
+  "category": "Characters",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "robot",
+    "mascot",
+    "character",
+    "idle",
+    "away",
+    "eyes",
+    "cursor",
+    "sleep",
+    "assistant"
+  ],
+  "no": 255
+}

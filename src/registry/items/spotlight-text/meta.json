@@ -1,0 +1,17 @@
+{
+  "name": "Spotlight Text",
+  "description": "Dimmed copy with a soft warm spotlight that trails your pointer, bringing the words underneath to full contrast and uncovering a line that isn't there otherwise; on touch, or once you leave, the light drifts on a slow path of its own.",
+  "kind": "motion",
+  "category": "Cursor",
+  "isNew": true,
+  "keywords": [
+    "spotlight",
+    "flashlight",
+    "text reveal",
+    "hover reveal",
+    "mask",
+    "easter egg",
+    "hero copy"
+  ],
+  "no": 247
+}

@@ -160,7 +160,7 @@ await put(
 
 await put(
   path.join(root, "public/llms.txt"),
-  `# devl\n\n> Hand-built React components on coss ui (Base UI + Tailwind v4). Install any item with the shadcn CLI, or fetch its raw source.\n\n## How to install\n\n1. Prefer the registry: \`npx shadcn@latest add <registry url>\`. It installs the file plus its npm and coss ui dependencies.\n2. If the project doesn't use shadcn, fetch the raw .tsx, save it as components/<slug>.tsx, install the listed npm packages, and add the listed coss ui components from https://coss.com/ui (or adapt imports of @/components/ui/* to your own kit). \`cn\` is clsx + tailwind-merge.\n\n## Items\n\n${llms.join("\n")}\n`,
+  `# devl\n\n> Taste-tested React components on coss ui (Base UI + Tailwind v4). Install any item with the shadcn CLI, or fetch its raw source.\n\n## How to install\n\n1. Prefer the registry: \`npx shadcn@latest add <registry url>\`. It installs the file plus its npm and coss ui dependencies.\n2. If the project doesn't use shadcn, fetch the raw .tsx, save it as components/<slug>.tsx, install the listed npm packages, and add the listed coss ui components from https://coss.com/ui (or adapt imports of @/components/ui/* to your own kit). \`cn\` is clsx + tailwind-merge.\n\n## Items\n\n${llms.join("\n")}\n`,
 );
 
 const own = items.filter((i) => !i.meta.source);

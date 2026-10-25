@@ -32,7 +32,14 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps<"/[kind]/[slug]">): Promise<Metadata> {
   const item = getItem((await params).slug);
-  return item ? { title: item.name, description: item.description } : {};
+  if (!item) return {};
+  const title = `${item.name} · devl`;
+  return {
+    title: item.name,
+    description: item.description,
+    openGraph: { title, description: item.description, images: [{ url: "/og.png", width: 1200, height: 630, alt: title }] },
+    twitter: { card: "summary_large_image", title, description: item.description, images: ["/og.png"] },
+  };
 }
 
 export default function ItemPage({ params }: PageProps<"/[kind]/[slug]">) {

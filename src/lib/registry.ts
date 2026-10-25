@@ -61,6 +61,8 @@ export const qnot = {
   packages: ["@qnot/core", "@qnot/react"],
 };
 
+export const devl = { repo: "https://github.com/sean-brydon/devl.dev", cut: 31 };
+
 export const cossUi = { name: "coss ui", site: "https://coss.com/ui" };
 
 export const cossCalendar = { name: "coss calendar", site: "https://coss.com/calendar" };

@@ -2,6 +2,10 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "devl",
   "main": ".open-next/worker.js",
+  "routes": [
+    { "pattern": "devl.dev", "custom_domain": true },
+    { "pattern": "www.devl.dev", "custom_domain": true }
+  ],
   "compatibility_date": "2026-10-15",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
