@@ -64,7 +64,7 @@ const html = `<!doctype html>
       devl
     </div>
     <h1>Components with a little <em>goo</em> in them.</h1>
-    <p>Hand-built on coss ui. Copy the source or install with one command.</p>
+    <p>Taste-tested on coss ui. Copy the source or install with one command.</p>
     <div class="stats">
       ${stats.map(([n, label]) => `<div class="stat"><b>${n}</b><span>${label}</span></div>`).join("")}
       <div class="free">Free</div>

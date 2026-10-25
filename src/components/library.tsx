@@ -4,7 +4,7 @@ import { CategoryRail } from "@/components/category-rail";
 import { ItemCard, type TileSize } from "@/components/item-card";
 import { planGridAds } from "@/components/sponsor/grid-ads";
 import { Empty, EmptyDescription, EmptyHeader, EmptyTitle } from "@/components/ui/empty";
-import { type ItemKind, type RegistryItem, categoriesOf, items, itemsOfKind, kinds } from "@/lib/registry";
+import { type ItemKind, type RegistryItem, categoriesOf, items, itemsOfKind, kinds, devl } from "@/lib/registry";
 import { cn } from "@/lib/utils";
 
 const intro: Record<ItemKind, { title: string; blurb: string }> = {
@@ -63,7 +63,10 @@ export function Library({ kind }: { kind: ItemKind }) {
           </div>
           <div className="max-md:hidden">
             <dt className="text-muted-foreground">across devl</dt>
-            <dd className="font-sans font-semibold text-2xl text-foreground tabular-nums">{items.length}</dd>
+            <dd className="font-sans font-semibold text-2xl text-foreground tabular-nums">
+              {items.length}
+              <span className="ms-1.5 font-mono font-normal text-muted-foreground text-xs">· {devl.cut} cut</span>
+            </dd>
           </div>
         </dl>
       </section>
