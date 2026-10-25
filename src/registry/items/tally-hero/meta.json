@@ -1,0 +1,20 @@
+{
+  "name": "Tally Hero",
+  "description": "A hero led by one giant figure that rolls up digit by digit as the itemised statement beneath it prints line by line, landing on a total that matches, with a period switch that re-tallies both.",
+  "kind": "block",
+  "category": "Heroes",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "hero",
+    "landing page",
+    "big number",
+    "stat",
+    "odometer",
+    "receipt",
+    "statement",
+    "ledger",
+    "social proof"
+  ],
+  "no": 261
+}
