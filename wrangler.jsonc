@@ -31,5 +31,6 @@
       "migrations_dir": "migrations"
     }
   ],
+  "vars": { "SITE_URL": "https://devl.dev" },
   "observability": { "enabled": true }
 }

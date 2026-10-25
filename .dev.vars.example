@@ -4,5 +4,7 @@
 STRIPE_SECRET_KEY=
 STRIPE_WEBHOOK_SECRET=
 ALLOW_TEST_CHECKOUT=true
+# Paid bookings go straight onto the schedule. Set to true to hold them for review in /admin/sponsors first.
+REVIEW_BOOKINGS=false
 ADMIN_TOKEN=change-me-to-a-long-random-string
 SITE_URL=http://localhost:3417

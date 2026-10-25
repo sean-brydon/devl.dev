@@ -1,5 +1,6 @@
 import { Context, Effect, Layer } from "effect";
 import { type AccentId, type BookingStatus, bookablePeriods, HOLD_MINUTES, IMAGE_PREFIX, imageUrl, type PlacementId, placements } from "@/lib/sponsors";
+import { AppConfig } from "@/server/config";
 import { Db } from "@/server/db";
 import { BookingNotFound, type DbError, InvalidRequest, InvalidTransition, type PaymentError, PeriodUnavailable } from "@/server/errors";
 import { ImageStore } from "@/server/images";
@@ -124,6 +125,7 @@ export class Bookings extends Context.Service<
     Bookings,
     Effect.gen(function* () {
       const db = yield* Db;
+      const config = yield* AppConfig;
       const payments = yield* Payments;
       const og = yield* OgFetcher;
       const store = yield* ImageStore;
@@ -200,7 +202,7 @@ export class Bookings extends Context.Service<
         const booking = yield* get(id);
         if (booking.status !== "holding" && booking.status !== "expired") return booking;
         const paid = { stripe_payment_intent_id: paymentIntentId, paid_at: Date.now() };
-        return yield* transition(booking, "in_review", paid).pipe(
+        return yield* transition(booking, config.reviewBookings ? "in_review" : "scheduled", paid).pipe(
           Effect.catchTag("UniqueViolation", () =>
             // The hold lapsed and someone else claimed the fortnight before payment landed.
             db
@@ -261,10 +263,10 @@ export class Bookings extends Context.Service<
         return yield* get(booking.id);
       });
 
-      const editable = Effect.fn("Bookings.editable")(function* (id: string) {
+      const editable = Effect.fn("Bookings.editable")(function* (id: string, takedown = false) {
         const booking = yield* get(id);
-        // Approval freezes the creative, image included.
-        if (booking.status !== "holding" && booking.status !== "in_review") {
+        // Approval freezes the creative, image included; an admin can still pull the image from a live ad.
+        if (booking.status !== "holding" && booking.status !== "in_review" && !(takedown && booking.status === "scheduled")) {
           return yield* new InvalidTransition({ id, from: booking.status, to: "image change" });
         }
         return booking;
@@ -292,7 +294,7 @@ export class Bookings extends Context.Service<
       });
 
       const declineImage = Effect.fn("Bookings.declineImage")(function* (id: string) {
-        const booking = yield* editable(id);
+        const booking = yield* editable(id, true);
         return yield* setImage(booking, { og_image_key: null, og_image_status: "declined", og_image_source: null, og_image_note: null });
       });
 
