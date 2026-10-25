@@ -9,7 +9,7 @@ import { Logo } from "@/components/logo";
 import { SoundToggle } from "@/components/sound-toggle";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
-import { bklit, getItem, itemsOfKind, kinds, qnot } from "@/lib/registry";
+import { bklit, devl, getItem, itemsOfKind, kinds, qnot } from "@/lib/registry";
 
 function Sections({ active }: { active: string | null }) {
   return (
@@ -79,7 +79,7 @@ export function SiteHeader() {
             <Button
               aria-label="devl on GitHub"
               className="rounded-full"
-              render={<a href="https://github.com/sean-brydon" rel="noreferrer" target="_blank" />}
+              render={<a href={devl.repo} rel="noreferrer" target="_blank" />}
               size="icon-sm"
               variant="ghost"
             >
