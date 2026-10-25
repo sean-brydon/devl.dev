@@ -156,7 +156,7 @@ export function SuccessView() {
   }
   return (
     <Shell
-      eyebrow={booking.status === "scheduled" ? "Approved" : "Paid · In review"}
+      eyebrow={booking.status === "scheduled" ? "Booked" : "Paid · In review"}
       icon={<CheckIcon />}
       title={booking.status === "scheduled" ? "You're on the schedule." : "Thanks — you're booked and in review."}
       tone="brand"

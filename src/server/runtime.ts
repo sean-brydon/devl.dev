@@ -8,6 +8,7 @@ import { Inventory } from "@/server/inventory";
 import { OgFetcher } from "@/server/og";
 import { hmacHex, Payments, timingSafeEqual } from "@/server/payments";
 import { Platform } from "@/server/platform";
+import { clientIp, durableLimit } from "@/server/rate-limit";
 import { Sponsors } from "@/server/sponsors";
 import { Stats } from "@/server/stats";
 
@@ -71,21 +72,36 @@ const adminToken = Effect.gen(function* () {
   });
 });
 
-const sessionFor = (token: string) => hmacHex(token, "devl-admin-session");
+const SESSION_DAYS = 7;
+const signSession = (token: string, expires: number) => hmacHex(token, `devl-admin-session:${expires}`);
+
+/** Sign-in attempts per IP and in total, per 15 minutes. Checked before the token, so guesses count too. */
+export const limitAdminLogin = Effect.fn("limitAdminLogin")(function* (request: Request) {
+  const ip = yield* Effect.promise(() => crypto.subtle.digest("SHA-256", new TextEncoder().encode(clientIp(request))));
+  const ipBucket = `ip:${Array.from(new Uint8Array(ip).slice(0, 12), (b) => b.toString(16).padStart(2, "0")).join("")}`;
+  yield* durableLimit(ipBucket, 10, 15 * 60_000);
+  yield* durableLimit("global", 100, 15 * 60_000);
+});
 
 export const adminSessionFor = Effect.fn("adminSessionFor")(function* (submitted: string) {
   const token = yield* adminToken;
   if (Option.isNone(token)) return yield* new Unauthorized({ message: "Set ADMIN_TOKEN to enable the admin." });
-  const [expected, given] = yield* Effect.promise(() => Promise.all([sessionFor(token.value), sessionFor(submitted)]));
+  const probe = "devl-admin-check";
+  const [expected, given] = yield* Effect.promise(() => Promise.all([hmacHex(token.value, probe), hmacHex(submitted, probe)]));
   if (!timingSafeEqual(expected, given)) return yield* new Unauthorized({ message: "That token didn't match." });
-  return expected;
+  const expires = Date.now() + SESSION_DAYS * 86_400_000;
+  const signature = yield* Effect.promise(() => signSession(token.value, expires));
+  return `${expires}.${signature}`;
 });
 
 export const requireAdmin = Effect.fn("requireAdmin")(function* (session: string | undefined) {
   const token = yield* adminToken;
   if (Option.isNone(token)) return yield* new Unauthorized({ message: "Set ADMIN_TOKEN to enable the admin." });
-  const expected = yield* Effect.promise(() => sessionFor(token.value));
-  if (!session || !timingSafeEqual(expected, session)) return yield* new Unauthorized({ message: "Sign in first." });
+  const [rawExpires, signature] = (session ?? "").split(".");
+  const expires = Number(rawExpires);
+  if (!signature || !Number.isSafeInteger(expires) || expires < Date.now()) return yield* new Unauthorized({ message: "Sign in first." });
+  const expected = yield* Effect.promise(() => signSession(token.value, expires));
+  if (!timingSafeEqual(expected, signature)) return yield* new Unauthorized({ message: "Sign in first." });
 });
 
 export const devAdminHint = Effect.map(AppConfig, (c) => Option.isNone(c.adminToken) && c.isDev);

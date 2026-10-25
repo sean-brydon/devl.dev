@@ -1,6 +1,6 @@
 import { Effect } from "effect";
 import { cookies } from "next/headers";
-import { ADMIN_COOKIE, adminSessionFor, respond } from "@/server/runtime";
+import { ADMIN_COOKIE, adminSessionFor, limitAdminLogin, respond } from "@/server/runtime";
 import { AdminLoginRequest, decodeBody } from "@/server/schemas";
 
 const decode = decodeBody(AdminLoginRequest);
@@ -9,6 +9,7 @@ export async function POST(request: Request) {
   const jar = await cookies();
   return respond(
     Effect.gen(function* () {
+      yield* limitAdminLogin(request);
       const { token } = yield* decode(request);
       const session = yield* adminSessionFor(token);
       jar.set(ADMIN_COOKIE, session, {

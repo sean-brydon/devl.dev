@@ -40,8 +40,8 @@ export default function AdvertisePage() {
             </dd>
           </div>
           <div>
-            <dt className="text-muted-foreground">review</dt>
-            <dd className="font-sans font-semibold text-2xl text-foreground tabular-nums">≤48h</dd>
+            <dt className="text-muted-foreground">goes live</dt>
+            <dd className="font-sans font-semibold text-2xl text-foreground tabular-nums">Monday</dd>
           </div>
         </dl>
       </section>
@@ -72,7 +72,7 @@ export default function AdvertisePage() {
             Book a fortnight
           </h2>
           <p className="max-w-xl text-pretty text-muted-foreground">
-            First come, first served. Every slot runs two weeks, Monday to Sunday UTC. Pay now, we review within 48 hours, and your ad goes live on the first Monday.
+            First come, first served. Every slot runs two weeks, Monday to Sunday UTC. Pay now and your ad goes live on the first Monday. Ads that break the rules come down with a full refund.
           </p>
         </div>
         <AdvertiseBooking visiblePlacements={visible} />
