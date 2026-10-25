@@ -1,0 +1,16 @@
+{
+  "name": "Ticket Tear",
+  "description": "A booking ticket that, once confirmed, rips along its perforation: the stub pulls open from the top, comes free and drops away with a lazy spin, and the ticket you keep slides back to centre with its torn edge intact.",
+  "kind": "motion",
+  "category": "Celebration",
+  "isNew": true,
+  "keywords": [
+    "ticket",
+    "boarding pass",
+    "booking confirmation",
+    "perforation",
+    "tear",
+    "success animation"
+  ],
+  "no": 249
+}

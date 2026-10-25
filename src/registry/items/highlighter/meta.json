@@ -1,0 +1,16 @@
+{
+  "name": "Highlighter",
+  "description": "A marker pen that sweeps behind your words one line after another, with a chisel tip, slightly ragged edges and ink that pools where each stroke starts and stops; runs when it scrolls into view or when its row is hovered.",
+  "kind": "motion",
+  "category": "Text",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "highlight",
+    "marker",
+    "text highlight",
+    "mark",
+    "emphasis"
+  ],
+  "no": 242
+}

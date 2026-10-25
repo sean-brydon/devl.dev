@@ -1,0 +1,20 @@
+{
+  "name": "Keyboard Cat",
+  "description": "Loading art with a cat loafing on a laptop: its paws knead the keys so they light up while code types out and the progress bar fills, then it stretches and hops off when the job is done.",
+  "kind": "illustration",
+  "category": "Characters",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "cat",
+    "loading",
+    "progress",
+    "laptop",
+    "install",
+    "keyboard",
+    "character",
+    "mascot",
+    "waiting"
+  ],
+  "no": 256
+}

@@ -1,0 +1,21 @@
+{
+  "name": "Carrier Bird",
+  "description": "A round little bird hops beside a sealed letter; press send and it hops over, grabs the envelope and flaps off on a dotted trail before a tick confirms it's sent.",
+  "kind": "illustration",
+  "category": "Characters",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "bird",
+    "send",
+    "sent",
+    "email",
+    "message",
+    "success",
+    "confirmation",
+    "character",
+    "mascot",
+    "envelope"
+  ],
+  "no": 254
+}

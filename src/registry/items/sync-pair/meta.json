@@ -1,0 +1,18 @@
+{
+  "name": "Sync Pair",
+  "description": "A laptop and a phone toss a document back and forth along a soft arc; when both edit at once, the two versions meet mid-air and merge into one with a check.",
+  "kind": "illustration",
+  "category": "Connections",
+  "isNew": true,
+  "keywords": [
+    "sync",
+    "devices",
+    "offline",
+    "conflict",
+    "merge",
+    "cloud",
+    "realtime",
+    "mobile"
+  ],
+  "no": 250
+}

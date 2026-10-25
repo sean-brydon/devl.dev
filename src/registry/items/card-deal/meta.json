@@ -1,0 +1,16 @@
+{
+  "name": "Card Deal",
+  "description": "A grid that deals itself out from one point like a hand of cards: each card flies to its slot tilted and settles flat, and a shuffle sweeps them back into the deck and deals a fresh order, even mid-flight.",
+  "kind": "motion",
+  "category": "Surfaces",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "deal",
+    "shuffle",
+    "stagger",
+    "grid entrance",
+    "cards"
+  ],
+  "no": 244
+}
