@@ -1,0 +1,13 @@
+{
+  "name": "Task Card",
+  "description": "A task card you can read at a glance: checklist progress, who's on it, and a due date that warms from grey to amber to red as it slips.",
+  "kind": "component",
+  "category": "Workspace",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "kanban card",
+    "checklist"
+  ],
+  "no": 117
+}

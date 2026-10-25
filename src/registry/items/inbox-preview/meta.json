@@ -1,0 +1,18 @@
+{
+  "name": "Inbox Preview",
+  "description": "A mail client in one block: unread dots, coloured labels, hover actions, rows you swipe to archive or mark read (with undo), j/k/e shortcuts and a reading pane that slides over the list on phones.",
+  "kind": "block",
+  "category": "Apps",
+  "isNew": true,
+  "keywords": [
+    "email",
+    "inbox",
+    "mail client",
+    "swipe to archive",
+    "reading pane",
+    "message list",
+    "keyboard shortcuts",
+    "undo"
+  ],
+  "no": 174
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Cart Drawer",
+  "description": "A slide-over bag with quantity steppers, line totals and subtotal that roll digit by digit, a free-shipping bar that fills as you add, and a friendly empty state.",
+  "kind": "component",
+  "category": "Commerce",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "cart",
+    "shopping cart",
+    "bag",
+    "drawer",
+    "slide over",
+    "checkout",
+    "quantity stepper",
+    "free shipping",
+    "e-commerce"
+  ],
+  "no": 139
+}

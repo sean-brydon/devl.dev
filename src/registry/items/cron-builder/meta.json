@@ -1,0 +1,20 @@
+{
+  "name": "Cron Builder",
+  "description": "Edit a cron expression field by field or with friendly controls, read it back as a plain sentence, see the next five runs in your timezone update as you type, and get told exactly why a schedule is invalid or can never run.",
+  "kind": "component",
+  "category": "Dev Tools",
+  "isNew": true,
+  "keywords": [
+    "cron",
+    "crontab",
+    "schedule",
+    "scheduler",
+    "cron expression",
+    "jobs",
+    "recurring",
+    "next runs",
+    "human readable",
+    "timezone"
+  ],
+  "no": 130
+}

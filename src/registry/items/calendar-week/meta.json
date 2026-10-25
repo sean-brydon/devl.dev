@@ -1,0 +1,20 @@
+{
+  "name": "Calendar Week",
+  "description": "A week calendar you can push around: drag events to move or stretch them on a 15-minute snap, drag empty time to create one, nudge with the arrow keys, and watch the now line creep down the day.",
+  "kind": "screen",
+  "category": "Comms",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "calendar",
+    "week view",
+    "schedule",
+    "events",
+    "drag and drop",
+    "mini month",
+    "time grid",
+    "planner"
+  ],
+  "no": 195,
+  "shoutout": "coss-calendar"
+}

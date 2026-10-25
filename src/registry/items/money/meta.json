@@ -1,0 +1,21 @@
+{
+  "name": "Money",
+  "description": "A personal finance home: the balance rolls digit by digit as you switch accounts or pay a bill, and that payment lands in your transactions, your spending donut and your budget rings at once.",
+  "kind": "screen",
+  "category": "Personal",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "finance",
+    "budget",
+    "banking",
+    "dashboard",
+    "transactions",
+    "bills",
+    "spending",
+    "donut chart",
+    "odometer",
+    "personal"
+  ],
+  "no": 206
+}

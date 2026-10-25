@@ -1,0 +1,19 @@
+{
+  "name": "Issue Tracker",
+  "description": "An issue list you drive with your hands on the keys: J and K to move, S, P, A and L to change status, priority, assignee and labels, X to multi-select, \u2318K for everything else, and rows glide to their new group when they change.",
+  "kind": "screen",
+  "category": "Dev",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "issues",
+    "tracker",
+    "bugs",
+    "project management",
+    "command palette",
+    "keyboard",
+    "triage",
+    "backlog"
+  ],
+  "no": 201
+}

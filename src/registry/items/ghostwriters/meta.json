@@ -1,0 +1,13 @@
+{
+  "name": "Ghostwriters",
+  "description": "A shared draft with a few ghostwriters in it: each agent's cursor glides in with its name, picks a phrase and types its suggestion right there in the text, and you keep or toss each one, or let them settle on their own.",
+  "kind": "component",
+  "category": "Together",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "multiplayer cursors",
+    "suggestions"
+  ],
+  "no": 103
+}

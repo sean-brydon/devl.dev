@@ -1,0 +1,18 @@
+{
+  "name": "Order Tracker",
+  "description": "A shipment card with a live ETA, a step rail whose current stop gently pulses, carrier scans that slide in as they arrive, and a small spray of confetti when it lands.",
+  "kind": "component",
+  "category": "Commerce",
+  "isNew": true,
+  "keywords": [
+    "order tracking",
+    "shipment tracker",
+    "delivery status",
+    "timeline",
+    "stepper",
+    "package tracking",
+    "eta",
+    "carrier updates"
+  ],
+  "no": 141
+}

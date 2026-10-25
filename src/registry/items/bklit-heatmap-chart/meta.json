@@ -1,0 +1,19 @@
+{
+  "name": "Deploy Heatmap",
+  "description": "bklit's calendar heatmap counting production deploys per day: quiet weekends, a visible change freeze, the busiest weekday up top, and a Less-to-More legend that dims in step with the cell you hover.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "heatmap-chart",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "heatmap",
+    "calendar",
+    "contributions",
+    "activity",
+    "bklit",
+    "visx"
+  ],
+  "no": 93
+}

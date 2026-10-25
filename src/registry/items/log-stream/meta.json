@@ -1,0 +1,20 @@
+{
+  "name": "Log Stream",
+  "description": "Live logs that stay readable: level filters with counts, search that highlights as it filters, pause and follow with a \u201cnew lines\u201d pill, and bursts of the same error folded into one \u201c12 similar\u201d row.",
+  "kind": "component",
+  "category": "Dev Tools",
+  "isNew": true,
+  "keywords": [
+    "logs",
+    "log viewer",
+    "tail",
+    "live logs",
+    "console",
+    "observability",
+    "log levels",
+    "error grouping",
+    "stream",
+    "monitoring"
+  ],
+  "no": 135
+}

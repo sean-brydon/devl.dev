@@ -1,0 +1,13 @@
+{
+  "name": "Revenue Overview",
+  "description": "A store's revenue at a glance, where one range switch reshapes everything together: rolling KPIs, a stacked channel chart with a crosshair, channel mix, top products and the average week.",
+  "kind": "screen",
+  "category": "Product",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "analytics",
+    "dashboard"
+  ],
+  "no": 186
+}

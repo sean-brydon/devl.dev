@@ -1,0 +1,20 @@
+{
+  "name": "Filter Bar",
+  "description": "Linear-style filter chips you build from one menu: Status is not Done, Labels include Bug, Assignee is me. Click any part of a chip to change it, press F to add one, Backspace to drop it, and the issue list re-sorts itself as you go.",
+  "kind": "component",
+  "category": "Filters",
+  "poweredBy": "qnot",
+  "isNew": true,
+  "keywords": [
+    "filter bar",
+    "filter chips",
+    "linear filters",
+    "issue filters",
+    "faceted filter",
+    "query chips",
+    "is not",
+    "assignee is me",
+    "qnot"
+  ],
+  "no": 59
+}

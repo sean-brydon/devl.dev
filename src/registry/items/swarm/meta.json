@@ -1,0 +1,13 @@
+{
+  "name": "Swarm",
+  "description": "A big job split across workers as a honeycomb: each cell fills with honey as its tasks finish, retries shimmer, failures crack, and done, failed, cost and time left roll along up top.",
+  "kind": "component",
+  "category": "Mission Control",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "parallel workers",
+    "batch"
+  ],
+  "no": 27
+}

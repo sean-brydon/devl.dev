@@ -1,0 +1,13 @@
+{
+  "name": "Go / No-go",
+  "description": "A clear yes or no for risky agent actions that shows the exact command or diff, answers to Y and N, and folds into a one-line receipt you can undo.",
+  "kind": "component",
+  "category": "Trust & Control",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "approval",
+    "confirm"
+  ],
+  "no": 32
+}

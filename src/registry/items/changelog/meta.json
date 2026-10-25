@@ -1,0 +1,19 @@
+{
+  "name": "Changelog",
+  "description": "A release timeline with sticky version tags, New / Improved / Fixed chips you can filter by, small drawn media cards instead of screenshots, and a load-more that eases older releases into place.",
+  "kind": "block",
+  "category": "Content",
+  "isNew": true,
+  "keywords": [
+    "changelog",
+    "release notes",
+    "timeline",
+    "updates",
+    "what's new",
+    "version history",
+    "product updates",
+    "load more",
+    "filter"
+  ],
+  "no": 157
+}

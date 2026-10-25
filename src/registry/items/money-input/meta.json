@@ -1,0 +1,17 @@
+{
+  "name": "Money Input",
+  "description": "An amount field that groups digits as you type without ever losing your caret, follows each currency's own rules (yes, lakh grouping and zero-decimal yen), and keeps the limits in view.",
+  "kind": "component",
+  "category": "Forms",
+  "isNew": true,
+  "keywords": [
+    "currency input",
+    "money input",
+    "amount",
+    "price input",
+    "number format",
+    "payment amount",
+    "currency switcher"
+  ],
+  "no": 51
+}

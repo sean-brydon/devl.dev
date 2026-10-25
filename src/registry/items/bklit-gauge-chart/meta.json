@@ -1,0 +1,17 @@
+{
+  "name": "Error Budget Gauge",
+  "description": "bklit's notched gauge reading out an SLO error budget per service: switch services and the number rolls while the notches refill, turning green, amber or red as the budget burns.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "gauge-chart",
+  "isNew": true,
+  "keywords": [
+    "gauge",
+    "meter",
+    "slo",
+    "error budget",
+    "bklit"
+  ],
+  "no": 92
+}

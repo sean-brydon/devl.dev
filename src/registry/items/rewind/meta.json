@@ -1,0 +1,14 @@
+{
+  "name": "Rewind",
+  "description": "Scrub back through everything an agent changed on one timeline: later changes ghost out and show what they'd go back to, the ones that can't be undone pin the playhead with a lock and say why, and Rewind to here comes with an Undo.",
+  "kind": "component",
+  "category": "Trust & Control",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "undo",
+    "audit log",
+    "history"
+  ],
+  "no": 35
+}

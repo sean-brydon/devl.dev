@@ -1,0 +1,18 @@
+{
+  "name": "Storage Donut",
+  "description": "bklit's pie chart as a storage donut: slices grow on hover, the centre rolls to the slice you're on, and the legend list and the chart highlight each other both ways.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "pie-chart",
+  "isNew": true,
+  "keywords": [
+    "pie chart",
+    "donut",
+    "breakdown",
+    "storage",
+    "bklit",
+    "visx"
+  ],
+  "no": 96
+}

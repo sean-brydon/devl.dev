@@ -1,0 +1,15 @@
+{
+  "name": "Magnetic",
+  "description": "Buttons and icons lean toward your pointer as it comes near, labels drifting a little further than their buttons, then spring back the moment you move away.",
+  "kind": "motion",
+  "category": "Cursor",
+  "isNew": true,
+  "keywords": [
+    "magnetic button",
+    "cursor attraction",
+    "hover effect",
+    "dock",
+    "pointer follow"
+  ],
+  "no": 222
+}

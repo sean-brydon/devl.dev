@@ -1,0 +1,18 @@
+{
+  "name": "Notification Centre",
+  "description": "A bell whose panel grows out of it: tabs for all, mentions and unread, grouped by day, approve requests inline, archive with undo and a badge that rolls as you read.",
+  "kind": "component",
+  "category": "Workspace",
+  "isNew": true,
+  "keywords": [
+    "notifications",
+    "inbox",
+    "bell",
+    "activity feed",
+    "popover",
+    "mark all as read",
+    "notification panel",
+    "alerts"
+  ],
+  "no": 123
+}

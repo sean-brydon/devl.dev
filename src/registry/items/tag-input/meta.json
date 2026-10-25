@@ -1,0 +1,18 @@
+{
+  "name": "Tag Input",
+  "description": "Type to add tags with grouped suggestions, paste a comma list to add a bunch at once, and backspace to pull the last one back for editing. Each group keeps its own colour.",
+  "kind": "component",
+  "category": "Forms",
+  "isNew": true,
+  "keywords": [
+    "tag input",
+    "tags",
+    "chips",
+    "chip input",
+    "labels",
+    "multi select",
+    "token input",
+    "autocomplete"
+  ],
+  "no": 56
+}

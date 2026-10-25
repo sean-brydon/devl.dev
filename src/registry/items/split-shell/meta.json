@@ -1,0 +1,13 @@
+{
+  "name": "Split Shell",
+  "description": "A frame for working with an agent: tasks on the left, its thread in the middle, and a work panel you can drag or nudge with arrow keys to watch its tool calls tick by, the page it's reading and the sources it will cite.",
+  "kind": "screen",
+  "category": "Shells",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "workspace",
+    "resizable panel"
+  ],
+  "no": 180
+}

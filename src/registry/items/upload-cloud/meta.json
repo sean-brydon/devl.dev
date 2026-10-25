@@ -1,0 +1,19 @@
+{
+  "name": "Upload Cloud",
+  "description": "Empty-state art for uploads: a soft, breathing goo cloud reaches down, scoops up the file waiting below, fills a ring with a live percentage and lands on a tick.",
+  "kind": "illustration",
+  "category": "Empty States",
+  "isNew": true,
+  "keywords": [
+    "upload",
+    "cloud",
+    "dropzone",
+    "empty state",
+    "progress",
+    "file",
+    "storage",
+    "sync",
+    "goo"
+  ],
+  "no": 231
+}

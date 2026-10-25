@@ -1,0 +1,18 @@
+{
+  "name": "Build Times Scatter",
+  "description": "bklit's scatter chart as a CI strip plot: every build a jittered dot, green under a dashed target line and red over it, with the commit and branch in the tooltip and p50/p95 up top.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "scatter-chart",
+  "isNew": true,
+  "keywords": [
+    "scatter chart",
+    "strip plot",
+    "jitter",
+    "ci",
+    "bklit",
+    "visx"
+  ],
+  "no": 100
+}

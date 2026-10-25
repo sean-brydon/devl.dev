@@ -1,0 +1,17 @@
+{
+  "name": "Rim Light",
+  "description": "A point of light that laps a card's border at a steady pace with a fading tail, tracing rounded corners exactly; every beam on the page shares one clock, so busy cards pulse in step.",
+  "kind": "motion",
+  "category": "Surfaces",
+  "isNew": true,
+  "keywords": [
+    "border animation",
+    "glowing border",
+    "beam",
+    "loading card",
+    "shine border",
+    "progress outline",
+    "border beam"
+  ],
+  "no": 221
+}

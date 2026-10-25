@@ -1,0 +1,13 @@
+{
+  "name": "Footnoted Answer",
+  "description": "An answer whose footnotes really point somewhere: hover a number and its sentence lights up in the source's colour, click it and the quoted passage unfolds with the matching words marked.",
+  "kind": "component",
+  "category": "Conversation",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "citations",
+    "sources"
+  ],
+  "no": 11
+}

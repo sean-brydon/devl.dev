@@ -1,0 +1,22 @@
+{
+  "name": "Rule Builder",
+  "description": "A nested query builder that reads like a sentence: Where, and, or, groups inside groups, drag or arrow-key rules into place, undo anything, and watch the parameterised SQL, JSON and plain English rewrite themselves as you type.",
+  "kind": "component",
+  "category": "Filters",
+  "poweredBy": "qnot",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "query builder",
+    "rule builder",
+    "filter builder",
+    "sql builder",
+    "conditions",
+    "and or groups",
+    "nested filters",
+    "drag and drop",
+    "where clause",
+    "qnot"
+  ],
+  "no": 63
+}

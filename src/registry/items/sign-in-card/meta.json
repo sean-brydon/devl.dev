@@ -1,0 +1,19 @@
+{
+  "name": "Sign-in Card",
+  "description": "Email and password sign-in with a peek toggle, a one-tap switch to magic links, passkey and SSO buttons, a gentle shake on errors and a calm check-your-inbox state.",
+  "kind": "block",
+  "category": "Auth",
+  "isNew": true,
+  "keywords": [
+    "login",
+    "sign in",
+    "auth",
+    "magic link",
+    "passwordless",
+    "show password",
+    "sso",
+    "passkey",
+    "login form"
+  ],
+  "no": 161
+}

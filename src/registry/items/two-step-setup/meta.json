@@ -1,0 +1,19 @@
+{
+  "name": "Two-step Setup",
+  "description": "Turn on authenticator-app 2FA in three calm steps: scan a coded QR or copy the setup key, type the six digits, then copy or download backup codes before you can finish.",
+  "kind": "block",
+  "category": "Auth",
+  "isNew": true,
+  "keywords": [
+    "2fa",
+    "two-factor",
+    "mfa",
+    "totp",
+    "authenticator",
+    "qr code",
+    "backup codes",
+    "recovery codes",
+    "security"
+  ],
+  "no": 163
+}

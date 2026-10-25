@@ -1,0 +1,13 @@
+{
+  "name": "Draft Review",
+  "description": "An email the assistant wrote for you to check before it goes: change who it's to or how it sounds, tweak the words, and send with a few seconds to take it back.",
+  "kind": "component",
+  "category": "Writing",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "email",
+    "tone"
+  ],
+  "no": 40
+}

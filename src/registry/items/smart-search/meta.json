@@ -1,0 +1,20 @@
+{
+  "name": "Smart Search",
+  "description": "One search box that speaks filter: type status:open owner:me priority>2 webhook and it becomes chips and a filtered table, with Tab to complete fields and values, minus to negate, ranges like priority:2..3, and typos flagged right on the chip.",
+  "kind": "component",
+  "category": "Filters",
+  "poweredBy": "qnot",
+  "isNew": true,
+  "keywords": [
+    "search syntax",
+    "query language",
+    "search filters",
+    "github search",
+    "tokens",
+    "autocomplete",
+    "filter table",
+    "key value search",
+    "qnot"
+  ],
+  "no": 66
+}

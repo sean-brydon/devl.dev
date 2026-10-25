@@ -1,0 +1,13 @@
+{
+  "name": "Fill-in Prompts",
+  "description": "Saved prompts you fill in right inside the sentence, each blank growing with its text in its own colour, with quick picks for common answers and a Use button that waits until every gap is filled.",
+  "kind": "component",
+  "category": "Conversation",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "prompt templates",
+    "variables"
+  ],
+  "no": 14
+}

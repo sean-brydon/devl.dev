@@ -1,0 +1,20 @@
+{
+  "name": "Saved Views",
+  "description": "Filters you keep as named views on a crisp tab bar: tweak one and a dot says it's unsaved, then save, discard or fork it. Every view travels as a share link with the filter in the URL hash, and links that no longer fit the schema are cleaned up instead of breaking.",
+  "kind": "component",
+  "category": "Filters",
+  "poweredBy": "qnot",
+  "isNew": true,
+  "keywords": [
+    "saved views",
+    "saved filters",
+    "share link",
+    "url state",
+    "tabs",
+    "unsaved changes",
+    "views",
+    "deep link",
+    "qnot"
+  ],
+  "no": 64
+}

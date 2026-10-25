@@ -1,0 +1,13 @@
+{
+  "name": "Prompt Test Bench",
+  "description": "Check a prompt before it ships, with pass rate by version against the bar it has to clear, a unified or side-by-side diff of what changed, and test cases that re-run live from queued to a rolling score.",
+  "kind": "screen",
+  "category": "AI",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "evals",
+    "prompt testing"
+  ],
+  "no": 184
+}

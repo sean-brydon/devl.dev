@@ -1,0 +1,13 @@
+{
+  "name": "Folder View",
+  "description": "One folder opened up, with breadcrumbs, sub-folders, type filters with counts and file cards that carry little drawn previews, a bulk bar that rises with a rolling count when you pick a few, and ghost files fanning out of an empty sub-folder.",
+  "kind": "screen",
+  "category": "Product",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "folder",
+    "file grid"
+  ],
+  "no": 189
+}

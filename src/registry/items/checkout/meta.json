@@ -1,0 +1,19 @@
+{
+  "name": "Checkout",
+  "description": "A one-page checkout that folds each finished step into a one-line summary: inline validation that clears as you type, delivery choices that re-total the order, a card that flips when you reach the CVC, and a calm confirmation.",
+  "kind": "screen",
+  "category": "Commerce",
+  "isNew": true,
+  "keywords": [
+    "checkout",
+    "payment form",
+    "credit card",
+    "address form",
+    "shipping",
+    "order summary",
+    "promo code",
+    "ecommerce",
+    "validation"
+  ],
+  "no": 203
+}

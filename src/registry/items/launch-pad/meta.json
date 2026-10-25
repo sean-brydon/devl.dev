@@ -1,0 +1,18 @@
+{
+  "name": "Launch Pad",
+  "description": "A little rocket venting steam on its pad \u2013 click and it lights up, lifts off on a trail of smoke, then drops back in on a retro burn and lands.",
+  "kind": "illustration",
+  "category": "Objects",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "rocket",
+    "launch",
+    "deploy",
+    "ship",
+    "release",
+    "liftoff",
+    "success"
+  ],
+  "no": 234
+}

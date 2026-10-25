@@ -1,0 +1,13 @@
+{
+  "name": "Account Card",
+  "description": "The card behind your avatar: who you're signed in as, how far your profile has come and the one step to do next, plus your menu and theme.",
+  "kind": "component",
+  "category": "Workspace",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "profile menu",
+    "user menu"
+  ],
+  "no": 118
+}

@@ -1,0 +1,18 @@
+{
+  "name": "Plant Progress",
+  "description": "A seedling that grows with your progress value \u2013 the stem climbs, a leaf unfurls at each step, and at 100% it flowers.",
+  "kind": "illustration",
+  "category": "Celebrations",
+  "isNew": true,
+  "keywords": [
+    "progress",
+    "plant",
+    "growth",
+    "onboarding",
+    "milestone",
+    "completion",
+    "streak",
+    "celebration"
+  ],
+  "no": 239
+}

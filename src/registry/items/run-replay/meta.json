@@ -1,0 +1,13 @@
+{
+  "name": "Run Replay",
+  "description": "Watch an agent work a task from start to finish: plan steps tick off, tool calls stream into a log, it stops to ask before sending anything, and the draft it's writing fills in beside it.",
+  "kind": "screen",
+  "category": "AI",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "agent run",
+    "autonomous"
+  ],
+  "no": 183
+}

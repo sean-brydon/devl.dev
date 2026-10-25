@@ -1,0 +1,18 @@
+{
+  "name": "Signup Flow Sankey",
+  "description": "bklit's sankey chart following a month of sessions from each channel to paid, trial ended or bounced, with gradient links that light up every path through what you hover and a tooltip that gives each flow's share.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "sankey-chart",
+  "isNew": true,
+  "keywords": [
+    "sankey",
+    "flow",
+    "attribution",
+    "conversion",
+    "bklit",
+    "visx"
+  ],
+  "no": 99
+}

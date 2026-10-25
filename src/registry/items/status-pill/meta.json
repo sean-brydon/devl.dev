@@ -1,0 +1,13 @@
+{
+  "name": "Status Pill",
+  "description": "A tiny working indicator that rolls through what it's doing, from Reading to Searching to Writing, eases to fit each word and lands on a green check when it's finished.",
+  "kind": "component",
+  "category": "Conversation",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "thinking loader",
+    "spinner"
+  ],
+  "no": 16
+}

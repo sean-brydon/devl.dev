@@ -1,0 +1,13 @@
+{
+  "name": "Odometer",
+  "description": "Digits that turn like a real counter: every place rolls the way the number moved, so 9 ticks over to 0 instead of spinning back, and it counts up the first time you scroll to it.",
+  "kind": "motion",
+  "category": "Text",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "number ticker",
+    "counter"
+  ],
+  "no": 214
+}

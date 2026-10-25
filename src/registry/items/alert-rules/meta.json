@@ -1,0 +1,21 @@
+{
+  "name": "Alert Rules",
+  "description": "An alert you write as a sentence: when error rate is above 2% for at least 5 minutes, only for checkout in production, page the on-call. A 30-day timeline shows which past incidents it would have caught, and warns you before it gets noisy.",
+  "kind": "component",
+  "category": "Filters",
+  "poweredBy": "qnot",
+  "isNew": true,
+  "keywords": [
+    "alert rules",
+    "alerting",
+    "monitoring",
+    "on-call",
+    "pagerduty",
+    "thresholds",
+    "incidents",
+    "backtest",
+    "observability",
+    "qnot"
+  ],
+  "no": 58
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Facets",
+  "description": "Filters tucked into collapsible checkbox groups and echoed above as chips you can pop off one by one, with search, Clear all and full arrow-key control.",
+  "kind": "component",
+  "category": "Forms",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "filter menu",
+    "chips"
+  ],
+  "no": 46
+}

@@ -1,0 +1,13 @@
+{
+  "name": "Kanban Board",
+  "description": "A team board you can really work in: drag cards between columns, add one with a keystroke, filter by label, and open any card for its checklist and notes.",
+  "kind": "block",
+  "category": "Apps",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "task board",
+    "drag and drop"
+  ],
+  "no": 169
+}

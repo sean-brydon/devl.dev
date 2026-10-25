@@ -1,0 +1,14 @@
+{
+  "name": "Working Out Loud",
+  "description": "Lets people watch an agent think: a running clock, steps that tick off along a rail, sources that slide in as they're found, and a tidy one-line summary once it's done.",
+  "kind": "component",
+  "category": "Conversation",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "thinking",
+    "reasoning",
+    "steps"
+  ],
+  "no": 15
+}

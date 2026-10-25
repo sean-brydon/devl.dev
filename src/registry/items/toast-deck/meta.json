@@ -1,0 +1,13 @@
+{
+  "name": "Toast Deck",
+  "description": "Notifications that settle into a tidy deck, fan open when you hover, swipe away to the side and turn from a spinner into a check when the work behind them finishes.",
+  "kind": "component",
+  "category": "Status",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "toast",
+    "notifications"
+  ],
+  "no": 67
+}

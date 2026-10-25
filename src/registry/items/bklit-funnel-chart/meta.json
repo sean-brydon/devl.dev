@@ -1,0 +1,17 @@
+{
+  "name": "Checkout Funnel",
+  "description": "bklit's layered funnel chart walking visitors to paid: switch weeks to compare, hover a stage to see how many it kept and lost, and the biggest drop-off is called out underneath.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "funnel-chart",
+  "isNew": true,
+  "keywords": [
+    "funnel",
+    "conversion",
+    "checkout",
+    "drop-off",
+    "bklit"
+  ],
+  "no": 91
+}

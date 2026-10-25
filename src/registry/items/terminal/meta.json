@@ -1,0 +1,20 @@
+{
+  "name": "Terminal",
+  "description": "A terminal that replays a session: commands typed at the prompt, output streamed in real ANSI colour, braille spinners that resolve to a tick, and a status bar that keeps time, with skip and replay.",
+  "kind": "component",
+  "category": "Dev Tools",
+  "isNew": true,
+  "keywords": [
+    "terminal",
+    "shell",
+    "cli",
+    "console",
+    "ansi",
+    "typing",
+    "replay",
+    "command line",
+    "install",
+    "build output"
+  ],
+  "no": 137
+}

@@ -1,0 +1,20 @@
+{
+  "name": "Music Player",
+  "description": "A music app with gradient cover art that glows into the room, a waveform you can scrub, a drag-to-reorder queue and lyrics that follow the song line by line.",
+  "kind": "screen",
+  "category": "Personal",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "music",
+    "player",
+    "audio",
+    "waveform",
+    "queue",
+    "lyrics",
+    "playlist",
+    "now playing",
+    "reorder"
+  ],
+  "no": 207
+}

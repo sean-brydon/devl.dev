@@ -1,0 +1,19 @@
+{
+  "name": "Colour Field",
+  "description": "An OKLCH colour picker that shows you the real shape of sRGB for each hue, tells you how the colour reads on white and black, and copies it as OKLCH or hex.",
+  "kind": "component",
+  "category": "Forms",
+  "isNew": true,
+  "keywords": [
+    "color picker",
+    "colour picker",
+    "oklch",
+    "hex",
+    "contrast checker",
+    "wcag",
+    "palette",
+    "color input"
+  ],
+  "featured": true,
+  "no": 50
+}

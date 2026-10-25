@@ -1,0 +1,13 @@
+{
+  "name": "Split Card",
+  "description": "A total and what it's made of, in one small card: switch the period and the figures roll, the bar re-proportions and the ranked rows quietly trade places.",
+  "kind": "component",
+  "category": "Numbers",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "breakdown",
+    "stacked bar"
+  ],
+  "no": 74
+}

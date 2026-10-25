@@ -1,0 +1,13 @@
+{
+  "name": "Mini Sheet",
+  "description": "A pocket spreadsheet on coss ui table styles: drag or shift-select a range, type to edit, copy and paste straight from your sheets app, sort with rows that slide into order, and undo any of it.",
+  "kind": "component",
+  "category": "Numbers",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "data table",
+    "spreadsheet"
+  ],
+  "no": 77
+}

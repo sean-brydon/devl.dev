@@ -1,0 +1,18 @@
+{
+  "name": "Uptime Bars",
+  "description": "A status-page block with 90 days of daily bars per service: hover or arrow along a row to read that day's uptime and incidents, with a headline that names whatever is broken right now.",
+  "kind": "component",
+  "category": "Status",
+  "isNew": true,
+  "featured": true,
+  "keywords": [
+    "uptime",
+    "status page",
+    "incidents",
+    "sla",
+    "availability",
+    "monitoring",
+    "bars"
+  ],
+  "no": 72
+}

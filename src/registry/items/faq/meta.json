@@ -1,0 +1,19 @@
+{
+  "name": "FAQ",
+  "description": "A searchable FAQ with topic tabs and live counts, matches marked in place, answers that open on a smooth measured height, and a copy-link button on every question that deep-links straight to it.",
+  "kind": "block",
+  "category": "Content",
+  "isNew": true,
+  "keywords": [
+    "faq",
+    "frequently asked questions",
+    "accordion",
+    "help center",
+    "search",
+    "deep link",
+    "anchor link",
+    "categories",
+    "support"
+  ],
+  "no": 158
+}

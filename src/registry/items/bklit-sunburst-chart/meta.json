@@ -1,0 +1,17 @@
+{
+  "name": "Cost Sunburst",
+  "description": "bklit's sunburst chart breaking a month of cloud costs down by team and service: click a team or its chip to zoom in, read any slice in the header, and step back out with the path above or the centre.",
+  "kind": "component",
+  "category": "Charts",
+  "source": "bklit",
+  "upstream": "sunburst-chart",
+  "isNew": true,
+  "keywords": [
+    "sunburst",
+    "hierarchy",
+    "drill-down",
+    "costs",
+    "bklit"
+  ],
+  "no": 102
+}
