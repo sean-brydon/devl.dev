@@ -44,3 +44,7 @@ pnpm cf:deploy           # opennextjs-cloudflare build && deploy
 ```
 
 Secrets (`wrangler secret put <NAME>`): `ADMIN_TOKEN`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, optionally `SITE_URL`.
+
+## License
+
+devl's own code is [MIT](LICENSE). Third-party code keeps its own license: [coss ui](https://coss.com/ui) in `src/components/ui/` is AGPL-3.0, and the [bklit](https://ui.bklit.com) chart code is MIT. See [NOTICE.md](NOTICE.md).
