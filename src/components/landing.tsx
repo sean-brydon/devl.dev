@@ -39,6 +39,18 @@ const steps = [
   },
 ];
 
+const fade = "linear-gradient(to bottom, transparent, #000 18%, #000 72%, transparent)";
+const dither = "absolute inset-x-0 top-0 h-[calc(100%-12rem)] [mask-composite:intersect] [mask-position:center_bottom,center] [mask-repeat:no-repeat] [mask-size:1920px_822px,100%_100%]";
+
+/** A 1-bit dithered image used as a mask, so its dots take the theme's text colour. */
+function Backdrop({ src }: { src: string }) {
+  return (
+    <div aria-hidden className="-z-10 absolute inset-0">
+      <div className={`${dither} bg-foreground opacity-[0.12] dark:opacity-[0.16]`} style={{ maskImage: `url(${src}), ${fade}` }} />
+    </div>
+  );
+}
+
 function SectionHeading({ eyebrow, title, action }: { eyebrow: string; title: string; action?: React.ReactNode }) {
   return (
     <div className="flex flex-wrap items-end justify-between gap-4">
@@ -60,41 +72,44 @@ export function Landing() {
 
   return (
     <div className="pb-24">
-      <section className="mx-auto flex max-w-4xl flex-col items-center px-4 pt-14 text-center md:pt-20">
-        <a
-          className="flex items-center gap-2 rounded-full border bg-card py-1 ps-1 pe-3 text-muted-foreground text-xs transition-colors hover:text-foreground"
-          href={devl.repo}
-          rel="noopener"
-          target="_blank"
-        >
-          <span className="rounded-full bg-brand px-2 py-0.5 font-medium text-brand-foreground">Free</span>
-          Open source, MIT licensed
-          <ArrowRightIcon className="size-3" />
-        </a>
-        <h1 className="mt-6 text-balance font-heading font-semibold text-5xl tracking-tight md:text-7xl md:leading-[1.02]">
-          Components with a little goo in them.
-        </h1>
-        <p className="mt-6 max-w-2xl text-pretty text-lg text-muted-foreground md:text-xl">
-          {items.length} free React components, blocks and screens on {cossUi.name}. Copy the source, install with the shadcn CLI, or hand a prompt to your AI editor.
-        </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-3">
-          <Button className="rounded-full" render={<Link href="/components" />} size="lg">
-            Browse the catalogue
-            <ArrowRightIcon />
-          </Button>
-          <Button className="rounded-full" render={<a href={devl.repo} rel="noopener" target="_blank" />} size="lg" variant="outline">
-            <GitHubIcon className="size-4" />
-            Star on GitHub
-          </Button>
-        </div>
-        <div className="mt-6 w-full max-w-xl">
-          <InstallCommand command="npx shadcn@latest add https://devl.dev/r/liquid-slider.json" />
-        </div>
-      </section>
+      <div className="relative isolate overflow-hidden">
+        <Backdrop src="/landing/hero-goo-clouds.png" />
+        <section className="mx-auto flex max-w-4xl flex-col items-center px-4 pt-14 text-center md:pt-20">
+          <a
+            className="flex items-center gap-2 rounded-full border bg-card py-1 ps-1 pe-3 text-muted-foreground text-xs transition-colors hover:text-foreground"
+            href={devl.repo}
+            rel="noopener"
+            target="_blank"
+          >
+            <span className="rounded-full bg-brand px-2 py-0.5 font-medium text-brand-foreground">Free</span>
+            Open source, MIT licensed
+            <ArrowRightIcon className="size-3" />
+          </a>
+          <h1 className="mt-6 text-balance font-heading font-semibold text-5xl tracking-tight md:text-7xl md:leading-[1.02]">
+            Components with a little goo in them.
+          </h1>
+          <p className="mt-6 max-w-2xl text-pretty text-lg text-muted-foreground md:text-xl">
+            {items.length} free React components, blocks and screens on {cossUi.name}. Copy the source, install with the shadcn CLI, or hand a prompt to your AI editor.
+          </p>
+          <div className="mt-8 flex flex-wrap justify-center gap-3">
+            <Button className="rounded-full" render={<Link href="/components" />} size="lg">
+              Browse the catalogue
+              <ArrowRightIcon />
+            </Button>
+            <Button className="rounded-full" render={<a href={devl.repo} rel="noopener" target="_blank" />} size="lg" variant="outline">
+              <GitHubIcon className="size-4" />
+              Star on GitHub
+            </Button>
+          </div>
+          <div className="mt-6 w-full max-w-xl">
+            <InstallCommand command="npx shadcn@latest add https://devl.dev/r/liquid-slider.json" />
+          </div>
+        </section>
 
-      <section aria-label="Try a few pieces" className="mx-auto mt-12 max-w-6xl px-4 md:mt-14 md:px-8">
-        <HeroStage pieces={pieces} />
-      </section>
+        <section aria-label="Try a few pieces" className="mx-auto mt-12 max-w-6xl px-4 md:mt-14 md:px-8">
+          <HeroStage pieces={pieces} />
+        </section>
+      </div>
 
       <section className="mx-auto mt-24 max-w-6xl px-4 md:mt-32 md:px-8">
         <SectionHeading eyebrow="The shelves" title="Everything from a switch to a whole app." />
