@@ -1,0 +1,14 @@
+{
+  "name": "Sign Up",
+  "description": "A minimal centred sign-up: name, work email and a password whose length hint ticks green as you type, with inline errors and the terms in one quiet line.",
+  "kind": "screen",
+  "category": "Auth",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "sign up",
+    "register",
+    "create account"
+  ],
+  "no": 264
+}
