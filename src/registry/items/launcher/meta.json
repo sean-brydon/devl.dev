@@ -3,7 +3,6 @@
   "description": "A search button that grows into a keyboard launcher, with grouped actions and their shortcuts, your recent picks, a highlight that glides as you arrow through and pages you can step into.",
   "kind": "component",
   "category": "Workspace",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "command menu",

@@ -3,7 +3,6 @@
   "description": "A full site footer: link columns with little badges, a one-field digest signup, a live status pill, language and theme switches, a legal row, and an oversized wordmark fading into the floor.",
   "kind": "block",
   "category": "Marketing",
-  "isNew": true,
   "keywords": [
     "footer",
     "site footer",

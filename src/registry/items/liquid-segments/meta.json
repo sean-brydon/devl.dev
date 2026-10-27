@@ -3,7 +3,6 @@
   "description": "A row of options where the selected pill is a soft blob that stretches, splits and joins back up as it slides, and you can drag it straight to the one you want.",
   "kind": "component",
   "category": "Liquid",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "segmented control",

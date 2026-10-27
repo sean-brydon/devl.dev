@@ -3,7 +3,6 @@
   "description": "See where this month's credits went: a split bar by category with a warning line and a hard limit, daily spend against budget, and a plan button that gets more insistent as you close in on the cap.",
   "kind": "component",
   "category": "Status",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "usage meter",

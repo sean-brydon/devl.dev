@@ -3,7 +3,6 @@
   "description": "A quiet wave that spreads from exactly where you pressed, clipped to the element's corners, finishes filling even on a quick tap, and gives Enter and Space the same feedback from the centre.",
   "kind": "motion",
   "category": "Surfaces",
-  "isNew": true,
   "keywords": [
     "ripple",
     "ink ripple",

@@ -3,7 +3,6 @@
   "description": "Find people and teams in one grouped list, see what you typed highlighted in each match, add as many as you like as springy avatar chips, or create someone new right there.",
   "kind": "component",
   "category": "Forms",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "combobox",

@@ -3,7 +3,6 @@
   "description": "Everything one connected service needs on a single card, its key, its site and its time zone, with a save bar that only turns up once you've changed something.",
   "kind": "component",
   "category": "Workspace",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "integration settings",

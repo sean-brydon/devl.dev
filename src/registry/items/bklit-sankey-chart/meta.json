@@ -5,7 +5,6 @@
   "category": "Charts",
   "source": "bklit",
   "upstream": "sankey-chart",
-  "isNew": true,
   "keywords": [
     "sankey",
     "flow",

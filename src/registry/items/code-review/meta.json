@@ -3,7 +3,6 @@
   "description": "A pull request review with a file tree, split or unified diffs with word-level highlights, inline threads you can reply to and resolve, Viewed checkboxes that fold files away, and an approve or request-changes panel.",
   "kind": "screen",
   "category": "Dev",
-  "isNew": true,
   "keywords": [
     "pull request",
     "code review",

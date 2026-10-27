@@ -5,7 +5,6 @@
   "category": "Charts",
   "source": "bklit",
   "upstream": "sunburst-chart",
-  "isNew": true,
   "keywords": [
     "sunburst",
     "hierarchy",

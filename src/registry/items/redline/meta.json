@@ -3,7 +3,6 @@
   "description": "Suggested edits marked up right inside your sentence, so you can keep or drop each one with a click or a key, and undo any call you change your mind on.",
   "kind": "component",
   "category": "Writing",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "diff",

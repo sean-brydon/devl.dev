@@ -3,7 +3,6 @@
   "description": "The frame an app lives in: a sidebar with workspace switcher, nav, colour-dotted projects and an account menu that folds down to an icon rail, beside a rounded inset page with live breadcrumbs and a floating drawer on phones.",
   "kind": "screen",
   "category": "Shells",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "app shell",

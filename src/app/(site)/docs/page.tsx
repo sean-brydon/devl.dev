@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 
-export const metadata: Metadata = { title: "Getting started" };
+export const metadata: Metadata = {
+  title: "Getting started",
+  description: "Install devl components with the shadcn CLI, copy the raw source, or hand a prompt to your AI editor. Everything is built on coss ui.",
+  alternates: { canonical: "/docs" },
+};
 
 export default function DocsPage() {
   return (

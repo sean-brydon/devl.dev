@@ -3,7 +3,6 @@
   "description": "See which agent started which, with each one's time and cost ticking on its card and every branch adding up what it spent.",
   "kind": "component",
   "category": "Mission Control",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "sub-agents",

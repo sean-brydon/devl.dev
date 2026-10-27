@@ -3,7 +3,6 @@
   "description": "Channels and DMs with grouped messages, reactions that roll their counts, and threads that open in a side panel; send something and a teammate starts typing back.",
   "kind": "screen",
   "category": "Comms",
-  "isNew": true,
   "keywords": [
     "chat",
     "messaging",

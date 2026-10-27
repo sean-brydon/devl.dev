@@ -3,7 +3,6 @@
   "description": "A password field that explains itself: it spots common words, years and keyboard runs, says how long a crack would take, and ticks off what's left in plain words.",
   "kind": "component",
   "category": "Forms",
-  "isNew": true,
   "keywords": [
     "password",
     "password strength",

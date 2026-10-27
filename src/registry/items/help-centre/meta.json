@@ -3,7 +3,6 @@
   "description": "A support site with a search that suggests articles as you type, topic cards, readable articles with a table of contents that follows you, and a feedback form that asks what went wrong.",
   "kind": "screen",
   "category": "Product",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "help center",

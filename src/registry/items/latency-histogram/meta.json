@@ -3,7 +3,6 @@
   "description": "Request latency as a histogram with p50, p95 and p99 marked on it; drag a brush across the bars (or Shift-arrow) to see how many requests fall in any window.",
   "kind": "component",
   "category": "Numbers",
-  "isNew": true,
   "keywords": [
     "histogram",
     "latency",

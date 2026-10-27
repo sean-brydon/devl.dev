@@ -3,7 +3,6 @@
   "description": "Pick a range from two months side by side or a one-click preset, watch it preview as you hover, and line it up against the period before with a single tap.",
   "kind": "component",
   "category": "Forms",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "date range picker",

@@ -3,7 +3,6 @@
   "description": "Your week on one strip and your day on a timeline, where you can drag a meeting to a new time and see straight away if it clashes with another.",
   "kind": "component",
   "category": "Workspace",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "calendar",

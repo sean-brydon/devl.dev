@@ -3,7 +3,6 @@
   "description": "A promo code field that checks your code, then either folds it into a tag while the savings line slides in and the total rolls down, or shakes once and says exactly why it failed.",
   "kind": "component",
   "category": "Commerce",
-  "isNew": true,
   "keywords": [
     "coupon",
     "promo code",

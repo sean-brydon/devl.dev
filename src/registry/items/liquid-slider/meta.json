@@ -3,7 +3,6 @@
   "description": "A range slider whose thumb is a droplet: it stretches when you drag fast, melts into the filled track, and buds off a little value bubble while you hold it.",
   "kind": "component",
   "category": "Liquid",
-  "isNew": true,
   "keywords": [
     "slider",
     "range",

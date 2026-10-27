@@ -3,7 +3,6 @@
   "description": "A join-the-line card: your position rolls down digit by digit, a referral link to copy, and friends who sign up drop into slots while you jump toward the next wave.",
   "kind": "block",
   "category": "Auth",
-  "isNew": true,
   "keywords": [
     "waitlist",
     "early access",

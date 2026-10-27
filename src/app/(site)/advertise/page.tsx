@@ -6,6 +6,7 @@ import { formatPrice, gridPlacement, type PlacementId, placements, PRICE_UNIT } 
 
 export const metadata: Metadata = {
   title: "Advertise",
+  alternates: { canonical: "/advertise" },
   description: "Sponsor a fortnight on devl: one tile in a section grid or a card on every item page. Fixed prices, UTM-tagged clicks, reviewed within 48 hours.",
 };
 

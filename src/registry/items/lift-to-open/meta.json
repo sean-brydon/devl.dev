@@ -3,7 +3,6 @@
   "description": "A thumbnail that lifts off the grid and grows into its own detail view as one object, cover and title travelling with it, the details fading in once it lands; Escape or a click outside folds it back into its exact slot.",
   "kind": "motion",
   "category": "Surfaces",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "shared element",

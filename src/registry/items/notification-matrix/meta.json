@@ -3,7 +3,6 @@
   "description": "Events down the side, email, push and in-app across the top: group checkboxes that go half-checked, locked security rows with a reason, edited cells that glow, and a save bar that floats in only when something changed.",
   "kind": "block",
   "category": "Dashboards",
-  "isNew": true,
   "keywords": [
     "notification settings",
     "preferences",

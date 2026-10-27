@@ -3,7 +3,6 @@
   "description": "A blog grid led by one large featured post, each card with drawn cover art, tags, reading time and author, lifting gently on hover while its cover drifts closer.",
   "kind": "block",
   "category": "Content",
-  "isNew": true,
   "keywords": [
     "blog",
     "articles",

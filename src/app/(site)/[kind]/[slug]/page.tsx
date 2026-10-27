@@ -14,7 +14,10 @@ import { ItemStage } from "@/components/item-stage";
 import { ItemSponsor } from "@/components/sponsor/item-sponsor";
 import { Button } from "@/components/ui/button";
 import {
+  bklit,
   categorySlug,
+  cossUi,
+  devl,
   getItem,
   installCommand,
   itemHref,
@@ -23,6 +26,7 @@ import {
   itemsOfKind,
   kindOf,
   rawUrl,
+  type RegistryItem,
   registryUrl,
 } from "@/lib/registry";
 
@@ -36,10 +40,56 @@ export async function generateMetadata({ params }: PageProps<"/[kind]/[slug]">):
   const title = `${item.name} · devl`;
   const image = item.og ? `/og/${item.slug}.jpg` : "/og.png";
   return {
-    title: item.name,
+    title: `${item.name}: free React ${nouns[item.kind]}`,
     description: item.description,
+    alternates: { canonical: itemHref(item) },
     openGraph: { title, description: item.description, images: [{ url: image, width: 1200, height: 630, alt: title }] },
     twitter: { card: "summary_large_image", title, description: item.description, images: [image] },
+  };
+}
+
+const site = "https://devl.dev";
+
+const nouns: Record<RegistryItem["kind"], string> = {
+  component: "component",
+  block: "block",
+  screen: "screen",
+  motion: "motion component",
+  illustration: "illustration",
+};
+
+function structuredData(item: RegistryItem) {
+  const url = `${site}${itemHref(item)}`;
+  const section = kindOf(item);
+  const fromBklit = item.source === "bklit";
+  return {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "SoftwareSourceCode",
+        name: item.name,
+        description: item.description,
+        url,
+        image: `${site}${item.og ? `/og/${item.slug}.jpg` : "/og.png"}`,
+        codeRepository: fromBklit ? bklit.repo : devl.repo,
+        programmingLanguage: ["TypeScript", "React"],
+        runtimePlatform: "React",
+        license: "https://opensource.org/licenses/MIT",
+        isAccessibleForFree: true,
+        keywords: [item.category, nouns[item.kind], ...(item.keywords ?? [])].join(", "),
+        author: fromBklit
+          ? { "@type": "Person", name: bklit.author, url: `https://github.com/${bklit.author}` }
+          : { "@type": "Person", name: "Sean Brydon", url: "https://github.com/sean-brydon" },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "devl", item: site },
+          { "@type": "ListItem", position: 2, name: section.label, item: `${site}${section.href}` },
+          { "@type": "ListItem", position: 3, name: item.name, item: url },
+        ],
+      },
+    ],
   };
 }
 
@@ -76,8 +126,18 @@ async function ItemDetail({ params }: Pick<PageProps<"/[kind]/[slug]">, "params"
       <CodeView slug={item.slug} />
     );
 
+  const usage = item.component
+    ? `import { ${item.component} } from "@/components/${item.slug}";\n\nexport default function Page() {\n  return <${item.component} />;\n}`
+    : null;
+  const builtWith = item.uiDependencies ?? [];
+  const packages = item.dependencies ?? [];
+
   return (
     <div className="mx-auto w-full max-w-[1600px] px-4 pb-24 md:px-8">
+      <script
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData(item)).replace(/</g, "\\u003c") }}
+        type="application/ld+json"
+      />
       <header className="grid gap-8 pt-8 pb-8 md:pt-14 md:pb-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,28rem)] lg:items-end lg:gap-16">
         <div className="flex min-w-0 flex-col gap-4">
           <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-2 font-mono text-muted-foreground text-xs">
@@ -155,6 +215,57 @@ async function ItemDetail({ params }: Pick<PageProps<"/[kind]/[slug]">, "params"
         {item.poweredBy === "qnot" && <QnotStrip />}
         {item.shoutout === "coss-calendar" && <CossCalendarStrip slug={item.slug} />}
       </div>
+
+      <section aria-label={`About ${item.name}`} className="mt-16 grid gap-10 border-t pt-12 lg:grid-cols-3">
+        <div className="flex min-w-0 flex-col gap-3">
+          <h2 className="font-heading font-semibold text-lg tracking-tight">Install</h2>
+          <p className="text-pretty text-muted-foreground text-sm">
+            {item.source === "bklit"
+              ? `${item.name} comes from the bklit chart library. The shadcn CLI pulls it, and the chart pieces it uses, straight from bklit's registry.`
+              : `Run this in any project set up for the shadcn CLI. It copies the ${item.name} source into your components folder, so the code is yours to change.`}
+          </p>
+          <pre className="overflow-x-auto rounded-xl border bg-muted/40 p-3 font-mono text-xs">
+            <code>{install}</code>
+          </pre>
+        </div>
+        {usage && item.source !== "bklit" && (
+          <div className="flex min-w-0 flex-col gap-3">
+            <h2 className="font-heading font-semibold text-lg tracking-tight">Use it</h2>
+            <p className="text-pretty text-muted-foreground text-sm">
+              Import it and render it. Every prop has a typed default, so it works straight away, and you pass your own data when you’re ready.
+            </p>
+            <pre className="overflow-x-auto rounded-xl border bg-muted/40 p-3 font-mono text-xs">
+              <code>{usage}</code>
+            </pre>
+          </div>
+        )}
+        <div className="flex min-w-0 flex-col gap-3">
+          <h2 className="font-heading font-semibold text-lg tracking-tight">Built with</h2>
+          <p className="text-pretty text-muted-foreground text-sm">
+            A free React {nouns[item.kind]} in the {item.category} collection, written in TypeScript with Tailwind CSS on{" "}
+            <a className="text-foreground underline-offset-4 hover:underline" href={cossUi.site} rel="noopener" target="_blank">
+              {cossUi.name}
+            </a>
+            . MIT licensed.
+          </p>
+          {(builtWith.length > 0 || packages.length > 0) && (
+            <dl className="grid gap-2 text-sm">
+              {builtWith.length > 0 && (
+                <div className="flex flex-wrap gap-x-2 gap-y-1">
+                  <dt className="text-muted-foreground">coss ui</dt>
+                  <dd className="font-mono text-xs leading-5">{builtWith.join(", ")}</dd>
+                </div>
+              )}
+              {packages.length > 0 && (
+                <div className="flex flex-wrap gap-x-2 gap-y-1">
+                  <dt className="text-muted-foreground">npm</dt>
+                  <dd className="font-mono text-xs leading-5">{packages.join(", ")}</dd>
+                </div>
+              )}
+            </dl>
+          )}
+        </div>
+      </section>
 
       <nav aria-label="More items" className="mt-16 grid gap-3 sm:grid-cols-2">
         {[

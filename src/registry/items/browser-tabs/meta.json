@@ -3,7 +3,6 @@
   "description": "A browser tab strip: drag tabs to reorder, close one and its neighbours slide in under your pointer, pin from the right-click menu, and scroll when the strip overflows.",
   "kind": "component",
   "category": "Workspace",
-  "isNew": true,
   "keywords": [
     "tabs",
     "browser tabs",

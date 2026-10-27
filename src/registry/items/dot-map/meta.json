@@ -3,7 +3,6 @@
   "description": "A dotted world map drawn from a hand-made land mask, with one region lit up, live sessions pulsing across it and a switcher that moves the spotlight.",
   "kind": "illustration",
   "category": "Connections",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "world map",

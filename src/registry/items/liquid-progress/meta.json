@@ -3,7 +3,6 @@
   "description": "A progress bar filled with liquid: each jump surges forward and the rounded front wobbles before it settles, and when there's no telling how long it'll take, a slug of it sloshes end to end.",
   "kind": "component",
   "category": "Liquid",
-  "isNew": true,
   "keywords": [
     "progress",
     "progress bar",

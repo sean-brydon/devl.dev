@@ -5,7 +5,6 @@
   "category": "Charts",
   "source": "bklit",
   "upstream": "scatter-chart",
-  "isNew": true,
   "keywords": [
     "scatter chart",
     "strip plot",

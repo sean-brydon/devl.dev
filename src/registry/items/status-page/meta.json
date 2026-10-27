@@ -3,7 +3,6 @@
   "description": "A public status page: a banner that names what's wrong, 90 days of uptime bars you can scrub with mouse or arrow keys, an incident timeline, and an inline subscribe form.",
   "kind": "block",
   "category": "Apps",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "status page",

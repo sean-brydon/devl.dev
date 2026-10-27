@@ -3,7 +3,6 @@
   "description": "Environment variables as a table with a column per environment: secrets masked until you reveal them, click-to-edit cells, paste a whole .env to bulk import, and every unsaved edit tinted until you save or discard.",
   "kind": "component",
   "category": "Dev Tools",
-  "isNew": true,
   "keywords": [
     "environment variables",
     "env",

@@ -1,9 +1,8 @@
 {
   "name": "Code Entry",
-  "description": "A six-digit code field with a ring that glides from slot to slot, room to paste the whole code, a small shake when it's wrong and slots that flow together into a \u201cVerified\u201d pill when it's right.",
+  "description": "A six-digit code field with a ring that glides from slot to slot, room to paste the whole code, a small shake when it's wrong and slots that flow together into a “Verified” pill when it's right.",
   "kind": "component",
   "category": "Forms",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "otp",

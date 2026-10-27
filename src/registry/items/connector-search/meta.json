@@ -3,7 +3,6 @@
   "description": "Type to find a service, step through with the arrow keys, and open one to check how its sync is doing or connect it right there.",
   "kind": "component",
   "category": "Workspace",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "integrations",

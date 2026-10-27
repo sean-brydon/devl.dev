@@ -3,7 +3,6 @@
   "description": "A chat voice message you can scrub like a waveform, with a play button that morphs to pause, a speed chip that rolls, and a transcript that follows along word by word.",
   "kind": "component",
   "category": "Conversation",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "audio message",

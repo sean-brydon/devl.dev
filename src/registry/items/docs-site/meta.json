@@ -1,9 +1,8 @@
 {
   "name": "Docs Site",
-  "description": "A documentation site with a top nav, collapsible sidebar, code samples whose language choice follows you across the page, a table of contents that tracks your scroll, \u2318K search over pages and headings, and prev and next cards.",
+  "description": "A documentation site with a top nav, collapsible sidebar, code samples whose language choice follows you across the page, a table of contents that tracks your scroll, ⌘K search over pages and headings, and prev and next cards.",
   "kind": "screen",
   "category": "Dev",
-  "isNew": true,
   "keywords": [
     "documentation",
     "docs",

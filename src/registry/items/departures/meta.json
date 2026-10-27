@@ -3,7 +3,6 @@
   "description": "An airport departures board for your agents: each row flips letter by letter as work boards, runs, gets delayed or lands, hand-offs show as connecting flights, and the one waiting on you glows amber with an Approve button.",
   "kind": "component",
   "category": "Mission Control",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "timeline",

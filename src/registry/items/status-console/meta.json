@@ -3,7 +3,6 @@
   "description": "An ops console where an incident plays out live: services with ticking p95 sparklines, a timeline that moves from investigating to resolved, the fix rolling out in recent deploys, and an on-call card you can page from the keyboard.",
   "kind": "screen",
   "category": "Dev",
-  "isNew": true,
   "keywords": [
     "status",
     "ops",

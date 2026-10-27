@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { SiteHeader } from "@/components/site-header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { fontVariables } from "@/lib/fonts";
+import { items } from "@/lib/registry";
 import "../globals.css";
 
 export const metadata: Metadata = {
-  title: { default: "devl — components, shared", template: "%s · devl" },
-  description: "Taste-tested components on coss ui. Copy the source or install with the shadcn CLI.",
+  title: { default: "devl — free React components, blocks and screens for shadcn", template: "%s · devl" },
+  description: `${items.length} free, open-source React components, blocks, screens, motion and illustrations on coss ui (Base UI and Tailwind). Copy the source or install with the shadcn CLI.`,
   metadataBase: new URL("https://devl.dev"),
   openGraph: {
     type: "website",

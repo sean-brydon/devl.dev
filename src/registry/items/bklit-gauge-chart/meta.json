@@ -5,7 +5,6 @@
   "category": "Charts",
   "source": "bklit",
   "upstream": "gauge-chart",
-  "isNew": true,
   "keywords": [
     "gauge",
     "meter",

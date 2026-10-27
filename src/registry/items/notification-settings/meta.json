@@ -3,7 +3,6 @@
   "description": "Channels you can open and tune, per-event email, push and chat toggles grouped under section switches, quiet hours on a small 24-hour track, and a digest line whose item count rolls as you change things.",
   "kind": "screen",
   "category": "Settings",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "quiet hours",

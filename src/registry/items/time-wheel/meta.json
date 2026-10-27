@@ -3,7 +3,6 @@
   "description": "A drum-style time picker: flick the hours and minutes and they spin with momentum, curl away on a 3D wheel and snap onto the row, by touch, trackpad, mouse or keys.",
   "kind": "component",
   "category": "Forms",
-  "isNew": true,
   "keywords": [
     "time picker",
     "wheel picker",

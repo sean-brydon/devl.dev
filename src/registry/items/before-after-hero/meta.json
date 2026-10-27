@@ -3,7 +3,6 @@
   "description": "A hero split down the middle: drag the handle and a messy expense spreadsheet turns into a clean, matched ledger row by row, while the headline flips from a week to an afternoon.",
   "kind": "block",
   "category": "Heroes",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "hero",

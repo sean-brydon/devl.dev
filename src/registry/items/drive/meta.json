@@ -3,7 +3,6 @@
   "description": "A cloud drive home with a sidebar of places and quick access, start-from-template cards, and folders that glide between a card grid and a tidy table when you switch views, with search, sort and stars.",
   "kind": "screen",
   "category": "Product",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "files",

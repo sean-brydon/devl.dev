@@ -3,7 +3,6 @@
   "description": "A reviewer's pen that draws itself onto your text as it scrolls into view: wobbly circles, double underlines, boxes and strike-throughs, then arrows that curve from a handwritten note to the words it means.",
   "kind": "motion",
   "category": "Text",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "annotation",

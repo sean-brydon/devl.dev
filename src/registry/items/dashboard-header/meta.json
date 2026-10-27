@@ -3,7 +3,6 @@
   "description": "The top of a dashboard: three trend cards, a this-period-versus-last chart you can scrub day by day, and a goal ring that fills as sales come in.",
   "kind": "block",
   "category": "Dashboards",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "kpi board",

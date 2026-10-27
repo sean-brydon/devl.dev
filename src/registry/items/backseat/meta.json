@@ -3,7 +3,6 @@
   "description": "Nudge an agent while it works: type a note and it joins the plan as soon as the current step wraps up, or hit Interrupt to stop it right where it is.",
   "kind": "component",
   "category": "Trust & Control",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "steer",

@@ -4,7 +4,6 @@
   "kind": "component",
   "category": "Filters",
   "poweredBy": "qnot",
-  "isNew": true,
   "keywords": [
     "feature flags",
     "flag debugger",

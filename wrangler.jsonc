@@ -1,7 +1,7 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "devl",
-  "main": ".open-next/worker.js",
+  "main": "worker.ts",
   "routes": [
     { "pattern": "devl.dev", "custom_domain": true },
     { "pattern": "www.devl.dev", "custom_domain": true }

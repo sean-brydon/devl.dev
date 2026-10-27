@@ -3,7 +3,6 @@
   "description": "Every comment on a page in one list: filter by open or resolved, tick one off and watch it slide away, or type / to summarise them all or turn them into tasks.",
   "kind": "component",
   "category": "Together",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "comments panel",

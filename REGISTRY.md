@@ -22,7 +22,6 @@ src/registry/items/<slug>/
   "description": "One sentence, plain words, what it does and what makes it nice.",
   "kind": "component",
   "category": "Actions",
-  "isNew": true,
   "featured": false
 }
 ```
@@ -30,6 +29,7 @@ src/registry/items/<slug>/
 - `kind`: `component` | `block` | `screen` | `motion` | `illustration`
 - `category`: short, Title Case, reuse existing ones where they fit (AI, Agents, Inputs, Actions, Feedback, Data, Collaboration, Navigation, Marketing, Commerce, App, Effects, Text, Backgrounds).
 - `featured`: only for the 1–2 strongest pieces in your batch (they get a big bento tile).
+- `isNew`: leave it out. The owner adds `"isNew": true` to a release's headline pieces and removes it again after a couple of weeks; when everything is new, the badge means nothing.
 
 ### Charts (credited to bklit)
 

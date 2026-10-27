@@ -3,7 +3,6 @@
   "description": "Workspace, members, API keys and billing in one calm settings screen: grouped rows, an unsaved-changes bar that springs up, invites and role changes, keys shown once, and usage bars that fill when you open Billing.",
   "kind": "screen",
   "category": "Product",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "settings",

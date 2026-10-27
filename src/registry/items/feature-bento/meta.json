@@ -3,7 +3,6 @@
   "description": "A bento grid of feature tiles, each with a tiny working demo (search, shortcuts, version history, a flow, a chart) that wakes up on hover and rests when you leave.",
   "kind": "block",
   "category": "Marketing",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "bento",

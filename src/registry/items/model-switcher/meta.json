@@ -3,7 +3,6 @@
   "description": "A model menu that helps you choose: hover a model to compare speed, quality and cost, turn on thinking to set the effort, and watch latency and price count to their new values, inline or from a pill trigger.",
   "kind": "component",
   "category": "Conversation",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "model picker",

@@ -3,7 +3,6 @@
   "description": "A live theme customiser: pick an accent hue, drag the corner radius, set the density, watch a sample card restyle as you go, then copy the CSS variables.",
   "kind": "component",
   "category": "Workspace",
-  "isNew": true,
   "keywords": [
     "theme editor",
     "theme customizer",

@@ -1,9 +1,8 @@
 {
   "name": "Webhook Inspector",
-  "description": "Incoming webhook deliveries with status and latency at a glance, a detail pane for payload, headers and your endpoint\u2019s response, and Redeliver that slides a new attempt into the list and lets you watch it land.",
+  "description": "Incoming webhook deliveries with status and latency at a glance, a detail pane for payload, headers and your endpoint’s response, and Redeliver that slides a new attempt into the list and lets you watch it land.",
   "kind": "component",
   "category": "Dev Tools",
-  "isNew": true,
   "keywords": [
     "webhooks",
     "webhook logs",

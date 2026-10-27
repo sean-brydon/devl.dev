@@ -3,7 +3,6 @@
   "description": "Everything the assistant remembers about you, sorted into groups you can filter, with each memory yours to edit, pause or forget, and an undo if you slip.",
   "kind": "component",
   "category": "Trust & Control",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "memory",

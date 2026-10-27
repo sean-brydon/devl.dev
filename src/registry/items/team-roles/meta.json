@@ -3,7 +3,6 @@
   "description": "Invite people, manage members and pending invites, and tune a role-by-permission matrix with a locked owner column, live head counts and a duplicate-to-customise role.",
   "kind": "screen",
   "category": "Settings",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "permissions",

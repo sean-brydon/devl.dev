@@ -3,7 +3,6 @@
   "description": "Ask for a reset link, then a confirmation with the address it went to, a resend countdown and a way back to sign in.",
   "kind": "screen",
   "category": "Auth",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "forgot password",

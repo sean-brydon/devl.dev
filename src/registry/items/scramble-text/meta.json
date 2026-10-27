@@ -3,7 +3,6 @@
   "description": "Text that decodes from random glyphs into the real words, sweeping left to right on view, on hover or on demand, with a monospace variant for codes and labels.",
   "kind": "motion",
   "category": "Text",
-  "isNew": true,
   "keywords": [
     "text scramble",
     "decode",

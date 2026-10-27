@@ -130,7 +130,7 @@ for (const { slug, meta, source, demo } of items) {
   );
 }
 
-const index = items.map(({ slug, meta }) => ({
+const index = items.map(({ slug, meta, source }) => ({
   slug,
   name: meta.name,
   description: meta.description,
@@ -143,6 +143,7 @@ const index = items.map(({ slug, meta }) => ({
   ...(meta.source ? { source: meta.source, upstream: meta.upstream ?? slug } : {}),
   ...(meta.poweredBy ? { poweredBy: meta.poweredBy } : {}),
   ...(meta.shoutout ? { shoutout: meta.shoutout } : {}),
+  ...(source.match(/export function ([A-Z]\w*)/) ? { component: source.match(/export function ([A-Z]\w*)/)[1] } : {}),
   ...(existsSync(path.join(root, "public/og", `${slug}.jpg`)) ? { og: true } : {}),
   ...(depsOf.get(slug).deps.length ? { dependencies: depsOf.get(slug).deps } : {}),
   ...(depsOf.get(slug).ui.length ? { uiDependencies: depsOf.get(slug).ui } : {}),

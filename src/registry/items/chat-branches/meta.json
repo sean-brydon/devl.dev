@@ -3,7 +3,6 @@
   "description": "A conversation you can fork from any message, with a little branch map up top that shows every path you tried and hops between them in one click.",
   "kind": "component",
   "category": "Conversation",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "conversation tree",

@@ -3,7 +3,6 @@
   "description": "Breadcrumbs that fold their middle crumbs into a menu as space runs out and unfold as it returns, with a last crumb you can rename in place.",
   "kind": "component",
   "category": "Workspace",
-  "isNew": true,
   "keywords": [
     "breadcrumb",
     "breadcrumbs",

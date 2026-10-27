@@ -3,7 +3,6 @@
   "description": "What moved while you were away, one metric per row: a tiny trend line, the number now, and a change chip that knows when down is the good news.",
   "kind": "component",
   "category": "Numbers",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "changes",

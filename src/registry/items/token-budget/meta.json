@@ -3,7 +3,6 @@
   "description": "See exactly what's filling your model's context, as a field of cells or a treemap of the same parts; hover anything to light it in both, drop a file you don't need, and Compact folds older turns into a short summary.",
   "kind": "component",
   "category": "Mission Control",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "context window",

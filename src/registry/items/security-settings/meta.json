@@ -3,7 +3,6 @@
   "description": "Password, two-factor, passkeys and sessions in grouped rows: a tiny ring counts recommended steps, passkeys are added inline while your device confirms, and signed-out sessions slide off the table one after another.",
   "kind": "screen",
   "category": "Settings",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "passkeys",

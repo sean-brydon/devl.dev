@@ -1,9 +1,8 @@
 {
   "name": "Code Block",
-  "description": "A code viewer with file tabs, hand-rolled syntax colour, click-to-highlight lines, a diff view that works out the +/\u2212 itself, wrap and copy, and long files that fold behind a fade.",
+  "description": "A code viewer with file tabs, hand-rolled syntax colour, click-to-highlight lines, a diff view that works out the +/− itself, wrap and copy, and long files that fold behind a fade.",
   "kind": "component",
   "category": "Dev Tools",
-  "isNew": true,
   "keywords": [
     "code block",
     "syntax highlighting",

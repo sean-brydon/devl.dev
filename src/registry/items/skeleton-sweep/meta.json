@@ -1,9 +1,8 @@
 {
   "name": "Skeleton Sweep",
-  "description": "Loading placeholders lit by one sweep of light that crosses the whole card at once, with a matching glint for \u201cDrafting\u2026\u201d status lines.",
+  "description": "Loading placeholders lit by one sweep of light that crosses the whole card at once, with a matching glint for “Drafting…” status lines.",
   "kind": "motion",
   "category": "Loading",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "shimmer",

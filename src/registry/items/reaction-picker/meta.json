@@ -3,7 +3,6 @@
   "description": "Tap or hold the smiley and a tray of emoji pours out of it like liquid; slide to one and let go, and it lands on the message as a counted chip with yours lit up.",
   "kind": "component",
   "category": "Together",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "emoji reactions",

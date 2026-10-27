@@ -3,7 +3,6 @@
   "description": "A conversion funnel where each bar keeps a hatched ghost of what the step before had, so drop-off reads at a glance; flip between counts and percentages and hover a step for its channel split.",
   "kind": "component",
   "category": "Numbers",
-  "isNew": true,
   "keywords": [
     "funnel",
     "conversion",
