@@ -1,0 +1,14 @@
+{
+  "name": "Verify Email",
+  "description": "The 6-digit code step: a centred code field split 3 + 3, a shake when the code is wrong, a resend timer that counts down and a mail icon that turns into a check.",
+  "kind": "screen",
+  "category": "Auth",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "otp",
+    "verification code",
+    "email"
+  ],
+  "no": 265
+}
