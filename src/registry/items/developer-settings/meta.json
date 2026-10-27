@@ -1,0 +1,14 @@
+{
+  "name": "API Keys & Webhooks",
+  "description": "Scoped API keys with a show-once secret, roll and revoke, plus webhook endpoints with event picking, a signing secret and a deliveries log where failed sends retry and flip to 200.",
+  "kind": "screen",
+  "category": "Settings",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "api keys",
+    "webhooks",
+    "deliveries"
+  ],
+  "no": 272
+}

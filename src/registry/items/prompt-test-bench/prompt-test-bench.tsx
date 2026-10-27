@@ -36,7 +36,6 @@ import { Button } from "@/components/ui/button";
 import { Select, SelectItem, SelectPopup, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Spinner } from "@/components/ui/spinner";
 import { Tabs, TabsList, TabsTab } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
 import { Tooltip, TooltipPopup, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
 
@@ -1014,13 +1013,13 @@ function StatusPill({ status }: { status: Status }) {
 
 function StatTile({ icon, label, children, hint }: { icon: ReactNode; label: string; children: ReactNode; hint?: ReactNode }) {
   return (
-    <div className="min-w-0 rounded-2xl border bg-card p-4 shadow-xs/5">
-      <div className="flex items-center gap-1.5 text-muted-foreground text-xs [&_svg]:size-3.5">
+    <div className="min-w-0 px-4 py-3.5">
+      <div className="flex items-center gap-1.5 text-muted-foreground text-xs [&_svg]:size-3.5 [&_svg]:opacity-72">
         {icon}
         <span className="truncate">{label}</span>
       </div>
-      <div className="mt-1.5 truncate font-semibold text-lg tracking-tight">{children}</div>
-      {hint && <div className="mt-1 truncate text-muted-foreground text-xs">{hint}</div>}
+      <div className="mt-1 truncate font-semibold text-xl tracking-tight">{children}</div>
+      {hint && <div className="mt-0.5 truncate text-muted-foreground text-xs">{hint}</div>}
     </div>
   );
 }
@@ -1048,7 +1047,7 @@ function PassRateChart({
   const plotW = Math.max(0, width - pad.l - pad.r);
   const base = H - pad.b;
   const slot = plotW / versions.length;
-  const bw = Math.min(28, slot * 0.56);
+  const bw = Math.min(22, slot * 0.5);
   const y = (v: number) => pad.t + (1 - v) * (base - pad.t);
   const focus = hover ?? versions.findIndex((v) => v.id === selected);
   const entered = useRef(false);
@@ -1072,11 +1071,10 @@ function PassRateChart({
       <div className="relative min-h-[200px] w-full flex-1" ref={ref}>
         {width > 0 && (
           <svg aria-label="Pass rate by prompt version" className="absolute inset-0 overflow-visible" height={H} role="img" width={width}>
-            {[0, 0.25, 0.5, 0.75, 1].map((t) => (
+            {[0, 0.5, 1].map((t) => (
               <g key={t}>
                 <line
-                  className={t === 0 ? "stroke-border" : "stroke-border/60"}
-                  strokeDasharray={t === 0 ? undefined : "2 4"}
+                  className={t === 0 ? "stroke-border" : "stroke-border/56"}
                   x1={pad.l}
                   x2={width - pad.r}
                   y1={y(t)}
@@ -1095,7 +1093,7 @@ function PassRateChart({
                 <g key={v.id}>
                   <motion.path
                     animate={{ d: barPath(cx - bw / 2, bw, base - h, base), opacity: hover === null || hover === i || on ? 1 : 0.6 }}
-                    className={cn("transition-colors duration-150", on ? "fill-foreground" : "fill-foreground/20")}
+                    className={cn("transition-colors duration-150", on ? "fill-foreground" : rates[i] >= threshold ? "fill-foreground/24" : "fill-foreground/12")}
                     initial={reduce ? false : { d: barPath(cx - bw / 2, bw, base, base) }}
                     transition={{ ...spring, delay: reduce || entered.current ? 0 : i * 0.03 }}
                   />
@@ -1356,26 +1354,30 @@ function PromptDiff({
               <label className="sr-only" htmlFor={`review-${next.id}`}>
                 Review comment
               </label>
-              <Textarea
-                className="text-sm"
-                id={`review-${next.id}`}
-                onChange={(e) => setComment(e.target.value)}
-                placeholder={`Leave a note on ${next.id}…`}
-                rows={2}
-                value={comment}
-              />
-              <div className="flex flex-wrap items-center justify-end gap-2">
-                <span className="me-auto flex min-w-0 items-center gap-1.5 text-muted-foreground text-xs">
-                  <MessageSquareIcon aria-hidden className="size-3.5 shrink-0" />
-                  {next.author} · {next.note}
-                </span>
-                <Button className={PRESS} onClick={() => submit("changes")} variant="outline">
-                  Request changes
-                </Button>
-                <Button className={PRESS} onClick={() => submit("approved")}>
-                  <CheckIcon aria-hidden />
-                  Approve
-                </Button>
+              <div className="rounded-xl border bg-background transition-shadow focus-within:border-ring/64 focus-within:ring-[3px] focus-within:ring-ring/16 dark:bg-input/24">
+                <textarea
+                  className="field-sizing-content block max-h-28 min-h-10 w-full resize-none bg-transparent px-3 pt-2.5 pb-1 text-base outline-none placeholder:text-muted-foreground/72 sm:text-sm"
+                  id={`review-${next.id}`}
+                  onChange={(e) => setComment(e.target.value)}
+                  placeholder={`Leave a note on ${next.id}…`}
+                  rows={1}
+                  value={comment}
+                />
+                <div className="flex flex-wrap items-center justify-end gap-2 p-2 pt-1">
+                  <span className="me-auto flex min-w-0 items-center gap-1.5 ps-1 text-muted-foreground text-xs">
+                    <MessageSquareIcon aria-hidden className="size-3.5 shrink-0" />
+                    <span className="truncate">
+                      {next.author} · {next.note}
+                    </span>
+                  </span>
+                  <Button className={PRESS} onClick={() => submit("changes")} size="sm" variant="outline">
+                    Request changes
+                  </Button>
+                  <Button className={PRESS} onClick={() => submit("approved")} size="sm">
+                    <CheckIcon aria-hidden />
+                    Approve
+                  </Button>
+                </div>
               </div>
             </motion.div>
           )}
@@ -1734,7 +1736,7 @@ function PromptBoard({
       <div className="flex flex-wrap items-end justify-between gap-3">
         <div className="min-w-0">
           <div className="text-muted-foreground text-xs">{prompt.project}</div>
-          <h1 className="flex flex-wrap items-center gap-2 text-balance font-heading font-semibold text-xl tracking-tight">
+          <h1 className="mt-0.5 flex flex-wrap items-center gap-2 text-balance font-semibold text-lg tracking-tight">
             <span className="font-mono">{prompt.name}</span>
             {productionId && (
               <Badge className="rounded-full" variant="outline">
@@ -1782,7 +1784,7 @@ function PromptBoard({
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 @3xl:grid-cols-4">
+      <div className="relative grid grid-cols-2 overflow-hidden rounded-2xl border bg-card shadow-xs/5 *:border-border max-@3xl:*:nth-[n+3]:border-t @3xl:grid-cols-4 *:not-first:border-s max-@3xl:*:nth-3:border-s-0">
         <StatTile
           hint={
             busy > 0 ? (
@@ -1813,15 +1815,14 @@ function PromptBoard({
         <StatTile hint="per 1k runs" icon={<CoinsIcon aria-hidden />} label="Cost">
           <Rolling format={fmtCost} value={version.costPer1k} />
         </StatTile>
-      </div>
-
-      <div aria-hidden className={cn("-my-1 h-1 overflow-hidden rounded-full transition-colors duration-500", busy > 0 ? "bg-muted" : "bg-transparent")}>
-        <motion.div
-          animate={{ scaleX: done.length / list.length, opacity: busy > 0 ? 1 : 0 }}
-          className="h-full w-full origin-left rounded-full bg-info"
-          initial={false}
-          transition={reduce ? { duration: 0 } : spring}
-        />
+        <div aria-hidden className="!border-0 pointer-events-none absolute inset-x-0 bottom-0 h-0.5">
+          <motion.div
+            animate={{ scaleX: done.length / list.length, opacity: busy > 0 ? 1 : 0 }}
+            className="h-full w-full origin-left bg-info"
+            initial={false}
+            transition={reduce ? { duration: 0 } : spring}
+          />
+        </div>
       </div>
 
       <div className="grid grid-cols-1 gap-3 @4xl:grid-cols-5">

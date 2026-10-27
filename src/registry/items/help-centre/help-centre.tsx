@@ -92,12 +92,12 @@ const icons: Record<HelpIcon, ReactNode> = {
 };
 
 const toneTile: Record<HelpTone, string> = {
-  sky: "bg-sky-500/12 text-sky-700 dark:bg-sky-400/16 dark:text-sky-300",
-  emerald: "bg-emerald-500/12 text-emerald-700 dark:bg-emerald-400/16 dark:text-emerald-300",
-  amber: "bg-amber-500/15 text-amber-700 dark:bg-amber-400/16 dark:text-amber-300",
-  violet: "bg-violet-500/12 text-violet-700 dark:bg-violet-400/16 dark:text-violet-300",
-  rose: "bg-rose-500/12 text-rose-700 dark:bg-rose-400/16 dark:text-rose-300",
-  teal: "bg-teal-500/12 text-teal-700 dark:bg-teal-400/16 dark:text-teal-300",
+  sky: "border bg-background text-sky-600 dark:bg-input/32 dark:text-sky-400",
+  emerald: "border bg-background text-emerald-600 dark:bg-input/32 dark:text-emerald-400",
+  amber: "border bg-background text-amber-600 dark:bg-input/32 dark:text-amber-400",
+  violet: "border bg-background text-violet-600 dark:bg-input/32 dark:text-violet-400",
+  rose: "border bg-background text-rose-600 dark:bg-input/32 dark:text-rose-400",
+  teal: "border bg-background text-teal-600 dark:bg-input/32 dark:text-teal-400",
 };
 
 const defaultCategories: HelpCategory[] = [
@@ -708,8 +708,57 @@ export function HelpCentre({
     );
   };
 
+  const rail = (activeCat?: string, activeArticle?: string) => (
+    <nav aria-label="Topics" className="sticky top-0 hidden w-52 shrink-0 self-start pt-11 @4xl:block">
+      <p className="mb-2 px-2 font-medium text-xs">Topics</p>
+      <ul className="flex flex-col gap-px">
+        {categories.map((tc) => {
+          const on = tc.id === activeCat;
+          const inCat = on && activeArticle ? articles.filter((a) => a.categoryId === tc.id) : [];
+          return (
+            <li key={tc.id}>
+              <button
+                aria-current={on && !activeArticle ? "page" : undefined}
+                className={cn(
+                  "flex h-8 w-full cursor-pointer items-center gap-2.5 rounded-md px-2 text-left [&_svg]:size-4",
+                  ring,
+                  on ? "bg-accent font-medium text-foreground" : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
+                )}
+                onClick={() => go({ name: "category", id: tc.id })}
+                type="button"
+              >
+                <span className={cn("shrink-0", on ? "text-foreground" : "opacity-80")}>{icons[tc.icon]}</span>
+                <span className="truncate">{tc.name}</span>
+              </button>
+              {inCat.length > 0 && (
+                <ul className="my-1 ms-4 flex flex-col border-l ps-2">
+                  {inCat.map((a) => (
+                    <li key={a.id}>
+                      <button
+                        aria-current={a.id === activeArticle ? "page" : undefined}
+                        className={cn(
+                          "w-full cursor-pointer rounded-md px-2 py-1.5 text-left text-xs leading-5",
+                          ring,
+                          a.id === activeArticle ? "font-medium text-foreground" : "text-muted-foreground hover:text-foreground",
+                        )}
+                        onClick={() => go({ name: "article", id: a.id })}
+                        type="button"
+                      >
+                        {a.title}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+
   const contactCard = (
-    <section className="flex flex-col gap-4 rounded-2xl border bg-card p-5 shadow-xs/5 @2xl:flex-row @2xl:items-center">
+    <section className="flex flex-col gap-4 rounded-xl border bg-card p-5 @2xl:flex-row @2xl:items-center">
       <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-muted text-foreground">
         <LifeBuoyIcon className="size-5" />
       </span>
@@ -732,16 +781,14 @@ export function HelpCentre({
     const popular = articles.filter((a) => a.popular);
     body = (
       <>
-        <section className="relative isolate overflow-visible border-b px-4 pt-12 pb-12 @2xl:pt-16 @2xl:pb-16">
-          <div
-            aria-hidden
-            className="absolute inset-0 -z-10 overflow-hidden"
-          >
-            <div className="absolute inset-0 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:18px_18px] [mask-image:radial-gradient(ellipse_at_center,#000_20%,transparent_75%)]" />
-            <div className="absolute -top-24 left-1/2 h-64 w-[36rem] max-w-full -translate-x-1/2 rounded-full bg-sky-400/15 blur-3xl dark:bg-sky-400/10" />
-          </div>
+        <section className="border-b bg-muted/30 px-4 pt-12 pb-10 @2xl:pt-16 @2xl:pb-14">
           <div className="mx-auto flex max-w-xl flex-col items-center gap-5 text-center">
-            <h1 className="text-balance font-heading font-semibold text-2xl tracking-tight @2xl:text-3xl">How can we help?</h1>
+            <div className="flex flex-col gap-1.5">
+              <h1 className="text-balance font-heading font-semibold text-2xl tracking-tight @2xl:text-3xl">How can we help?</h1>
+              <p className="text-pretty text-muted-foreground">
+                Search {articles.length} guides from the {productName} team, or browse by topic.
+              </p>
+            </div>
             <SearchBox articles={articles} categories={categories} key={heroKey} onOpen={(id) => go({ name: "article", id })} onSearch={(q) => go({ name: "results", query: q })} size="hero" />
             <div className="flex flex-wrap items-center justify-center gap-1.5 text-xs">
               <span className="text-muted-foreground">Popular:</span>
@@ -760,8 +807,8 @@ export function HelpCentre({
         </section>
 
         <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-4 py-10 @2xl:px-8">
-          <section aria-labelledby="hc-cats" className="flex flex-col gap-4">
-            <h2 className="font-heading font-semibold text-base" id="hc-cats">
+          <section aria-labelledby="hc-cats" className="flex flex-col gap-3">
+            <h2 className="font-medium" id="hc-cats">
               Browse by topic
             </h2>
             <ul className="grid grid-cols-1 gap-3 @lg:grid-cols-2 @4xl:grid-cols-3">
@@ -774,7 +821,7 @@ export function HelpCentre({
                 >
                   <button
                     className={cn(
-                      "group/cat flex h-full w-full cursor-pointer items-start gap-3.5 rounded-2xl border bg-card p-4 text-left shadow-xs/5 hover:border-foreground/15 hover:bg-accent/40",
+                      "group/cat flex h-full w-full cursor-pointer items-start gap-3.5 rounded-xl border bg-card p-4 text-left hover:border-foreground/16 hover:bg-accent/32",
                       ring,
                       press,
                       "active:scale-[0.98]",
@@ -782,13 +829,13 @@ export function HelpCentre({
                     onClick={() => go({ name: "category", id: c.id })}
                     type="button"
                   >
-                    <span className={cn("flex size-10 shrink-0 items-center justify-center rounded-xl [&_svg]:size-5", toneTile[c.tone])}>{icons[c.icon]}</span>
+                    <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-lg shadow-xs/5 [&_svg]:size-4", toneTile[c.tone])}>{icons[c.icon]}</span>
                     <span className="flex min-w-0 flex-1 flex-col gap-1">
                       <span className="flex items-center justify-between gap-2 font-medium">
                         {c.name}
                         <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground/0 transition-[color,translate] duration-150 ease-out [@media(hover:hover)]:group-hover/cat:translate-x-0.5 [@media(hover:hover)]:group-hover/cat:text-muted-foreground" />
                       </span>
-                      <span className="text-pretty text-muted-foreground text-xs leading-5">{c.description}</span>
+                      <span className="text-muted-foreground text-xs leading-5">{c.description}</span>
                       <span className="mt-1 text-muted-foreground text-xs tabular-nums">{count(c.id)} articles</span>
                     </span>
                   </button>
@@ -797,11 +844,11 @@ export function HelpCentre({
             </ul>
           </section>
 
-          <section aria-labelledby="hc-popular" className="flex flex-col gap-2">
-            <h2 className="font-heading font-semibold text-base" id="hc-popular">
+          <section aria-labelledby="hc-popular" className="flex flex-col gap-3">
+            <h2 className="font-medium" id="hc-popular">
               Popular articles
             </h2>
-            <ul className="-mx-3 grid grid-cols-1 @3xl:grid-cols-2 @3xl:gap-x-4">
+            <ul className="grid grid-cols-1 divide-y overflow-hidden rounded-xl border bg-card [&_button]:rounded-none [&_button]:px-4 @3xl:grid-cols-2 @3xl:divide-y-0 @3xl:[&>li:nth-child(n+3)]:border-t @3xl:[&>li:nth-child(even)]:border-s">
               {popular.map((a) => (
                 <ArticleRow article={a} category={cat(a.categoryId)} key={a.id} onOpen={() => go({ name: "article", id: a.id })} />
               ))}
@@ -816,50 +863,53 @@ export function HelpCentre({
     const c = view.name === "category" ? cat(view.id) : undefined;
     const list = view.name === "category" ? articles.filter((a) => a.categoryId === view.id) : search(articles, view.query);
     body = (
-      <div className="mx-auto flex w-full max-w-3xl flex-col gap-6 px-4 py-8 @2xl:px-8">
-        {crumbs([{ label: "Help Centre", onClick: () => go({ name: "home" }) }, { label: c ? c.name : "Search" }])}
-        <div className="flex items-start gap-4">
-          {c && <span className={cn("flex size-12 shrink-0 items-center justify-center rounded-2xl [&_svg]:size-6", toneTile[c.tone])}>{icons[c.icon]}</span>}
-          <div className="flex min-w-0 flex-col gap-1">
-            <h1 className="text-balance font-heading font-semibold text-xl tracking-tight">
-              {c ? c.name : view.name === "results" ? <>Results for “{view.query}”</> : null}
-            </h1>
-            <p className="text-pretty text-muted-foreground">
-              {c ? c.description : `${list.length} ${list.length === 1 ? "article" : "articles"} found`}
-            </p>
+      <div className="mx-auto flex w-full max-w-6xl gap-10 px-4 py-8 @2xl:px-8 @2xl:py-10">
+        {rail(c?.id)}
+        <div className="flex min-w-0 max-w-2xl flex-1 flex-col">
+          {crumbs([{ label: "Help Centre", onClick: () => go({ name: "home" }) }, { label: c ? c.name : "Search" }])}
+          <div className="mt-5 flex items-start gap-4 border-b pb-6">
+            {c && <span className={cn("flex size-10 shrink-0 items-center justify-center rounded-lg shadow-xs/5 [&_svg]:size-5", toneTile[c.tone])}>{icons[c.icon]}</span>}
+            <div className="flex min-w-0 flex-col gap-1">
+              <h1 className="text-balance font-heading font-semibold text-2xl tracking-tight">
+                {c ? c.name : <>Results for “{view.name === "results" ? view.query : ""}”</>}
+              </h1>
+              <p className="text-pretty text-muted-foreground">{c ? c.description : `${list.length} ${list.length === 1 ? "article" : "articles"} found`}</p>
+              {c && <p className="mt-1 text-muted-foreground text-xs tabular-nums">{list.length} {list.length === 1 ? "article" : "articles"} · updated {list[0]?.updated ?? "recently"}</p>}
+            </div>
           </div>
+          {list.length ? (
+            <ul className="mt-6 divide-y overflow-hidden rounded-xl border bg-card [&_button]:rounded-none [&_button]:px-4">
+              {list.map((a) => (
+                <ArticleRow
+                  article={a}
+                  category={view.name === "results" ? cat(a.categoryId) : undefined}
+                  key={a.id}
+                  onOpen={() => go({ name: "article", id: a.id })}
+                  query={view.name === "results" ? view.query : ""}
+                />
+              ))}
+            </ul>
+          ) : (
+            <div className="mt-6 flex flex-col items-center gap-4 rounded-xl border border-dashed px-6 py-12 text-center">
+              <span className="flex size-10 items-center justify-center rounded-lg border bg-background text-muted-foreground shadow-xs/5 dark:bg-input/32">
+                <SearchXIcon className="size-4.5" />
+              </span>
+              <div className="flex max-w-xs flex-col gap-1">
+                <span className="font-medium">Nothing matched that</span>
+                <span className="text-pretty text-muted-foreground text-xs">Try fewer or different words, or ask us directly. A person reads every message.</span>
+              </div>
+              <div className="flex gap-2">
+                <Button className={press} onClick={() => go({ name: "home" })} size="sm" variant="outline">
+                  Browse topics
+                </Button>
+                <Button className={press} onClick={openContact} size="sm">
+                  Contact support
+                </Button>
+              </div>
+            </div>
+          )}
+          <div className="mt-10">{contactCard}</div>
         </div>
-        {list.length ? (
-          <ul className="-mx-3 flex flex-col">
-            {list.map((a) => (
-              <ArticleRow
-                article={a}
-                category={view.name === "results" ? cat(a.categoryId) : undefined}
-                key={a.id}
-                onOpen={() => go({ name: "article", id: a.id })}
-                query={view.name === "results" ? view.query : ""}
-              />
-            ))}
-          </ul>
-        ) : (
-          <div className="flex flex-col items-center gap-4 rounded-2xl border border-dashed px-6 py-12 text-center">
-            <span className="flex size-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
-              <SearchXIcon className="size-4.5" />
-            </span>
-            <div className="flex max-w-xs flex-col gap-1">
-              <span className="font-medium">Nothing matched that</span>
-              <span className="text-pretty text-muted-foreground text-xs">Try fewer or different words, or ask us directly. A person reads every message.</span>
-            </div>
-            <div className="flex gap-2">
-              <Button className={press} onClick={() => go({ name: "home" })} size="sm" variant="outline">
-                Browse topics
-              </Button>
-              <Button className={press} onClick={openContact} size="sm">
-                Contact support
-              </Button>
-            </div>
-          </div>
-        )}
       </div>
     );
   } else if (article) {
@@ -868,42 +918,61 @@ export function HelpCentre({
     const related = articles.filter((a) => a.categoryId === article.categoryId && a.id !== article.id).slice(0, 3);
     let step = 0;
     body = (
-      <div className="mx-auto flex w-full max-w-5xl gap-10 px-4 py-8 @2xl:px-8">
+      <div className="mx-auto flex w-full max-w-6xl gap-10 px-4 py-8 @2xl:px-8 @2xl:py-10">
+        {rail(article.categoryId, article.id)}
         <article className="flex min-w-0 max-w-2xl flex-1 flex-col" ref={articleRef}>
           {crumbs([
             { label: "Help Centre", onClick: () => go({ name: "home" }) },
             { label: c?.name ?? "", onClick: () => go({ name: "category", id: article.categoryId }) },
             { label: article.title },
           ])}
-          <h1 className="mt-5 text-balance font-heading font-semibold text-2xl tracking-tight">{article.title}</h1>
-          <p className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-foreground text-xs">
-            <span>Updated {article.updated}</span>
-            <span className="flex items-center gap-1 tabular-nums">
-              <ClockIcon className="size-3.5" /> {article.minutes} min read
-            </span>
-          </p>
+          <header className="mt-5 border-b pb-6">
+            <h1 className="text-balance font-heading font-semibold text-2xl tracking-tight @2xl:text-3xl">{article.title}</h1>
+            <div className="mt-4 flex flex-wrap items-center gap-x-3 gap-y-2 text-muted-foreground text-xs">
+              <span className="flex items-center gap-2">
+                <span className="flex size-6 items-center justify-center rounded-full bg-foreground font-medium text-[10px] text-background">
+                  {productName.slice(0, 1)}
+                </span>
+                <span>
+                  Written by <span className="font-medium text-foreground">{productName} Support</span>
+                </span>
+              </span>
+              <span aria-hidden className="text-border">
+                |
+              </span>
+              <span>Updated {article.updated}</span>
+              <span className="flex items-center gap-1 tabular-nums">
+                <ClockIcon className="size-3.5" /> {article.minutes} min read
+              </span>
+            </div>
+          </header>
 
-          <div className="mt-6 flex flex-col gap-4 leading-6">
+          <div className="mt-6 flex flex-col gap-4 text-[15px] text-foreground/90 leading-7">
             {article.body.map((b, i) => {
               if (b.type === "p") return <p className="text-pretty" key={i}>{b.text}</p>;
               if (b.type === "h2")
                 return (
-                  <h2 className="mt-4 scroll-mt-6 font-heading font-semibold text-lg tracking-tight" data-heading={slug(b.text)} id={`hc-${slug(b.text)}`} key={i}>
+                  <h2
+                    className="mt-6 scroll-mt-6 font-heading font-semibold text-foreground text-lg tracking-tight first:mt-0"
+                    data-heading={slug(b.text)}
+                    id={`hc-${slug(b.text)}`}
+                    key={i}
+                  >
                     {b.text}
                   </h2>
                 );
               if (b.type === "list")
                 return (
-                  <ul className="flex flex-col gap-2 ps-1" key={i}>
+                  <ul className="flex flex-col gap-2" key={i}>
                     {b.items.map((it) => {
                       const [lead, ...rest] = it.split(": ");
                       return (
                         <li className="flex gap-3" key={it}>
-                          <span aria-hidden className="mt-2.5 size-1.5 shrink-0 rounded-full bg-foreground/50" />
+                          <span aria-hidden className="mt-[0.7rem] size-1.5 shrink-0 rounded-full bg-foreground/40" />
                           <span className="text-pretty">
                             {rest.length ? (
                               <>
-                                <span className="font-medium">{lead}:</span> {rest.join(": ")}
+                                <span className="font-medium text-foreground">{lead}:</span> {rest.join(": ")}
                               </>
                             ) : (
                               it
@@ -917,13 +986,15 @@ export function HelpCentre({
               if (b.type === "steps") {
                 step = 0;
                 return (
-                  <ol className="flex flex-col gap-3" key={i}>
+                  <ol className="flex flex-col gap-3.5" key={i}>
                     {b.items.map((it) => {
                       step += 1;
                       return (
-                        <li className="flex gap-3" key={it}>
-                          <span className="flex size-6 shrink-0 items-center justify-center rounded-full bg-muted font-medium text-xs tabular-nums">{step}</span>
-                          <span className="text-pretty pt-px">{it}</span>
+                        <li className="relative flex gap-3.5" key={it}>
+                          <span className="flex size-6 shrink-0 items-center justify-center rounded-full border bg-background font-medium text-xs tabular-nums shadow-xs/5">
+                            {step}
+                          </span>
+                          <span className="text-pretty pt-px leading-6">{it}</span>
                         </li>
                       );
                     })}
@@ -933,16 +1004,16 @@ export function HelpCentre({
               return (
                 <div
                   className={cn(
-                    "flex gap-3 rounded-xl border p-3.5 text-sm",
-                    b.tone === "info" ? "border-info/20 bg-info/6 dark:bg-info/10" : "border-warning/25 bg-warning/8 dark:bg-warning/10",
+                    "flex gap-3 rounded-lg border-s-2 px-4 py-3 text-sm leading-6",
+                    b.tone === "info" ? "border-info bg-info/6 dark:bg-info/10" : "border-warning bg-warning/8 dark:bg-warning/10",
                   )}
                   key={i}
                   role="note"
                 >
                   {b.tone === "info" ? (
-                    <InfoIcon className="mt-0.5 size-4 shrink-0 text-info-foreground" />
+                    <InfoIcon className="mt-1 size-4 shrink-0 text-info-foreground" />
                   ) : (
-                    <CircleAlertIcon className="mt-0.5 size-4 shrink-0 text-warning-foreground" />
+                    <CircleAlertIcon className="mt-1 size-4 shrink-0 text-warning-foreground" />
                   )}
                   <p className="text-pretty">{b.text}</p>
                 </div>
@@ -950,7 +1021,7 @@ export function HelpCentre({
             })}
           </div>
 
-          <section aria-label="Article feedback" className="mt-10 rounded-2xl border bg-card p-4 shadow-xs/5 @lg:p-5">
+          <section aria-label="Article feedback" className="mt-12 border-t pt-6">
             <AnimatePresence initial={false} mode="popLayout">
               {fb?.sent || fb?.vote === "up" ? (
                 <motion.div
@@ -979,7 +1050,7 @@ export function HelpCentre({
                   transition={spring}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-3">
-                    <span className="font-medium">Was this article helpful?</span>
+                    <span className="font-medium">Did this answer your question?</span>
                     <div className="flex gap-2">
                       <Button
                         aria-pressed={false}
@@ -1062,11 +1133,11 @@ export function HelpCentre({
           </section>
 
           {related.length > 0 && (
-            <section aria-labelledby="hc-related" className="mt-10 flex flex-col gap-2">
-              <h2 className="font-heading font-semibold text-base" id="hc-related">
+            <section aria-labelledby="hc-related" className="mt-10 flex flex-col gap-3">
+              <h2 className="font-medium" id="hc-related">
                 Related articles
               </h2>
-              <ul className="-mx-3 flex flex-col">
+              <ul className="divide-y overflow-hidden rounded-xl border bg-card [&_button]:rounded-none [&_button]:px-4">
                 {related.map((a) => (
                   <ArticleRow article={a} key={a.id} onOpen={() => go({ name: "article", id: a.id })} />
                 ))}
@@ -1078,8 +1149,8 @@ export function HelpCentre({
         </article>
 
         {headings.length > 1 && (
-          <aside className="sticky top-8 hidden w-48 shrink-0 self-start @4xl:block">
-            <h2 className="mb-2 font-medium text-muted-foreground text-xs">On this page</h2>
+          <aside className="sticky top-0 hidden w-44 shrink-0 self-start pt-11 @6xl:block">
+            <h2 className="mb-2 font-medium text-xs">On this page</h2>
             <ul className="relative flex flex-col border-l">
               {headings.map((h) => {
                 const on = activeHeading === slug(h);

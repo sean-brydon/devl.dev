@@ -555,7 +555,7 @@ function FolderNav({
                   >
                     {on ? (
                       <motion.span
-                        className="absolute inset-0 rounded-lg bg-background shadow-xs/5 ring-1 ring-border dark:bg-accent dark:ring-0"
+                        className="absolute inset-0 rounded-lg bg-accent"
                         layoutId="mail-folder-pill"
                         transition={spring}
                       />
@@ -593,7 +593,7 @@ function FolderNav({
                   >
                     {on ? (
                       <motion.span
-                        className="absolute inset-0 rounded-lg bg-background shadow-xs/5 ring-1 ring-border dark:bg-accent dark:ring-0"
+                        className="absolute inset-0 rounded-lg bg-accent"
                         layoutId="mail-folder-pill"
                         transition={spring}
                       />
@@ -611,14 +611,11 @@ function FolderNav({
           </ul>
         </LayoutGroup>
       </nav>
-      <div className="m-2 rounded-xl border bg-background/60 p-3 dark:bg-accent/40">
-        <div className="flex items-center justify-between text-xs">
-          <span className="text-muted-foreground">Storage</span>
-          <span className="tabular-nums">11.2 of 30 GB</span>
+      <div className="px-4.5 pt-2 pb-4">
+        <div className="h-1 overflow-hidden rounded-full bg-muted">
+          <div className="h-full w-[37%] rounded-full bg-foreground/60" />
         </div>
-        <div className="mt-2 h-1 overflow-hidden rounded-full bg-muted">
-          <div className="h-full w-[37%] rounded-full bg-foreground/70" />
-        </div>
+        <div className="mt-2 text-muted-foreground text-xs tabular-nums">11.2 GB of 30 GB used</div>
       </div>
     </div>
   );
@@ -626,7 +623,7 @@ function FolderNav({
 
 function LabelChip({ label }: { label: MailLabel }) {
   return (
-    <span className="inline-flex h-5 shrink-0 items-center gap-1 rounded-full border px-1.5 text-[11px] text-muted-foreground leading-none">
+    <span className="inline-flex h-[18px] shrink-0 items-center gap-1 rounded-md bg-muted px-1.5 font-normal text-[11px] text-muted-foreground leading-none">
       <span className={cn("size-1.5 rounded-full", dotTone[label.tone])} />
       {label.name}
     </span>
@@ -658,37 +655,33 @@ function ThreadRow({
       <button
         aria-current={selected ? "true" : undefined}
         className={cn(
-          "relative flex w-full cursor-pointer gap-3 rounded-xl px-3 py-2.5 text-left outline-none transition-colors duration-100 focus-visible:ring-2 focus-visible:ring-ring",
+          "relative flex w-full cursor-pointer items-start gap-3 rounded-lg py-2.5 ps-3.5 pe-3 text-left outline-none transition-colors duration-100 focus-visible:ring-2 focus-visible:ring-ring",
           selected ? "bg-accent" : "hover:bg-accent/60",
         )}
         onClick={onOpen}
         ref={rowRef}
         type="button"
       >
-        <span className="relative mt-0.5">
-          <Person person={last.from.email === me.email ? thread.messages[0].from : last.from} size="size-8" />
-          {thread.unread && (
-            <span className={cn("absolute -top-0.5 -left-0.5 size-2.5 rounded-full bg-info ring-2", selected ? "ring-accent" : "ring-background")} />
-          )}
-        </span>
-        <span className="flex min-w-0 flex-1 flex-col gap-0.5">
-          <span className="flex items-center gap-1.5">
-            <span className={cn("truncate", thread.unread ? "font-semibold" : "font-medium")}>{sender}</span>
+        {thread.unread && (
+          <span aria-label="Unread" className="absolute top-[18px] left-1 size-1.5 rounded-full bg-info" role="img" />
+        )}
+        <Person person={last.from.email === me.email ? thread.messages[0].from : last.from} size="size-8" />
+        <span className="flex min-w-0 flex-1 flex-col">
+          <span className="flex h-5 items-center gap-1.5">
+            <span className={cn("truncate", thread.unread ? "font-semibold text-foreground" : "font-medium text-foreground/80")}>{sender}</span>
             {thread.messages.length > 1 && (
               <span className="text-muted-foreground text-xs tabular-nums">{thread.messages.length}</span>
             )}
             <span className="ms-auto flex shrink-0 items-center gap-1.5 ps-2 text-muted-foreground text-xs tabular-nums">
               {hasFiles && <PaperclipIcon aria-label="Has attachments" className="size-3" />}
-              <span className="pe-7">{thread.time}</span>
+              <span className={cn("pe-7", thread.unread && "font-medium text-foreground")}>{thread.time}</span>
             </span>
           </span>
-          <span className={cn("truncate", thread.unread ? "font-medium text-foreground" : "text-foreground/90")}>
-            {thread.subject}
-          </span>
-          <span className="flex min-w-0 items-center gap-1.5">
+          <span className={cn("flex h-5 min-w-0 items-center gap-1.5", thread.unread ? "font-medium text-foreground" : "text-foreground/80")}>
+            <span className="truncate">{thread.subject}</span>
             {firstLabel && <LabelChip label={firstLabel} />}
-            <span className="truncate text-muted-foreground">{preview(last)}</span>
           </span>
+          <span className="truncate text-muted-foreground leading-5">{preview(last)}</span>
         </span>
       </button>
       <button

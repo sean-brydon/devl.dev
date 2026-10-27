@@ -881,17 +881,28 @@ export function Checkout({
         className,
       )}
     >
-      <header className="flex h-14 shrink-0 items-center gap-3 border-b px-4 @3xl:px-6">
-        <span aria-hidden className="flex size-8 items-center justify-center rounded-full bg-primary text-primary-foreground">
-          <svg className="size-4" fill="none" viewBox="0 0 16 16">
-            <path d="M3 13V7.5L8 3l5 4.5V13" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.6" />
-            <path d="M6.5 13v-2.5a1.5 1.5 0 0 1 3 0V13" stroke="currentColor" strokeWidth="1.6" />
-          </svg>
-        </span>
-        <span className="font-heading font-semibold">{storeName}</span>
-        <span className="ms-auto flex items-center gap-1.5 text-muted-foreground text-xs">
-          <LockIcon className="size-3.5" /> Secure checkout
-        </span>
+      <header className="flex h-14 shrink-0 border-b">
+        <div className="flex min-w-0 flex-1 basis-0 items-center">
+          <div className="mx-auto flex w-full max-w-[600px] items-center gap-2.5 px-4 @3xl:px-10 @4xl:me-0">
+            <span aria-hidden className="flex size-7 items-center justify-center rounded-full bg-primary text-primary-foreground">
+              <svg className="size-3.5" fill="none" viewBox="0 0 16 16">
+                <path d="M3 13V7.5L8 3l5 4.5V13" stroke="currentColor" strokeLinejoin="round" strokeWidth="1.6" />
+                <path d="M6.5 13v-2.5a1.5 1.5 0 0 1 3 0V13" stroke="currentColor" strokeWidth="1.6" />
+              </svg>
+            </span>
+            <span className="font-heading font-semibold">{storeName}</span>
+            <span className="ms-auto flex items-center gap-1.5 text-muted-foreground text-xs @4xl:hidden">
+              <LockIcon className="size-3.5" /> Secure checkout
+            </span>
+          </div>
+        </div>
+        <div className="hidden min-w-0 flex-1 basis-0 items-center border-l bg-muted/40 @4xl:flex">
+          <div className="flex w-full max-w-[440px] items-center px-10">
+            <span className="flex items-center gap-1.5 text-muted-foreground text-xs">
+              <LockIcon className="size-3.5" /> Secure checkout
+            </span>
+          </div>
+        </div>
       </header>
 
       <div className="shrink-0 border-b bg-muted/40 @4xl:hidden">
@@ -940,8 +951,8 @@ export function Checkout({
           )}
         </AnimatePresence>
 
-        <div className="min-w-0 flex-1 overflow-y-auto" ref={formRef}>
-          <div className="mx-auto flex max-w-[600px] flex-col gap-3 px-4 py-5 @3xl:px-8 @3xl:py-8">
+        <div className="min-w-0 flex-1 basis-0 overflow-y-auto" ref={formRef}>
+          <div className="mx-auto flex max-w-[600px] flex-col gap-3 px-4 py-6 @3xl:px-10 @3xl:py-10 @4xl:me-0">
             <AnimatePresence initial={false} mode="wait">
               {status === "placed" ? (
                 <Placed
@@ -961,12 +972,13 @@ export function Checkout({
                   key="form"
                   transition={{ duration: 0.18, ease: easeOut }}
                 >
-                  <div className="mb-2 flex flex-col gap-1">
-                    <h2 className="text-balance font-heading font-semibold text-xl tracking-tight">Checkout</h2>
-                    <p className="text-muted-foreground">
+                  <div className="mb-3 flex flex-col gap-1">
+                    <h2 className="text-balance font-heading font-semibold text-2xl tracking-tight">Checkout</h2>
+                    <p className="text-muted-foreground tabular-nums">
                       Step {Math.min(open + 1, 4)} of 4 · {steps[open]}
                     </p>
                   </div>
+                  <div className="divide-y overflow-hidden rounded-xl border bg-card shadow-xs/5">
                   {([0, 1, 2, 3] as Step[]).map((s) => {
                     const isOpen = open === s;
                     const isDone = done.includes(s) && !isOpen;
@@ -974,17 +986,14 @@ export function Checkout({
                     return (
                       <section
                         aria-labelledby={`${uid}-h${s}`}
-                        className={cn(
-                          "rounded-2xl border bg-card shadow-xs/5 transition-[opacity] duration-200",
-                          !isOpen && !isDone && "opacity-60",
-                        )}
+                        className={cn("transition-[opacity] duration-200", !isOpen && !isDone && "opacity-56")}
                         key={s}
                       >
                         <div className="flex items-center gap-3 p-4">
                           <span
                             className={cn(
                               "flex size-6 shrink-0 items-center justify-center rounded-full font-medium text-xs tabular-nums transition-colors duration-200",
-                              isDone ? "bg-success text-white" : isOpen ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground",
+                              isDone ? "bg-primary text-primary-foreground" : isOpen ? "border border-foreground/72 text-foreground" : "border text-muted-foreground",
                             )}
                           >
                             <AnimatePresence initial={false} mode="popLayout">
@@ -1040,18 +1049,21 @@ export function Checkout({
                       </section>
                     );
                   })}
+                  </div>
+                  <p className="mt-2 flex items-center justify-center gap-1.5 text-muted-foreground text-xs">
+                    <LockIcon className="size-3" /> Payments are encrypted and processed securely.
+                  </p>
                 </motion.div>
               )}
             </AnimatePresence>
           </div>
         </div>
 
-        <aside
-          aria-label="Order summary"
-          className="hidden w-[380px] shrink-0 overflow-y-auto border-l bg-muted/40 px-6 py-8 @4xl:block"
-        >
-          <h2 className="mb-5 font-medium">Order summary</h2>
-          {summary}
+        <aside aria-label="Order summary" className="hidden min-w-0 flex-1 basis-0 overflow-y-auto border-l bg-muted/40 @4xl:block">
+          <div className="w-full max-w-[440px] px-10 py-10">
+            <h2 className="mb-5 font-medium">Order summary</h2>
+            {summary}
+          </div>
         </aside>
       </div>
     </div>
@@ -1092,11 +1104,10 @@ function CardPreview({
         transition={{ duration: 0.45, ease: [0.645, 0.045, 0.355, 1] }}
       >
         <div
-          className="absolute inset-0 flex flex-col justify-between overflow-hidden rounded-xl bg-gradient-to-br from-indigo-500 via-violet-600 to-fuchsia-700 p-4 text-white shadow-lg/20"
+          className="absolute inset-0 flex flex-col justify-between overflow-hidden rounded-xl bg-linear-to-br from-neutral-700 via-neutral-800 to-neutral-950 p-4 text-white shadow-lg/16 ring-1 ring-white/10"
           style={{ backfaceVisibility: "hidden" }}
         >
-          <span className="pointer-events-none absolute -top-10 -right-8 size-36 rounded-full bg-white/10" />
-          <span className="pointer-events-none absolute -bottom-16 -left-10 size-40 rounded-full bg-white/8" />
+          <span className="pointer-events-none absolute -top-16 -right-12 size-44 rounded-full bg-white/6" />
           <div className="relative flex items-center justify-between">
             <span className="h-6 w-8 rounded-md bg-gradient-to-br from-amber-200 to-amber-400 ring-1 ring-black/10" />
             <NfcIcon className="size-5 opacity-80" />
@@ -1118,7 +1129,7 @@ function CardPreview({
           </div>
         </div>
         <div
-          className="absolute inset-0 flex flex-col overflow-hidden rounded-xl bg-gradient-to-br from-violet-600 to-indigo-700 pt-5 text-white shadow-lg/20"
+          className="absolute inset-0 flex flex-col overflow-hidden rounded-xl bg-linear-to-br from-neutral-800 to-neutral-950 pt-5 text-white shadow-lg/16 ring-1 ring-white/10"
           style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
         >
           <span className="h-9 w-full bg-black/70" />
@@ -1191,7 +1202,7 @@ function Placed({
           A receipt is heading to <span className="text-foreground">{email}</span>. We’ll send tracking as soon as your parcel leaves the workshop.
         </p>
       </motion.div>
-      <motion.dl className="grid w-full gap-px overflow-hidden rounded-2xl border bg-border @md:grid-cols-2" {...rise(1)}>
+      <motion.dl className="grid w-full gap-px overflow-hidden rounded-xl border bg-border @md:grid-cols-2" {...rise(1)}>
         <div className="flex flex-col gap-1 bg-card p-4">
           <dt className="text-muted-foreground text-xs">Paid</dt>
           <dd className="font-medium tabular-nums">{paid}</dd>

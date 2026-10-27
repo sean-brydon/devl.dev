@@ -16,6 +16,8 @@ export interface RegistryItem {
   upstream?: string;
   poweredBy?: "qnot";
   shoutout?: "coss-calendar";
+  /** Has its own Open Graph card at /og/<slug>.jpg (scripts/og-cards.mjs). */
+  og?: true;
   dependencies?: string[];
   uiDependencies?: string[];
 }

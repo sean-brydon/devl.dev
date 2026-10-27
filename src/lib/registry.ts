@@ -15,7 +15,7 @@ export const kinds: { value: ItemKind; label: string; href: string }[] = [
 export const categoryOrder: Record<ItemKind, string[]> = {
     component: ["Liquid", "Conversation", "Mission Control", "Trust & Control", "Writing", "Forms", "Filters", "Status", "Numbers", "Charts", "Together", "Workspace", "Dev Tools", "Commerce", "Getting Started"],
     block: ["Heroes", "Marketing", "Content", "Auth", "Dashboards", "Apps", "Filters"],
-    screen: ["Shells", "AI", "Product", "Comms", "Dev", "Commerce", "Personal"],
+    screen: ["Shells", "AI", "Product", "Auth", "Settings", "Comms", "Dev", "Commerce", "Personal"],
     motion: ["Liquid", "Text", "Surfaces", "Cursor", "Loading", "Celebration"],
     illustration: ["Connections", "Empty States", "Characters", "Objects", "Celebrations"],
 };

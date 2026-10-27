@@ -2,6 +2,7 @@
 // the site index, highlighted code for the Code tab (public/code), raw sources (public/raw) and shadcn install files (public/r).
 // Code stays out of the server bundle: the Code tab fetches its file only when opened.
 import { mkdir, readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import path from "node:path";
 import { codeToHtml } from "shiki";
 
@@ -142,6 +143,7 @@ const index = items.map(({ slug, meta }) => ({
   ...(meta.source ? { source: meta.source, upstream: meta.upstream ?? slug } : {}),
   ...(meta.poweredBy ? { poweredBy: meta.poweredBy } : {}),
   ...(meta.shoutout ? { shoutout: meta.shoutout } : {}),
+  ...(existsSync(path.join(root, "public/og", `${slug}.jpg`)) ? { og: true } : {}),
   ...(depsOf.get(slug).deps.length ? { dependencies: depsOf.get(slug).deps } : {}),
   ...(depsOf.get(slug).ui.length ? { uiDependencies: depsOf.get(slug).ui } : {}),
 }));

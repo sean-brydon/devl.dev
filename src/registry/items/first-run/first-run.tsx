@@ -189,156 +189,19 @@ function Rolling({ value }: { value: number | string }) {
 
 type StepStatus = "done" | "skipped" | "current" | "upcoming";
 
-function Stepper({
-  statuses,
-  fill,
-  maxReached,
-  onJump,
-}: {
-  statuses: StepStatus[];
-  fill: number;
-  maxReached: number;
-  onJump: (i: number) => void;
-}) {
-  const ids = useId();
-  const reduce = useReducedMotionAfterMount();
-  const col = 100 / STEPS.length;
-  const t = reduce ? { duration: 0 } : { type: "spring" as const, stiffness: 320, damping: 36 };
-
-  return (
-    <div>
-      <div className="relative h-8">
-        <div
-          aria-hidden
-          className="absolute top-1/2 h-0.5 -translate-y-1/2 overflow-hidden rounded-full bg-border"
-          style={{ left: `${col / 2}%`, right: `${col / 2}%` }}
-        >
-          <motion.div
-            animate={{ scaleX: fill / (STEPS.length - 1) }}
-            className="h-full origin-left rounded-full bg-primary"
-            initial={false}
-            transition={t}
-          />
-        </div>
-        {STEPS.map((s, i) => {
-          const st = statuses[i];
-          const reachable = i <= maxReached && st !== "current";
-          return (
-            <button
-              aria-current={st === "current" ? "step" : undefined}
-              aria-label={`Step ${i + 1}: ${s}${st === "done" ? ", done" : st === "skipped" ? ", skipped" : ""}`}
-              className={cn(
-                "absolute top-1/2 flex size-7 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border font-medium text-xs tabular-nums outline-none transition-[background-color,border-color,color,transform] duration-200 ease-out before:absolute before:-inset-1.5 before:rounded-full focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-                reachable ? "cursor-pointer active:scale-[0.94]" : "cursor-default",
-                st === "done" && "border-primary bg-primary text-primary-foreground",
-                st === "current" && "border-primary bg-background text-foreground",
-                st === "skipped" && "border-muted-foreground/40 border-dashed bg-background text-muted-foreground",
-                st === "upcoming" && "bg-background text-muted-foreground",
-              )}
-              disabled={!reachable}
-              key={s}
-              onClick={() => onJump(i)}
-              style={{ left: `${col / 2 + col * i}%` }}
-              type="button"
-            >
-              {st === "current" && (
-                <motion.span
-                  aria-hidden
-                  className="pointer-events-none absolute -inset-[5px] rounded-full bg-primary/10"
-                  layoutId={`${ids}-halo`}
-                  transition={t}
-                />
-              )}
-              <AnimatePresence initial={false} mode="popLayout">
-                {st === "done" ? (
-                  <motion.span
-                    animate={{ scale: 1, opacity: 1 }}
-                    className="relative"
-                    exit={{ opacity: 0, transition: { duration: 0.1 } }}
-                    initial={reduce ? { opacity: 0 } : { scale: 0.8, opacity: 0 }}
-                    key="check"
-                    transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-                  >
-                    <CheckIcon className="size-3.5" strokeWidth={2.75} />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    animate={{ opacity: 1 }}
-                    className="relative"
-                    exit={{ opacity: 0, transition: { duration: 0.1 } }}
-                    initial={{ opacity: 0 }}
-                    key="n"
-                    transition={{ duration: 0.15 }}
-                  >
-                    {i + 1}
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </button>
-          );
-        })}
-      </div>
-      <div className="mt-1.5 grid grid-cols-4">
-        {STEPS.map((s, i) => (
-          <span
-            className={cn(
-              "truncate text-center text-xs transition-colors duration-200",
-              statuses[i] === "current" && "font-medium text-foreground",
-              statuses[i] === "done" && "text-foreground",
-              (statuses[i] === "skipped" || statuses[i] === "upcoming") && "text-muted-foreground",
-            )}
-            key={s}
-          >
-            {s}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function ProgressRing({ value, total, size = 40 }: { value: number; total: number; size?: number }) {
-  const reduce = useReducedMotionAfterMount();
-  const r = size / 2 - 3;
-  const c = 2 * Math.PI * r;
-  return (
-    <div className="relative shrink-0" style={{ width: size, height: size }}>
-      <svg aria-hidden className="-rotate-90" height={size} viewBox={`0 0 ${size} ${size}`} width={size}>
-        <circle className="stroke-border" cx={size / 2} cy={size / 2} fill="none" r={r} strokeWidth={4} />
-        <motion.circle
-          animate={{ strokeDashoffset: c * (1 - value / total) }}
-          className="stroke-success"
-          cx={size / 2}
-          cy={size / 2}
-          fill="none"
-          initial={false}
-          r={r}
-          strokeDasharray={c}
-          strokeLinecap="round"
-          strokeWidth={4}
-          transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 220, damping: 32 }}
-        />
-      </svg>
-      <span className="absolute inset-0 flex items-center justify-center font-medium text-xs">
-        <Rolling value={value} />
-        <span className="text-muted-foreground">/{total}</span>
-      </span>
-    </div>
-  );
-}
-
-function CheckDot({ checked }: { checked: boolean }) {
+function CheckDot({ checked, active }: { checked: boolean; active?: boolean }) {
   const reduce = useReducedMotionAfterMount();
   return (
     <motion.span
       animate={checked && !reduce ? { scale: [1, 1.12, 1] } : { scale: 1 }}
       className={cn(
-        "relative flex size-5 shrink-0 items-center justify-center rounded-full border transition-colors duration-300",
-        checked ? "border-success bg-success text-white" : "border-input bg-background",
+        "relative flex size-5 shrink-0 items-center justify-center rounded-full border transition-colors duration-200",
+        checked ? "border-primary bg-primary text-primary-foreground" : active ? "border-foreground/72 bg-background" : "border-input bg-background",
       )}
       transition={{ duration: 0.3, times: [0, 0.4, 1], ease: "easeOut" }}
     >
-      <svg aria-hidden className="size-3" fill="none" viewBox="0 0 24 24">
+      {active && !checked && <span className="size-1.5 rounded-full bg-foreground" />}
+      <svg aria-hidden className="absolute size-3" fill="none" viewBox="0 0 24 24">
         <motion.path
           animate={{ pathLength: checked ? 1 : 0, opacity: checked ? 1 : 0 }}
           d="M5 12.5l4.5 4.5L19 7.5"
@@ -361,69 +224,69 @@ interface ChecklistItem {
   step: number;
 }
 
-function Checklist({ items, onGo }: { items: ChecklistItem[]; onGo: (step: number) => void }) {
+function Checklist({ items, current, onGo }: { items: ChecklistItem[]; current: number | null; onGo: (step: number) => void }) {
+  const reduce = useReducedMotionAfterMount();
   const doneCount = items.filter((i) => i.done).length;
-  const listId = useId();
-
-  const list = (
-    <ul className="flex flex-col gap-1" id={listId}>
-      {items.map((item) => (
-        <li key={item.label}>
-          <button
-            className="flex w-full cursor-pointer items-start gap-2.5 rounded-lg p-2 text-start outline-none transition-[background-color,transform] duration-150 ease-out hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]"
-            onClick={() => onGo(item.step)}
-            type="button"
-          >
-            <CheckDot checked={item.done} />
-            <span className="min-w-0 flex-1">
-              <span
-                className={cn(
-                  "block font-medium transition-colors",
-                  item.done && "text-muted-foreground line-through decoration-muted-foreground/40",
-                )}
-              >
-                {item.label}
-              </span>
-              <span className="block truncate text-muted-foreground text-xs">{item.hint}</span>
-            </span>
-          </button>
-        </li>
-      ))}
-    </ul>
-  );
-
-  const header = (
-    <>
-      <ProgressRing total={items.length} value={doneCount} />
-      <span className="min-w-0 flex-1 text-start">
-        <span className="block font-medium">Getting started</span>
-        <span className="block text-muted-foreground text-xs">
-          {doneCount === items.length ? "All done, nice work" : `${items.length - doneCount} left to go`}
-        </span>
-      </span>
-    </>
-  );
 
   return (
-    <div className="flex flex-col gap-3">
-      <div className="flex items-center gap-3 px-2">{header}</div>
-      {list}
+    <div className="flex flex-col">
+      <div className="px-2">
+        <div className="flex items-baseline justify-between text-xs">
+          <span className="font-medium">{doneCount === items.length ? "All done" : "Your progress"}</span>
+          <span className="flex text-muted-foreground tabular-nums">
+            <Rolling value={doneCount} />
+            &nbsp;of {items.length}
+          </span>
+        </div>
+        <span className="mt-2 block h-1 overflow-hidden rounded-full bg-foreground/8">
+          <motion.span
+            animate={{ scaleX: doneCount / items.length }}
+            className="block h-full origin-left rounded-full bg-foreground/72"
+            initial={false}
+            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 220, damping: 32 }}
+          />
+        </span>
+      </div>
+      <ol className="mt-4 flex flex-col gap-px">
+        {items.map((item) => {
+          const active = current === item.step;
+          return (
+            <li key={item.label}>
+              <button
+                aria-current={active ? "step" : undefined}
+                className={cn(
+                  "flex w-full cursor-pointer items-start gap-2.5 rounded-md px-2 py-2 text-start outline-none transition-[background-color,scale] duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]",
+                  active ? "bg-accent" : "hover:bg-accent/60",
+                )}
+                onClick={() => onGo(item.step)}
+                type="button"
+              >
+                <CheckDot active={active} checked={item.done} />
+                <span className="min-w-0 flex-1">
+                  <span className={cn("block font-medium leading-5 transition-colors", item.done && !active && "text-muted-foreground")}>{item.label}</span>
+                  <span className="block truncate text-muted-foreground text-xs">{item.hint}</span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ol>
     </div>
   );
 }
 
 function StepTitle({ title, sub }: { title: string; sub: string }) {
   return (
-    <div className="mb-5">
-      <h2 className="text-balance font-heading font-semibold text-lg tracking-tight">{title}</h2>
-      <p className="text-pretty text-muted-foreground">{sub}</p>
+    <div className="mb-8">
+      <h2 className="text-balance font-heading font-semibold text-2xl tracking-tight">{title}</h2>
+      <p className="mt-1.5 text-pretty text-muted-foreground">{sub}</p>
     </div>
   );
 }
 
 function FieldLabelText({ children, htmlFor }: { children: ReactNode; htmlFor?: string }) {
   return (
-    <label className="mb-1.5 block font-medium text-xs" htmlFor={htmlFor}>
+    <label className="mb-2 block font-medium" htmlFor={htmlFor}>
       {children}
     </label>
   );
@@ -654,28 +517,53 @@ export function FirstRun({
         className,
       )}
     >
-      <div className="@container flex min-w-0 flex-1 flex-col">
-        <header className="flex shrink-0 items-center justify-between gap-3 border-b px-4 py-3 @2xl:px-8">
-          <div className="flex min-w-0 items-center gap-2">
-            <span className="flex size-7 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <FlameIcon className="size-4" />
-            </span>
-            <span className="font-medium">{productName}</span>
-            <span className="hidden text-muted-foreground @md:inline">/ Set up your workspace</span>
-          </div>
-          <span className="shrink-0 text-muted-foreground text-xs tabular-nums">
-            {finished ? "Setup complete" : `Step ${step + 1} of ${STEPS.length}`}
+      <aside className="hidden w-64 shrink-0 flex-col border-e bg-muted/30 px-3 py-4 @3xl/screen:flex">
+        <div className="flex h-8 items-center gap-2 px-2">
+          <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <FlameIcon className="size-3.5" />
           </span>
+          <span className="font-medium">{productName}</span>
+        </div>
+        <div className="mt-8 px-2">
+          <p className="font-medium">Set up your workspace</p>
+          <p className="mt-0.5 text-muted-foreground text-xs">Takes about three minutes.</p>
+        </div>
+        <div className="mt-6">
+          <Checklist current={finished ? null : step} items={checklist} onGo={go} />
+        </div>
+        <WalkthroughCard slots={walkthroughSlots} />
+      </aside>
+
+      <div className="@container flex min-w-0 flex-1 flex-col">
+        <header className="flex h-12 shrink-0 items-center gap-2 border-b px-4 @3xl/screen:hidden">
+          <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
+            <FlameIcon className="size-3.5" />
+          </span>
+          <span className="font-medium">{productName}</span>
+          <span className="truncate text-muted-foreground">/ Set up</span>
         </header>
 
-        <div className="shrink-0 px-4 pt-5 pb-4 @2xl:px-8">
-          <div className="mx-auto max-w-xl">
-            <Stepper fill={finished ? STEPS.length - 1 : step} maxReached={maxReached} onJump={go} statuses={statuses} />
-          </div>
-        </div>
-
         <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
-          <div className="mx-auto flex max-w-2xl flex-col gap-5 px-4 pt-2 pb-8 @2xl:px-8">
+          <div className="mx-auto flex max-w-2xl flex-col px-5 pt-8 pb-10 @2xl:px-6 @3xl/screen:pt-16">
+            {!finished && (
+              <div className="mb-6 flex items-center gap-3">
+                <span className="shrink-0 text-muted-foreground text-xs tabular-nums">
+                  Step {step + 1} of {STEPS.length}
+                </span>
+                <div aria-hidden className="flex w-28 gap-1">
+                  {STEPS.map((sName, i) => (
+                    <span className="h-1 flex-1 overflow-hidden rounded-full bg-foreground/10" key={sName}>
+                      <motion.span
+                        animate={{ scaleX: i <= step ? 1 : 0 }}
+                        className="block h-full origin-left rounded-full bg-foreground/80"
+                        initial={false}
+                        transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 320, damping: 36 }}
+                      />
+                    </span>
+                  ))}
+                </div>
+              </div>
+            )}
             <AnimatePresence custom={dir} initial={false} mode="wait">
               {finished ? (
                 <FinishView
@@ -712,7 +600,7 @@ export function FirstRun({
                             {initials(name)}
                           </span>
                           <div>
-                            <p className="mb-2 font-medium text-xs">Workspace colour</p>
+                            <p className="mb-1.5 font-medium">Workspace colour</p>
                             <div aria-label="Workspace colour" className="-ms-1 flex flex-wrap gap-0.5" role="radiogroup">
                               {swatches.map((sw) => (
                                 <button
@@ -820,7 +708,7 @@ export function FirstRun({
                           </p>
                         </div>
                         <div>
-                          <p className="mb-2 font-medium text-xs">What will you use {productName} for?</p>
+                          <p className="mb-2 font-medium">What will you use {productName} for?</p>
                           <div className="flex flex-wrap gap-1.5">
                             {useCases.map((u) => {
                               const on = picked.includes(u);
@@ -866,17 +754,14 @@ export function FirstRun({
                   {step === 1 && (
                     <>
                       <StepTitle sub="Agents can read and act in the tools you connect. You can change this later." title="Connect your tools" />
-                      <div className="grid grid-cols-1 gap-2.5 @md:grid-cols-2">
+                      <div className="divide-y overflow-hidden rounded-xl border bg-card">
                         {tools.map((t, i) => {
                           const s = toolStatus[t.id] ?? "idle";
                           const Icon = t.icon;
                           return (
                             <motion.div
                               animate={{ opacity: 1, y: 0 }}
-                              className={cn(
-                                "flex items-center gap-3 rounded-xl border bg-card p-3 transition-colors",
-                                s === "connected" && "border-success/40",
-                              )}
+                              className="flex items-center gap-3 px-4 py-3"
                               initial={reduce ? false : { opacity: 0, y: 6 }}
                               key={t.id}
                               transition={{ duration: 0.22, ease: easeOut, delay: i * 0.03 }}
@@ -891,7 +776,7 @@ export function FirstRun({
                               <button
                                 aria-label={s === "connected" ? `Disconnect ${t.name}` : `Connect ${t.name}`}
                                 className={cn(
-                                  "flex h-8 w-28 shrink-0 cursor-pointer items-center justify-center gap-1 overflow-hidden rounded-full border px-2.5 font-medium text-xs outline-none transition-[background-color,border-color,color,transform] duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.97] disabled:cursor-default",
+                                  "flex h-8 w-28 shrink-0 cursor-pointer items-center justify-center gap-1 overflow-hidden rounded-lg border px-2.5 font-medium text-xs shadow-xs/5 outline-none transition-[background-color,border-color,color,transform] duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.97] disabled:cursor-default",
                                   s === "connected"
                                     ? "border-success/32 bg-success/8 text-success-foreground hover:bg-success/14 dark:bg-success/16"
                                     : "bg-background text-foreground hover:bg-accent",
@@ -1008,7 +893,7 @@ export function FirstRun({
 
                       {inviteSuggestions.some((s) => !invites.some((i) => i.email === s) && !draft.includes(s)) && (
                         <div className="mt-4">
-                          <p className="mb-2 font-medium text-xs">Suggested from your domain</p>
+                          <p className="mb-2 font-medium">Suggested from your domain</p>
                           <div className="flex flex-wrap gap-1.5">
                             {inviteSuggestions
                               .filter((s) => !invites.some((i) => i.email === s) && !draft.includes(s))
@@ -1089,7 +974,7 @@ export function FirstRun({
                   {step === 3 && template && (
                     <>
                       <StepTitle sub="Pick a starting point. You can tune everything after." title="Create your first agent" />
-                      <div className="grid grid-cols-1 gap-5 @xl:grid-cols-[1fr_15rem]">
+                      <div className="grid grid-cols-1 gap-6 @3xl:grid-cols-[1fr_16rem]">
                         <div className="flex min-w-0 flex-col gap-4">
                           <div aria-label="Template" className="grid grid-cols-2 gap-2" role="radiogroup">
                             {templates.map((t) => {
@@ -1152,9 +1037,9 @@ export function FirstRun({
                           </div>
                         </div>
 
-                        <div className="@xl:sticky @xl:top-0 @xl:self-start">
-                          <p className="mb-1.5 font-medium text-xs">Preview</p>
-                          <div className="rounded-2xl border bg-card p-4 shadow-xs/5">
+                        <div className="@3xl:sticky @3xl:top-0 @3xl:self-start">
+                          <p className="mb-2 font-medium">Preview</p>
+                          <div className="rounded-xl border bg-card p-4">
                             <div className="flex items-center gap-2.5">
                               <AnimatePresence initial={false} mode="popLayout">
                                 <motion.span
@@ -1203,14 +1088,15 @@ export function FirstRun({
           </div>
         </div>
 
-        <footer className="flex h-14 shrink-0 items-center gap-2 border-t bg-background px-4 @2xl:px-8">
+        <footer className="shrink-0 border-t bg-background">
+          <div className="mx-auto flex h-14 max-w-2xl items-center gap-2 px-5 @2xl:px-6">
           {finished ? (
-            <Button className={press} onClick={restart} variant="ghost">
+            <Button className={cn("-ms-2.5", press)} onClick={restart} variant="ghost">
               <RotateCcwIcon />
               Start over
             </Button>
           ) : (
-            <Button className={press} disabled={step === 0} onClick={() => go(step - 1)} variant="ghost">
+            <Button className={cn("-ms-2.5", press)} disabled={step === 0} onClick={() => go(step - 1)} variant="ghost">
               <ArrowLeftIcon />
               Back
             </Button>
@@ -1233,13 +1119,9 @@ export function FirstRun({
               </Button>
             )}
           </div>
+          </div>
         </footer>
       </div>
-
-      <aside className="hidden w-64 shrink-0 flex-col gap-4 border-s bg-muted/40 p-4 @3xl/screen:flex">
-        <Checklist items={checklist} onGo={go} />
-        <WalkthroughCard slots={walkthroughSlots} />
-      </aside>
     </div>
   );
 }
@@ -1251,7 +1133,7 @@ function WalkthroughCard({ slots }: { slots: string[] }) {
   const [booked, setBooked] = useState<string | null>(null);
 
   return (
-    <div className="mt-auto rounded-2xl border bg-card p-2 shadow-xs/5">
+    <div className="mt-auto rounded-xl border bg-card p-2">
       <div className="flex items-start gap-2.5 px-1.5 pt-1.5 pb-2.5">
         <span
           className={cn(

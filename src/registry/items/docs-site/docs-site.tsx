@@ -500,17 +500,17 @@ function Block({ block, lang, onLang }: { block: DocsBlock; lang: DocsLang; onLa
   switch (block.type) {
     case "p":
       return (
-        <p className="text-pretty text-foreground/90 leading-7">
+        <p className="text-pretty text-[15px] text-foreground/85 leading-7">
           <Inline text={block.text} />
         </p>
       );
     case "list":
       return (
-        <ul className="flex flex-col gap-1.5 ps-1">
+        <ul className="flex flex-col gap-1 ps-1">
           {block.items.map((it) => (
-            <li className="flex gap-2.5 leading-7" key={it}>
-              <span className="mt-3 size-1 shrink-0 rounded-full bg-muted-foreground" />
-              <span className="text-foreground/90">{it}</span>
+            <li className="flex gap-3 text-[15px] leading-7" key={it}>
+              <span className="mt-[13px] size-1 shrink-0 rounded-full bg-muted-foreground/70" />
+              <span className="text-foreground/85">{it}</span>
             </li>
           ))}
         </ul>
@@ -521,7 +521,7 @@ function Block({ block, lang, onLang }: { block: DocsBlock; lang: DocsLang; onLa
           {block.items.map((it, i) => (
             <li className="relative flex gap-3" key={it}>
               <span className="z-10 flex size-6 shrink-0 items-center justify-center rounded-full border bg-background font-medium text-xs tabular-nums">{i + 1}</span>
-              <span className="pt-0.5 text-pretty text-foreground/90 leading-6">{it}</span>
+              <span className="text-pretty text-[15px] text-foreground/85 leading-6">{it}</span>
             </li>
           ))}
         </ol>
@@ -531,15 +531,15 @@ function Block({ block, lang, onLang }: { block: DocsBlock; lang: DocsLang; onLa
       return (
         <div
           className={cn(
-            "flex gap-3 rounded-xl border px-4 py-3",
-            block.tone === "info" ? "border-info/24 bg-info/6" : "border-warning/30 bg-warning/8",
+            "flex gap-3 rounded-xl border px-4 py-3.5",
+            block.tone === "info" ? "border-info/16 bg-info/4 dark:border-info/14 dark:bg-info/6" : "border-warning/20 bg-warning/5 dark:border-warning/14 dark:bg-warning/6",
           )}
           role="note"
         >
-          <Icon className={cn("mt-0.5 size-4 shrink-0", block.tone === "info" ? "text-info-foreground" : "text-warning-foreground")} />
+          <Icon className={cn("mt-[3px] size-4 shrink-0", block.tone === "info" ? "text-info-foreground" : "text-warning-foreground")} />
           <div className="min-w-0">
             <div className="font-medium">{block.title}</div>
-            <p className="mt-0.5 text-pretty text-foreground/80 leading-6">
+            <p className="mt-1 text-pretty text-muted-foreground leading-6">
               <Inline text={block.text} />
             </p>
           </div>
@@ -552,7 +552,7 @@ function Block({ block, lang, onLang }: { block: DocsBlock; lang: DocsLang; onLa
       return (
         <div className="overflow-x-auto rounded-xl border [scrollbar-width:thin]">
           <table className="w-full min-w-[420px] text-left text-sm">
-            <thead className="bg-muted/40">
+            <thead className="bg-muted/30">
               <tr>
                 {block.head.map((h) => (
                   <th className="border-b px-3.5 py-2 font-medium text-muted-foreground text-xs" key={h}>
@@ -565,7 +565,7 @@ function Block({ block, lang, onLang }: { block: DocsBlock; lang: DocsLang; onLa
               {block.rows.map((r) => (
                 <tr className="border-b last:border-b-0" key={r.join()}>
                   {r.map((c, i) => (
-                    <td className={cn("px-3.5 py-2.5 align-top", i === 0 ? "font-mono text-[0.8125rem]" : "text-foreground/85")} key={c}>
+                    <td className={cn("px-3.5 py-2 align-baseline leading-6", i === 0 ? "font-mono text-[0.8125rem] text-foreground" : "text-foreground/85")} key={c}>
                       {c}
                     </td>
                   ))}
@@ -800,14 +800,14 @@ export function DocsSite({
   };
 
   const sidebar = (
-    <nav aria-label="Documentation" className="flex flex-col gap-5 px-3 py-4">
+    <nav aria-label="Documentation" className="flex flex-col gap-6 px-3 py-5">
       {groups.map((g) => {
         const closed = closedGroups.has(g);
         return (
           <div key={g}>
             <button
               aria-expanded={!closed}
-              className="flex w-full cursor-pointer items-center justify-between rounded-md px-2.5 pb-1.5 text-left font-medium text-foreground text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="group/g flex h-6 w-full cursor-pointer items-center justify-between rounded-md px-2.5 mb-1 text-left font-medium text-foreground text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring"
               onClick={() =>
                 setClosedGroups((c) => {
                   const n = new Set(c);
@@ -819,13 +819,13 @@ export function DocsSite({
               type="button"
             >
               {g}
-              <ChevronDownIcon className={cn("size-3.5 text-muted-foreground transition-transform duration-200", closed && "-rotate-90")} />
+              <ChevronDownIcon className={cn("size-3.5 text-muted-foreground/70 transition-[rotate,color] duration-200 group-hover/g:text-foreground", closed && "-rotate-90")} />
             </button>
             <AnimatePresence initial={false}>
               {!closed && (
                 <motion.ul
                   animate={{ height: "auto", opacity: 1 }}
-                  className="flex flex-col gap-0.5 overflow-hidden"
+                  className="flex flex-col overflow-hidden"
                   exit={{ height: 0, opacity: 0 }}
                   initial={{ height: 0, opacity: 0 }}
                   transition={{ duration: 0.2, ease }}
@@ -839,7 +839,7 @@ export function DocsSite({
                           <button
                             aria-current={on ? "page" : undefined}
                             className={cn(
-                              "relative flex h-8 w-full cursor-pointer items-center rounded-lg px-2.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                              "relative flex h-8 w-full cursor-pointer items-center rounded-lg px-2.5 text-left text-[13px] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
                               on ? "font-medium text-foreground" : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
                             )}
                             onClick={() => go(p.id)}
@@ -966,7 +966,7 @@ export function DocsSite({
                   <span className="text-foreground">{page.title}</span>
                 </div>
                 <h1 className="mt-3 text-balance font-heading font-semibold text-3xl tracking-tight">{page.title}</h1>
-                <p className="mt-3 text-pretty text-lg text-muted-foreground leading-relaxed">{page.lead}</p>
+                <p className="mt-3 text-pretty text-[17px] text-muted-foreground leading-7">{page.lead}</p>
                 <div className="mt-4 flex items-center gap-3 text-muted-foreground text-xs">
                   <span>Updated {page.updated}</span>
                   <span className="size-0.5 rounded-full bg-muted-foreground" />

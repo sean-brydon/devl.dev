@@ -627,6 +627,99 @@ const statusBadge: Record<Status, { label: string; variant: "success" | "warning
 
 const ease = [0.23, 1, 0.32, 1] as const;
 
+const owners: Record<string, { lead: string; start: string; team: string }> = {
+  atlas: { lead: "Kai Tanaka", start: "Sep 8", team: "Design" },
+  billing: { lead: "Theo Brandt", start: "Sep 15", team: "Payments" },
+  mobile: { lead: "Rosa Lind", start: "Sep 1", team: "Mobile" },
+  growth: { lead: "Ines Moreau", start: "Oct 6", team: "Growth" },
+  infra: { lead: "Kai Tanaka", start: "Aug 25", team: "Platform" },
+};
+
+function PersonDot({ name, className }: { name: string; className?: string }) {
+  return (
+    <Avatar className={cn("size-5", className)}>
+      <AvatarFallback className={cn("font-medium text-[9px]", people[name]?.tone)}>{people[name]?.initials}</AvatarFallback>
+    </Avatar>
+  );
+}
+
+function ProgressRing({ value, tone }: { value: number; tone: ShellTone }) {
+  const r = 6;
+  const c = 2 * Math.PI * r;
+  return (
+    <svg aria-hidden className="size-4 -rotate-90" viewBox="0 0 16 16">
+      <circle className="stroke-muted" cx="8" cy="8" fill="none" r={r} strokeWidth="2.5" />
+      <motion.circle
+        animate={{ strokeDashoffset: c * (1 - value / 100) }}
+        className={ringTone[tone]}
+        cx="8"
+        cy="8"
+        fill="none"
+        initial={{ strokeDashoffset: c }}
+        r={r}
+        strokeDasharray={c}
+        strokeLinecap="round"
+        strokeWidth="2.5"
+        transition={{ duration: 0.6, ease, delay: 0.1 }}
+      />
+    </svg>
+  );
+}
+
+const ringTone: Record<ShellTone, string> = {
+  orange: "stroke-orange-500",
+  teal: "stroke-teal-500",
+  cyan: "stroke-cyan-500",
+  violet: "stroke-violet-500",
+  rose: "stroke-rose-500",
+  info: "stroke-info",
+  success: "stroke-success",
+  warning: "stroke-warning",
+};
+
+function Properties({ project, d, className }: { project: ShellProject; d: ProjectDetail; className?: string }) {
+  const o = owners[project.id] ?? owners.atlas;
+  const badge = statusBadge[d.status];
+  const members = Array.from(new Set([o.lead, ...d.updates.map((u) => u.who)]));
+  const row = "flex min-h-8 items-center gap-2";
+  return (
+    <dl className={cn("grid grid-cols-[88px_minmax(0,1fr)] gap-x-3 gap-y-1 text-sm", className)}>
+      <dt className={cn(row, "text-muted-foreground text-xs")}>Status</dt>
+      <dd className={row}>
+        <Badge variant={badge.variant}>{badge.label}</Badge>
+      </dd>
+      <dt className={cn(row, "text-muted-foreground text-xs")}>Lead</dt>
+      <dd className={cn(row, "min-w-0")}>
+        <PersonDot name={o.lead} />
+        <span className="truncate">{o.lead}</span>
+      </dd>
+      <dt className={cn(row, "text-muted-foreground text-xs")}>Members</dt>
+      <dd className={row}>
+        <span className="flex -space-x-1">
+          {members.map((m) => (
+            <PersonDot className="bg-background ring-2 ring-background" key={m} name={m} />
+          ))}
+        </span>
+        <span className="text-muted-foreground text-xs tabular-nums">{members.length}</span>
+      </dd>
+      <dt className={cn(row, "text-muted-foreground text-xs")}>Dates</dt>
+      <dd className={cn(row, "tabular-nums")}>
+        <CalendarIcon className="size-3.5 text-muted-foreground" />
+        {o.start}
+        <ChevronRightIcon className="size-3 text-muted-foreground" />
+        {d.target}
+      </dd>
+      <dt className={cn(row, "text-muted-foreground text-xs")}>Team</dt>
+      <dd className={row}>
+        <span className="inline-flex h-6 items-center gap-1.5 rounded-md border px-2 text-xs">
+          <span className={cn("size-1.5 rounded-full", dot[project.tone])} />
+          {o.team}
+        </span>
+      </dd>
+    </dl>
+  );
+}
+
 function ProjectOverview({ project }: { project: ShellProject }) {
   const d = details[project.id] ?? details.atlas;
   const [tab, setTab] = useState("overview");
@@ -637,131 +730,113 @@ function ProjectOverview({ project }: { project: ShellProject }) {
     { id: "docs", label: "Docs", count: d.milestones.length + 3 },
     { id: "activity", label: "Activity" },
   ];
-  const badge = statusBadge[d.status];
-  const segments = 19;
-  const doneSegments = Math.round(((d.total - d.open) / d.total) * segments);
+  const closed = d.total - d.open;
   return (
-    <div className="mx-auto flex w-full max-w-4xl flex-col gap-6 px-4 py-6 @3xl:px-8 @3xl:py-8">
-      <div className="flex flex-col gap-3">
-        <div className="flex flex-wrap items-center gap-2">
-          <span className={cn("flex size-6 items-center justify-center rounded-md", soft[project.tone])}>
-            <span className={cn("size-2 rounded-full", dot[project.tone])} />
+    <div className="mx-auto flex w-full max-w-5xl gap-10 px-4 py-6 @3xl:px-8 @3xl:py-8">
+      <div className="flex min-w-0 flex-1 flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <span className={cn("flex size-8 items-center justify-center rounded-lg", soft[project.tone])}>
+            <span className={cn("size-2.5 rounded-full", dot[project.tone])} />
           </span>
-          <h1 className="text-balance font-heading font-semibold text-xl tracking-tight">{project.name}</h1>
-          <Badge variant={badge.variant}>{badge.label}</Badge>
+          <h1 className="mt-2 text-balance font-heading font-semibold text-2xl tracking-tight">{project.name}</h1>
+          <p className="max-w-xl text-pretty text-muted-foreground">{d.summary}</p>
         </div>
-        <p className="max-w-xl text-pretty text-muted-foreground">{d.summary}</p>
-      </div>
 
-      <LayoutGroup id={tabId}>
-        <div className="-mb-2 flex gap-1 overflow-x-auto border-b [scrollbar-width:none]" role="tablist">
-          {tabs.map((t) => (
-            <button
-              aria-selected={tab === t.id}
-              className={cn(
-                "relative flex h-9 shrink-0 cursor-pointer items-center gap-1.5 px-2.5 font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                tab === t.id ? "text-foreground" : "text-muted-foreground hover:text-foreground",
-              )}
-              key={t.id}
-              onClick={() => setTab(t.id)}
-              role="tab"
-              type="button"
-            >
-              {t.label}
-              {t.count !== undefined && <span className="text-muted-foreground text-xs tabular-nums">{t.count}</span>}
-              {tab === t.id && (
-                <motion.span className="absolute inset-x-1 -bottom-px h-0.5 rounded-full bg-foreground" layoutId="tab" transition={spring} />
-              )}
-            </button>
-          ))}
-        </div>
-      </LayoutGroup>
+        <Properties className="rounded-xl border bg-card px-4 py-3 @4xl:hidden" d={d} project={project} />
 
-      <div className="grid grid-cols-1 gap-3 @lg:grid-cols-3">
-        <div className="rounded-2xl border bg-card p-4">
-          <div className="text-muted-foreground text-xs">Progress</div>
-          <div className="mt-1 flex items-baseline gap-1.5">
-            <span className="font-heading font-semibold text-2xl tabular-nums">{d.progress}%</span>
-            <span className="text-success-foreground text-xs tabular-nums">+{d.week} this week</span>
-          </div>
-          <div className="mt-3 h-1.5 overflow-hidden rounded-full bg-muted">
-            <motion.div
-              animate={{ scaleX: d.progress / 100 }}
-              className={cn("h-full origin-left rounded-full", dot[project.tone])}
-              initial={{ scaleX: 0 }}
-              key={project.id}
-              transition={{ duration: 0.6, ease, delay: 0.1 }}
-            />
-          </div>
-        </div>
-        <div className="rounded-2xl border bg-card p-4">
-          <div className="text-muted-foreground text-xs">Open issues</div>
-          <div className="mt-1 flex items-baseline gap-1.5">
-            <span className="font-heading font-semibold text-2xl tabular-nums">{d.open}</span>
-            <span className="text-muted-foreground text-xs tabular-nums">of {d.total}</span>
-          </div>
-          <div className="mt-3 flex gap-0.5">
-            {Array.from({ length: segments }, (_, i) => (
-              <span className={cn("h-1.5 flex-1 rounded-full transition-colors duration-300", i < doneSegments ? "bg-foreground/72" : "bg-muted")} key={i} />
+        <LayoutGroup id={tabId}>
+          <div className="flex gap-1 overflow-x-auto border-b [scrollbar-width:none]" role="tablist">
+            {tabs.map((t) => (
+              <button
+                aria-selected={tab === t.id}
+                className={cn(
+                  "relative flex h-9 shrink-0 cursor-pointer items-center gap-1.5 px-2.5 font-medium outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                  tab === t.id ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+                )}
+                key={t.id}
+                onClick={() => setTab(t.id)}
+                role="tab"
+                type="button"
+              >
+                {t.label}
+                {t.count !== undefined && <span className="text-muted-foreground text-xs tabular-nums">{t.count}</span>}
+                {tab === t.id && (
+                  <motion.span className="absolute inset-x-1 -bottom-px h-0.5 rounded-full bg-foreground" layoutId="tab" transition={spring} />
+                )}
+              </button>
             ))}
           </div>
-        </div>
-        <div className="rounded-2xl border bg-card p-4">
-          <div className="text-muted-foreground text-xs">Target date</div>
-          <div className="mt-1 flex items-baseline gap-1.5">
-            <span className="font-heading font-semibold text-2xl tabular-nums">{d.target}</span>
-            <span className="text-muted-foreground text-xs tabular-nums">{d.targetIn}</span>
-          </div>
-          <div className="mt-2.5 flex items-center gap-1.5 text-muted-foreground text-xs">
-            <CalendarIcon className="size-3.5" />
-            {d.targetNote}
-          </div>
-        </div>
-      </div>
+        </LayoutGroup>
 
-      <div className="grid grid-cols-1 items-start gap-3 @3xl:grid-cols-[1.1fr_1fr]">
-        <section className="rounded-2xl border bg-card">
-          <header className="flex items-center justify-between px-4 pt-4 pb-2">
+        <section className="flex flex-col gap-3">
+          <div className="flex items-baseline justify-between gap-3">
+            <h2 className="font-medium">Progress</h2>
+            <span className="text-muted-foreground text-xs tabular-nums">
+              <span className="text-success-foreground">+{d.week}%</span> this week
+            </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-muted">
+              <motion.div
+                animate={{ scaleX: d.progress / 100 }}
+                className={cn("h-full origin-left rounded-full", dot[project.tone])}
+                initial={{ scaleX: 0 }}
+                key={project.id}
+                transition={{ duration: 0.6, ease, delay: 0.1 }}
+              />
+            </div>
+            <span className="w-10 text-right font-medium tabular-nums">{d.progress}%</span>
+          </div>
+          <div className="flex flex-wrap gap-x-5 gap-y-1 text-muted-foreground text-xs tabular-nums">
+            <span>
+              <span className="font-medium text-foreground">{closed}</span> done
+            </span>
+            <span>
+              <span className="font-medium text-foreground">{d.open}</span> open
+            </span>
+            <span>
+              Target <span className="font-medium text-foreground">{d.target}</span> · {d.targetIn}
+            </span>
+          </div>
+        </section>
+
+        <section className="flex flex-col gap-2">
+          <div className="flex items-center justify-between">
             <h2 className="font-medium">Milestones</h2>
-            <Button size="xs" variant="ghost">
+            <Button className="-me-2" size="xs" variant="ghost">
               <PlusIcon />
               Add
             </Button>
-          </header>
-          <ul className="flex flex-col px-2 pb-2">
-            {d.milestones.map((m) => (
-              <li className="flex items-center gap-3 rounded-lg px-2 py-2.5" key={m.name}>
-                <span
-                  className={cn(
-                    "flex size-4 shrink-0 items-center justify-center rounded-full border",
-                    m.done === 100 && "border-success bg-success text-white",
-                  )}
-                >
-                  {m.done === 100 && <CheckIcon className="size-2.5" strokeWidth={3} />}
-                </span>
-                <span className="min-w-0 flex-1 truncate">{m.name}</span>
-                <span className="hidden h-1 w-16 overflow-hidden rounded-full bg-muted @md:block">
+          </div>
+          <ul className="divide-y rounded-xl border bg-card">
+            {d.milestones.map((m) => {
+              const done = m.done === 100;
+              return (
+                <li className="flex h-11 items-center gap-3 px-3.5" key={m.name}>
                   <span
-                    className={cn("block h-full origin-left rounded-full", m.done === 100 ? "bg-success" : dot[project.tone])}
-                    style={{ transform: `scaleX(${m.done / 100})` }}
+                    aria-label={done ? "Complete" : `${m.done}% complete`}
+                    className={cn(
+                      "size-2.5 shrink-0 rotate-45 rounded-[2px] border",
+                      done ? "border-success bg-success" : m.done > 0 ? cn("border-transparent", dot[project.tone]) : "border-muted-foreground/50",
+                    )}
+                    role="img"
                   />
-                </span>
-                <span className="w-12 text-right text-muted-foreground text-xs tabular-nums">{m.date}</span>
-              </li>
-            ))}
+                  <span className={cn("min-w-0 flex-1 truncate", done && "text-muted-foreground")}>{m.name}</span>
+                  <span className="w-10 text-right text-muted-foreground text-xs tabular-nums">{m.done}%</span>
+                  <span className="w-14 text-right text-muted-foreground text-xs tabular-nums">{m.date}</span>
+                </li>
+              );
+            })}
           </ul>
         </section>
-        <section className="rounded-2xl border bg-card">
-          <header className="px-4 pt-4 pb-2">
-            <h2 className="font-medium">Latest updates</h2>
-          </header>
-          <ul className="flex flex-col gap-1 px-4 pb-4">
+
+        <section className="flex flex-col gap-3">
+          <h2 className="font-medium">Latest updates</h2>
+          <ul className="relative flex flex-col gap-4 before:absolute before:top-3 before:bottom-3 before:left-[9.5px] before:w-px before:bg-border">
             {d.updates.map((u) => (
-              <li className="flex gap-2.5 py-1.5" key={u.target}>
-                <Avatar className="size-6">
-                  <AvatarFallback className={cn("text-[10px]", people[u.who]?.tone)}>{people[u.who]?.initials}</AvatarFallback>
-                </Avatar>
-                <p className="min-w-0 flex-1 text-pretty text-muted-foreground leading-6">
+              <li className="relative flex gap-3" key={u.target}>
+                <PersonDot className="bg-background ring-4 ring-background" name={u.who} />
+                <p className="min-w-0 flex-1 text-pretty text-muted-foreground leading-5">
                   <span className="font-medium text-foreground">{u.who}</span> {u.what}{" "}
                   <span className="text-foreground">{u.target}</span>
                   {u.to && (
@@ -771,12 +846,24 @@ function ProjectOverview({ project }: { project: ShellProject }) {
                     </>
                   )}
                 </p>
-                <span className="pt-0.5 text-muted-foreground text-xs tabular-nums">{u.time}</span>
+                <span className="text-muted-foreground text-xs tabular-nums leading-5">{u.time} ago</span>
               </li>
             ))}
           </ul>
         </section>
       </div>
+
+      <aside aria-label="Project properties" className="hidden w-64 shrink-0 flex-col gap-4 @4xl:flex">
+        <div className="flex items-center gap-2 font-medium text-muted-foreground text-xs">
+          <ProgressRing tone={project.tone} value={d.progress} />
+          <span className="tabular-nums">{d.progress}% complete</span>
+        </div>
+        <Properties d={d} project={project} />
+        <div className="border-t pt-4 text-muted-foreground text-xs leading-5">
+          <div className="font-medium text-foreground">Next up</div>
+          {d.targetNote} on <span className="text-foreground tabular-nums">{d.target}</span>.
+        </div>
+      </aside>
     </div>
   );
 }

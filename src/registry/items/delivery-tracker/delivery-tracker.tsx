@@ -68,7 +68,6 @@ export interface DeliveryTrackerProps {
 const spring = { type: "spring", stiffness: 520, damping: 44, mass: 1 } as const;
 const easeOut = [0.23, 1, 0.32, 1] as const;
 const press = "transition-[color,background-color,box-shadow,scale,opacity] duration-150 ease-out active:scale-[0.97]";
-const card = "rounded-2xl border bg-card shadow-xs/5";
 
 const defaultCourier: DeliveryCourier = {
   name: "Tomás Reyes",
@@ -131,8 +130,8 @@ function ItemArt({ art }: { art: DeliveryItem["art"] }) {
     flowers: "bg-rose-500/12 dark:bg-rose-400/12",
   }[art];
   return (
-    <span aria-hidden className={cn("flex size-11 shrink-0 items-center justify-center rounded-xl", tile)}>
-      <svg className="size-7" viewBox="0 0 32 32">
+    <span aria-hidden className={cn("flex size-10 shrink-0 items-center justify-center rounded-lg", tile)}>
+      <svg className="size-6" viewBox="0 0 32 32">
         {art === "bread" && (
           <>
             <path className="fill-amber-600 dark:fill-amber-500" d="M5 18c0-6 5-10 11-10s11 4 11 10v4a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2z" />
@@ -375,13 +374,13 @@ export function DeliveryTracker({
                   const park = i === 2 && j === 1;
                   return (
                     <rect
-                      className={park ? "fill-emerald-500/18 dark:fill-emerald-400/10" : "fill-foreground/[0.035]"}
-                      height={y1 - y0 - 26}
+                      className={park ? "fill-emerald-500/18 dark:fill-emerald-400/10" : "fill-foreground/[0.025]"}
+                      height={y1 - y0 - 22}
                       key={`${x0}-${y0}`}
-                      rx={park ? 18 : 8}
-                      width={x1 - x0 - 26}
-                      x={x0 + 13}
-                      y={y0 + 13}
+                      rx={park ? 14 : 5}
+                      width={x1 - x0 - 22}
+                      x={x0 + 11}
+                      y={y0 + 11}
                     />
                   );
                 }),
@@ -403,7 +402,7 @@ export function DeliveryTracker({
                 [418, 518, 44, 50],
                 [738, 108, 46, 70],
               ].map(([x, y, w, h]) => (
-                <rect className="fill-foreground/[0.04]" height={h} key={`${x}-${y}`} rx={4} width={w} x={x} y={y} />
+                <rect className="fill-foreground/[0.045]" height={h} key={`${x}-${y}`} rx={3} width={w} x={x} y={y} />
               ))}
               {[
                 [282, 130],
@@ -429,6 +428,14 @@ export function DeliveryTracker({
                   <line key={`h${y}`} strokeWidth={y === 500 || y === 360 || y === 220 ? 20 : 13} x1={-10} x2={W + 10} y1={y} y2={y} />
                 ))}
                 <line strokeWidth={11} x1={640} x2={640} y1={220} y2={128} />
+                <g strokeWidth={6}>
+                  <line x1={484} x2={484} y1={90} y2={220} />
+                  <line x1={650} x2={650} y1={360} y2={500} />
+                  <line x1={200} x2={200} y1={360} y2={500} />
+                  <line x1={100} x2={240} y1={446} y2={446} />
+                  <line x1={560} x2={720} y1={160} y2={160} />
+                  <line x1={240} x2={400} y1={574} y2={574} />
+                </g>
               </g>
               <g className="fill-muted-foreground font-medium" fontSize={11} letterSpacing={0.4}>
                 <text x={18} y={492}>
@@ -534,8 +541,8 @@ export function DeliveryTracker({
         </div>
 
         <div className="relative min-h-0 flex-1 overflow-y-auto border-t @3xl:w-[380px] @3xl:flex-none @3xl:border-t-0 @3xl:border-l">
-          <div className="flex flex-col gap-4 p-4 @3xl:p-5">
-            <section aria-live="polite" className="flex flex-col gap-3">
+          <div className="flex flex-col divide-y">
+            <section aria-live="polite" className="flex flex-col gap-4 px-5 py-5">
               <AnimatePresence initial={false} mode="popLayout">
                 {delivered ? (
                   <motion.div
@@ -582,10 +589,10 @@ export function DeliveryTracker({
                   </motion.div>
                 )}
               </AnimatePresence>
-              <ol aria-label="Order progress" className="grid grid-cols-4 gap-1.5">
+              <ol aria-label="Order progress" className="grid grid-cols-4 gap-1">
                 {stages.map((s, i) => (
-                  <li className="flex flex-col gap-1.5" key={s}>
-                    <span className="relative h-1.5 overflow-hidden rounded-full bg-muted">
+                  <li className="flex flex-col gap-2" key={s}>
+                    <span className="relative h-1 overflow-hidden rounded-full bg-muted">
                       <motion.span
                         animate={{ scaleX: i < stage ? 1 : i === stage ? (delivered ? 1 : 0.6) : 0 }}
                         className={cn("absolute inset-0 origin-left rounded-full", delivered ? "bg-success" : "bg-info")}
@@ -595,7 +602,10 @@ export function DeliveryTracker({
                     </span>
                     <span
                       aria-current={i === stage ? "step" : undefined}
-                      className={cn("truncate text-xs", i <= stage ? "text-foreground" : "text-muted-foreground")}
+                      className={cn(
+                        "truncate text-xs",
+                        i === stage ? "font-medium text-foreground" : i < stage ? "text-foreground" : "text-muted-foreground",
+                      )}
                     >
                       {s}
                     </span>
@@ -604,10 +614,10 @@ export function DeliveryTracker({
               </ol>
             </section>
 
-            <section aria-label="Your courier" className={cn(card, "flex flex-col gap-3 p-3")}>
+            <section aria-label="Your courier" className="flex flex-col gap-4 px-5 py-4">
               <div className="flex items-center gap-3">
-                <Avatar className="[--avatar-size:--spacing(11)]">
-                  <AvatarFallback className="bg-gradient-to-br from-teal-400 to-sky-500 font-semibold text-sm text-white">
+                <Avatar className="[--avatar-size:--spacing(10)]">
+                  <AvatarFallback className="bg-gradient-to-br from-teal-400 to-sky-500 font-semibold text-white">
                     {initials(courier.name)}
                   </AvatarFallback>
                 </Avatar>
@@ -617,24 +627,53 @@ export function DeliveryTracker({
                     <StarIcon aria-hidden className="size-3 fill-amber-400 text-amber-400" />
                     <span className="text-foreground tabular-nums">{courier.rating.toFixed(1)}</span>
                     <span aria-hidden>·</span>
-                    <span className="tabular-nums">{courier.trips.toLocaleString("en-US")}</span> trips
-                    <span aria-hidden>·</span>
                     <span className="truncate">{courier.vehicle}</span>
                   </span>
                 </div>
+                <AnimatePresence initial={false}>
+                  {!delivered && (
+                    <motion.div
+                      animate={{ opacity: 1 }}
+                      className="flex shrink-0 gap-2"
+                      exit={{ opacity: 0 }}
+                      initial={{ opacity: 0 }}
+                      transition={{ duration: 0.15 }}
+                    >
+                      <Button
+                        aria-label={`Message ${first}`}
+                        className={cn("rounded-full", press)}
+                        onClick={() => setChat(true)}
+                        ref={chatBtnRef}
+                        size="icon"
+                        variant="outline"
+                      >
+                        <MessageCircleIcon />
+                      </Button>
+                      <Button
+                        aria-label={`Call ${first}`}
+                        className={cn("rounded-full", press)}
+                        render={<a href={`tel:${courier.phone}`} />}
+                        size="icon"
+                        variant="outline"
+                      >
+                        <PhoneIcon />
+                      </Button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-              <AnimatePresence initial={false} mode="popLayout">
-                {delivered ? (
+              <AnimatePresence initial={false}>
+                {delivered && (
                   <motion.div
                     animate={{ opacity: 1, y: 0 }}
-                    className="flex flex-col gap-3 border-t pt-3"
+                    className="flex flex-col gap-3 rounded-xl bg-muted/60 p-3"
                     initial={reduce ? { opacity: 0 } : { opacity: 0, y: 6 }}
                     key="rate"
                     transition={{ duration: 0.25, ease: easeOut, delay: 0.1 }}
                   >
                     <div className="flex items-center justify-between gap-2">
                       <span className="font-medium">How was {first}?</span>
-                      <div aria-label="Rate your courier" className="flex" role="radiogroup">
+                      <div aria-label="Rate your courier" className="-me-1.5 flex" role="radiogroup">
                         {[1, 2, 3, 4, 5].map((n) => (
                           <button
                             aria-checked={rating === n}
@@ -697,57 +736,38 @@ export function DeliveryTracker({
                       )}
                     </AnimatePresence>
                   </motion.div>
-                ) : (
-                  <motion.div
-                    animate={{ opacity: 1 }}
-                    className="grid grid-cols-2 gap-2"
-                    exit={{ opacity: 0 }}
-                    initial={{ opacity: 0 }}
-                    key="contact"
-                    transition={{ duration: 0.15 }}
-                  >
-                    <Button className={press} onClick={() => setChat(true)} ref={chatBtnRef} variant="outline">
-                      <MessageCircleIcon /> Message
-                    </Button>
-                    <Button className={press} render={<a href={`tel:${courier.phone}`} />} variant="outline">
-                      <PhoneIcon /> Call
-                    </Button>
-                  </motion.div>
                 )}
               </AnimatePresence>
             </section>
 
-            <section aria-labelledby={`${uid}-drop`} className={cn(card, "flex flex-col gap-2 p-3")}>
-              <div className="flex items-center gap-3">
-                <span className="flex size-9 shrink-0 items-center justify-center rounded-lg bg-muted text-muted-foreground">
-                  <HouseIcon className="size-4" />
-                </span>
-                <div className="flex min-w-0 flex-1 flex-col">
-                  <span className="text-muted-foreground text-xs" id={`${uid}-drop`}>
-                    Drop-off
-                  </span>
-                  <span className="truncate font-medium">{address}</span>
-                </div>
+            <section aria-labelledby={`${uid}-drop`} className="flex flex-col gap-1.5 px-5 py-4">
+              <div className="flex h-6 items-center justify-between gap-2">
+                <h3 className="text-muted-foreground text-xs" id={`${uid}-drop`}>
+                  Drop-off
+                </h3>
                 {!editing && !delivered && (
                   <Button
-                    aria-label="Edit delivery note"
-                    className={press}
+                    className={cn("-me-2", press)}
                     onClick={() => {
                       setDraft(note);
                       setEditing(true);
                     }}
-                    size="icon-sm"
+                    size="xs"
                     variant="ghost"
                   >
-                    <PencilIcon />
+                    <PencilIcon /> Edit note
                   </Button>
                 )}
               </div>
+              <span className="flex items-center gap-2 font-medium">
+                <HouseIcon aria-hidden className="size-4 shrink-0 text-muted-foreground" />
+                <span className="truncate">{address}</span>
+              </span>
               <AnimatePresence initial={false} mode="popLayout">
                 {editing ? (
                   <motion.form
                     animate={{ opacity: 1 }}
-                    className="flex flex-col gap-2"
+                    className="mt-1.5 flex flex-col gap-2"
                     exit={{ opacity: 0 }}
                     initial={{ opacity: 0 }}
                     key="edit"
@@ -782,39 +802,42 @@ export function DeliveryTracker({
                 ) : (
                   <motion.p
                     animate={{ opacity: 1 }}
-                    className={cn("rounded-lg bg-muted/60 px-3 py-2 text-xs", !note && "text-muted-foreground")}
+                    className="ps-6 text-muted-foreground text-pretty"
                     initial={{ opacity: 0 }}
                     key="note"
                     transition={{ duration: 0.15 }}
                   >
-                    {note || "No note for the courier."}
+                    {note ? `“${note}”` : "No note for the courier."}
                   </motion.p>
                 )}
               </AnimatePresence>
             </section>
 
-            <section aria-labelledby={`${uid}-items`} className={cn(card, "p-3")}>
-              <div className="flex items-baseline justify-between gap-2 px-1">
-                <h3 className="font-medium" id={`${uid}-items`}>
-                  {items.reduce((s, i) => s + i.qty, 0)} items from {storeName}
+            <section aria-labelledby={`${uid}-items`} className="flex flex-col px-5 py-4">
+              <div className="flex items-baseline justify-between gap-2">
+                <h3 className="text-muted-foreground text-xs" id={`${uid}-items`}>
+                  Your order
                 </h3>
+                <span className="text-muted-foreground text-xs tabular-nums">
+                  {items.reduce((s, i) => s + i.qty, 0)} items · {storeName}
+                </span>
               </div>
-              <ul className="mt-2 flex flex-col">
+              <ul className="mt-3 flex flex-col gap-3">
                 {items.map((i) => (
-                  <li className="flex items-center gap-3 px-1 py-1.5" key={i.id}>
+                  <li className="flex items-center gap-3" key={i.id}>
                     <ItemArt art={i.art} />
                     <div className="flex min-w-0 flex-1 flex-col">
-                      <span className="truncate font-medium">{i.name}</span>
-                      <span className="truncate text-muted-foreground text-xs">
-                        {i.qty > 1 ? `${i.qty} × ` : ""}
-                        {i.detail}
+                      <span className="truncate font-medium">
+                        {i.qty > 1 && <span className="me-1 text-muted-foreground tabular-nums">{i.qty}×</span>}
+                        {i.name}
                       </span>
+                      <span className="truncate text-muted-foreground text-xs">{i.detail}</span>
                     </div>
                     <span className="tabular-nums">${(i.price * i.qty).toFixed(2)}</span>
                   </li>
                 ))}
               </ul>
-              <dl className="mt-2 flex flex-col gap-1.5 border-t px-1 pt-3 text-xs">
+              <dl className="mt-4 flex flex-col gap-1.5 border-t border-dashed pt-3 text-xs">
                 <div className="flex justify-between">
                   <dt className="text-muted-foreground">Items</dt>
                   <dd className="tabular-nums">${itemsTotal.toFixed(2)}</dd>
@@ -839,7 +862,7 @@ export function DeliveryTracker({
                     </motion.div>
                   ) : null}
                 </AnimatePresence>
-                <div className="flex justify-between font-medium text-sm">
+                <div className="mt-1 flex justify-between font-medium text-sm">
                   <dt>Paid</dt>
                   <dd className="tabular-nums">${(itemsTotal + fee + (tip ?? 0)).toFixed(2)}</dd>
                 </div>
@@ -847,9 +870,11 @@ export function DeliveryTracker({
             </section>
 
             {delivered && (
-              <Button className={cn("self-center", press)} onClick={() => setRun((r) => r + 1)} size="sm" variant="ghost">
-                <RotateCcwIcon /> Watch the delivery again
-              </Button>
+              <div className="flex justify-center px-5 py-3">
+                <Button className={press} onClick={() => setRun((r) => r + 1)} size="sm" variant="ghost">
+                  <RotateCcwIcon /> Watch the delivery again
+                </Button>
+              </div>
             )}
           </div>
         </div>

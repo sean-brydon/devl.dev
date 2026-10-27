@@ -2,6 +2,7 @@
 
 import {
   CheckIcon,
+  ChevronUpIcon,
   CopyIcon,
   EllipsisIcon,
   HandIcon,
@@ -79,6 +80,7 @@ export interface VideoCallProps {
   elapsedSeconds?: number;
   autoplay?: boolean;
   startTime?: string;
+  meetingCode?: string;
 }
 
 const spring = { type: "spring", stiffness: 420, damping: 40, mass: 1 } as const;
@@ -88,46 +90,62 @@ const menuPop =
   "transition-[opacity,scale] duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] data-starting-style:scale-95 data-starting-style:opacity-0 data-ending-style:scale-95 data-ending-style:opacity-0 data-ending-style:duration-100";
 const REACTIONS = ["👏", "🎉", "❤️", "😂", "👍", "🤔"];
 
-const hues: Record<CallHue, { feed: string; figure: string; avatar: string }> = {
+const hues: Record<CallHue, { wash: string; glowA: string; glowB: string; avatar: string; solid: string }> = {
   rose: {
-    feed: "from-rose-200 via-rose-100 to-orange-100 dark:from-rose-950 dark:via-rose-900/60 dark:to-stone-900",
-    figure: "text-rose-950/20 dark:text-rose-100/12",
+    wash: "bg-rose-50 dark:bg-rose-950/60",
+    glowA: "bg-rose-300/55 dark:bg-rose-500/22",
+    glowB: "bg-orange-200/70 dark:bg-orange-400/14",
     avatar: "bg-rose-500/15 text-rose-700 dark:bg-rose-400/20 dark:text-rose-200",
+    solid: "bg-rose-600 text-white dark:bg-rose-500",
   },
   amber: {
-    feed: "from-amber-200 via-amber-100 to-yellow-50 dark:from-amber-950 dark:via-amber-900/50 dark:to-stone-900",
-    figure: "text-amber-950/20 dark:text-amber-100/12",
-    avatar: "bg-amber-500/20 text-amber-800 dark:bg-amber-400/20 dark:text-amber-200",
+    wash: "bg-amber-50 dark:bg-amber-950/60",
+    glowA: "bg-amber-300/55 dark:bg-amber-500/22",
+    glowB: "bg-orange-200/70 dark:bg-orange-400/14",
+    avatar: "bg-amber-500/15 text-amber-700 dark:bg-amber-400/20 dark:text-amber-200",
+    solid: "bg-amber-600 text-white dark:bg-amber-500",
   },
   emerald: {
-    feed: "from-emerald-200 via-emerald-100 to-teal-50 dark:from-emerald-950 dark:via-emerald-900/50 dark:to-stone-900",
-    figure: "text-emerald-950/20 dark:text-emerald-100/12",
+    wash: "bg-emerald-50 dark:bg-emerald-950/60",
+    glowA: "bg-emerald-300/55 dark:bg-emerald-500/22",
+    glowB: "bg-teal-200/70 dark:bg-teal-400/14",
     avatar: "bg-emerald-500/15 text-emerald-700 dark:bg-emerald-400/20 dark:text-emerald-200",
+    solid: "bg-emerald-600 text-white dark:bg-emerald-500",
   },
   sky: {
-    feed: "from-sky-200 via-sky-100 to-indigo-50 dark:from-sky-950 dark:via-sky-900/50 dark:to-slate-900",
-    figure: "text-sky-950/20 dark:text-sky-100/12",
+    wash: "bg-sky-50 dark:bg-sky-950/60",
+    glowA: "bg-sky-300/55 dark:bg-sky-500/22",
+    glowB: "bg-indigo-200/70 dark:bg-indigo-400/14",
     avatar: "bg-sky-500/15 text-sky-700 dark:bg-sky-400/20 dark:text-sky-200",
+    solid: "bg-sky-600 text-white dark:bg-sky-500",
   },
   violet: {
-    feed: "from-violet-200 via-violet-100 to-fuchsia-50 dark:from-violet-950 dark:via-violet-900/50 dark:to-slate-900",
-    figure: "text-violet-950/20 dark:text-violet-100/12",
+    wash: "bg-violet-50 dark:bg-violet-950/60",
+    glowA: "bg-violet-300/55 dark:bg-violet-500/22",
+    glowB: "bg-fuchsia-200/70 dark:bg-fuchsia-400/14",
     avatar: "bg-violet-500/15 text-violet-700 dark:bg-violet-400/20 dark:text-violet-200",
+    solid: "bg-violet-600 text-white dark:bg-violet-500",
   },
   orange: {
-    feed: "from-orange-200 via-orange-100 to-amber-50 dark:from-orange-950 dark:via-orange-900/50 dark:to-stone-900",
-    figure: "text-orange-950/20 dark:text-orange-100/12",
+    wash: "bg-orange-50 dark:bg-orange-950/60",
+    glowA: "bg-orange-300/55 dark:bg-orange-500/22",
+    glowB: "bg-rose-200/70 dark:bg-rose-400/14",
     avatar: "bg-orange-500/15 text-orange-700 dark:bg-orange-400/20 dark:text-orange-200",
+    solid: "bg-orange-600 text-white dark:bg-orange-500",
   },
   teal: {
-    feed: "from-teal-200 via-teal-100 to-cyan-50 dark:from-teal-950 dark:via-teal-900/50 dark:to-slate-900",
-    figure: "text-teal-950/20 dark:text-teal-100/12",
+    wash: "bg-teal-50 dark:bg-teal-950/60",
+    glowA: "bg-teal-300/55 dark:bg-teal-500/22",
+    glowB: "bg-cyan-200/70 dark:bg-cyan-400/14",
     avatar: "bg-teal-500/15 text-teal-700 dark:bg-teal-400/20 dark:text-teal-200",
+    solid: "bg-teal-600 text-white dark:bg-teal-500",
   },
   indigo: {
-    feed: "from-indigo-200 via-indigo-100 to-sky-50 dark:from-indigo-950 dark:via-indigo-900/50 dark:to-slate-900",
-    figure: "text-indigo-950/20 dark:text-indigo-100/12",
+    wash: "bg-indigo-50 dark:bg-indigo-950/60",
+    glowA: "bg-indigo-300/55 dark:bg-indigo-500/22",
+    glowB: "bg-violet-200/70 dark:bg-violet-400/14",
     avatar: "bg-indigo-500/15 text-indigo-700 dark:bg-indigo-400/20 dark:text-indigo-200",
+    solid: "bg-indigo-600 text-white dark:bg-indigo-500",
   },
 };
 
@@ -222,7 +240,7 @@ function SpeakingBars({ reduce }: { reduce: boolean | null }) {
       {[0, 1, 2].map((i) => (
         <motion.span
           animate={reduce ? { scaleY: 0.7 } : { scaleY: [0.35, 1, 0.5, 0.85, 0.35] }}
-          className="h-3 w-[3px] origin-center rounded-full bg-emerald-400"
+          className="h-3 w-[3px] origin-center rounded-full bg-emerald-500 dark:bg-emerald-400"
           key={i}
           transition={reduce ? { duration: 0 } : { duration: 0.9, repeat: Infinity, ease: "easeInOut", delay: i * 0.15 }}
         />
@@ -231,25 +249,39 @@ function SpeakingBars({ reduce }: { reduce: boolean | null }) {
   );
 }
 
-function Feed({ hue }: { hue: CallHue }) {
+function Ambient({ hue }: { hue: CallHue }) {
+  return (
+    <div aria-hidden className={cn("absolute inset-0", hues[hue].wash)}>
+      <div className={cn("absolute -top-1/3 -left-1/4 h-full w-3/4 rounded-full blur-3xl", hues[hue].glowA)} />
+      <div className={cn("absolute -right-1/4 -bottom-1/2 h-full w-3/4 rounded-full blur-3xl", hues[hue].glowB)} />
+    </div>
+  );
+}
+
+function TileAvatar({ person, live, speaking, compact }: { person: CallPerson; live: boolean; speaking: boolean; compact?: boolean }) {
   const reduce = useReducedMotionSafe();
   return (
-    <div className={cn("absolute inset-0 bg-linear-to-br", hues[hue].feed)}>
-      <div className="absolute -top-1/4 -left-1/6 h-3/4 w-1/2 rounded-full bg-white/40 blur-2xl dark:bg-white/6" />
-      <motion.div
-        className="absolute top-[14%] right-[10%] aspect-square h-[34%] rounded-md bg-white/30 dark:bg-white/5"
-        layout={!reduce}
-      />
-      <motion.svg
-        aria-hidden
-        className={cn("absolute inset-x-0 bottom-0 mx-auto aspect-[4/3] h-[78%] max-w-full", hues[hue].figure)}
-        layout={!reduce}
-        preserveAspectRatio="xMidYMax meet"
-        viewBox="0 0 200 150"
+    <div className="relative flex items-center justify-center">
+      {speaking &&
+        !reduce &&
+        [0, 1].map((i) => (
+          <motion.span
+            animate={{ opacity: [0.45, 0], scale: [1, 1.45] }}
+            aria-hidden
+            className={cn("absolute inset-0 rounded-full", live ? hues[person.hue].solid : "bg-emerald-500/40")}
+            key={i}
+            transition={{ duration: 1.6, repeat: Infinity, ease: "easeOut", delay: i * 0.8 }}
+          />
+        ))}
+      <span
+        className={cn(
+          "relative flex size-12 items-center justify-center rounded-full font-semibold text-base tracking-tight",
+          !compact && "@[15rem]/tile:size-18 @[15rem]/tile:text-2xl @[26rem]/tile:size-22 @[26rem]/tile:text-3xl",
+          live ? hues[person.hue].solid : hues[person.hue].avatar,
+        )}
       >
-        <circle cx="100" cy="60" fill="currentColor" r="27" />
-        <path d="M36 150c0-34 28-56 64-56s64 22 64 56z" fill="currentColor" />
-      </motion.svg>
+        {initials(person.name)}
+      </span>
     </div>
   );
 }
@@ -321,24 +353,19 @@ function CallTile({
       layout={!reduce && !!ns}
       layoutId={ns ? `${ns}-${tileKey(tile)}` : undefined}
       role="group"
-      style={{ borderRadius: 14, ...style }}
+      style={{ borderRadius: 16, ...style }}
       transition={reduce ? { duration: 0.15 } : spring}
     >
       <div className="@container/tile absolute inset-0 overflow-hidden rounded-[inherit] bg-muted">
         {tile.kind === "screen" ? (
           <ScreenShare />
-        ) : p && !p.cameraOff ? (
-          <Feed hue={p.hue} />
         ) : p ? (
-          <div className="absolute inset-0 flex items-center justify-center">
-            <motion.div className="rounded-full" layout={!reduce}>
-              <PersonAvatar
-                className={cn("[--avatar-size:--spacing(10)]", !compact && "@[14rem]/tile:[--avatar-size:--spacing(16)]")}
-                person={p}
-                size={16}
-              />
+          <>
+            {!p.cameraOff && <Ambient hue={p.hue} />}
+            <motion.div className="absolute inset-0 flex items-center justify-center" layout={!reduce}>
+              <TileAvatar compact={compact} live={!p.cameraOff} person={p} speaking={speaking} />
             </motion.div>
-          </div>
+          </>
         ) : null}
 
         {p?.hand && (
@@ -354,30 +381,37 @@ function CallTile({
           </motion.span>
         )}
 
+        {p && (p.muted || p.cameraOff) && (
+          <motion.span className="absolute top-2 right-2 flex items-center gap-1" layout={!reduce}>
+            {p.cameraOff && !compact && (
+              <span className="flex size-6 items-center justify-center rounded-full bg-background/85 text-muted-foreground shadow-xs/5 backdrop-blur-sm">
+                <VideoOffIcon aria-hidden className="size-3.5" />
+              </span>
+            )}
+            {p.muted && (
+              <span className="flex size-6 items-center justify-center rounded-full bg-background/85 text-destructive-foreground shadow-xs/5 backdrop-blur-sm">
+                <MicOffIcon aria-hidden className="size-3.5" />
+              </span>
+            )}
+          </motion.span>
+        )}
+
         <motion.span
-          className="absolute bottom-2 left-2 flex h-6 max-w-[calc(100%-1rem)] items-center gap-1.5 rounded-full bg-black/55 px-2 text-white text-xs backdrop-blur-sm"
+          className="absolute bottom-2 left-2 flex h-6 max-w-[calc(100%-1rem)] items-center gap-1.5 rounded-md bg-background/85 px-2 font-medium text-foreground text-xs shadow-xs/5 backdrop-blur-sm"
           layout={!reduce}
         >
-          {tile.kind === "screen" ? (
-            <MonitorUpIcon className="size-3.5 shrink-0 opacity-80" />
-          ) : p?.muted ? (
-            <MicOffIcon aria-hidden className="size-3.5 shrink-0 text-red-300" />
-          ) : speaking ? (
-            <SpeakingBars reduce={reduce} />
-          ) : (
-            <MicIcon aria-hidden className="size-3.5 shrink-0 opacity-70" />
-          )}
-          <span className={cn("truncate font-medium", compact && "max-w-16")}>{label}</span>
+          {tile.kind === "screen" && <MonitorUpIcon className="size-3.5 shrink-0 text-muted-foreground" />}
+          {speaking && <SpeakingBars reduce={reduce} />}
+          <span className={cn("truncate", compact && "max-w-16")}>{label}</span>
         </motion.span>
       </div>
-      {speaking && (
-        <motion.span
-          aria-hidden
-          className="pointer-events-none absolute -inset-0.5 z-10 rounded-[16px] ring-2 ring-emerald-500 dark:ring-emerald-400"
-          layoutId={`${ns ?? "solo"}-speaker-ring`}
-          transition={reduce ? { duration: 0 } : spring}
-        />
-      )}
+      <motion.span
+        animate={{ opacity: speaking ? 1 : 0 }}
+        aria-hidden
+        className="pointer-events-none absolute inset-0 z-10 rounded-[inherit] ring-2 ring-emerald-500 ring-inset dark:ring-emerald-400"
+        initial={false}
+        transition={{ duration: reduce ? 0 : 0.2, ease: easeOut }}
+      />
     </motion.div>
   );
 }
@@ -446,6 +480,40 @@ function ControlButton({
   );
 }
 
+const MICS = ["Studio Display microphone", "MacBook Pro microphone", "AirPods Pro"];
+const CAMERAS = ["FaceTime HD camera", "Studio Display camera"];
+
+function DeviceSplit({ kind, devices, children }: { kind: string; devices: string[]; children: ReactNode }) {
+  const [device, setDevice] = useState(devices[0]);
+  return (
+    <div className="flex shrink-0 items-center rounded-full bg-secondary">
+      {children}
+      <Menu>
+        <MenuTrigger
+          aria-label={`${kind} settings`}
+          className={cn(
+            "-ms-0.5 hidden h-10 w-7 cursor-pointer items-center justify-center rounded-e-full pe-1 text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring data-popup-open:text-foreground @md:flex [&_svg]:size-4",
+          )}
+        >
+          <ChevronUpIcon />
+        </MenuTrigger>
+        <MenuPopup align="start" className={cn("w-60", menuPop)} side="top" sideOffset={10}>
+          <MenuGroup>
+            <MenuGroupLabel>{kind}</MenuGroupLabel>
+            <MenuRadioGroup onValueChange={(v) => setDevice(v as string)} value={device}>
+              {devices.map((d) => (
+                <MenuRadioItem key={d} value={d}>
+                  {d}
+                </MenuRadioItem>
+              ))}
+            </MenuRadioGroup>
+          </MenuGroup>
+        </MenuPopup>
+      </Menu>
+    </div>
+  );
+}
+
 type Reaction = { id: number; emoji: string; name: string; x: number };
 type Toast = { id: number; text: string; person?: CallPerson; icon?: ReactNode };
 
@@ -460,6 +528,7 @@ export function VideoCall({
   elapsedSeconds = 1453,
   autoplay = true,
   startTime = "10:20",
+  meetingCode = "kst-wqpf-ndr",
 }: VideoCallProps) {
   const reduce = useReducedMotionSafe();
   const rootRef = useRef<HTMLDivElement>(null);
@@ -834,29 +903,26 @@ export function VideoCall({
         ref={rootRef}
       >
         <header className="flex h-14 shrink-0 items-center gap-3 px-4">
-          <div className="flex min-w-0 flex-1 items-center gap-2.5">
-            <span className="hidden size-8 shrink-0 items-center justify-center rounded-lg bg-primary text-primary-foreground @md:flex">
-              <VideoIcon className="size-4" />
-            </span>
+          <div className="flex min-w-0 flex-1 items-center gap-3">
             <div className="flex min-w-0 flex-col">
               <span className="truncate font-heading font-semibold">{title}</span>
               <span className="flex items-center gap-1.5 text-muted-foreground text-xs">
-                {!left && (
-                  <span className="flex items-center gap-1 font-medium text-destructive-foreground">
-                    <span className="relative flex size-1.5">
-                      {!reduce && <span className="absolute inset-0 animate-ping rounded-full bg-destructive/60" />}
-                      <span className="relative size-1.5 rounded-full bg-destructive" />
-                    </span>
-                    REC
-                  </span>
-                )}
-                <span className="tabular-nums">{clock(elapsed)}</span>
+                <span className="tabular-nums">{timeLabel(startTime, elapsed)}</span>
                 <span aria-hidden>·</span>
                 <span className="truncate">
                   {left ? "You left" : <><span className="tabular-nums">{inCall.length}</span> in call</>}
                 </span>
               </span>
             </div>
+            {!left && (
+              <span className="flex h-6 shrink-0 items-center gap-1.5 rounded-md bg-destructive/10 px-2 font-medium text-destructive-foreground text-xs tabular-nums">
+                <span className="relative flex size-1.5">
+                  {!reduce && <span className="absolute inset-0 animate-ping rounded-full bg-destructive/60" />}
+                  <span className="relative size-1.5 rounded-full bg-destructive" />
+                </span>
+                {clock(elapsed)}
+              </span>
+            )}
           </div>
           {!left && (
             <div className="flex items-center gap-2">
@@ -1035,7 +1101,7 @@ export function VideoCall({
                       transition={{ duration: reduce ? 1.6 : 2.4, ease: easeOut, times: [0, 0.12, 0.7, 1] }}
                     >
                       <span className="text-3xl leading-none drop-shadow-sm">{r.emoji}</span>
-                      <span className="rounded-full bg-black/55 px-1.5 py-px font-medium text-[10px] text-white">{r.name}</span>
+                      <span className="rounded-md bg-background/85 px-1.5 py-px font-medium text-[10px] text-foreground shadow-xs/5 backdrop-blur-sm">{r.name}</span>
                     </motion.div>
                   ))}
                 </AnimatePresence>
@@ -1087,32 +1153,46 @@ export function VideoCall({
 
         <footer className="flex h-[72px] shrink-0 items-center gap-3 px-4">
           <div className="hidden min-w-0 flex-1 items-center gap-2 text-muted-foreground text-xs @4xl:flex">
+            <button
+              className="flex h-8 cursor-pointer items-center gap-1.5 rounded-lg px-2 font-mono outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+              onClick={() => setCopied(true)}
+              type="button"
+            >
+              {copied ? <CheckIcon className="size-3.5 text-success-foreground" /> : <CopyIcon className="size-3.5" />}
+              {meetingCode}
+            </button>
             <span className="truncate">
-              Hosted by {host ? (host.id === you.id ? "you" : host.name) : "you"}
+              Hosted by {host ? (host.id === you.id ? "you" : firstName(host.name)) : "you"}
             </span>
           </div>
           {left ? (
             <div className="flex-1" />
           ) : (
             <div className="mx-auto flex items-center gap-2 @4xl:mx-0" role="toolbar" aria-label="Call controls">
-              <ControlButton
-                label={me.muted ? "Unmute" : "Mute"}
-                onClick={toggleMic}
-                pressed={me.muted}
-                shortcut="M"
-                tone={me.muted ? "off" : "default"}
-              >
-                {me.muted ? <MicOffIcon /> : <MicIcon />}
-              </ControlButton>
-              <ControlButton
-                label={me.cameraOff ? "Turn camera on" : "Turn camera off"}
-                onClick={toggleCam}
-                pressed={me.cameraOff}
-                shortcut="V"
-                tone={me.cameraOff ? "off" : "default"}
-              >
-                {me.cameraOff ? <VideoOffIcon /> : <VideoIcon />}
-              </ControlButton>
+              <DeviceSplit devices={MICS} kind="Microphone">
+                <ControlButton
+                  className={me.muted ? undefined : "bg-transparent"}
+                  label={me.muted ? "Unmute" : "Mute"}
+                  onClick={toggleMic}
+                  pressed={me.muted}
+                  shortcut="M"
+                  tone={me.muted ? "off" : "default"}
+                >
+                  {me.muted ? <MicOffIcon /> : <MicIcon />}
+                </ControlButton>
+              </DeviceSplit>
+              <DeviceSplit devices={CAMERAS} kind="Camera">
+                <ControlButton
+                  className={me.cameraOff ? undefined : "bg-transparent"}
+                  label={me.cameraOff ? "Turn camera on" : "Turn camera off"}
+                  onClick={toggleCam}
+                  pressed={me.cameraOff}
+                  shortcut="V"
+                  tone={me.cameraOff ? "off" : "default"}
+                >
+                  {me.cameraOff ? <VideoOffIcon /> : <VideoIcon />}
+                </ControlButton>
+              </DeviceSplit>
               <ControlButton
                 className="hidden @md:flex"
                 label={sharing ? "Stop presenting" : "Present screen"}

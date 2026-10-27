@@ -27,7 +27,6 @@ import {
   Settings2Icon,
   ShieldCheckIcon,
   SparklesIcon,
-  UsersIcon,
   TableIcon,
   UnplugIcon,
   VideoIcon,
@@ -559,6 +558,14 @@ export function Connectors({
       );
   }, [apps, category, filter, query, sort, status]);
 
+  const sections = useMemo(() => {
+    if (sort !== "popular" || category !== "All" || query.trim()) return [{ title: null as string | null, apps: visible }];
+    return categories
+      .slice(1)
+      .map((c) => ({ title: c.name as string | null, apps: visible.filter((a) => a.category === c.name) }))
+      .filter((g) => g.apps.length > 0);
+  }, [visible, sort, category, query, categories]);
+
   const open = apps.find((a) => a.id === openId) ?? null;
 
   const onRootKeyDown = (e: KeyboardEvent<HTMLDivElement>) => {
@@ -820,104 +827,34 @@ export function Connectors({
                 </div>
               </motion.div>
             ) : (
-              <motion.ul className="grid grid-cols-1 gap-3 @lg:grid-cols-2 @4xl:grid-cols-3" layout={!reduce} transition={glide}>
-                <AnimatePresence initial={false} mode="popLayout">
-                  {visible.map((app) => {
-                    const Icon = app.icon;
-                    const s = status[app.id] ?? "idle";
-                    return (
-                      <motion.li
-                        animate={{ opacity: 1, scale: 1 }}
-                        className={cn(
-                          "group relative grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-x-3 gap-y-1.5 rounded-2xl border bg-card p-3 transition-[border-color,scale] duration-150 ease-out hover:border-foreground/16 has-[[data-card-trigger]:active]:scale-[0.985]",
-                          "[grid-template-areas:'tile_title_action'_'._blurb_blurb'_'._meta_meta'] @lg:gap-y-3 @lg:[grid-template-areas:'tile_title_title'_'blurb_blurb_blurb'_'meta_meta_action']",
-                        )}
-                        exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
-                        initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.96 }}
-                        key={app.id}
-                        layout={!reduce}
-                        transition={quick}
-                      >
-                        <span
-                          className={cn(
-                            "flex size-10 shrink-0 items-center justify-center rounded-[calc(var(--radius-2xl)-0.75rem)] [grid-area:tile]",
-                            toneClass[app.tone],
-                          )}
-                        >
-                          <Icon className="size-5" />
-                        </span>
-                        <div className="min-w-0 [grid-area:title]">
-                          <div className="flex items-center gap-1.5">
-                            <button
-                              className="truncate text-start font-medium outline-none after:absolute after:inset-0 after:rounded-2xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
-                              data-card-trigger
-                              onClick={() => setOpenId(app.id)}
-                              type="button"
-                            >
-                              {app.name}
-                            </button>
-                            {app.tag && (
-                              <Badge size="sm" variant={tagVariant[app.tag]}>
-                                {app.tag}
-                              </Badge>
-                            )}
-                          </div>
-                          <p className="truncate text-muted-foreground text-xs">
-                            {app.category}
-                                                      </p>
-                        </div>
-                        <p className="line-clamp-2 text-pretty text-muted-foreground [grid-area:blurb]">{app.blurb}</p>
-                        <div
-                          className={cn(
-                            "min-w-0 items-center [grid-area:meta] @lg:flex",
-                            s === "error" ? "flex" : "hidden",
-                          )}
-                        >
-                          <AnimatePresence initial={false} mode="popLayout">
-                            {s === "error" ? (
-                              <motion.span
-                                animate={{ opacity: 1, y: 0 }}
-                                className="inline-flex min-w-0 items-center gap-1.5 rounded-lg bg-destructive/8 px-2 py-1 text-destructive-foreground text-xs @lg:bg-transparent @lg:p-0"
-                                exit={{ opacity: 0 }}
-                                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 4 }}
-                                key="error"
-                                role="status"
-                                transition={quick}
-                              >
-                                <CircleAlertIcon className="size-3.5 shrink-0" />
-                                <span className="truncate">Authorization failed</span>
-                              </motion.span>
-                            ) : (
-                              <motion.span
-                                animate={{ opacity: 1 }}
-                                className="inline-flex items-center gap-1 whitespace-nowrap text-muted-foreground text-xs tabular-nums"
-                                exit={{ opacity: 0 }}
-                                initial={{ opacity: 0 }}
-                                key="installs"
-                                transition={quick}
-                              >
-                                <UsersIcon aria-hidden className="size-3" />
-                                {formatInstalls(app.installs)}
-                                <span className="sr-only">workspaces</span>
-                              </motion.span>
-                            )}
-                          </AnimatePresence>
-                        </div>
-                        <div className="relative z-[1] [grid-area:action]">
-                          <ConnectButton
-                            name={app.name}
+              <div className="flex flex-col gap-8">
+                {sections.map((section) => (
+                  <section aria-label={section.title ?? "Apps"} key={section.title ?? "all"}>
+                    {section.title && (
+                      <h3 className="mb-2.5 flex items-baseline gap-2 font-medium text-sm">
+                        {section.title}
+                        <span className="font-normal text-muted-foreground text-xs tabular-nums">{section.apps.length}</span>
+                      </h3>
+                    )}
+                    <motion.ul className="grid grid-cols-1 gap-2.5 @2xl:grid-cols-2" layout={!reduce} transition={glide}>
+                      <AnimatePresence initial={false} mode="popLayout">
+                        {section.apps.map((app) => (
+                          <AppCard
+                            app={app}
+                            key={app.id}
                             onCancel={() => reset(app.id)}
-                            onConfigure={() => setOpenId(app.id)}
                             onConnect={() => connect(app.id)}
                             onDisconnect={() => reset(app.id)}
-                            status={s}
+                            onOpen={() => setOpenId(app.id)}
+                            reduce={reduce}
+                            status={status[app.id] ?? "idle"}
                           />
-                        </div>
-                      </motion.li>
-                    );
-                  })}
-                </AnimatePresence>
-              </motion.ul>
+                        ))}
+                      </AnimatePresence>
+                    </motion.ul>
+                  </section>
+                ))}
+              </div>
             )}
           </div>
         </div>
@@ -966,6 +903,97 @@ export function Connectors({
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+function AppCard({
+  app,
+  status: s,
+  reduce,
+  onOpen,
+  onConnect,
+  onCancel,
+  onDisconnect,
+}: {
+  app: ConnectorApp;
+  status: Status;
+  reduce: boolean;
+  onOpen: () => void;
+  onConnect: () => void;
+  onCancel: () => void;
+  onDisconnect: () => void;
+}) {
+  const Icon = app.icon;
+  return (
+    <motion.li
+      animate={{ opacity: 1, scale: 1 }}
+      className={cn(
+        "group relative flex items-start gap-3 rounded-xl border bg-card p-3.5 transition-[border-color,background-color,scale] duration-150 ease-out has-[[data-card-trigger]:active]:scale-[0.985] [@media(hover:hover)]:hover:border-foreground/16",
+        s === "error" && "border-destructive/24",
+      )}
+      exit={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
+      initial={reduce ? { opacity: 0 } : { opacity: 0, scale: 0.97 }}
+      layout={!reduce}
+      transition={quick}
+    >
+      <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-lg", toneClass[app.tone])}>
+        <Icon className="size-4.5" />
+      </span>
+      <div className="min-w-0 flex-1">
+        <div className="flex h-5 items-center gap-1.5">
+          <button
+            className="truncate text-start font-medium outline-none after:absolute after:inset-0 after:rounded-xl focus-visible:after:ring-2 focus-visible:after:ring-ring"
+            data-card-trigger
+            onClick={onOpen}
+            type="button"
+          >
+            {app.name}
+          </button>
+          {app.tag && (
+            <Badge size="sm" variant={tagVariant[app.tag]}>
+              {app.tag}
+            </Badge>
+          )}
+        </div>
+        <AnimatePresence initial={false} mode="popLayout">
+          {s === "error" ? (
+            <motion.p
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-0.5 flex min-w-0 items-center gap-1.5 text-destructive-foreground text-xs"
+              exit={{ opacity: 0 }}
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 3 }}
+              key="error"
+              role="status"
+              transition={quick}
+            >
+              <CircleAlertIcon className="size-3.5 shrink-0" />
+              <span className="truncate">Authorization failed. Retry to try again.</span>
+            </motion.p>
+          ) : (
+            <motion.p
+              animate={{ opacity: 1 }}
+              className="mt-0.5 line-clamp-2 text-pretty text-muted-foreground text-xs @2xl:line-clamp-1"
+              exit={{ opacity: 0 }}
+              initial={{ opacity: 0 }}
+              key="blurb"
+              transition={quick}
+            >
+              {app.blurb}
+            </motion.p>
+          )}
+        </AnimatePresence>
+      </div>
+      <div className="relative z-[1] -my-0.5 shrink-0">
+        <ConnectButton
+          name={app.name}
+          onCancel={onCancel}
+          onConfigure={onOpen}
+          onConnect={onConnect}
+          onDisconnect={onDisconnect}
+          status={s}
+        />
+      </div>
+    </motion.li>
   );
 }
 

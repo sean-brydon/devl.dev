@@ -1,0 +1,14 @@
+{
+  "name": "Profile Settings",
+  "description": "Edit your profile: crop a generated photo in a small dialog, claim a username with a live availability check and suggestions, see your local time on a tiny clock, and save from a bar that springs up when something changes.",
+  "kind": "screen",
+  "category": "Settings",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "profile",
+    "avatar crop",
+    "unsaved changes"
+  ],
+  "no": 267
+}

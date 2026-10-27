@@ -327,7 +327,7 @@ function CheckBox({ checked, onToggle, label }: { checked: boolean; onToggle: ()
       aria-checked={checked}
       aria-label={label}
       className={cn(
-        "relative mt-[3px] flex size-4.5 shrink-0 cursor-pointer items-center justify-center rounded-[5px] border transition-[background-color,border-color,scale] duration-150 ease-out after:absolute after:-inset-2.5 after:content-[''] active:scale-[0.92]",
+        "relative mt-[5px] flex size-4.5 shrink-0 cursor-pointer items-center justify-center rounded-[5px] border transition-[background-color,border-color,scale] duration-150 ease-out after:absolute after:-inset-2.5 after:content-[''] active:scale-[0.92]",
         ring,
         "focus-visible:ring-offset-1 focus-visible:ring-offset-background",
         checked ? "border-primary bg-primary text-primary-foreground" : "border-input bg-background hover:border-foreground/40 dark:bg-input/32",
@@ -353,11 +353,11 @@ function CheckBox({ checked, onToggle, label }: { checked: boolean; onToggle: ()
 }
 
 const blockStyles: Record<NoteBlockType, string> = {
-  h1: "font-heading font-semibold text-2xl tracking-tight",
-  h2: "font-heading font-semibold text-base tracking-tight",
-  p: "text-sm leading-6",
-  todo: "text-sm leading-6",
-  bullet: "text-sm leading-6",
+  h1: "font-heading font-semibold text-xl leading-8 tracking-tight",
+  h2: "font-heading font-semibold text-base leading-7 tracking-tight",
+  p: "text-[15px] leading-7",
+  todo: "text-[15px] leading-7",
+  bullet: "text-[15px] leading-7",
 };
 
 const blockTypes: { value: NoteBlockType; label: string; icon: ReactNode }[] = [
@@ -822,6 +822,40 @@ export function Notes({
                   </Button>
                 ) : (
                   <>
+                    <div aria-label="Formatting" className="flex items-center gap-0.5" role="toolbar">
+                      {blockTypes.map((t) => {
+                        const active = focusedType === t.value;
+                        return (
+                          <button
+                            aria-label={`Turn into ${t.label.toLowerCase()}`}
+                            aria-pressed={active}
+                            className={cn(
+                              "relative flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-lg [&_svg]:size-4 sm:size-7",
+                              ring,
+                              press,
+                              active ? "text-foreground" : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                              "disabled:pointer-events-none disabled:opacity-40",
+                            )}
+                            disabled={!focusedBlock}
+                            key={t.value}
+                            onClick={() => focusedBlock && convert(focusedBlock, t.value)}
+                            onMouseDown={(e) => e.preventDefault()}
+                            title={t.label}
+                            type="button"
+                          >
+                            {active && (
+                              <motion.span
+                                className="absolute inset-0 rounded-lg bg-accent"
+                                layoutId="notes-blocktype"
+                                transition={reduce ? { duration: 0 } : spring}
+                              />
+                            )}
+                            <span className="relative flex">{t.icon}</span>
+                          </button>
+                        );
+                      })}
+                    </div>
+                    <span aria-hidden className="mx-1.5 h-4 w-px bg-border" />
                     <Button
                       aria-label={note.pinned ? "Unpin note" : "Pin note"}
                       aria-pressed={!!note.pinned}
@@ -848,57 +882,17 @@ export function Notes({
               </div>
             </div>
 
-            {!note.deleted && (
-              <div className="mx-auto w-full max-w-2xl shrink-0 px-5 @3xl:px-10">
-              <div aria-label="Formatting" className="flex w-fit max-w-full items-center gap-0.5 overflow-x-auto rounded-xl border bg-card p-1 shadow-xs/5 [scrollbar-width:none]" role="toolbar">
-                {blockTypes.map((t) => {
-                  const active = focusedType === t.value;
-                  return (
-                    <button
-                      aria-label={`Turn into ${t.label.toLowerCase()}`}
-                      aria-pressed={active}
-                      className={cn(
-                        "relative flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-lg px-2.5 text-xs [&_svg]:size-4",
-                        ring,
-                        press,
-                        active ? "font-medium text-foreground" : "text-muted-foreground hover:bg-accent hover:text-foreground",
-                        "disabled:pointer-events-none disabled:opacity-50",
-                      )}
-                      disabled={!focusedBlock}
-                      key={t.value}
-                      onClick={() => focusedBlock && convert(focusedBlock, t.value)}
-                      onMouseDown={(e) => e.preventDefault()}
-                      type="button"
-                    >
-                      {active && (
-                        <motion.span
-                          className="absolute inset-0 rounded-lg bg-accent"
-                          layoutId="notes-blocktype"
-                          transition={reduce ? { duration: 0 } : spring}
-                        />
-                      )}
-                      <span className="relative flex items-center gap-1.5">
-                        {t.icon}
-                        <span className="hidden @lg:inline">{t.label}</span>
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
-              </div>
-            )}
-
             <div className="min-h-0 flex-1 overflow-y-auto">
               <motion.article
                 animate={{ opacity: 1 }}
-                className="mx-auto flex max-w-2xl flex-col px-5 pt-6 pb-24 @3xl:px-10"
+                className="mx-auto flex max-w-2xl flex-col px-5 pt-6 pb-24 @3xl:px-12 @3xl:pt-10"
                 initial={reduce ? false : { opacity: 0 }}
                 key={note.id}
                 transition={{ duration: 0.12, ease: "easeOut" }}
               >
                 <AutoText
                   aria-label="Title"
-                  className="font-heading font-semibold text-2xl tracking-tight"
+                  className="font-heading font-semibold text-2xl tracking-tight @3xl:text-3xl"
                   inputRef={(el) => {
                     titleRef.current = el;
                   }}
@@ -914,7 +908,7 @@ export function Notes({
                   readOnly={note.deleted}
                   value={note.title}
                 />
-                <div className="mt-2 mb-5 flex flex-wrap items-center gap-x-3 gap-y-1 text-muted-foreground text-xs">
+                <div className="mt-2 mb-6 flex flex-wrap items-center gap-x-3 gap-y-1 border-b pb-5 text-muted-foreground text-xs">
                   <span className="tabular-nums">{words} words</span>
                   {stats.total > 0 && (
                     <span className="flex items-center gap-1.5 tabular-nums">
@@ -978,7 +972,7 @@ export function Notes({
                           onToggle={() => !note.deleted && patchBlock(block.id, { done: !block.done })}
                         />
                       ) : block.type === "bullet" ? (
-                        <span aria-hidden className="flex h-6 w-4.5 shrink-0 items-center justify-center">
+                        <span aria-hidden className="flex h-7 w-4.5 shrink-0 items-center justify-center">
                           <span className="size-1.5 rounded-full bg-foreground/60" />
                         </span>
                       ) : null}

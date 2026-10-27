@@ -213,7 +213,7 @@ function HairlineSidebar({ collapsed, workspaces, nav, projects, user, active, o
   const group = useId();
   const fade = cn("transition-opacity duration-150", collapsed && "pointer-events-none opacity-0");
   const row =
-    "group/row relative flex h-8 w-full cursor-pointer items-center gap-2 overflow-hidden rounded-md px-2.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset";
+    "group/row relative flex h-7 w-full cursor-pointer items-center gap-2 overflow-hidden rounded-md px-2.5 text-left text-[13px] outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset";
 
   const item = (id: string, label: string, icon: ReactNode, trailing?: ReactNode) => {
     const on = active === id;
@@ -450,7 +450,7 @@ function IssueList({ issues, fresh, onAdd }: { issues: HairlineIssue[]; fresh: s
         const isOpen = !closed.includes(g.id);
         return (
           <section key={g.id}>
-            <div className="sticky top-0 z-10 flex h-9 items-center border-b bg-muted/72 pe-2 backdrop-blur-sm dark:bg-muted">
+            <div className="sticky top-0 z-10 flex h-9 items-center border-b bg-background pe-2">
               <button
                 aria-expanded={isOpen}
                 className="flex h-full min-w-0 flex-1 cursor-pointer items-center gap-2 ps-4 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset @3xl:ps-5"
@@ -461,7 +461,7 @@ function IssueList({ issues, fresh, onAdd }: { issues: HairlineIssue[]; fresh: s
                   className={cn("size-3.5 text-muted-foreground transition-transform duration-200 ease-out", isOpen && "rotate-90")}
                 />
                 <g.icon className={cn("size-3.5", g.tone)} />
-                <span className="font-medium">{g.label}</span>
+                <span className="font-medium text-[13px]">{g.label}</span>
                 <span className="text-muted-foreground text-xs tabular-nums">{rows.length}</span>
               </button>
               <Tooltip>
@@ -517,11 +517,11 @@ function IssueList({ issues, fresh, onAdd }: { issues: HairlineIssue[]; fresh: s
                               {issue.id}
                             </span>
                             <g.icon className={cn("size-3.5 shrink-0", g.tone)} />
-                            <span className="min-w-0 flex-1 truncate">
+                            <span className="min-w-0 flex-1 truncate text-[13px]">
                               {issue.title}
                             </span>
                             {issue.label && (
-                              <span className="hidden h-5 shrink-0 items-center gap-1.5 rounded-full border px-2 text-muted-foreground text-xs @2xl:inline-flex">
+                              <span className="hidden h-5 shrink-0 items-center gap-1.5 rounded-full border px-2 text-[11px] text-muted-foreground @2xl:inline-flex">
                                 <span className={cn("size-1.5 rounded-full", swatch[issue.label.tone])} />
                                 {issue.label.name}
                               </span>
