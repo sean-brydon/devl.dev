@@ -76,6 +76,7 @@ await rm(path.join(outDir, "code"), { recursive: true, force: true });
 for (const dir of [outDir, publicDir, codeDir, rawDir]) await mkdir(dir, { recursive: true });
 const depsOf = new Map();
 const llms = [];
+const registryIndex = [];
 
 for (const { slug, meta, source, demo } of items) {
   const imports = importsOf(source);
@@ -108,27 +109,35 @@ for (const { slug, meta, source, demo } of items) {
   const kindPath = { component: "components", block: "blocks", screen: "screens", motion: "motion", illustration: "illustrations" }[meta.kind];
   llms.push(`- [${meta.name}](${site}/${kindPath}/${slug}): ${meta.description} Install: \`npx shadcn@latest add ${site}/r/${slug}.json\` · Raw: ${site}/raw/${slug}.tsx${deps.length ? ` · npm: ${deps.join(", ")}` : ""}${ui.length ? ` · coss ui: ${ui.join(", ")}` : ""}`);
 
+  const entry = {
+    name: slug,
+    type: ["component", "motion", "illustration"].includes(meta.kind) ? "registry:component" : "registry:block",
+    title: meta.name,
+    description: meta.description,
+    categories: [meta.kind, meta.category],
+    dependencies: deps,
+    registryDependencies: [
+      ...(usesUtils ? ["utils"] : []),
+      ...ui.map((name) => `https://coss.com/ui/r/${name}.json`),
+    ],
+    files: [{ path: `registry/devl/${slug}.tsx`, type: "registry:component" }],
+  };
+  registryIndex.push(entry);
   await put(
     path.join(publicDir, `${slug}.json`),
     JSON.stringify(
-      {
-        $schema: "https://ui.shadcn.com/schema/registry-item.json",
-        name: slug,
-        type: ["component", "motion", "illustration"].includes(meta.kind) ? "registry:component" : "registry:block",
-        title: meta.name,
-        description: meta.description,
-        dependencies: deps,
-        registryDependencies: [
-          ...(usesUtils ? ["utils"] : []),
-          ...ui.map((name) => `https://coss.com/ui/r/${name}.json`),
-        ],
-        files: [{ path: `registry/devl/${slug}.tsx`, type: "registry:component", content: source }],
-      },
+      { $schema: "https://ui.shadcn.com/schema/registry-item.json", ...entry, files: [{ ...entry.files[0], content: source }] },
       null,
       2,
     ),
   );
 }
+
+// The registry index lets the shadcn CLI and MCP list and search devl under a namespace: "@devl": "https://devl.dev/r/{name}.json".
+await put(
+  path.join(publicDir, "registry.json"),
+  JSON.stringify({ $schema: "https://ui.shadcn.com/schema/registry.json", name: "devl", homepage: site, items: registryIndex }, null, 2),
+);
 
 const index = items.map(({ slug, meta, source }) => ({
   slug,
@@ -169,7 +178,7 @@ await put(
 const own = items.filter((i) => !i.meta.source);
 const keep = [
   [codeDir, new Set(items.map((i) => `${i.slug}.json`))],
-  [publicDir, new Set(own.map((i) => `${i.slug}.json`))],
+  [publicDir, new Set([...own.map((i) => `${i.slug}.json`), "registry.json"])],
   [rawDir, new Set(own.map((i) => `${i.slug}.tsx`))],
 ];
 for (const [dir, live] of keep) {

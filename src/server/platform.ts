@@ -57,3 +57,17 @@ export class Platform extends Context.Service<
     ),
   );
 }
+
+interface AssetsLike {
+  fetch(input: Request | string | URL): Promise<Response>;
+}
+
+/** Reads a static file the site serves (e.g. /raw/<slug>.tsx): from the Workers assets binding, or over HTTP in dev. */
+export async function readAsset(path: string, origin: string): Promise<string | null> {
+  const url = new URL(path, origin);
+  const assets = await getCloudflareContext({ async: true })
+    .then(({ env }) => (env as unknown as { ASSETS?: AssetsLike }).ASSETS)
+    .catch(() => undefined);
+  const response = await (assets ? assets.fetch(url) : fetch(url)).catch(() => null);
+  return response?.ok ? response.text() : null;
+}

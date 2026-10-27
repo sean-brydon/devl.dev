@@ -187,12 +187,14 @@ function PouringWord({
   em,
   delay,
   onFormed,
+  typeClass,
 }: {
   word: string;
   box: Box;
   em: number;
   delay: number;
   onFormed: () => void;
+  typeClass: string;
 }) {
   const filterId = `pour-word-${useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
   const blurRef = useRef<SVGFEGaussianBlurElement>(null);
@@ -254,7 +256,7 @@ function PouringWord({
       ))}
       <motion.span
         animate={{ opacity: 1, scaleX: 1, scaleY: 1 }}
-        className={cn(headlineType, "absolute block whitespace-nowrap text-(--liquid)")}
+        className={cn(typeClass, "absolute block whitespace-nowrap text-(--liquid)")}
         initial={{ opacity: 0, scaleX: 0.16, scaleY: 0.1 }}
         style={{ left: padX, top: y, originX: spots[0], originY: 0.78 }}
         transition={{
@@ -460,25 +462,26 @@ function PourButton({ href, children, reduce }: { href: string; children: ReactN
   );
 }
 
-export interface PourHeroProps {
-  headline: string[];
-  description: string;
-  primaryAction: Action;
-  secondaryAction?: Action;
+const headroom = 128;
+
+export interface PourHeadlineProps {
+  lines: string[];
   className?: string;
+  replay?: number;
 }
 
-export function PourHero({ headline, description, primaryAction, secondaryAction, className }: PourHeroProps) {
+export function PourHeadline({ lines: headline, className, replay = 0 }: PourHeadlineProps) {
   const reduce = useSafeReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
-  const inView = useInView(sectionRef, { once: true, amount: 0.3 });
+  const inView = useInView(rootRef, { once: true, amount: 0.3 });
   const [phase, setPhase] = useState<Phase>("waiting");
   const [run, setRun] = useState(0);
   const [boxes, setBoxes] = useState<Box[]>([]);
   const [em, setEm] = useState(0);
   const [states, setStates] = useState<WordState[]>([]);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const typeClass = cn(headlineType, className);
 
   const lines = headline.map((line) => line.split(/\s+/).filter(Boolean));
   const words = lines.flat();
@@ -501,7 +504,22 @@ export function PourHero({ headline, description, primaryAction, secondaryAction
     setPhase("pouring");
   }, [clearTimers]);
 
+  const again = useRef(() => {});
+  again.current = () => {
+    clearTimers();
+    if (phase === "settled") {
+      setPhase("clearing");
+      later(pour, 180);
+    } else {
+      pour();
+    }
+  };
+
   useEffect(() => clearTimers, [clearTimers]);
+
+  useEffect(() => {
+    if (replay > 0) again.current();
+  }, [replay]);
 
   useEffect(() => {
     if (!reduce) return;
@@ -515,14 +533,15 @@ export function PourHero({ headline, description, primaryAction, secondaryAction
 
   useLayoutEffect(() => {
     if (phase !== "pouring" || run === 0) return;
-    const section = sectionRef.current;
+    const root = rootRef.current;
     const first = wordRefs.current[0];
-    if (!section || !first) return;
+    if (!root || !first) return;
     setEm(Number.parseFloat(getComputedStyle(first).fontSize) || 64);
     setBoxes(
-      wordRefs.current
-        .slice(0, words.length)
-        .map((element) => (element ? offsetWithin(element, section) : { x: 0, y: 0, width: 0, height: 0 })),
+      wordRefs.current.slice(0, words.length).map((element) => {
+        const box = element ? offsetWithin(element, root) : { x: 0, y: 0, width: 0, height: 0 };
+        return { ...box, y: box.y + headroom };
+      }),
     );
   }, [phase, run, words.length]);
 
@@ -544,16 +563,6 @@ export function PourHero({ headline, description, primaryAction, secondaryAction
     later(() => mark(index, "set"), 160);
   };
 
-  const replay = () => {
-    clearTimers();
-    if (phase === "settled") {
-      setPhase("clearing");
-      later(pour, 180);
-    } else {
-      pour();
-    }
-  };
-
   const wordTone = (index: number) => {
     if (phase === "waiting") return "motion-safe:text-transparent";
     if (phase === "clearing") return undefined;
@@ -566,44 +575,73 @@ export function PourHero({ headline, description, primaryAction, secondaryAction
   let wordIndex = 0;
 
   return (
+    <div className="relative [--liquid:var(--color-lime-500)] dark:[--liquid:var(--color-lime-400)]" ref={rootRef}>
+      <h1 className={cn(typeClass, "relative transition-opacity duration-150 ease-out", phase === "clearing" && "opacity-0")}>
+        {lines.map((line, lineIndex) => (
+          <span className="block" key={`${lineIndex}-${line.join(" ")}`}>
+            {phase === "settled"
+              ? line.join(" ")
+              : line.map((word, position) => {
+                  const index = wordIndex++;
+                  return (
+                    <Fragment key={`${index}-${word}`}>
+                      {position > 0 && " "}
+                      <span
+                        className={cn("inline-block", wordTone(index))}
+                        ref={(element) => {
+                          wordRefs.current[index] = element;
+                        }}
+                      >
+                        {word}
+                      </span>
+                    </Fragment>
+                  );
+                })}
+          </span>
+        ))}
+      </h1>
+      {phase === "pouring" && em > 0 && boxes.length === words.length && (
+        <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0" key={run} style={{ top: -headroom }}>
+          {boxes.map((box, index) =>
+            states[index] ? null : (
+              <PouringWord
+                box={box}
+                delay={index * wordGap + (((index * 37) % 7) - 3) * 0.008 + 0.03}
+                em={em}
+                key={`${index}-${words[index]}`}
+                onFormed={() => formWord(index)}
+                typeClass={typeClass}
+                word={words[index]}
+              />
+            ),
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+export interface PourHeroProps {
+  headline: string[];
+  description: string;
+  primaryAction: Action;
+  secondaryAction?: Action;
+  className?: string;
+}
+
+export function PourHero({ headline, description, primaryAction, secondaryAction, className }: PourHeroProps) {
+  const reduce = useSafeReducedMotion();
+  const [replays, setReplays] = useState(0);
+
+  return (
     <section
       className={cn(
         "relative isolate w-full overflow-hidden bg-background text-foreground [--liquid:var(--color-lime-500)] dark:[--liquid:var(--color-lime-400)]",
         className,
       )}
-      ref={sectionRef}
     >
       <div className="mx-auto flex min-h-[600px] w-full max-w-[1100px] flex-col justify-center px-6 pt-32 pb-16 sm:min-h-[704px] sm:px-12 sm:pt-36 sm:pb-20">
-        <h1
-          className={cn(
-            headlineType,
-            "max-w-[15ch] text-balance transition-opacity duration-150 ease-out sm:max-w-none",
-            phase === "clearing" && "opacity-0",
-          )}
-        >
-          {lines.map((line, lineIndex) => (
-            <span className="block" key={`${lineIndex}-${line.join(" ")}`}>
-              {phase === "settled"
-                ? line.join(" ")
-                : line.map((word, position) => {
-                    const index = wordIndex++;
-                    return (
-                      <Fragment key={`${index}-${word}`}>
-                        {position > 0 && " "}
-                        <span
-                          className={cn("inline-block", wordTone(index))}
-                          ref={(element) => {
-                            wordRefs.current[index] = element;
-                          }}
-                        >
-                          {word}
-                        </span>
-                      </Fragment>
-                    );
-                  })}
-            </span>
-          ))}
-        </h1>
+        <PourHeadline className="max-w-[15ch] text-balance sm:max-w-none" lines={headline} replay={replays} />
         <p className="mt-6 max-w-[36rem] text-pretty text-base text-muted-foreground sm:mt-8 sm:text-lg">{description}</p>
         <div className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-3 sm:mt-10">
           <PourButton href={primaryAction.href} reduce={reduce}>
@@ -620,27 +658,11 @@ export function PourHero({ headline, description, primaryAction, secondaryAction
           )}
         </div>
       </div>
-      {phase === "pouring" && em > 0 && boxes.length === words.length && (
-        <div aria-hidden className="pointer-events-none absolute inset-0" key={run}>
-          {boxes.map((box, index) =>
-            states[index] ? null : (
-              <PouringWord
-                box={box}
-                delay={index * wordGap + (((index * 37) % 7) - 3) * 0.008 + 0.03}
-                em={em}
-                key={`${index}-${words[index]}`}
-                onFormed={() => formWord(index)}
-                word={words[index]}
-              />
-            ),
-          )}
-        </div>
-      )}
       {!reduce && (
         <button
           aria-label="Pour the headline again"
           className="absolute right-4 bottom-4 inline-flex h-8 items-center gap-1.5 rounded-full px-3 font-medium text-muted-foreground text-xs outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring pointer-coarse:after:absolute pointer-coarse:after:-inset-1 sm:right-6 sm:bottom-6"
-          onClick={replay}
+          onClick={() => setReplays((count) => count + 1)}
           type="button"
         >
           <RotateCcw className="size-3.5" />

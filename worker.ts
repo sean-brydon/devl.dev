@@ -16,7 +16,7 @@ const sections: Record<string, string> = {
 };
 const slugs = new Set(generatedItems.map((item) => item.slug));
 const itemPaths = new Set(generatedItems.map((item) => `/${sections[item.kind]}/${item.slug}`));
-const topLevel = new Set([...Object.values(sections), "docs", "advertise", "admin", "sponsor-stats"]);
+const topLevel = new Set([...Object.values(sections), "docs", "advertise", "admin", "sponsor-stats", "mcp"]);
 
 function isMissing(pathname: string) {
   const parts = pathname.split("/").filter(Boolean);
