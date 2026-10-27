@@ -3,7 +3,6 @@
   "description": "An agent run as a flame graph, one stacked frame per call and as wide as it took; switch the lens to tokens or cost and the frames spring to their new sizes, click any frame to zoom in, and the slowest one is flagged for you.",
   "kind": "component",
   "category": "Mission Control",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "trace",

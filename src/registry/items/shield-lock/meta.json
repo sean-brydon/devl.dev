@@ -1,9 +1,8 @@
 {
   "name": "Shield Lock",
-  "description": "A glass shield that fills with liquid as it checks a passkey \u2013 the padlock flips colour as the tide rises past it and snaps shut, while a bad key turns the water red and drains it away.",
+  "description": "A glass shield that fills with liquid as it checks a passkey – the padlock flips colour as the tide rises past it and snaps shut, while a bad key turns the water red and drains it away.",
   "kind": "illustration",
   "category": "Objects",
-  "isNew": true,
   "keywords": [
     "security",
     "lock",

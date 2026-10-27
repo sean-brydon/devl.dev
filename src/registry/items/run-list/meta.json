@@ -3,7 +3,6 @@
   "description": "Keep an eye on every background agent from one calm list, with live clocks, counts by status and a click to see the last few steps or sign off the work.",
   "kind": "component",
   "category": "Mission Control",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "agent inbox",

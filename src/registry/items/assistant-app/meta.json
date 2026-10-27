@@ -3,7 +3,6 @@
   "description": "A small, complete assistant with chats and projects in the sidebar, files you can attach, and replies that write themselves out word by word.",
   "kind": "block",
   "category": "Apps",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "ai workspace",

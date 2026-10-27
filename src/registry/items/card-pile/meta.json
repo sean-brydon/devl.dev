@@ -3,7 +3,6 @@
   "description": "Notifications stacked like a small deck of cards: flick the top one away, or press Delete, and the next one steps forward.",
   "kind": "component",
   "category": "Status",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "notification stack",

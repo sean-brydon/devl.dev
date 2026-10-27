@@ -3,7 +3,6 @@
   "description": "A prompt box that grows as you type, with attachments, a model menu, an approval toggle and a mic that opens into a live level meter, plus a send button that only lights up when there's something to send.",
   "kind": "component",
   "category": "Conversation",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "chat input",

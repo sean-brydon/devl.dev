@@ -3,7 +3,6 @@
   "description": "A toggle whose thumb stretches as it crosses, trails two droplets behind it and swallows them back up the moment it lands.",
   "kind": "component",
   "category": "Liquid",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "toggle",

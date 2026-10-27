@@ -3,7 +3,6 @@
   "description": "A writing surface where typing / opens a command menu right at the caret, narrows as you type and drops in a styled block: heading, to-do, callout, code and more.",
   "kind": "component",
   "category": "Conversation",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "slash command",

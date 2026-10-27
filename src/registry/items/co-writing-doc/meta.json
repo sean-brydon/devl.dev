@@ -3,7 +3,6 @@
   "description": "A document where AI agents write alongside you: coloured cursors with name tags glide between words, an agent types its suggestion letter by letter for you to accept or reject, and comments sit in the margin next to the lines they're about.",
   "kind": "screen",
   "category": "Product",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "document editor",

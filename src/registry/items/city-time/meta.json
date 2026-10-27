@@ -3,7 +3,6 @@
   "description": "A local-time page for any city: a live clock whose digits roll, the sun on today's arc, your working hours against theirs with the best time to meet, and the year's clock changes, all re-computed as you switch cities.",
   "kind": "block",
   "category": "Apps",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "world clock",

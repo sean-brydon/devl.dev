@@ -3,7 +3,6 @@
   "description": "Four quiet ways to say a reply is coming: a dotted bubble, a named line, a stack of faces for busy threads and a soft shimmer for an assistant at work.",
   "kind": "component",
   "category": "Conversation",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "typing indicator",

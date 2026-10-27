@@ -3,7 +3,6 @@
   "description": "An email capture that checks as you go, catches gmial-style typos, shakes once on a bad address, then morphs into a success note while your avatar joins the stack and the reader count rolls up by one.",
   "kind": "block",
   "category": "Marketing",
-  "isNew": true,
   "keywords": [
     "newsletter",
     "email capture",

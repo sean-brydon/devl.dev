@@ -3,7 +3,6 @@
   "description": "Text that drifts up and comes into focus a letter or a word at a time as it scrolls into view, quick enough that nobody waits to read it.",
   "kind": "motion",
   "category": "Text",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "text reveal",

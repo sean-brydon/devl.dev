@@ -3,7 +3,6 @@
   "description": "Signed event packets fan out from a relay to three endpoints; one fails, bounces back and retries with a growing backoff until it lands. Hover a node to pause and read it.",
   "kind": "illustration",
   "category": "Connections",
-  "isNew": true,
   "keywords": [
     "webhook",
     "events",

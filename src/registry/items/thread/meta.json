@@ -3,7 +3,6 @@
   "description": "A comment and its replies in one tidy card, where @mentions stand out and an assistant's reply opens up to show each step it took.",
   "kind": "component",
   "category": "Together",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "comments",

@@ -3,7 +3,6 @@
   "description": "A social profile with a painted cover, a Follow button that pinches off a notification bell like a droplet, followers that roll up, and posts, replies and a media grid that opens into a lightbox.",
   "kind": "screen",
   "category": "Personal",
-  "isNew": true,
   "keywords": [
     "profile",
     "social",

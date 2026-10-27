@@ -3,7 +3,6 @@
   "description": "A year of daily activity as a calendar heatmap: hover or arrow through any day, see which streak it belongs to, and point at a streak callout to light up its run.",
   "kind": "component",
   "category": "Numbers",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "heatmap",

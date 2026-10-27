@@ -3,7 +3,6 @@
   "description": "A dense endpoint table where every row carries its own 24-hour sparkline, a delta that knows lower is better, and a status; sort any column and the rows glide into order.",
   "kind": "component",
   "category": "Numbers",
-  "isNew": true,
   "keywords": [
     "table",
     "sparkline",

@@ -3,7 +3,6 @@
   "description": "A keyboard cheat sheet that slides up when you press ? inside your app: searchable by action or key, grouped, with sequences and Mac or Windows keys.",
   "kind": "component",
   "category": "Workspace",
-  "isNew": true,
   "keywords": [
     "keyboard shortcuts",
     "hotkeys",

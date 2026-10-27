@@ -3,7 +3,6 @@
   "description": "Three plans side by side with a monthly or yearly toggle that rolls each price into place, and a full feature table that folds out underneath.",
   "kind": "block",
   "category": "Marketing",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "pricing",

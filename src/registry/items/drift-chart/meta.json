@@ -3,7 +3,6 @@
   "description": "An agent's plan drawn as dashed outlines with the real work filling in over them: when a step runs long it spills into amber, nudges everything after it to the right and drags the finish line with it.",
   "kind": "component",
   "category": "Mission Control",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "plan vs actual",

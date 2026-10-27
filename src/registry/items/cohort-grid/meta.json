@@ -3,7 +3,6 @@
   "description": "A retention triangle by signup week: hover or arrow through any cell to light its row and column, read it against the average, and flip between percentages and head counts.",
   "kind": "component",
   "category": "Numbers",
-  "isNew": true,
   "keywords": [
     "cohort",
     "retention",

@@ -3,7 +3,6 @@
   "description": "A docs page shell: grouped sidebar, readable article with tabbed code and callouts, a reading-progress hairline and a right-hand outline whose marker glides to the section you're reading; the sidebar becomes a drawer on phones.",
   "kind": "block",
   "category": "Apps",
-  "isNew": true,
   "keywords": [
     "documentation",
     "docs",

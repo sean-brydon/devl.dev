@@ -3,7 +3,6 @@
   "description": "Lay out one stretch of a contract with its products, cadence, discount and minimum, and watch each month's invoice settle into place as you go.",
   "kind": "component",
   "category": "Forms",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "billing schedule",

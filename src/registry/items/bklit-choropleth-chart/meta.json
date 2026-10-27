@@ -5,7 +5,6 @@
   "category": "Charts",
   "source": "bklit",
   "upstream": "choropleth-chart",
-  "isNew": true,
   "keywords": [
     "choropleth",
     "map",

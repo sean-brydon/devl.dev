@@ -3,7 +3,6 @@
   "description": "An answer that reads its sources first, then softly streams in word by word, with little numbered chips you can hover to peek at each source, all in a card that holds its size the whole time.",
   "kind": "component",
   "category": "Conversation",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "ai answer",

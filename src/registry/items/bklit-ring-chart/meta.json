@@ -5,7 +5,6 @@
   "category": "Charts",
   "source": "bklit",
   "upstream": "ring-chart",
-  "isNew": true,
   "keywords": [
     "ring chart",
     "progress rings",

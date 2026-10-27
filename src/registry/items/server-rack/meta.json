@@ -1,9 +1,8 @@
 {
   "name": "Server Rack",
-  "description": "A rack of humming units with blinking status lights \u2013 hover one and it slides forward, its bezel gliding off to show the drives inside.",
+  "description": "A rack of humming units with blinking status lights – hover one and it slides forward, its bezel gliding off to show the drives inside.",
   "kind": "illustration",
   "category": "Objects",
-  "isNew": true,
   "keywords": [
     "server",
     "rack",

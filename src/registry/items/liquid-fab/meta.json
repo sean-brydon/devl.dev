@@ -3,7 +3,6 @@
   "description": "A round action button that squeezes out its actions as droplets: each one stretches away, pinches off into its own button and gets drawn back in when you close it, with labels as tooltips and full keyboard support.",
   "kind": "motion",
   "category": "Liquid",
-  "isNew": true,
   "keywords": [
     "floating action button",
     "speed dial",

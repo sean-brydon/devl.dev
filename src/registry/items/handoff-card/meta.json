@@ -3,7 +3,6 @@
   "description": "Pass work to a teammate with the summary, open questions and links in one card; when they accept, it flips over to show who owns it now.",
   "kind": "component",
   "category": "Together",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "handoff",

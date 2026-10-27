@@ -3,7 +3,6 @@
   "description": "One folder opened inside a drive, with a folder tree in the sidebar, type filters with counts, a grid of file cards with little drawn previews or a dense table, a bulk bar that rises with a rolling count when you pick a few, and ghost files fanning out of an empty sub-folder.",
   "kind": "screen",
   "category": "Product",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "folder",

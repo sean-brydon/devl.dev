@@ -3,7 +3,6 @@
   "description": "Twelve months of stacked bars you can re-cut by measure and by slice: segments settle at their new heights, hovering a month breaks it down, and the table below lights up the series under your pointer.",
   "kind": "component",
   "category": "Numbers",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "bar chart",

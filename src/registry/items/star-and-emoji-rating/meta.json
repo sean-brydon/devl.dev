@@ -3,7 +3,6 @@
   "description": "Two ways to ask how it went: stars with half steps that pop when you pick, and a little face that morphs from grumpy to delighted as you slide across the scale.",
   "kind": "component",
   "category": "Forms",
-  "isNew": true,
   "keywords": [
     "rating",
     "star rating",

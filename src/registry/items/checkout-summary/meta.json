@@ -3,7 +3,6 @@
   "description": "A checkout with generic express-pay buttons, delivery options that slide a selection ring, quantity steppers, a promo field that validates, and totals whose digits roll as anything changes.",
   "kind": "block",
   "category": "Apps",
-  "isNew": true,
   "keywords": [
     "checkout",
     "order summary",

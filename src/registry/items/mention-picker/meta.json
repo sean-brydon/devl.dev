@@ -3,7 +3,6 @@
   "description": "Type @ in a message and a picker opens right at the caret with people, files and channels; what you pick lands as a token that moves and deletes as one piece.",
   "kind": "component",
   "category": "Conversation",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "mentions",

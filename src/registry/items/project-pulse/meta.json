@@ -3,7 +3,6 @@
   "description": "A project in two lines that opens into its tasks: the ring gives every task its own arc in its owner's colour, tap a face to see just their work, and the status chip opens a picker.",
   "kind": "component",
   "category": "Together",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "project card",

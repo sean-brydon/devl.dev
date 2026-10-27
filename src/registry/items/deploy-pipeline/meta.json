@@ -1,9 +1,8 @@
 {
   "name": "Deploy Pipeline",
-  "description": "Install, build, test and deploy as stages that light up and connect as they pass, live timers, a log peek that follows the running stage, a failed stage you can retry in place, and the preview URL as a chip when it\u2019s ready.",
+  "description": "Install, build, test and deploy as stages that light up and connect as they pass, live timers, a log peek that follows the running stage, a failed stage you can retry in place, and the preview URL as a chip when it’s ready.",
   "kind": "component",
   "category": "Dev Tools",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "ci",

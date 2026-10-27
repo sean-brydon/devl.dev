@@ -3,7 +3,6 @@
   "description": "A like, comment, repost and share pill where each icon pops and fills with a tiny burst and every count rolls over digit by digit.",
   "kind": "component",
   "category": "Together",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "reactions",

@@ -3,7 +3,6 @@
   "description": "Your agents and the tools they reach for, drawn as a small constellation: each call and its answer travel the line as a spark, busy lines glow brighter, and an agent that needs you turns amber with Approve right underneath.",
   "kind": "component",
   "category": "Mission Control",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "network graph",

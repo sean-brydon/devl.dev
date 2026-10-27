@@ -1,9 +1,8 @@
 {
   "name": "Presence Bar",
-  "description": "A live facepile for shared docs: status rings, a rolling \u201cviewing\u201d count, faces that spring in and out, and a click to follow someone around the page.",
+  "description": "A live facepile for shared docs: status rings, a rolling “viewing” count, faces that spring in and out, and a click to follow someone around the page.",
   "kind": "component",
   "category": "Together",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "facepile",

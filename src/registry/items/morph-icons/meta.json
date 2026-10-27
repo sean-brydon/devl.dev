@@ -3,7 +3,6 @@
   "description": "Menu to close, play to pause, plus to check, sun to moon: each pair is one set of paths in two poses, so lines rotate and stretch into place on a spring and reverse cleanly mid-way.",
   "kind": "motion",
   "category": "Surfaces",
-  "isNew": true,
   "keywords": [
     "animated icons",
     "icon morph",

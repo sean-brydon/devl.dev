@@ -3,7 +3,6 @@
   "description": "Progress you can watch fill up: a stream pours in from the top, the surface sloshes and settles as the level eases to the value, and hitting 100% sends out a small ripple. Comes as a round vessel or a slim bar.",
   "kind": "motion",
   "category": "Liquid",
-  "isNew": true,
   "keywords": [
     "progress",
     "liquid progress",

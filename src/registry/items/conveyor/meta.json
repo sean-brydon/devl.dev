@@ -3,7 +3,6 @@
   "description": "A job queue on a little conveyor belt: jobs drop on, ride into whichever worker frees up and land in Done or Failed, and when a rate limit hits the belt stops while the backlog chart shows the pile-up and the drain.",
   "kind": "component",
   "category": "Mission Control",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "job queue",

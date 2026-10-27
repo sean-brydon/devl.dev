@@ -3,7 +3,6 @@
   "description": "Paste a whole list of emails and they sort themselves into chips, each with its own role, with typos caught before anyone gets a broken invite.",
   "kind": "component",
   "category": "Forms",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "invite",

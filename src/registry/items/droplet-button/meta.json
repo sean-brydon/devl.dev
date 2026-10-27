@@ -3,7 +3,6 @@
   "description": "A pill button that squashes when you press it and, as you let go, flicks a little crown of droplets from right where you pressed, then swallows them back up.",
   "kind": "component",
   "category": "Liquid",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "goo button",

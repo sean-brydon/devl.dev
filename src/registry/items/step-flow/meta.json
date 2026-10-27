@@ -3,7 +3,6 @@
   "description": "A three-step sign-up card where the progress bar pours into each step as you reach it, the card grows or shrinks to fit what's next and each field tells you what's missing as you go.",
   "kind": "component",
   "category": "Forms",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "stepper",

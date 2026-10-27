@@ -3,7 +3,6 @@
   "description": "A ranked list that reshuffles itself when scores land: rows glide to their new places, gains flash beside the rolling totals, and your own row stays pinned below with the gap to the next person.",
   "kind": "component",
   "category": "Numbers",
-  "isNew": true,
   "keywords": [
     "leaderboard",
     "ranking",

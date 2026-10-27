@@ -3,7 +3,6 @@
   "description": "One number with its own hand-drawn chart: switch the range and the lines reshape, scrub with a pointer or the arrow keys for exact figures, and the headline follows wherever you are.",
   "kind": "component",
   "category": "Numbers",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "kpi",

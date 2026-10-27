@@ -3,7 +3,6 @@
   "description": "Write a poll right in the thread, then watch it fill: bars spring to their share as votes land, your pick stays marked, and closing it locks in the winner.",
   "kind": "component",
   "category": "Together",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "poll",

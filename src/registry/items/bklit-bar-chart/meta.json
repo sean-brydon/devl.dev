@@ -5,7 +5,6 @@
   "category": "Charts",
   "source": "bklit",
   "upstream": "bar-chart",
-  "isNew": true,
   "keywords": [
     "bar chart",
     "stacked bars",

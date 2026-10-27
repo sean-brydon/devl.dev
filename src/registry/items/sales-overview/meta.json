@@ -3,7 +3,6 @@
   "description": "A year of sales on one page: pick a number up top and the monthly chart, best sellers and channel split all follow it, with a line or bar view to taste.",
   "kind": "block",
   "category": "Dashboards",
-  "isNew": true,
   "featured": false,
   "keywords": [
     "metrics",

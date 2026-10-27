@@ -3,7 +3,6 @@
   "description": "Chat with a lead agent while it works: it streams its replies, hands tasks to helpers whose progress ticks along in a side panel and writes what it learns straight into a launch brief you can edit beside the chat.",
   "kind": "screen",
   "category": "AI",
-  "isNew": true,
   "featured": true,
   "keywords": [
     "agent chat",
