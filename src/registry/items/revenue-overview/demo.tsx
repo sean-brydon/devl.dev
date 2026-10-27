@@ -1,8 +1,8 @@
-import { RevenueOverview } from "@/registry/items/revenue-overview/revenue-overview";
+import { RevenueStory } from "@/registry/items/revenue-overview/revenue-overview";
 
-export default function RevenueOverviewDemo() {
+export default function RevenueStoryDemo() {
   return (
-    <RevenueOverview
+    <RevenueStory
       defaultRange="30d"
       store={{ name: "Fernwood Goods", plan: "Growth plan" }}
       user={{ name: "Ines Moreau", email: "ines@fernwood.shop" }}

@@ -1,13 +1,19 @@
 {
-  "name": "Revenue Overview",
-  "description": "A store's revenue at a glance, where one range switch reshapes everything together: rolling KPIs, a stacked channel chart with a crosshair, channel mix, top products and the average week.",
+  "name": "Revenue Story",
+  "description": "A store's revenue told as a story: one big annotated line you can scrub day by day against last period, a plain-sentence summary whose numbers roll, a range switch that morphs the line and moves its notes, and a ranked strip of where the money came from.",
   "kind": "screen",
   "category": "Product",
   "isNew": true,
   "featured": false,
   "keywords": [
     "analytics",
-    "dashboard"
+    "dashboard",
+    "revenue",
+    "annotated chart",
+    "line chart",
+    "scrubbing",
+    "ecommerce",
+    "sales report"
   ],
   "no": 186
 }

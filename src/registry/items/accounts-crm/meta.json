@@ -1,13 +1,18 @@
 {
-  "name": "Accounts CRM",
-  "description": "A sales team's company list with a live pipeline strip, saved views and a table you edit in place (rename, re-stage, reassign) that turns into cards on phones, plus a bulk bar that springs up when you select a few.",
+  "name": "Pipeline Today",
+  "description": "A salesperson's morning view: drag deals between stages (or move them with the keyboard) while each column's weighted value and the forecast roll live, and a Focus rail tells you who to act on and why, with one-click email, call and snooze that update the deal.",
   "kind": "screen",
   "category": "Product",
   "isNew": true,
   "featured": false,
   "keywords": [
     "crm",
-    "pipeline"
+    "pipeline",
+    "sales",
+    "deals",
+    "kanban",
+    "forecast",
+    "drag and drop"
   ],
   "no": 187
 }
