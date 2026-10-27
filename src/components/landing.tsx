@@ -1,23 +1,56 @@
 import { ArrowRightIcon, BotIcon, FileCodeIcon, TerminalIcon } from "lucide-react";
 import Link from "next/link";
+import { CuttingRoom } from "@/components/cutting-room";
 import { GitHubIcon } from "@/components/github-icon";
 import { HeroStage } from "@/components/hero-stage";
 import { InstallCommand } from "@/components/install-command";
-import { ItemCard } from "@/components/item-card";
+import { ItemCard, type TileSize } from "@/components/item-card";
 import { Button } from "@/components/ui/button";
 import { PourHeadline } from "@/registry/items/pour-hero/pour-hero";
-import { bklit, cossUi, devl, getItem, type ItemKind, itemHref, items, itemsOfKind, kinds } from "@/lib/registry";
+import { bklit, cossUi, devl, getItem, itemHref, items, itemsOfKind, kinds } from "@/lib/registry";
 
 const signature = ["liquid-slider", "json-explorer", "voice-note", "liquid-switch", "ink-stamp", "liquid-segments"];
 const showcase = ["drive", "calendar-week", "accounts-crm"];
 
-const shelves: Record<ItemKind, string> = {
-  component: "Liquid controls, chat, forms, charts and filters.",
-  block: "Heroes, marketing sections, auth and dashboards.",
-  screen: "Whole apps: sign-in, settings, mail, drive and more.",
-  motion: "Liquid effects, text reveals, loaders, celebrations.",
-  illustration: "Animated scenes for empty states and marketing.",
-};
+const wall: [string, TileSize][] = [
+  ["liquid-cursor", "big"],
+  ["night-owl", "sm"],
+  ["magnetic", "sm"],
+  ["desk-bot", "sm"],
+  ["liquid-fab", "sm"],
+  ["magnify-dock", "wide"],
+  ["confetti-burst", "sm"],
+  ["launch-pad", "sm"],
+  ["lava-lamp", "wide"],
+  ["card-pile", "sm"],
+  ["card-stack", "sm"],
+];
+
+const cuts = [
+  {
+    slug: "booking-hero",
+    name: "Booking Hero",
+    reason: "Made it all the way onto the site. One look, one note back: “remove this one.”",
+  },
+  {
+    slug: "passkey-sign-in",
+    name: "Passkey Sign-in",
+    reason: "A top bar, a footer and an account chip around one form. Too much page for signing in.",
+    replacedBy: { name: "Sign In", href: "/screens/sign-in" },
+  },
+  {
+    slug: "two-factor-challenge",
+    name: "Two Factor Challenge",
+    reason: "A demo hint, a trust checkbox and two fallback menus. It only needed the code field.",
+    replacedBy: { name: "Verify Email", href: "/screens/verify-email" },
+  },
+  {
+    slug: "magic-link-inbox",
+    name: "Magic Link Inbox",
+    reason: "Two different screens for waiting on an email was one too many.",
+    replacedBy: { name: "Verify Email", href: "/screens/verify-email" },
+  },
+];
 
 const steps = [
   {
@@ -88,8 +121,9 @@ export function Landing() {
           </a>
           <div className="mt-6 w-full">
             <PourHeadline
-              className="text-5xl leading-[1.02] tracking-tight sm:text-6xl sm:leading-[1.02] md:text-7xl lg:text-7xl lg:leading-[1.02]"
+              className="text-[32px] leading-[1.05] tracking-tight sm:text-6xl sm:leading-[1.02] md:text-7xl lg:text-7xl lg:leading-[1.02]"
               lines={["Components with", "a little goo in them."]}
+              playful
             />
           </div>
           <p className="mt-6 max-w-2xl text-pretty text-lg text-muted-foreground md:text-xl">
@@ -116,22 +150,22 @@ export function Landing() {
       </div>
 
       <section className="mx-auto mt-24 max-w-6xl px-4 md:mt-32 md:px-8">
-        <SectionHeading eyebrow="The shelves" title="Everything from a switch to a whole app." />
-        <div className="mt-8 grid grid-cols-2 gap-3 lg:grid-cols-5">
+        <SectionHeading eyebrow="Try them" title="Every tile is the real thing. Hover, drag, click." />
+        <div className="mt-8 grid auto-rows-[15rem] grid-flow-dense grid-cols-1 gap-x-4 gap-y-7 sm:grid-cols-2 lg:grid-cols-4">
+          {wall.flatMap(([slug, size]) => {
+            const item = getItem(slug);
+            return item ? [<ItemCard item={item} key={slug} size={size} />] : [];
+          })}
+        </div>
+        <div className="mt-10 flex flex-wrap items-center gap-2">
           {kinds.map((kind) => (
             <Link
-              className="group flex flex-col gap-6 rounded-2xl border bg-card p-5 transition-[border-color,box-shadow] duration-200 hover:border-foreground/15 hover:shadow-md/5"
+              className="flex items-center gap-2 rounded-full border bg-card py-1.5 ps-3 pe-2 text-sm transition-colors hover:border-foreground/15"
               href={kind.href}
               key={kind.value}
             >
-              <span className="font-heading font-semibold text-4xl tabular-nums tracking-tight">{itemsOfKind(kind.value).length}</span>
-              <span className="flex flex-col gap-1">
-                <span className="flex items-center gap-1.5 font-medium">
-                  {kind.label}
-                  <ArrowRightIcon className="size-3.5 text-muted-foreground transition-transform duration-200 group-hover:translate-x-0.5" />
-                </span>
-                <span className="text-pretty text-muted-foreground text-sm">{shelves[kind.value]}</span>
-              </span>
+              {kind.label}
+              <span className="rounded-full bg-muted px-2 py-0.5 font-mono text-[11px] text-muted-foreground tabular-nums">{itemsOfKind(kind.value).length}</span>
             </Link>
           ))}
         </div>
@@ -170,6 +204,14 @@ export function Landing() {
               <code className="mt-auto truncate rounded-lg border bg-muted/40 px-3 py-2 font-mono text-xs">{code}</code>
             </div>
           ))}
+        </div>
+      </section>
+
+      <section className="mx-auto mt-24 max-w-6xl px-4 md:mt-32 md:px-8">
+        <SectionHeading eyebrow="The cutting room" title="Taste-tested means saying no." />
+        <p className="mt-3 max-w-2xl text-pretty text-muted-foreground">A few of the pieces that didn't make it, and why. Hover one to stamp it again.</p>
+        <div className="mt-8">
+          <CuttingRoom pieces={cuts} />
         </div>
       </section>
 

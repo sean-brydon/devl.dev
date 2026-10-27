@@ -1,7 +1,7 @@
 "use client";
 
 import { ArrowRight, CirclePlay, RotateCcw } from "lucide-react";
-import { animate, motion, useInView, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
+import { animate, motion, useInView, useMotionTemplate, useMotionValue, useReducedMotion, useSpring, useTransform } from "motion/react";
 import {
   Fragment,
   type KeyboardEvent,
@@ -464,13 +464,52 @@ function PourButton({ href, children, reduce }: { href: string; children: ReactN
 
 const headroom = 128;
 
+function GooCursor({ lines, typeClass, x, y, active }: { lines: string[][]; typeClass: string; x: ReturnType<typeof useMotionValue<number>>; y: ReturnType<typeof useMotionValue<number>>; active: boolean }) {
+  const filterId = `pour-cursor-${useId().replace(/[^a-zA-Z0-9-]/g, "")}`;
+  const blobX = useSpring(x, { stiffness: 380, damping: 28 });
+  const blobY = useSpring(y, { stiffness: 380, damping: 28 });
+  const tailX = useSpring(x, { stiffness: 120, damping: 18 });
+  const tailY = useSpring(y, { stiffness: 120, damping: 18 });
+  const lagX = useSpring(x, { stiffness: 60, damping: 14 });
+  const lagY = useSpring(y, { stiffness: 60, damping: 14 });
+  const mask = useMotionTemplate`radial-gradient(circle 8rem at ${blobX}px ${blobY}px, #000 58%, transparent 74%)`;
+
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+      style={{ opacity: active ? 1 : 0, maskImage: mask, WebkitMaskImage: mask }}
+    >
+      <svg className="absolute size-0">
+        <filter colorInterpolationFilters="sRGB" height="140%" id={filterId} width="140%" x="-20%" y="-20%">
+          <feGaussianBlur stdDeviation="4.5" />
+          <feColorMatrix type="matrix" values={gooMatrix(20, -9)} />
+        </filter>
+      </svg>
+      <div className="absolute inset-0" style={{ filter: `url(#${filterId})` }}>
+        <div className={cn(typeClass, "text-(--liquid)")}>
+          {lines.map((line, index) => (
+            <span className="block" key={`${index}-${line.join(" ")}`}>
+              {line.join(" ")}
+            </span>
+          ))}
+        </div>
+        <motion.span className="absolute top-0 left-0 size-14 rounded-full bg-(--liquid)" style={{ x: blobX, y: blobY, translateX: "-50%", translateY: "-50%" }} />
+        <motion.span className="absolute top-0 left-0 size-7 rounded-full bg-(--liquid)" style={{ x: tailX, y: tailY, translateX: "-50%", translateY: "-50%" }} />
+        <motion.span className="absolute top-0 left-0 size-4 rounded-full bg-(--liquid)" style={{ x: lagX, y: lagY, translateX: "-50%", translateY: "-50%" }} />
+      </div>
+    </motion.div>
+  );
+}
+
 export interface PourHeadlineProps {
   lines: string[];
   className?: string;
   replay?: number;
+  playful?: boolean;
 }
 
-export function PourHeadline({ lines: headline, className, replay = 0 }: PourHeadlineProps) {
+export function PourHeadline({ lines: headline, className, replay = 0, playful = false }: PourHeadlineProps) {
   const reduce = useSafeReducedMotion();
   const rootRef = useRef<HTMLDivElement>(null);
   const wordRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -482,6 +521,12 @@ export function PourHeadline({ lines: headline, className, replay = 0 }: PourHea
   const [states, setStates] = useState<WordState[]>([]);
   const timers = useRef<ReturnType<typeof setTimeout>[]>([]);
   const typeClass = cn(headlineType, className);
+  const pointerX = useMotionValue(0);
+  const pointerY = useMotionValue(0);
+  const [hovering, setHovering] = useState(false);
+  const [finePointer, setFinePointer] = useState(false);
+  useEffect(() => setFinePointer(window.matchMedia("(hover: hover) and (pointer: fine)").matches), []);
+  const toy = playful && finePointer && !reduce;
 
   const lines = headline.map((line) => line.split(/\s+/).filter(Boolean));
   const words = lines.flat();
@@ -575,7 +620,26 @@ export function PourHeadline({ lines: headline, className, replay = 0 }: PourHea
   let wordIndex = 0;
 
   return (
-    <div className="relative [--liquid:var(--color-lime-500)] dark:[--liquid:var(--color-lime-400)]" ref={rootRef}>
+    <div
+      className={cn("relative [--liquid:var(--color-lime-500)] dark:[--liquid:var(--color-lime-400)]", toy && phase === "settled" && "cursor-pointer")}
+      onClick={toy && phase === "settled" ? () => again.current() : undefined}
+      onPointerLeave={toy ? () => setHovering(false) : undefined}
+      onPointerMove={
+        toy
+          ? (event: PointerEvent<HTMLDivElement>) => {
+              const box = event.currentTarget.getBoundingClientRect();
+              if (!hovering) {
+                pointerX.jump(event.clientX - box.left);
+                pointerY.jump(event.clientY - box.top);
+              }
+              pointerX.set(event.clientX - box.left);
+              pointerY.set(event.clientY - box.top);
+              setHovering(true);
+            }
+          : undefined
+      }
+      ref={rootRef}
+    >
       <h1 className={cn(typeClass, "relative transition-opacity duration-150 ease-out", phase === "clearing" && "opacity-0")}>
         {lines.map((line, lineIndex) => (
           <span className="block" key={`${lineIndex}-${line.join(" ")}`}>
@@ -600,6 +664,7 @@ export function PourHeadline({ lines: headline, className, replay = 0 }: PourHea
           </span>
         ))}
       </h1>
+      {toy && phase === "settled" && <GooCursor active={hovering} lines={lines} typeClass={typeClass} x={pointerX} y={pointerY} />}
       {phase === "pouring" && em > 0 && boxes.length === words.length && (
         <div aria-hidden className="pointer-events-none absolute inset-x-0 bottom-0" key={run} style={{ top: -headroom }}>
           {boxes.map((box, index) =>
