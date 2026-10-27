@@ -5,6 +5,7 @@ import { HeroStage } from "@/components/hero-stage";
 import { InstallCommand } from "@/components/install-command";
 import { ItemCard } from "@/components/item-card";
 import { Button } from "@/components/ui/button";
+import { PourHeadline } from "@/registry/items/pour-hero/pour-hero";
 import { bklit, cossUi, devl, getItem, type ItemKind, itemHref, items, itemsOfKind, kinds } from "@/lib/registry";
 
 const signature = ["liquid-slider", "json-explorer", "voice-note", "liquid-switch", "ink-stamp", "liquid-segments"];
@@ -85,9 +86,12 @@ export function Landing() {
             Open source, MIT licensed
             <ArrowRightIcon className="size-3" />
           </a>
-          <h1 className="mt-6 text-balance font-heading font-semibold text-5xl tracking-tight md:text-7xl md:leading-[1.02]">
-            Components with a little goo in them.
-          </h1>
+          <div className="mt-6 w-full">
+            <PourHeadline
+              className="text-5xl leading-[1.02] tracking-tight sm:text-6xl sm:leading-[1.02] md:text-7xl lg:text-7xl lg:leading-[1.02]"
+              lines={["Components with", "a little goo in them."]}
+            />
+          </div>
           <p className="mt-6 max-w-2xl text-pretty text-lg text-muted-foreground md:text-xl">
             {items.length} free React components, blocks and screens on {cossUi.name}. Copy the source, install with the shadcn CLI, or hand a prompt to your AI editor.
           </p>

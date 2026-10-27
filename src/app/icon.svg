@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
+  <filter id="goo" color-interpolation-filters="sRGB">
+    <feGaussianBlur stdDeviation="1.6"/>
+    <feColorMatrix values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 24 -10"/>
+  </filter>
+  <g fill="#c4f252" filter="url(#goo)">
+    <circle cx="11.5" cy="15.5" r="9"/>
+    <circle cx="21" cy="7.5" r="4.5"/>
+    <circle cx="22.5" cy="19.5" r="2.4"/>
+  </g>
+  <path d="M9.5 12.5 7 15.5l2.5 3M13.5 12.5l2.5 3-2.5 3" fill="none" stroke="#1c2c09" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6"/>
+</svg>

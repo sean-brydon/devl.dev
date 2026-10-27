@@ -14,7 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     { url: site, changeFrequency: "weekly", priority: 1 },
     ...sections,
-    { url: `${site}/docs`, changeFrequency: "monthly", priority: 0.5 },
+    ...["", "/mcp", "/skill", "/claude", "/codex", "/cursor", "/vscode"].map((page) => ({ url: `${site}/docs${page}`, changeFrequency: "monthly" as const, priority: 0.5 })),
     { url: `${site}/advertise`, changeFrequency: "monthly", priority: 0.3 },
     ...pages,
   ];

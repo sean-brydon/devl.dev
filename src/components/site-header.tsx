@@ -47,6 +47,14 @@ export function SiteHeader() {
         </nav>
         <div className="ms-auto flex items-center gap-2 md:ms-0">
           <Button
+            className="rounded-full px-2.5 text-muted-foreground hover:text-foreground aria-[current=page]:text-foreground max-sm:hidden"
+            render={<Link aria-current={pathname.startsWith("/docs") ? "page" : undefined} href="/docs" />}
+            size="sm"
+            variant="ghost"
+          >
+            Docs
+          </Button>
+          <Button
             className="rounded-full px-2.5 text-muted-foreground hover:text-foreground aria-[current=page]:text-foreground"
             render={<Link aria-current={pathname.startsWith("/advertise") ? "page" : undefined} href="/advertise" />}
             size="sm"
