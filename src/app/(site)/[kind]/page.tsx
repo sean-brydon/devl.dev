@@ -40,7 +40,7 @@ export async function generateMetadata({ params }: PageProps<"/[kind]">): Promis
   return {
     title,
     description: text,
-    alternates: { canonical: match.value === "component" ? "/" : match.href },
+    alternates: { canonical: match.href },
     openGraph: { title: `${title} · devl`, description: text },
     twitter: { title: `${title} · devl`, description: text },
   };
