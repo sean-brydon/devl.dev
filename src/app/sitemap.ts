@@ -4,9 +4,7 @@ import { itemHref, items, kinds } from "@/lib/registry";
 const site = "https://devl.dev";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const sections = kinds
-    .filter((kind) => kind.value !== "component")
-    .map((kind) => ({ url: `${site}${kind.href}`, changeFrequency: "weekly" as const, priority: 0.8 }));
+  const sections = kinds.map((kind) => ({ url: `${site}${kind.href}`, changeFrequency: "weekly" as const, priority: 0.8 }));
   const pages = items.map((item) => ({
     url: `${site}${itemHref(item)}`,
     changeFrequency: "monthly" as const,

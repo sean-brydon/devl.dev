@@ -32,7 +32,7 @@ function Sections({ active }: { active: string | null }) {
 
 export function SiteHeader() {
   const pathname = usePathname();
-  const active = pathname === "/" ? "component" : (kinds.find((k) => pathname.startsWith(k.href))?.value ?? null);
+  const active = kinds.find((k) => pathname.startsWith(k.href))?.value ?? null;
   const current = getItem(pathname.split("/")[2] ?? "");
   const credit = current?.source === "bklit" ? "bklit" : current?.poweredBy === "qnot" ? "qnot" : null;
 
