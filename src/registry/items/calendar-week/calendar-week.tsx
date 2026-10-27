@@ -120,6 +120,13 @@ function weekday(date: string) {
 function startOfWeek(date: string) {
   return addDays(date, -weekday(date));
 }
+function isoWeek(date: string) {
+  const d = parse(date);
+  d.setUTCDate(d.getUTCDate() + 3 - ((d.getUTCDay() + 6) % 7));
+  const jan4 = new Date(Date.UTC(d.getUTCFullYear(), 0, 4));
+  return 1 + Math.round(((d.getTime() - jan4.getTime()) / 86400000 - 3 + ((jan4.getUTCDay() + 6) % 7)) / 7);
+}
+
 function diffDays(a: string, b: string) {
   return Math.round((parse(a).getTime() - parse(b).getTime()) / 86400000);
 }
@@ -764,7 +771,12 @@ export function CalendarWeek({
 
           <div className="flex shrink-0 overflow-y-hidden border-b [scrollbar-gutter:stable]">
             <div className="flex w-14 shrink-0 flex-col items-end pe-2 text-[10px] text-muted-foreground">
-              {!narrow && <span className="flex h-11 items-center">CEST</span>}
+              {!narrow && (
+                <span className="flex h-11 flex-col items-end justify-center leading-tight">
+                  <span className="font-medium text-foreground/80 tabular-nums">W{isoWeek(days[0])}</span>
+                  <span>CEST</span>
+                </span>
+              )}
               <span className="flex h-8 items-center">All day</span>
             </div>
             <div className="min-w-0 flex-1">
@@ -832,7 +844,10 @@ export function CalendarWeek({
               <div aria-hidden className="relative w-14 shrink-0">
                 {Array.from({ length: 23 }, (_, i) => i + 1).map((h) => (
                   <span
-                    className="absolute right-2 -translate-y-1/2 text-[10px] text-muted-foreground tabular-nums"
+                    className={cn(
+                      "absolute right-2 -translate-y-1/2 text-[10px] text-muted-foreground tabular-nums transition-opacity",
+                      todayIdx >= 0 && Math.abs(h * 60 - nowMin) < 24 && "opacity-0",
+                    )}
                     key={h}
                     style={{ top: h * HOUR }}
                   >
@@ -864,6 +879,7 @@ export function CalendarWeek({
                   {Array.from({ length: 24 }, (_, h) => (
                     <div className="absolute inset-x-0 border-t border-border/30 border-dashed" key={`h${h}`} style={{ top: h * HOUR + HOUR / 2 }} />
                   ))}
+                  {todayIdx >= 0 && nowMin <= 24 * 60 && <div className="absolute inset-x-0 h-px -translate-y-1/2 bg-destructive/25" style={{ top: nowTop }} />}
                 </div>
 
                 {days.map((d) => {
@@ -872,7 +888,7 @@ export function CalendarWeek({
                   return (
                     <div
                       aria-label={`${DOW[weekday(d)]} ${parse(d).getUTCDate()}, drag to create an event`}
-                      className={cn("relative border-s", weekday(d) >= 5 && "bg-muted/40", isToday && "bg-destructive/[0.025]")}
+                      className={cn("relative border-s", weekday(d) >= 5 && "bg-muted/40")}
                       key={d}
                       onPointerDown={(e) => beginCreate(e, d)}
                       role="group"

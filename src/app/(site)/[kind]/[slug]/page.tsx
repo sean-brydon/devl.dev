@@ -34,11 +34,12 @@ export async function generateMetadata({ params }: PageProps<"/[kind]/[slug]">):
   const item = getItem((await params).slug);
   if (!item) return {};
   const title = `${item.name} · devl`;
+  const image = item.og ? `/og/${item.slug}.jpg` : "/og.png";
   return {
     title: item.name,
     description: item.description,
-    openGraph: { title, description: item.description, images: [{ url: "/og.png", width: 1200, height: 630, alt: title }] },
-    twitter: { card: "summary_large_image", title, description: item.description, images: ["/og.png"] },
+    openGraph: { title, description: item.description, images: [{ url: image, width: 1200, height: 630, alt: title }] },
+    twitter: { card: "summary_large_image", title, description: item.description, images: [image] },
   };
 }
 

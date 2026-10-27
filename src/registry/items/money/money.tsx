@@ -796,22 +796,23 @@ export function Money({
         </h3>
         <span className="text-muted-foreground text-xs">{daysLeft} days to go</span>
       </div>
-      <div
-        className={cn(
-          "mt-3 grid grid-cols-2 gap-1 @xl:grid-cols-4",
-          view === "overview" && "@5xl:grid-cols-2",
-        )}
-      >
+      <ul className="-mx-2 mt-2 flex flex-col">
         {budgets.map((b) => (
-          <BudgetRing
-            category={b.category}
-            key={b.category}
-            limit={b.limit}
-            onPick={() => pickCategory(b.category)}
-            spent={spendBy(b.category)}
-          />
+          <li key={b.category}>
+            <BudgetRow
+              category={b.category}
+              limit={b.limit}
+              onPick={() => pickCategory(b.category)}
+              pace={(monthEnd - daysLeft) / monthEnd}
+              spent={spendBy(b.category)}
+            />
+          </li>
         ))}
-      </div>
+      </ul>
+      <p className="mt-2 flex items-center gap-1.5 text-muted-foreground text-xs">
+        <span aria-hidden className="h-2.5 w-px bg-foreground/40" />
+        Where you’d be at an even pace
+      </p>
     </section>
   );
 
@@ -1066,13 +1067,21 @@ function BalanceChart({ series, today }: { series: number[]; today: string }) {
   const [hover, setHover] = useState<number | null>(null);
   const W = 600;
   const H = 120;
-  const pad = 8;
+  const pad = 10;
   const min = Math.min(...series);
   const max = Math.max(...series);
   const span = max - min || 1;
   const x = (i: number) => (i / (series.length - 1)) * W;
-  const y = (v: number) => pad + (1 - (v - min) / span) * (H - pad * 2);
-  const line = series.map((v, i) => `${i ? "L" : "M"}${x(i).toFixed(1)} ${y(v).toFixed(1)}`).join(" ");
+  const y = (v: number) => pad + (1 - (v - min) / span) * (H - pad - 30);
+  const line = series
+    .map((v, i) => {
+      const px = x(i).toFixed(1);
+      const py = y(v).toFixed(1);
+      if (!i) return `M${px} ${py}`;
+      const cx = ((x(i - 1) + x(i)) / 2).toFixed(1);
+      return `C${cx} ${y(series[i - 1]).toFixed(1)} ${cx} ${py} ${px} ${py}`;
+    })
+    .join(" ");
   const area = `${line} L${W} ${H} L0 ${H} Z`;
 
   const onMove = (e: PointerEvent<SVGSVGElement>) => {
@@ -1089,7 +1098,7 @@ function BalanceChart({ series, today }: { series: number[]; today: string }) {
   const hi = hover ?? null;
 
   return (
-    <div className="relative mt-3 h-32 text-foreground">
+    <div className="relative mt-4 h-36 text-foreground">
       <svg
         aria-label="Balance over the last 30 days"
         className="absolute inset-0 size-full touch-pan-y overflow-visible"
@@ -1101,7 +1110,7 @@ function BalanceChart({ series, today }: { series: number[]; today: string }) {
       >
         <defs>
           <linearGradient id={gid} x1="0" x2="0" y1="0" y2="1">
-            <stop offset="0%" stopColor="currentColor" stopOpacity="0.12" />
+            <stop offset="0%" stopColor="currentColor" stopOpacity="0.1" />
             <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
           </linearGradient>
         </defs>
@@ -1130,6 +1139,11 @@ function BalanceChart({ series, today }: { series: number[]; today: string }) {
           />
         )}
       </svg>
+      <div aria-hidden className="pointer-events-none absolute inset-x-4 bottom-2 flex justify-between text-[11px] text-muted-foreground tabular-nums @lg:inset-x-5">
+        <span>{dateFor(0)}</span>
+        <span>{dateFor(Math.floor((series.length - 1) / 2))}</span>
+        <span>Today</span>
+      </div>
       {hi !== null && (
         <>
           <span
@@ -1209,60 +1223,62 @@ function Donut({
   );
 }
 
-function BudgetRing({
+function BudgetRow({
   category,
   spent,
   limit,
+  pace,
   onPick,
 }: {
   category: MoneyCategory;
   spent: number;
   limit: number;
+  pace: number;
   onPick: () => void;
 }) {
   const reduce = useReducedMotion();
   const c = categories[category];
   const ratio = spent / limit;
   const over = ratio > 1;
+  const ahead = !over && ratio > pace + 0.08;
   const left = limit - spent;
   return (
     <button
       aria-label={`${c.label}: ${money0(spent)} of ${money0(limit)}${over ? `, ${money0(-left)} over` : `, ${money0(left)} left`}`}
       className={cn(
-        "flex cursor-pointer flex-col items-center gap-2.5 rounded-xl px-2 py-3 text-center outline-none hover:bg-accent/60 focus-visible:ring-2 focus-visible:ring-ring",
+        "flex w-full cursor-pointer items-center gap-3 rounded-xl px-2 py-2.5 text-left outline-none hover:bg-accent/60 focus-visible:ring-2 focus-visible:ring-ring",
         press,
       )}
       onClick={onPick}
       type="button"
     >
-      <span className="relative size-16 shrink-0">
-        <svg aria-hidden className="size-full -rotate-90" viewBox="0 0 64 64">
-          <circle className="stroke-muted" cx="32" cy="32" fill="none" r="27" strokeWidth="6" />
-          <motion.circle
-            animate={{ pathLength: Math.min(ratio, 1) }}
-            className={over ? "stroke-destructive" : c.stroke}
-            cx="32"
-            cy="32"
-            fill="none"
-            initial={false}
-            r="27"
-            strokeLinecap="round"
-            strokeWidth="6"
-            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 140, damping: 24 }}
-          />
-        </svg>
-        <span className="absolute inset-0 flex items-center justify-center">
-          <c.icon aria-hidden className={cn("size-5", over ? "text-destructive-foreground" : "text-muted-foreground")} />
-        </span>
+      <span className={cn("flex size-8 shrink-0 items-center justify-center rounded-lg", c.tile)}>
+        <c.icon aria-hidden className="size-4" />
       </span>
-      <span className="flex min-w-0 flex-col items-center gap-0.5">
-        <span className="truncate text-muted-foreground text-xs">{c.label}</span>
-        <span className="font-medium tabular-nums">
-          <Tween format={money0} value={spent} />
-          <span className="font-normal text-muted-foreground"> / {money0(limit)}</span>
+      <span className="flex min-w-0 flex-1 flex-col gap-2">
+        <span className="flex items-baseline justify-between gap-2">
+          <span className="truncate font-medium">{c.label}</span>
+          <span className="shrink-0 text-xs tabular-nums">
+            <span className="font-medium text-foreground">
+              <Tween format={money0} value={spent} />
+            </span>
+            <span className="text-muted-foreground"> of {money0(limit)}</span>
+          </span>
         </span>
-        <span className={cn("text-xs tabular-nums", over ? "text-destructive-foreground" : "text-muted-foreground")}>
-          {over ? `${money0(-left)} over` : `${money0(left)} left`}
+        <span className="relative h-1.5 rounded-full bg-muted">
+          <motion.span
+            animate={{ scaleX: Math.min(ratio, 1) }}
+            className={cn(
+              "absolute inset-0 origin-left rounded-full",
+              over ? "bg-destructive" : ahead ? "bg-warning" : c.dot,
+            )}
+            initial={false}
+            transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 160, damping: 26 }}
+          />
+          <span aria-hidden className="absolute -top-1 -bottom-1 w-px bg-foreground/40" style={{ left: `${pace * 100}%` }} />
+        </span>
+        <span className={cn("text-xs tabular-nums", over ? "text-destructive-foreground" : ahead ? "text-warning-foreground" : "text-muted-foreground")}>
+          {over ? `${money0(-left)} over budget` : ahead ? `${money0(left)} left · spending fast` : `${money0(left)} left`}
         </span>
       </span>
     </button>

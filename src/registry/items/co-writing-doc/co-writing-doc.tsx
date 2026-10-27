@@ -413,12 +413,14 @@ export function CoWritingDoc({
 
   const commentCard = (c: DocComment, compact = false) => {
     const a = byId(c.author);
+    const anchor = blocks.find((b) => b.id === c.block);
+    const quote = anchor && "mark" in anchor ? anchor.mark : undefined;
     const r = c.reply ? byId(c.reply.author) : null;
     return (
       <motion.div
         animate={{ opacity: 1, x: 0 }}
         className={cn(
-          "rounded-xl border bg-card p-3 text-left shadow-xs/5 transition-[border-color,box-shadow]",
+          "rounded-xl border bg-card px-3 pt-2.5 pb-3 text-left shadow-xs/5 transition-[border-color,box-shadow]",
           activeComment === c.id && "border-foreground/16 shadow-sm/5",
           compact && "mt-2",
         )}
@@ -429,21 +431,44 @@ export function CoWritingDoc({
         onMouseLeave={() => setActiveComment(null)}
         transition={{ type: "spring", stiffness: 380, damping: 34 }}
       >
-        <div className="flex items-center gap-2">
-          <Avatar className="size-5">
-            <AvatarFallback className={cn("text-[9px]", toneCls[a.tone].avatar)}>{a.initials}</AvatarFallback>
+        <div className="flex h-6 items-center gap-2">
+          <Avatar className={cn("size-5", a.agent && "rounded-md")}>
+            <AvatarFallback className={cn("font-medium text-[9px]", toneCls[a.tone].avatar, a.agent && "rounded-md")}>
+              {a.agent ? <SparklesIcon className="size-3" /> : a.initials}
+            </AvatarFallback>
           </Avatar>
           <span className="font-medium text-xs">{a.name}</span>
-          {a.agent && (
-            <span className="rounded-full bg-muted px-1.5 text-[10px] text-muted-foreground">agent</span>
-          )}
-          <span className="ms-auto text-[10px] text-muted-foreground tabular-nums">{c.time}</span>
+          <span className="text-[11px] text-muted-foreground tabular-nums">{c.time}</span>
+          <Tooltip>
+            <TooltipTrigger
+              render={
+                <Button
+                  aria-label="Resolve"
+                  className="ms-auto -me-1 text-muted-foreground"
+                  onClick={() => setResolved((r) => [...r, c.id])}
+                  size="icon-xs"
+                  variant="ghost"
+                />
+              }
+            >
+              <CheckIcon />
+            </TooltipTrigger>
+            <TooltipPopup>Resolve</TooltipPopup>
+          </Tooltip>
         </div>
-        <p className="mt-1.5 text-xs leading-relaxed">{c.text}</p>
+        {quote && (
+          <p className="mt-2 flex items-stretch gap-2 text-muted-foreground text-xs">
+            <span aria-hidden className={cn("w-0.5 shrink-0 rounded-full opacity-64", toneCls[byId(quote.by).tone].caret)} />
+            <span className="truncate">{quote.phrase}</span>
+          </p>
+        )}
+        <p className="mt-1.5 text-pretty text-xs leading-relaxed">{c.text}</p>
         {c.reply && r && (
           <div className="mt-2.5 flex gap-2 border-t pt-2.5">
-            <Avatar className="size-5">
-              <AvatarFallback className={cn("text-[9px]", toneCls[r.tone].avatar)}>{r.initials}</AvatarFallback>
+            <Avatar className={cn("size-5 shrink-0", r.agent && "rounded-md")}>
+              <AvatarFallback className={cn("font-medium text-[9px]", toneCls[r.tone].avatar, r.agent && "rounded-md")}>
+                {r.agent ? <SparklesIcon className="size-3" /> : r.initials}
+              </AvatarFallback>
             </Avatar>
             <p className="text-muted-foreground text-xs leading-relaxed">
               <span className="font-medium text-foreground">{r.name}</span> {c.reply.text}
@@ -478,15 +503,13 @@ export function CoWritingDoc({
             </Button>
           </form>
         ) : (
-          <div className="mt-2.5 flex items-center gap-1">
-            <Button onClick={() => setDraftFor(c.id)} size="xs" variant="ghost">
-              Reply
-            </Button>
-            <Button className="ms-auto" onClick={() => setResolved((r) => [...r, c.id])} size="xs" variant="outline">
-              <CheckIcon />
-              Resolve
-            </Button>
-          </div>
+          <button
+            className="mt-2.5 flex h-7 w-full cursor-text items-center rounded-md border border-input bg-background px-2 text-muted-foreground text-xs outline-none hover:border-foreground/16 focus-visible:ring-2 focus-visible:ring-ring dark:bg-input/32"
+            onClick={() => setDraftFor(c.id)}
+            type="button"
+          >
+            Reply…
+          </button>
         )}
       </motion.div>
     );
@@ -518,16 +541,19 @@ export function CoWritingDoc({
           }
         }}
       >
-        <header className="flex h-13 shrink-0 items-center gap-3 border-b px-3 @3xl:px-4">
-          <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-info/12 text-info-foreground">
-            <FileTextIcon className="size-4" />
-          </span>
-          <div className="min-w-0 flex-1 leading-tight">
-            <div className="hidden items-center gap-1 text-muted-foreground text-xs @md:flex">
-              Orbit <ChevronRightIcon className="size-3 opacity-60" /> Marketing
-            </div>
-            <div className="truncate font-medium">{title}</div>
-          </div>
+        <header className="flex h-12 shrink-0 items-center gap-3 border-b px-3 @3xl:px-4">
+          <nav aria-label="Breadcrumb" className="flex min-w-0 flex-1 items-center gap-1 text-muted-foreground">
+            <span className="hidden items-center gap-1 @md:flex">
+              <span className="px-1">Orbit</span>
+              <ChevronRightIcon className="size-3.5 opacity-56" />
+              <span className="px-1">Marketing</span>
+              <ChevronRightIcon className="size-3.5 opacity-56" />
+            </span>
+            <FileTextIcon className="ms-1 size-4 shrink-0" />
+            <span aria-current="page" className="truncate px-1 font-medium text-foreground">
+              {title}
+            </span>
+          </nav>
           <div className="hidden items-center gap-1.5 text-muted-foreground text-xs @2xl:flex">
             <span className="size-1.5 rounded-full bg-success" />
             Saved · {people.filter((p) => p.agent).length} agents editing
@@ -655,11 +681,25 @@ export function CoWritingDoc({
                         </p>
                       )}
                       {b.type === "h1" && (
-                        <div className="mt-3 mb-4 flex flex-wrap items-center gap-x-2 gap-y-1 text-muted-foreground text-xs">
-                          <span>Draft</span>
-                          <span aria-hidden>·</span>
-                          <span>Mina Park, Scout and Quill</span>
-                          <span aria-hidden>·</span>
+                        <div className="mt-3 mb-6 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-muted-foreground text-xs">
+                          <span className="rounded-md bg-muted px-1.5 py-0.5 font-medium text-foreground/80">Draft</span>
+                          <span className="flex items-center gap-1.5">
+                            <span className="flex -space-x-1">
+                              {people
+                                .filter((p) => p.id !== "theo")
+                                .map((p) => (
+                                  <Avatar className={cn("size-4 ring-2 ring-background", p.agent && "rounded-[5px]")} key={p.id}>
+                                    <AvatarFallback className={cn("font-medium text-[7px]", toneCls[p.tone].avatar, p.agent && "rounded-[5px]")}>
+                                      {p.agent ? <SparklesIcon className="size-2.5" /> : p.initials}
+                                    </AvatarFallback>
+                                  </Avatar>
+                                ))}
+                            </span>
+                            Mina Park, Scout and Quill
+                          </span>
+                          <span aria-hidden className="hidden @md:inline">
+                            ·
+                          </span>
                           <span>Edited just now</span>
                         </div>
                       )}

@@ -757,6 +757,19 @@ export function Profile({
               </div>
               <p className="mt-3 text-muted-foreground text-xs">The last 60 days. Seven skipped, all of them Mondays.</p>
             </section>
+            <nav aria-label="Footer" className="flex flex-wrap gap-x-3 gap-y-1 px-4 text-muted-foreground text-xs">
+              {["Terms", "Privacy", "Cookies", "Accessibility"].map((l) => (
+                <a
+                  className="rounded-sm outline-none hover:underline focus-visible:ring-2 focus-visible:ring-ring"
+                  href="#top"
+                  key={l}
+                  onClick={(e) => e.preventDefault()}
+                >
+                  {l}
+                </a>
+              ))}
+              <span>© 2026 Ripple</span>
+            </nav>
           </aside>
         </div>
       </div>
@@ -778,10 +791,10 @@ function Cover() {
         className="absolute inset-0"
         style={{
           background:
-            "radial-gradient(60% 90% at 12% 20%, var(--color-amber-300) 0%, transparent 60%), radial-gradient(50% 80% at 85% 10%, var(--color-fuchsia-400) 0%, transparent 65%), radial-gradient(70% 90% at 60% 110%, var(--color-indigo-500) 0%, transparent 60%), linear-gradient(120deg, var(--color-orange-300), var(--color-rose-400) 45%, var(--color-violet-500))",
+            "radial-gradient(55% 90% at 10% 15%, var(--color-amber-200) 0%, transparent 60%), radial-gradient(45% 80% at 88% 0%, var(--color-rose-300) 0%, transparent 65%), radial-gradient(70% 90% at 62% 115%, var(--color-violet-400) 0%, transparent 60%), linear-gradient(120deg, var(--color-orange-200), var(--color-rose-300) 50%, var(--color-violet-300))",
         }}
       />
-      <svg className="absolute inset-0 size-full opacity-40 mix-blend-soft-light" preserveAspectRatio="none" viewBox="0 0 600 200">
+      <svg className="absolute inset-0 size-full opacity-30 mix-blend-soft-light" preserveAspectRatio="none" viewBox="0 0 600 200">
         {Array.from({ length: 9 }, (_, i) => (
           <path
             d={`M-20 ${40 + i * 18} C 120 ${10 + i * 20}, 260 ${90 + i * 14}, 420 ${40 + i * 18} S 640 ${20 + i * 16}, 640 ${30 + i * 18}`}
@@ -792,7 +805,7 @@ function Cover() {
           />
         ))}
       </svg>
-      <div className="absolute inset-0 bg-black/0 dark:bg-black/20" />
+      <div className="absolute inset-0 dark:bg-black/15" />
     </div>
   );
 }

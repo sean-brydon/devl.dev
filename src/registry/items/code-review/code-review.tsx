@@ -479,17 +479,17 @@ function ThreadView({
         {thread.comments.map((c, i) => {
           const p = person(c.author);
           return (
-            <li className={cn("flex gap-2.5 px-3 py-2.5", i > 0 && "border-t")} key={c.id}>
+            <li className={cn("flex gap-2.5 px-3 py-3", i > 0 && "border-t")} key={c.id}>
               <PersonAvatar person={p} />
               <div className="min-w-0 flex-1">
                 <div className="flex items-baseline gap-2 text-xs">
                   <span className="font-medium text-foreground">{c.author === me ? "You" : p?.name}</span>
                   <span className="text-muted-foreground">{c.time}</span>
                 </div>
-                <p className="mt-0.5 text-pretty leading-6 [overflow-wrap:anywhere]">
+                <p className="mt-1 text-pretty text-[13px] text-foreground/90 leading-5 [overflow-wrap:anywhere]">
                   {c.body.split(/(`[^`]+`)/g).map((part, j) =>
                     part.startsWith("`") ? (
-                      <code className="rounded-md border bg-muted px-1 py-px font-mono text-[0.8125rem]" key={j}>
+                      <code className="rounded-[5px] border bg-muted px-1 py-px font-mono text-[12px]" key={j}>
                         {part.slice(1, -1)}
                       </code>
                     ) : (
@@ -502,7 +502,7 @@ function ThreadView({
           );
         })}
       </ul>
-      <div className="border-t bg-muted/30 p-2">
+      <div className="border-t px-2 py-2">
         {replying ? (
           <div className="flex flex-col gap-2">
             <textarea
@@ -544,13 +544,13 @@ function ThreadView({
         ) : (
           <div className="flex items-center gap-2">
             <button
-              className="h-8 flex-1 cursor-text rounded-lg border bg-background px-2.5 text-left text-muted-foreground text-sm outline-none transition-colors hover:border-foreground/20 focus-visible:ring-2 focus-visible:ring-ring dark:bg-input/32"
+              className="h-7 flex-1 cursor-text rounded-md border bg-background px-2.5 text-left text-[13px] text-muted-foreground outline-none transition-colors hover:border-foreground/20 focus-visible:ring-2 focus-visible:ring-ring dark:bg-input/32"
               onClick={() => setReplying(true)}
               type="button"
             >
               Reply…
             </button>
-            <Button onClick={() => onResolve(true)} size="sm" variant="outline">
+            <Button onClick={() => onResolve(true)} size="xs" variant="outline">
               <CheckIcon />
               Resolve
             </Button>
@@ -807,8 +807,8 @@ export function CodeReview({
             <button
               aria-current={on ? "true" : undefined}
               className={cn(
-                "flex h-8 w-full cursor-pointer items-center gap-2 rounded-lg pe-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                on ? "bg-background text-foreground shadow-xs/5 ring-1 ring-border dark:bg-accent dark:ring-0" : "text-muted-foreground hover:bg-accent hover:text-foreground",
+                "flex h-7 w-full cursor-pointer items-center gap-2 rounded-md pe-2 text-left text-[13px] outline-none transition-colors focus-visible:ring-2 focus-visible:ring-ring",
+                on ? "bg-accent font-medium text-foreground" : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
               )}
               onClick={() => scrollToFile(n.path)}
               style={{ paddingInlineStart: 8 + depth * 14 }}
@@ -870,7 +870,7 @@ export function CodeReview({
     return out;
   };
 
-  const extras = (file: string, line: Line, which: "left" | "right" | "both") => {
+  const extras = (file: string, line: Line, which: "left" | "right" | "both", split = false) => {
     const ts = threadsAt(file, line, which);
     const showComposer =
       composer &&
@@ -879,7 +879,8 @@ export function CodeReview({
         (composer.side === "old" && line.old === composer.line && line.kind === "del" && which !== "right"));
     if (!ts.length && !showComposer) return null;
     return (
-      <div className="border-y bg-muted/20 py-1">
+      <div className={cn("border-y bg-muted/30 py-1", split && "@4xl:grid @4xl:grid-cols-2")}>
+        <div className={cn("min-w-0", split && which !== "left" && "@4xl:col-start-2")}>
         {ts.map((t) => (
           <ThreadView
             key={t.id}
@@ -895,6 +896,7 @@ export function CodeReview({
         {showComposer && composer && (
           <NewComment onCancel={() => setComposer(null)} onSubmit={(body) => addComment(composer.file, composer.line, composer.side, body)} />
         )}
+        </div>
       </div>
     );
   };
@@ -902,7 +904,11 @@ export function CodeReview({
   const rowTone = (kind?: Line["kind"]) =>
     kind === "add" ? "bg-success/8 dark:bg-success/10" : kind === "del" ? "bg-destructive/8 dark:bg-destructive/10" : "";
   const numTone = (kind?: Line["kind"]) =>
-    kind === "add" ? "bg-success/12 dark:bg-success/14" : kind === "del" ? "bg-destructive/12 dark:bg-destructive/14" : "";
+    kind === "add"
+      ? "bg-success/14 text-success-foreground/80 shadow-[inset_2px_0_0_var(--color-success)] dark:bg-success/16"
+      : kind === "del"
+        ? "bg-destructive/14 text-destructive-foreground/80 shadow-[inset_2px_0_0_var(--color-destructive)] dark:bg-destructive/16"
+        : "";
 
   const reviewLabel = submitted === "approve" ? "Approved" : submitted === "changes" ? "Changes requested" : submitted === "comment" ? "Reviewed" : "Review";
 
@@ -1132,8 +1138,8 @@ export function CodeReview({
                                 {showSplit
                                   ? toSplit(h.lines).map((row, ri) => {
                                       const key = `${ri}-${row.left?.old ?? ""}-${row.right?.new ?? ""}`;
-                                      const leftExtras = row.left && row.left.kind === "del" ? extras(file.path, row.left, "left") : null;
-                                      const rightExtras = row.right ? extras(file.path, row.right, row.right.kind === "ctx" ? "both" : "right") : null;
+                                      const leftExtras = row.left && row.left.kind === "del" ? extras(file.path, row.left, "left", true) : null;
+                                      const rightExtras = row.right ? extras(file.path, row.right, row.right.kind === "ctx" ? "both" : "right", true) : null;
                                       return (
                                         <Fragment key={key}>
                                           <div className="grid grid-cols-2">

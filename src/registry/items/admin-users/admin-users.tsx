@@ -638,8 +638,8 @@ export function AdminUsers({
               </Button>
             </div>
 
-            <section aria-label="Overview" className="grid grid-cols-3 gap-2 @xl:gap-3">
-              <div className="flex min-w-0 flex-col gap-2 rounded-2xl border bg-card p-3 shadow-xs/5 @xl:gap-3 @xl:p-4">
+            <section aria-label="Overview" className="grid grid-cols-3 divide-x overflow-hidden rounded-xl border bg-card">
+              <div className="flex min-w-0 flex-col gap-2 p-3 @xl:gap-2.5 @xl:px-4 @xl:py-3.5">
                 <div className="flex items-baseline justify-between">
                   <span className="text-muted-foreground text-xs">Seats</span>
                   <span className="hidden text-muted-foreground text-xs tabular-nums @xl:inline">{Math.max(0, seats - seatsUsed)} left</span>
@@ -659,7 +659,7 @@ export function AdminUsers({
                 </div>
               </div>
               <button
-                className={cn("flex min-w-0 flex-col gap-2 rounded-2xl border bg-card p-3 text-left shadow-xs/5 hover:bg-accent/40 @xl:gap-3 @xl:p-4", ring, press, "active:scale-[0.98]")}
+                className={cn("flex min-w-0 cursor-pointer flex-col gap-2 p-3 text-left transition-colors duration-150 @xl:gap-2.5 @xl:px-4 @xl:py-3.5 [@media(hover:hover)]:hover:bg-accent/40", ring, "focus-visible:ring-inset")}
                 onClick={() => setTab("invited")}
                 type="button"
               >
@@ -671,7 +671,7 @@ export function AdminUsers({
                 <span className="hidden text-muted-foreground text-xs @xl:block">Invites expire after 14 days</span>
               </button>
               <button
-                className={cn("flex min-w-0 flex-col gap-2 rounded-2xl border bg-card p-3 text-left shadow-xs/5 hover:bg-accent/40 @xl:gap-3 @xl:p-4", ring, press, "active:scale-[0.98]")}
+                className={cn("flex min-w-0 cursor-pointer flex-col gap-2 p-3 text-left transition-colors duration-150 @xl:gap-2.5 @xl:px-4 @xl:py-3.5 [@media(hover:hover)]:hover:bg-accent/40", ring, "focus-visible:ring-inset")}
                 onClick={() => {
                   setNo2fa(true);
                   setTab("active");
@@ -816,7 +816,7 @@ export function AdminUsers({
               )}
             </AnimatePresence>
 
-            <div className="overflow-hidden rounded-2xl border bg-card shadow-xs/5">
+            <div className="overflow-hidden rounded-xl border bg-card">
               <div className="@3xl:hidden">
                 <div className={cn("flex items-center gap-3 border-b px-4 py-2.5 text-muted-foreground text-xs", rows.length === 0 && "hidden")}>
                   <Checkbox aria-label="Select all visible members" checked={allChecked} className={hit} indeterminate={someChecked} onCheckedChange={(on) => setSelected(on ? visibleIds : [])} />
@@ -858,7 +858,7 @@ export function AdminUsers({
 
               <Table className="min-w-[860px] table-fixed" render={<div className="relative hidden w-full overflow-x-auto @3xl:block" />}>
                 <TableHeader>
-                  <TableRow className="not-in-data-[variant=card]:hover:bg-transparent dark:not-in-data-[variant=card]:hover:bg-transparent">
+                  <TableRow className="bg-muted/30 text-muted-foreground text-xs not-in-data-[variant=card]:hover:bg-muted/30 dark:not-in-data-[variant=card]:hover:bg-muted/30 [&_th]:h-9 [&_th]:font-medium [&_th]:text-muted-foreground [&_th]:text-xs">
                     <TableHead className="ps-4 has-[[role=checkbox]]:w-auto first:has-[[role=checkbox]]:pe-4">
                       <div className="flex items-center gap-3">
                         <Checkbox aria-label="Select all visible members" checked={allChecked} className={hit} indeterminate={someChecked} onCheckedChange={(on) => setSelected(on ? visibleIds : [])} />

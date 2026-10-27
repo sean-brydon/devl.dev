@@ -97,9 +97,9 @@ const healthStroke: Record<ServiceHealth, string> = {
   down: "stroke-destructive",
 };
 const healthFill: Record<ServiceHealth, string> = {
-  operational: "fill-success/10",
-  degraded: "fill-warning/14",
-  down: "fill-destructive/14",
+  operational: "fill-transparent",
+  degraded: "fill-warning/12",
+  down: "fill-destructive/12",
 };
 const healthLabel: Record<ServiceHealth, string> = { operational: "Operational", degraded: "Degraded", down: "Down" };
 
@@ -195,15 +195,22 @@ const initialDeploys: ConsoleDeploy[] = [
 
 function Sparkline({ values, health, max }: { values: number[]; health: ServiceHealth; max: number }) {
   const w = 120;
-  const h = 32;
-  const top = Math.max(max, ...values) * 1.15;
-  const pts = values.map((v, i) => [(i / (values.length - 1)) * w, h - (v / top) * (h - 2) - 1] as const);
+  const h = 24;
+  const top = Math.max(max, ...values) * 1.2;
+  const pts = values.map((v, i) => [(i / (values.length - 1)) * w, h - (v / top) * (h - 4) - 2] as const);
   const line = pts.map(([x, y], i) => `${i ? "L" : "M"}${x.toFixed(1)} ${y.toFixed(1)}`).join(" ");
   const area = `${line} L${w} ${h} L0 ${h} Z`;
+  const calm = health === "operational";
   return (
-    <svg aria-hidden className="h-8 w-full overflow-visible" preserveAspectRatio="none" viewBox={`0 0 ${w} ${h}`}>
-      <path className={cn("stroke-none transition-colors duration-500", healthFill[health])} d={area} />
-      <path className={cn("fill-none transition-colors duration-500", healthStroke[health])} d={line} strokeLinejoin="round" strokeWidth="1.5" vectorEffect="non-scaling-stroke" />
+    <svg aria-hidden className="h-6 w-full overflow-visible" preserveAspectRatio="none" viewBox={`0 0 ${w} ${h}`}>
+      <path className={cn("stroke-none transition-[fill] duration-500", calm ? "fill-transparent" : healthFill[health])} d={area} />
+      <path
+        className={cn("fill-none transition-[stroke] duration-500", calm ? "stroke-muted-foreground/60" : healthStroke[health])}
+        d={line}
+        strokeLinejoin="round"
+        strokeWidth="1.25"
+        vectorEffect="non-scaling-stroke"
+      />
     </svg>
   );
 }
@@ -389,8 +396,7 @@ export function StatusConsole({
   };
 
   const onGridKey = (e: KeyboardEvent<HTMLDivElement>) => {
-    const cols = Math.max(1, Math.round((e.currentTarget.clientWidth || 1) / (cardRefs.current[0]?.offsetWidth || 1)));
-    const moves: Record<string, number> = { ArrowRight: 1, ArrowLeft: -1, ArrowDown: cols, ArrowUp: -cols };
+    const moves: Record<string, number> = { ArrowDown: 1, ArrowUp: -1, j: 1, k: -1 };
     if (!(e.key in moves)) return;
     e.preventDefault();
     const next = Math.max(0, Math.min(services.length - 1, focusIdx + moves[e.key]));
@@ -505,37 +511,48 @@ export function StatusConsole({
                   </Button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 gap-4 p-3 @lg:p-4 @5xl:grid-cols-[minmax(0,1fr)_340px]">
-                  <div className="flex min-w-0 flex-col gap-4">
-                    <section aria-label="Services" data-rail="overview">
-                      <div className="mb-2 flex items-center justify-between px-1">
+                <div className="grid grid-cols-1 gap-4 p-3 @lg:p-4 @5xl:grid-cols-[minmax(0,1fr)_340px] @5xl:grid-rows-[auto_1fr]">
+                  <div className="flex min-w-0 flex-col gap-4 self-start @5xl:col-start-1 @5xl:row-span-2 @5xl:row-start-1">
+                    <section aria-label="Services" className="overflow-hidden rounded-xl border bg-card" data-rail="overview">
+                      <div className="flex h-11 items-center justify-between gap-3 border-b px-3">
                         <h2 className="font-medium">Services</h2>
-                        <span className="text-muted-foreground text-xs">
+                        <span className="truncate text-muted-foreground text-xs">
                           {selected ? (
-                            <button className="cursor-pointer rounded hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring" onClick={() => setSelected(null)} type="button">
+                            <button className="cursor-pointer rounded outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring" onClick={() => setSelected(null)} type="button">
                               Clear filter <Kbd className="ms-1">Esc</Kbd>
                             </button>
                           ) : (
                             <>
-                              p95 · last 80s · <Kbd>1</Kbd>–<Kbd>9</Kbd> to filter
+                              <span className="hidden @lg:inline">Press </span>
+                              <Kbd>1</Kbd>–<Kbd>9</Kbd> to filter
                             </>
                           )}
                         </span>
                       </div>
-                      <div className="grid grid-cols-2 gap-2 @3xl:grid-cols-3" onKeyDown={onGridKey} role="grid">
+                      <div
+                        aria-hidden
+                        className="hidden h-8 items-center gap-4 border-b bg-muted/40 px-3 text-[11px] text-muted-foreground @xl:flex"
+                      >
+                        <span className="min-w-0 flex-1">Service</span>
+                        <span className="w-32 @4xl:w-40">p95 · last 80s</span>
+                        <span className="w-14 text-right">p95</span>
+                        <span className="w-14 text-right">Errors</span>
+                        <span className="w-16 text-right">30d</span>
+                      </div>
+                      <div aria-label="Services" className="flex flex-col divide-y" onKeyDown={onGridKey} role="listbox">
                         {services.map((s, i) => {
                           const values = series[s.id] ?? [];
                           const now = values[values.length - 1] ?? s.p95;
                           const on = selected === s.id;
+                          const calm = s.health === "operational";
                           return (
                             <button
                               aria-label={`${s.name}, ${healthLabel[s.health]}, p95 ${fmtMs(now)}`}
-                              aria-pressed={on}
+                              aria-selected={on}
                               className={cn(
-                                "group/card flex min-w-0 flex-col gap-2 rounded-xl border bg-card p-3 text-left outline-none transition-[border-color,box-shadow,opacity,scale] duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]",
-                                on ? "border-foreground/30 shadow-xs/5" : "hover:border-foreground/16",
-                                selected && !on && "opacity-55",
-                                s.health !== "operational" && !on && "border-warning/40",
+                                "group/row relative flex h-11 min-w-0 cursor-pointer items-center gap-4 px-3 text-left outline-none transition-[background-color,opacity] duration-150 ease-out focus-visible:bg-accent/60",
+                                on ? "bg-accent/70" : "hover:bg-accent/40",
+                                selected && !on && "opacity-50",
                               )}
                               key={s.id}
                               onClick={() => setSelected((cur) => (cur === s.id ? null : s.id))}
@@ -543,48 +560,48 @@ export function StatusConsole({
                               ref={(el) => {
                                 cardRefs.current[i] = el;
                               }}
-                              role="gridcell"
+                              role="option"
                               tabIndex={i === focusIdx ? 0 : -1}
                               type="button"
                             >
-                              <span className="flex items-center gap-2">
-                                <span className="relative flex size-2">
-                                  {s.health !== "operational" && (
-                                    <span className={cn("absolute inset-0 rounded-full opacity-60 motion-safe:animate-ping motion-reduce:hidden", healthDot[s.health])} />
-                                  )}
+                              {on && <motion.span className="absolute inset-y-0 left-0 w-0.5 bg-foreground" layoutId="service-rail" transition={{ type: "spring", stiffness: 520, damping: 42 }} />}
+                              <span className="flex min-w-0 flex-1 items-center gap-2.5">
+                                <span className="relative flex size-2 shrink-0">
+                                  {!calm && <span className={cn("absolute inset-0 rounded-full opacity-60 motion-safe:animate-ping motion-reduce:hidden", healthDot[s.health])} />}
                                   <span className={cn("relative size-2 rounded-full transition-colors duration-500", healthDot[s.health])} />
                                 </span>
-                                <span className="min-w-0 flex-1 truncate font-medium">{s.name}</span>
-                                <span className={cn("hidden text-xs transition-colors duration-500 @xl:inline", healthText[s.health])}>{healthLabel[s.health]}</span>
+                                <span className="truncate font-medium">{s.name}</span>
+                                {!calm && <span className={cn("shrink-0 text-xs transition-colors duration-500", healthText[s.health])}>{healthLabel[s.health]}</span>}
+                                <span className="ms-auto hidden shrink-0 font-mono text-[11px] text-muted-foreground @md:inline @xl:hidden @3xl:inline">{s.region}</span>
                               </span>
-                              <Sparkline health={s.health} max={s.p95} values={values} />
-                              <span className="flex items-baseline gap-3 text-muted-foreground text-xs tabular-nums">
-                                <span>
-                                  <span className={cn("font-medium text-sm", s.health !== "operational" ? healthText[s.health] : "text-foreground")}>{fmtMs(now)}</span> p95
-                                </span>
-                                <span>{s.errorRate.toFixed(2)}% err</span>
-                                <span className="ms-auto hidden @xl:inline">{s.uptime.toFixed(2)}%</span>
+                              <span className="hidden w-32 shrink-0 @xl:block @4xl:w-40">
+                                <Sparkline health={s.health} max={s.p95} values={values} />
                               </span>
+                              <span className={cn("w-14 shrink-0 text-right font-medium tabular-nums transition-colors duration-500", calm ? "text-foreground" : healthText[s.health])}>{fmtMs(now)}</span>
+                              <span className="hidden w-14 shrink-0 text-right text-muted-foreground tabular-nums @md:block">{s.errorRate.toFixed(2)}%</span>
+                              <span className="hidden w-16 shrink-0 text-right text-muted-foreground tabular-nums @xl:block">{s.uptime.toFixed(2)}%</span>
                             </button>
                           );
                         })}
                       </div>
                     </section>
 
-                    <section aria-label="Uptime" className="rounded-xl border bg-card p-3">
-                      <div className="flex items-center justify-between">
-                        <h2 className="font-medium">{selected ? services.find((s) => s.id === selected)?.name : "Platform"} uptime</h2>
-                        <span className="text-muted-foreground text-xs tabular-nums">60 days · 99.94%</span>
+                    <section aria-label="Uptime" className="rounded-xl border bg-card px-3 pt-3 pb-2.5">
+                      <div className="flex items-baseline justify-between gap-3">
+                        <h2 className="truncate font-medium">{selected ? services.find((s) => s.id === selected)?.name : "Platform"} uptime</h2>
+                        <span className="shrink-0 text-muted-foreground text-xs tabular-nums">
+                          <span className="font-medium text-foreground">99.94%</span> · 60 days
+                        </span>
                       </div>
-                      <div className="mt-3 flex h-7 gap-[2px]">
+                      <div className="mt-3 flex h-6 gap-[3px]">
                         {uptimeBars.map((b, i) => (
                           <Tooltip key={i}>
                             <TooltipTrigger
                               render={
                                 <span
                                   className={cn(
-                                    "h-full flex-1 rounded-[2px] transition-colors duration-500",
-                                    b === 0 ? "bg-success/70" : b === 1 ? "bg-warning/80" : resolved ? "bg-warning/80" : "bg-destructive/80",
+                                    "h-full min-w-0 flex-1 rounded-[2px] transition-[background-color,opacity] duration-500 hover:opacity-70",
+                                    b === 0 ? "bg-success/60" : b === 1 ? "bg-warning" : resolved ? "bg-warning" : "bg-destructive",
                                   )}
                                 />
                               }
@@ -595,112 +612,33 @@ export function StatusConsole({
                           </Tooltip>
                         ))}
                       </div>
-                      <div className="mt-1.5 flex justify-between text-[11px] text-muted-foreground">
+                      <div className="mt-2 flex justify-between text-[11px] text-muted-foreground">
                         <span>60 days ago</span>
                         <span>Today</span>
                       </div>
                     </section>
 
-                    <section aria-label="Recent deploys" className="scroll-mt-3 rounded-xl border bg-card" data-rail="deploys">
-                      <div className="flex items-center justify-between px-3 pt-3 pb-2">
-                        <h2 className="font-medium">Recent deploys</h2>
-                        {selected && <span className="text-muted-foreground text-xs">{services.find((s) => s.id === selected)?.name}</span>}
-                      </div>
-                      {visibleDeploys.length === 0 ? (
-                        <p className="px-3 pb-4 text-muted-foreground text-xs">No deploys to this service in the last 7 days.</p>
-                      ) : (
-                        <ul className="flex flex-col px-1.5 pb-1.5">
-                          <AnimatePresence initial={false}>
-                            {visibleDeploys.map((d) => {
-                              const a = person(d.author);
-                              return (
-                                <motion.li
-                                  animate={{ opacity: 1, height: "auto" }}
-                                  className="overflow-hidden"
-                                  exit={{ opacity: 0, height: 0 }}
-                                  initial={{ opacity: 0, height: 0 }}
-                                  key={d.id}
-                                  transition={{ duration: 0.25, ease }}
-                                >
-                                  <div className="group/dep flex items-center gap-3 rounded-lg px-1.5 py-2 hover:bg-accent/50">
-                                    <span
-                                      className={cn(
-                                        "flex size-7 shrink-0 items-center justify-center rounded-lg",
-                                        d.status === "succeeded" && "bg-success/10 text-success-foreground",
-                                        d.status === "rolling" && "bg-info/10 text-info-foreground",
-                                        d.status === "failed" && "bg-destructive/10 text-destructive-foreground",
-                                        d.status === "rolled-back" && "bg-muted text-muted-foreground",
-                                      )}
-                                    >
-                                      {d.status === "rolled-back" ? <RotateCcwIcon className="size-3.5" /> : <GitCommitHorizontalIcon className="size-3.5" />}
-                                    </span>
-                                    <span className="min-w-0 flex-1">
-                                      <span className="flex items-baseline gap-2">
-                                        <span className="truncate">{d.message}</span>
-                                      </span>
-                                      <span className="flex items-center gap-1.5 text-muted-foreground text-xs">
-                                        <span className="font-mono">{d.sha}</span>
-                                        <span>·</span>
-                                        <span className="truncate">{services.find((s) => s.id === d.service)?.name}</span>
-                                        {d.status === "rolled-back" && <span>· rolled back</span>}
-                                      </span>
-                                      {d.status === "rolling" && (
-                                        <span className="mt-1.5 block h-1 overflow-hidden rounded-full bg-muted">
-                                          <motion.span
-                                            animate={{ scaleX: (d.progress ?? 0) / 100 }}
-                                            className="block h-full origin-left rounded-full bg-info"
-                                            initial={{ scaleX: 0 }}
-                                            transition={{ duration: 0.45, ease: "easeOut" }}
-                                          />
-                                        </span>
-                                      )}
-                                    </span>
-                                    <span className="hidden @md:block">
-                                      <PersonAvatar person={a} size="size-5" />
-                                    </span>
-                                    <span className="w-12 shrink-0 text-right text-muted-foreground text-xs tabular-nums">
-                                      {d.status === "rolling" ? `${Math.round(d.progress ?? 0)}%` : d.time}
-                                    </span>
-                                    {d.status === "succeeded" ? (
-                                      <Tooltip>
-                                        <TooltipTrigger
-                                          render={
-                                            <Button aria-label={`Roll back ${d.sha}`} className="text-muted-foreground hover:text-foreground" onClick={() => rollback(d)} size="icon-xs" variant="ghost" />
-                                          }
-                                        >
-                                          <RotateCcwIcon />
-                                        </TooltipTrigger>
-                                        <TooltipPopup>Roll back</TooltipPopup>
-                                      </Tooltip>
-                                    ) : (
-                                      <span aria-hidden className="size-7 shrink-0 sm:size-6" />
-                                    )}
-                                  </div>
-                                </motion.li>
-                              );
-                            })}
-                          </AnimatePresence>
-                        </ul>
-                      )}
-                    </section>
                   </div>
 
-                  <div className="order-first flex min-w-0 flex-col gap-4 @5xl:order-none">
-                    <section aria-label="Incident" data-rail="incidents" className={cn("flex flex-col rounded-xl border bg-card transition-colors duration-500", !resolved && "border-warning/40")}>
-                      <div className="flex items-start gap-2 px-3 pt-3">
-                        <span className={cn("mt-0.5 flex size-7 shrink-0 items-center justify-center rounded-lg transition-colors duration-500", resolved ? "bg-success/10 text-success-foreground" : "bg-warning/12 text-warning-foreground")}>
-                          {resolved ? <CheckIcon className="size-4" /> : <SirenIcon className="size-4" />}
-                        </span>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-2 text-muted-foreground text-xs">
-                            <span className="font-mono">INC-318</span>
-                            <span>·</span>
-                            <span>SEV-2</span>
-                            <span>·</span>
-                            <span className="tabular-nums">started 13:58</span>
-                          </div>
-                          <h2 className="mt-0.5 text-pretty font-medium leading-snug">Webhook deliveries delayed in eu-west</h2>
+                  <div className="order-first flex min-w-0 flex-col gap-4 @5xl:order-none @5xl:col-start-2 @5xl:row-start-1">
+                    <section aria-label="Incident" data-rail="incidents" className="flex flex-col overflow-hidden rounded-xl border bg-card">
+                      <div className="flex flex-col gap-1.5 px-3 pt-3">
+                        <div className="flex items-center gap-2 text-muted-foreground text-xs">
+                          <span
+                            className={cn(
+                              "flex h-5 items-center gap-1 rounded-full px-1.5 font-medium transition-colors duration-500",
+                              resolved ? "bg-success/10 text-success-foreground" : "bg-warning/12 text-warning-foreground",
+                            )}
+                          >
+                            {resolved ? <CheckIcon className="size-3" /> : <SirenIcon className="size-3" />}
+                            {resolved ? "Resolved" : "Ongoing"}
+                          </span>
+                          <span className="font-mono text-[11px]">INC-318</span>
+                          <span aria-hidden>·</span>
+                          <span>SEV-2</span>
+                          <span className="ms-auto tabular-nums">13:58</span>
                         </div>
+                        <h2 className="text-pretty font-medium leading-snug">Webhook deliveries delayed in eu-west</h2>
                       </div>
                       <div className="mt-3 flex gap-1 px-3">
                         {(["investigating", "identified", "monitoring", "resolved"] as const).map((st) => {
@@ -817,6 +755,83 @@ export function StatusConsole({
                       </ul>
                     </section>
                   </div>
+                  <section aria-label="Recent deploys" className="min-w-0 scroll-mt-3 self-start overflow-hidden rounded-xl border bg-card @5xl:col-start-2 @5xl:row-start-2" data-rail="deploys">
+                    <div className="flex h-11 items-center justify-between gap-3 border-b px-3">
+                      <h2 className="font-medium">Recent deploys</h2>
+                      {selected && <span className="truncate text-muted-foreground text-xs">{services.find((s) => s.id === selected)?.name}</span>}
+                    </div>
+                    {visibleDeploys.length === 0 ? (
+                      <p className="px-3 py-6 text-center text-muted-foreground text-xs">No deploys to this service in the last 7 days.</p>
+                    ) : (
+                      <ul className="flex flex-col">
+                        <AnimatePresence initial={false}>
+                          {visibleDeploys.map((d) => {
+                            return (
+                              <motion.li
+                                animate={{ opacity: 1, height: "auto" }}
+                                className="group/li overflow-hidden"
+                                exit={{ opacity: 0, height: 0 }}
+                                initial={{ opacity: 0, height: 0 }}
+                                key={d.id}
+                                transition={{ duration: 0.25, ease }}
+                              >
+                                <div className="group/dep flex items-center gap-3 border-b px-3 py-2.5 transition-colors group-last/li:border-b-0 hover:bg-accent/40">
+                                  <span
+                                    className={cn(
+                                      "flex size-6 shrink-0 items-center justify-center rounded-full border",
+                                      d.status === "succeeded" && "border-success/30 text-success-foreground",
+                                      d.status === "rolling" && "border-info/40 text-info-foreground",
+                                      d.status === "failed" && "border-destructive/40 text-destructive-foreground",
+                                      d.status === "rolled-back" && "text-muted-foreground",
+                                    )}
+                                  >
+                                    {d.status === "rolled-back" ? <RotateCcwIcon className="size-3" /> : <GitCommitHorizontalIcon className="size-3.5" />}
+                                  </span>
+                                  <span className="min-w-0 flex-1">
+                                    <span className={cn("block truncate", d.status === "rolled-back" && "text-muted-foreground line-through decoration-muted-foreground/40")}>{d.message}</span>
+                                    <span className="mt-0.5 flex items-center gap-1.5 text-muted-foreground text-xs">
+                                      <span className="font-mono text-[11px]">{d.sha}</span>
+                                      <span aria-hidden>·</span>
+                                      <span className="truncate">{services.find((s) => s.id === d.service)?.name}</span>
+                                      {d.status === "rolled-back" && <span className="shrink-0">· rolled back</span>}
+                                      {d.status === "rolling" && <span className="shrink-0 text-info-foreground">· rolling out</span>}
+                                    </span>
+                                    {d.status === "rolling" && (
+                                      <span className="mt-1.5 block h-1 overflow-hidden rounded-full bg-muted">
+                                        <motion.span
+                                          animate={{ scaleX: (d.progress ?? 0) / 100 }}
+                                          className="block h-full origin-left rounded-full bg-info"
+                                          initial={{ scaleX: 0 }}
+                                          transition={{ duration: 0.45, ease: "easeOut" }}
+                                        />
+                                      </span>
+                                    )}
+                                  </span>
+                                  <span className="w-12 shrink-0 text-right text-muted-foreground text-xs tabular-nums">
+                                    {d.status === "rolling" ? `${Math.round(d.progress ?? 0)}%` : d.time}
+                                  </span>
+                                  {d.status === "succeeded" ? (
+                                    <Tooltip>
+                                      <TooltipTrigger
+                                        render={
+                                          <Button aria-label={`Roll back ${d.sha}`} className="text-muted-foreground hover:text-foreground" onClick={() => rollback(d)} size="icon-xs" variant="ghost" />
+                                        }
+                                      >
+                                        <RotateCcwIcon />
+                                      </TooltipTrigger>
+                                      <TooltipPopup>Roll back</TooltipPopup>
+                                    </Tooltip>
+                                  ) : (
+                                    <span aria-hidden className="size-7 shrink-0 sm:size-6" />
+                                  )}
+                                </div>
+                              </motion.li>
+                            );
+                          })}
+                        </AnimatePresence>
+                      </ul>
+                    )}
+                  </section>
                 </div>
               )}
             </div>

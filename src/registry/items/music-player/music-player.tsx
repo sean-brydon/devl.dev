@@ -97,9 +97,15 @@ function Motif({ art }: { art: CoverArt }) {
     case "sunset":
       return (
         <svg {...common}>
-          <circle className="fill-amber-100/85" cx="50" cy="60" r="24" />
-          {[64, 71, 78, 85].map((y, i) => (
-            <rect className="fill-rose-700/80" height={2 + i * 0.8} key={y} width="100" x="0" y={y} />
+          <circle className="fill-amber-100/90" cx="50" cy="62" r="22" />
+          <rect className="fill-rose-950/35" height="36" width="100" x="0" y="66" />
+          {[
+            [72, 34],
+            [78, 24],
+            [84, 15],
+            [90, 7],
+          ].map(([y, w]) => (
+            <rect className="fill-amber-100/50" height="1.6" key={y} rx="0.8" width={w} x={50 - w / 2} y={y} />
           ))}
         </svg>
       );
@@ -694,9 +700,9 @@ export function MusicPlayer({
                   className={cn(
                     "w-full cursor-pointer text-pretty rounded-lg px-2 py-1.5 text-left font-semibold tracking-tight transition-colors duration-300 ease-out hover:text-foreground",
                     ring,
-                    big ? "text-xl" : "text-lg",
+                    big ? "text-2xl" : "text-xl leading-snug",
                     state === "now" && "text-foreground",
-                    state === "past" && "text-muted-foreground/60",
+                    state === "past" && "text-muted-foreground/50",
                     state === "next" && "text-muted-foreground",
                   )}
                   onClick={() => {

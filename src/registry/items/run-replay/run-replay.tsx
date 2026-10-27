@@ -103,9 +103,11 @@ type LogEntry =
       status: "running" | "done" | "denied" | "failed";
       result?: string;
       retry?: boolean;
+      at: number;
+      end?: number;
     }
-  | { kind: "thought"; id: string; step: number; text: string }
-  | { kind: "approval"; id: string; step: number; status: "waiting" | "approved" | "denied"; count: number };
+  | { kind: "thought"; id: string; step: number; text: string; at: number }
+  | { kind: "approval"; id: string; step: number; status: "waiting" | "approved" | "denied"; count: number; at: number };
 
 type Ev =
   | { k: "step"; i: number; s: StepStatus; d: number }
@@ -136,7 +138,7 @@ interface RunState {
 }
 
 type Action =
-  | { type: "ev"; ev: Ev }
+  | { type: "ev"; ev: Ev; at: number }
   | { type: "decide"; approve: boolean; count: number }
   | { type: "cancel" }
   | { type: "retry" }
@@ -147,13 +149,13 @@ const spring = { type: "spring", duration: 0.3, bounce: 0 } as const;
 const enter = { duration: 0.2, ease: easeOut } as const;
 const press = "transition-[transform,box-shadow,background-color] duration-150 ease-out active:scale-[0.97]";
 
-const toolMeta: Record<RunToolKind, { icon: LucideIcon; tone: string }> = {
-  db: { icon: DatabaseIcon, tone: "bg-teal-500/12 text-teal-700 dark:bg-teal-400/14 dark:text-teal-300" },
-  search: { icon: SearchIcon, tone: "bg-info/12 text-info-foreground" },
-  code: { icon: SquareTerminalIcon, tone: "bg-amber-500/12 text-amber-700 dark:bg-amber-400/14 dark:text-amber-300" },
-  doc: { icon: FileTextIcon, tone: "bg-orange-500/12 text-orange-700 dark:bg-orange-400/14 dark:text-orange-300" },
-  send: { icon: SendIcon, tone: "bg-warning/16 text-warning-foreground" },
-  task: { icon: ListChecksIcon, tone: "bg-success/12 text-success-foreground" },
+const toolMeta: Record<RunToolKind, { icon: LucideIcon; text: string; bar: string }> = {
+  db: { icon: DatabaseIcon, text: "text-teal-600 dark:text-teal-400", bar: "bg-teal-500" },
+  search: { icon: SearchIcon, text: "text-info-foreground", bar: "bg-info" },
+  code: { icon: SquareTerminalIcon, text: "text-amber-600 dark:text-amber-400", bar: "bg-amber-500" },
+  doc: { icon: FileTextIcon, text: "text-orange-600 dark:text-orange-400", bar: "bg-orange-500" },
+  send: { icon: SendIcon, text: "text-violet-600 dark:text-violet-400", bar: "bg-violet-500" },
+  task: { icon: ListChecksIcon, text: "text-success-foreground", bar: "bg-success" },
 };
 
 const defaultAccounts: RunAccount[] = [
@@ -351,33 +353,34 @@ function reducer(state: RunState, action: Action): RunState {
     };
   }
   const ev = action.ev;
+  const at = action.at;
   const next = { ...state, cursor: state.cursor + 1 };
   switch (ev.k) {
     case "step":
       next.steps = state.steps.map((s, i) => (i === ev.i ? ev.s : s));
       break;
     case "tool":
-      next.log = [...state.log, { kind: "tool", id: ev.id, step: ev.step, call: ev.call, status: "running", retry: ev.retry }];
+      next.log = [...state.log, { kind: "tool", id: ev.id, step: ev.step, call: ev.call, status: "running", retry: ev.retry, at }];
       break;
     case "toolFail":
-      next.log = state.log.map((e) => (e.kind === "tool" && e.id === ev.id ? { ...e, status: "failed", result: ev.message } : e));
+      next.log = state.log.map((e) => (e.kind === "tool" && e.id === ev.id ? { ...e, status: "failed", result: ev.message, end: at } : e));
       break;
     case "halt":
-      next.log = state.log.map((e) => (e.kind === "tool" && e.id === ev.id ? { ...e, status: "failed", result: ev.message } : e));
+      next.log = state.log.map((e) => (e.kind === "tool" && e.id === ev.id ? { ...e, status: "failed", result: ev.message, end: at } : e));
       next.failure = { id: ev.id, step: ev.step, message: ev.message };
       next.steps = state.steps.map((s, i) => (i === ev.step ? "failed" : s));
       break;
     case "toolDone": {
       const entry = state.log.find((e) => e.id === ev.id);
-      next.log = state.log.map((e) => (e.kind === "tool" && e.id === ev.id ? { ...e, status: "done", result: e.call.result } : e));
+      next.log = state.log.map((e) => (e.kind === "tool" && e.id === ev.id ? { ...e, status: "done", result: e.call.result, end: at } : e));
       next.tokens = state.tokens + (entry?.kind === "tool" ? entry.call.tokens : 0);
       break;
     }
     case "denied":
-      next.log = [...state.log, { kind: "tool", id: ev.id, step: ev.step, call: ev.call, status: "denied", result: "Denied by reviewer" }];
+      next.log = [...state.log, { kind: "tool", id: ev.id, step: ev.step, call: ev.call, status: "denied", result: "Denied by reviewer", at, end: at }];
       break;
     case "thought":
-      next.log = [...state.log, { kind: "thought", id: ev.id, step: ev.step, text: ev.text }];
+      next.log = [...state.log, { kind: "thought", id: ev.id, step: ev.step, text: ev.text, at }];
       next.tokens = state.tokens + 180;
       break;
     case "row":
@@ -390,7 +393,7 @@ function reducer(state: RunState, action: Action): RunState {
     case "approval":
       next.awaiting = { id: ev.id, step: ev.step };
       next.steps = state.steps.map((s, i) => (i === ev.step ? "waiting" : s));
-      next.log = [...state.log, { kind: "approval", id: ev.id, step: ev.step, status: "waiting", count: 0 }];
+      next.log = [...state.log, { kind: "approval", id: ev.id, step: ev.step, status: "waiting", count: 0, at }];
       break;
     case "finish":
       next.finished = true;
@@ -485,56 +488,45 @@ function formatArgs(args: RunToolCall["args"]) {
     .join(", ");
 }
 
-function ToolEntry({ entry }: { entry: Extract<LogEntry, { kind: "tool" }> }) {
+const secs = (ms: number) => `${(ms / 1000).toFixed(1)}s`;
+
+function Waterfall({ start, ms, total, tone, live }: { start: number; ms: number; total: number; tone: string; live: boolean }) {
+  return (
+    <span aria-hidden className="relative block h-1.5 w-28 overflow-hidden rounded-full bg-muted">
+      <motion.span
+        animate={{ scaleX: 1, opacity: live ? [0.5, 1, 0.5] : 1 }}
+        className={cn("absolute inset-y-0 block min-w-0.5 origin-left rounded-full", tone)}
+        initial={{ scaleX: 0 }}
+        style={{ left: `${(start / total) * 100}%`, width: `${Math.max((ms / total) * 100, 2)}%` }}
+        transition={live ? { scaleX: spring, opacity: { duration: 1.2, repeat: Infinity, ease: "easeInOut" } } : spring}
+      />
+    </span>
+  );
+}
+
+function ToolEntry({ entry, total }: { entry: Extract<LogEntry, { kind: "tool" }>; total: number }) {
   const [open, setOpen] = useState(false);
   const meta = toolMeta[entry.call.kind];
   const panelId = useId();
-  const failed = entry.status === "failed";
+  const failed = entry.status === "failed" || entry.status === "denied";
+  const span = entry.end !== undefined ? Math.max(entry.end - entry.at, 1) : entry.call.ms;
   return (
-    <div className={cn("rounded-xl border bg-card transition-colors duration-200", failed && "border-destructive/32")}>
+    <div className={cn("rounded-lg transition-colors duration-150", open && "bg-muted/48")}>
       <button
         aria-controls={panelId}
         aria-expanded={open}
-        className="flex w-full cursor-pointer items-start gap-3 rounded-xl p-3 text-left outline-none transition-transform duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.985]"
+        className="grid w-full cursor-pointer grid-cols-[2.5rem_1rem_minmax(0,1fr)_auto] items-start gap-x-3 rounded-lg px-2 py-2 text-left outline-none transition-colors duration-150 hover:bg-accent/50 focus-visible:ring-2 focus-visible:ring-ring"
         onClick={() => setOpen((o) => !o)}
         type="button"
       >
-        <span className={cn("flex size-7 shrink-0 items-center justify-center rounded-lg", meta.tone)}>
-          <meta.icon className="size-3.5" />
-        </span>
-        <span className="min-w-0 flex-1">
+        <time className="pt-px text-right font-mono text-[11px] text-muted-foreground tabular-nums">{secs(entry.at)}</time>
+        <meta.icon className={cn("mt-px size-4", failed ? "text-destructive-foreground" : meta.text)} />
+        <span className="min-w-0">
           <span className="flex items-center gap-2">
-            <span className="truncate font-medium font-mono text-xs">{entry.call.name}</span>
-            {entry.retry && (
-              <span className="shrink-0 rounded-md bg-muted px-1.5 py-px text-muted-foreground text-xs">retry</span>
-            )}
-            <span className="ms-auto flex shrink-0 items-center gap-1.5 text-muted-foreground text-xs tabular-nums">
-              <AnimatePresence initial={false} mode="popLayout">
-                {entry.status === "running" ? (
-                  <motion.span animate={{ opacity: 1 }} className="flex items-center gap-1.5" exit={{ opacity: 0 }} initial={{ opacity: 0 }} key="r" transition={enter}>
-                    <span className="size-1.5 animate-pulse rounded-full bg-info motion-reduce:animate-none" />
-                    running
-                  </motion.span>
-                ) : entry.status === "denied" ? (
-                  <motion.span animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-1 text-destructive-foreground" initial={{ opacity: 0, scale: 0.95 }} key="x" transition={enter}>
-                    <BanIcon className="size-3" />
-                    blocked
-                  </motion.span>
-                ) : entry.status === "failed" ? (
-                  <motion.span animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-1 text-destructive-foreground" initial={{ opacity: 0, scale: 0.95 }} key="f" transition={enter}>
-                    <TriangleAlertIcon className="size-3" />
-                    failed
-                  </motion.span>
-                ) : (
-                  <motion.span animate={{ opacity: 1, scale: 1 }} className="flex items-center gap-1" initial={{ opacity: 0, scale: 0.95 }} key="d" transition={enter}>
-                    <CheckIcon className="size-3 text-success-foreground" />
-                    {(entry.call.ms / 1000).toFixed(1)}s
-                  </motion.span>
-                )}
-              </AnimatePresence>
-            </span>
+            <span className={cn("truncate font-medium font-mono text-xs", failed && "text-destructive-foreground")}>{entry.call.name}</span>
+            {entry.retry && <span className="shrink-0 rounded bg-muted px-1.5 text-[11px] text-muted-foreground">retry</span>}
           </span>
-          <span className="mt-1 block truncate font-mono text-muted-foreground text-xs">({formatArgs(entry.call.args)})</span>
+          <span className="mt-0.5 block truncate font-mono text-[11px] text-muted-foreground">{formatArgs(entry.call.args)}</span>
           <AnimatePresence initial={false}>
             {entry.result && (
               <motion.span
@@ -543,19 +535,41 @@ function ToolEntry({ entry }: { entry: Extract<LogEntry, { kind: "tool" }> }) {
                 initial={{ opacity: 0, height: 0 }}
                 transition={spring}
               >
-                <span
-                  className={cn(
-                    "mt-1.5 block text-xs",
-                    entry.status === "denied" || failed ? "text-destructive-foreground" : "text-foreground",
-                  )}
-                >
-                  → {entry.result}
-                </span>
+                <span className={cn("mt-1 block text-xs", failed ? "text-destructive-foreground" : "text-foreground")}>{entry.result}</span>
               </motion.span>
             )}
           </AnimatePresence>
         </span>
-        <ChevronDownIcon className={cn("mt-1.5 size-3.5 shrink-0 text-muted-foreground transition-transform", open && "rotate-180")} />
+        <span className="flex items-center gap-3 pt-px">
+          <span className="hidden @md:block">
+            <Waterfall live={entry.status === "running"} ms={span} start={entry.at} tone={failed ? "bg-destructive" : meta.bar} total={total} />
+          </span>
+          <span className="flex w-14 items-center justify-end gap-1 text-muted-foreground text-xs tabular-nums">
+            <AnimatePresence initial={false} mode="popLayout">
+              {entry.status === "running" ? (
+                <motion.span animate={{ opacity: 1 }} className="flex items-center gap-1.5" exit={{ opacity: 0 }} initial={{ opacity: 0 }} key="r" transition={enter}>
+                  <span className="size-1.5 animate-pulse rounded-full bg-info motion-reduce:animate-none" />
+                  running
+                </motion.span>
+              ) : entry.status === "denied" ? (
+                <motion.span animate={{ opacity: 1 }} className="flex items-center gap-1 text-destructive-foreground" initial={{ opacity: 0 }} key="x" transition={enter}>
+                  <BanIcon className="size-3" />
+                  blocked
+                </motion.span>
+              ) : entry.status === "failed" ? (
+                <motion.span animate={{ opacity: 1 }} className="flex items-center gap-1 text-destructive-foreground" initial={{ opacity: 0 }} key="f" transition={enter}>
+                  <TriangleAlertIcon className="size-3" />
+                  failed
+                </motion.span>
+              ) : (
+                <motion.span animate={{ opacity: 1 }} initial={{ opacity: 0 }} key="d" transition={enter}>
+                  {secs(entry.call.ms)}
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </span>
+          <ChevronDownIcon className={cn("size-3.5 shrink-0 text-muted-foreground transition-transform duration-200", open && "rotate-180")} />
+        </span>
       </button>
       <AnimatePresence initial={false}>
         {open && (
@@ -567,16 +581,16 @@ function ToolEntry({ entry }: { entry: Extract<LogEntry, { kind: "tool" }> }) {
             initial={{ height: 0, opacity: 0 }}
             transition={spring}
           >
-            <div className="mx-3 mb-3 grid gap-2 rounded-md bg-muted p-3 font-mono text-xs">
+            <div className="ms-[4.75rem] me-2 mb-2 grid gap-2 rounded-lg border bg-background p-3 font-mono text-xs dark:bg-input/24">
               <div className="flex items-center gap-1.5 text-muted-foreground">
                 <BracesIcon className="size-3" />
                 arguments
               </div>
               <pre className="overflow-x-auto whitespace-pre text-foreground">{JSON.stringify(entry.call.args, null, 2)}</pre>
-              <div className="flex flex-wrap gap-x-4 gap-y-1 text-muted-foreground">
+              <div className="flex flex-wrap gap-x-4 gap-y-1 border-t pt-2 text-muted-foreground">
                 <span>{entry.call.tokens.toLocaleString("en-US")} tokens</span>
                 <span>{entry.call.ms} ms</span>
-                <span>step {entry.step + 1}</span>
+                <span>started at {secs(entry.at)}</span>
               </div>
             </div>
           </motion.div>
@@ -766,46 +780,139 @@ function FailureCard({
   );
 }
 
-function ActivityLog({ log }: { log: LogEntry[] }) {
+function ActivityLog({ log, steps, total }: { log: LogEntry[]; steps: RunStep[]; total: number }) {
   return (
-    <ol className="flex flex-col gap-2">
+    <ol className="flex flex-col">
       <AnimatePresence initial={false}>
-        {log.map((e) => (
-          <motion.li
-            animate={{ opacity: 1, y: 0 }}
-            initial={{ opacity: 0, y: 6 }}
-            key={e.id}
-            layout="position"
-            transition={{ ...enter, layout: spring }}
-          >
-            {e.kind === "tool" ? (
-              <ToolEntry entry={e} />
-            ) : e.kind === "thought" ? (
-              <div className="flex gap-2.5 px-3 py-1.5 text-muted-foreground text-xs">
-                <SparklesIcon className="mt-0.5 size-3.5 shrink-0" />
-                <span className="text-pretty italic">{e.text}</span>
-              </div>
-            ) : (
-              <div
-                className={cn(
-                  "flex items-center gap-2.5 rounded-xl border border-dashed px-3 py-2 text-xs",
-                  e.status === "waiting" && "border-warning/48 text-warning-foreground",
-                  e.status === "approved" && "text-muted-foreground",
-                  e.status === "denied" && "text-destructive-foreground",
-                )}
-              >
-                {e.status === "waiting" ? <HandIcon className="size-3.5" /> : e.status === "approved" ? <CheckIcon className="size-3.5 text-success-foreground" /> : <BanIcon className="size-3.5" />}
-                {e.status === "waiting"
-                  ? "Paused for approval"
-                  : e.status === "approved"
-                    ? `Approved by you · ${e.count} recipients`
-                    : "Denied by you · nothing sent"}
-              </div>
-            )}
-          </motion.li>
-        ))}
+        {log.map((e, i) => {
+          const first = i === 0 || log[i - 1].step !== e.step;
+          return (
+            <motion.li
+              animate={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, y: 4 }}
+              key={e.id}
+              layout="position"
+              transition={{ ...enter, layout: spring }}
+            >
+              {first && (
+                <div className={cn("flex items-center gap-2 px-2 pb-1 text-muted-foreground text-xs", i === 0 ? "pt-0" : "pt-4")}>
+                  <span className="flex size-4 items-center justify-center rounded bg-muted font-medium text-[10px] tabular-nums">{e.step + 1}</span>
+                  <span className="truncate font-medium">{steps[e.step]?.title}</span>
+                </div>
+              )}
+              {e.kind === "tool" ? (
+                <ToolEntry entry={e} total={total} />
+              ) : (
+                <div className="grid grid-cols-[2.5rem_1rem_minmax(0,1fr)] items-start gap-x-3 px-2 py-2 text-xs">
+                  <time className="pt-px text-right font-mono text-[11px] text-muted-foreground tabular-nums">{secs(e.at)}</time>
+                  {e.kind === "thought" ? (
+                    <>
+                      <SparklesIcon className="mt-px size-4 text-muted-foreground" />
+                      <span className="text-pretty text-muted-foreground italic leading-relaxed">{e.text}</span>
+                    </>
+                  ) : (
+                    <>
+                      {e.status === "waiting" ? (
+                        <HandIcon className="mt-px size-4 text-warning-foreground" />
+                      ) : e.status === "approved" ? (
+                        <CheckIcon className="mt-px size-4 text-success-foreground" />
+                      ) : (
+                        <BanIcon className="mt-px size-4 text-destructive-foreground" />
+                      )}
+                      <span
+                        className={cn(
+                          "pt-px",
+                          e.status === "waiting" && "font-medium text-warning-foreground",
+                          e.status === "approved" && "text-foreground",
+                          e.status === "denied" && "text-destructive-foreground",
+                        )}
+                      >
+                        {e.status === "waiting"
+                          ? "Paused for your approval"
+                          : e.status === "approved"
+                            ? `Approved by you · ${e.count} recipients`
+                            : "Denied by you · nothing sent"}
+                      </span>
+                    </>
+                  )}
+                </div>
+              )}
+            </motion.li>
+          );
+        })}
       </AnimatePresence>
     </ol>
+  );
+}
+
+function TraceStrip({
+  log,
+  total,
+  head,
+  next,
+  duration,
+}: {
+  log: LogEntry[];
+  total: number;
+  head: number;
+  next: number;
+  duration: number;
+}) {
+  const reduce = useReducedMotion();
+  const tools = log.filter((e) => e.kind === "tool") as Extract<LogEntry, { kind: "tool" }>[];
+  const marks = log.filter((e) => e.kind !== "tool");
+  const target = Math.min(next / total, 1);
+  return (
+    <div className="flex items-center gap-3 border-b px-4 py-2.5">
+      <span className="hidden w-14 shrink-0 font-medium text-muted-foreground text-xs @md:block">Timeline</span>
+      <div className="relative h-5 min-w-0 flex-1">
+        <div className="absolute inset-x-0 top-1/2 h-px -translate-y-1/2 bg-border" />
+        <motion.div
+          animate={{ scaleX: target }}
+          className="absolute inset-y-0 left-0 w-full origin-left rounded-sm bg-foreground/[0.04] dark:bg-foreground/[0.06]"
+          initial={false}
+          transition={reduce ? { duration: 0 } : { duration, ease: "linear" }}
+        />
+        {tools.map((e) => {
+          const meta = toolMeta[e.call.kind];
+          const failed = e.status === "failed" || e.status === "denied";
+          const span = e.end !== undefined ? Math.max(e.end - e.at, 1) : e.call.ms;
+          return (
+            <motion.span
+              animate={{ opacity: 1, scaleY: 1 }}
+              className={cn("absolute top-1/2 h-2.5 -translate-y-1/2 rounded-[3px]", failed ? "bg-destructive" : meta.bar, e.status === "running" && "animate-pulse motion-reduce:animate-none")}
+              initial={{ opacity: 0, scaleY: 0.4 }}
+              key={e.id}
+              style={{ left: `${(e.at / total) * 100}%`, width: `max(3px, ${(span / total) * 100}%)` }}
+              title={`${e.call.name} · ${secs(span)}`}
+              transition={enter}
+            />
+          );
+        })}
+        {marks.map((e) => (
+          <span
+            className={cn(
+              "absolute top-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full",
+              e.kind === "approval" ? "bg-warning" : "bg-muted-foreground/56",
+            )}
+            key={e.id}
+            style={{ left: `${(e.at / total) * 100}%` }}
+          />
+        ))}
+        <motion.div
+          animate={{ x: `${target * 100}%` }}
+          aria-hidden
+          className="pointer-events-none absolute inset-0"
+          initial={false}
+          transition={reduce ? { duration: 0 } : { duration, ease: "linear" }}
+        >
+          <span className="absolute inset-y-0 left-0 w-px bg-foreground/48" />
+        </motion.div>
+      </div>
+      <span className="shrink-0 whitespace-nowrap text-right font-mono text-[11px] text-muted-foreground tabular-nums">
+        {secs(head)} / {secs(total)}
+      </span>
+    </div>
   );
 }
 
@@ -1003,15 +1110,24 @@ export function RunReplay({
     [steps, rowCount, wordCount, state.decision, state.retried],
   );
 
+  const offsets = useMemo(() => {
+    let t = 0;
+    return events.map((e) => (t += e.d));
+  }, [events]);
+  const total = useMemo(
+    () => buildEvents(steps, rowCount, wordCount, { approve: true, count: accounts.length }, true).reduce((n, e) => n + e.d, 0),
+    [steps, rowCount, wordCount, accounts.length],
+  );
+
   const halted = state.failure !== null;
 
   useEffect(() => {
     if (paused || state.awaiting || state.finished || halted) return;
     const ev = events[state.cursor];
     if (!ev) return;
-    const t = setTimeout(() => dispatch({ type: "ev", ev }), ev.d / speed);
+    const t = setTimeout(() => dispatch({ type: "ev", ev, at: offsets[state.cursor] }), ev.d / speed);
     return () => clearTimeout(t);
-  }, [events, state.cursor, state.awaiting, state.finished, halted, paused, speed]);
+  }, [events, offsets, state.cursor, state.awaiting, state.finished, halted, paused, speed]);
 
   useEffect(() => {
     if (paused || state.finished || halted) return;
@@ -1083,6 +1199,9 @@ export function RunReplay({
           ? "ready"
           : "drafting";
 
+  const head = state.cursor > 0 ? (offsets[state.cursor - 1] ?? 0) : 0;
+  const moving = !paused && !state.awaiting && !state.finished && !halted && state.cursor < events.length;
+
   const draftFresh = tab !== "draft" && state.rows + state.words > seenDraft;
   const mmss = `${String(Math.floor(elapsed / 60)).padStart(2, "0")}:${String(elapsed % 60).padStart(2, "0")}`;
 
@@ -1094,14 +1213,14 @@ export function RunReplay({
           className,
         )}
       >
-        <header className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-2 border-b px-4 py-3">
-          <span className="flex size-9 shrink-0 items-center justify-center rounded-xl bg-teal-500/12 text-teal-700 dark:bg-teal-400/14 dark:text-teal-300">
-            <BotIcon className="size-4.5" />
+        <header className="flex shrink-0 flex-wrap items-center gap-x-3 gap-y-2 border-b px-4 py-2.5">
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-lg border bg-card text-foreground shadow-xs/5">
+            <BotIcon className="size-4" />
           </span>
           <div className="min-w-48 flex-1">
             <div className="flex items-center gap-2">
-              <h2 className="truncate font-heading font-semibold">{agentName}</h2>
-              <span className="hidden truncate font-mono text-muted-foreground text-xs @md:inline">{runId}</span>
+              <h2 className="truncate font-medium">{agentName}</h2>
+              <span className="hidden truncate rounded-md bg-muted px-1.5 font-mono text-[11px] text-muted-foreground @md:inline">{runId}</span>
             </div>
             <p className="truncate text-muted-foreground text-xs">{task}</p>
           </div>
@@ -1163,6 +1282,14 @@ export function RunReplay({
             </Menu>
           </div>
         </header>
+
+        <TraceStrip
+          duration={moving ? (events[state.cursor]?.d ?? 0) / speed / 1000 : 0.2}
+          head={head}
+          log={state.log}
+          next={moving ? (offsets[state.cursor] ?? head) : head}
+          total={total}
+        />
 
         <div className="grid min-h-0 flex-1 auto-rows-max grid-cols-[minmax(0,1fr)] overflow-y-auto @3xl:auto-rows-auto @3xl:grid-cols-[17.5rem_minmax(0,1fr)] @3xl:overflow-hidden @6xl:grid-cols-[17.5rem_minmax(0,1fr)_minmax(0,26rem)]">
           <aside className="flex flex-col gap-4 border-b p-4 @3xl:overflow-y-auto @3xl:border-e @3xl:border-b-0">
@@ -1252,22 +1379,19 @@ export function RunReplay({
               {planOpen ? "Show current step" : `Show all ${steps.length} steps`}
               <ChevronDownIcon className={cn("size-3.5 transition-transform", planOpen && "rotate-180")} />
             </button>
-            <dl className="grid grid-cols-3 gap-2 @3xl:mt-auto">
+            <dl className="grid grid-cols-3 gap-x-3 gap-y-1.5 border-t pt-3 text-xs @3xl:mt-auto @3xl:grid-cols-1">
               {[
                 { label: "Tokens", node: <Rolling format={(n) => Math.round(n).toLocaleString("en-US")} value={state.tokens} /> },
                 { label: "Cost", node: <Rolling format={(n) => `$${((n / 1000) * 0.006).toFixed(3)}`} value={state.tokens} /> },
-                { label: "Tools", node: <Rolling format={(n) => String(Math.round(n))} value={toolCalls} /> },
+                { label: "Tool calls", node: <Rolling format={(n) => String(Math.round(n))} value={toolCalls} /> },
+                { label: "Model", node: <span className="font-mono text-[11px]">{model}</span> },
               ].map((s) => (
-                <div className="rounded-xl border bg-card px-3 py-2" key={s.label}>
-                  <dt className="text-muted-foreground text-xs">{s.label}</dt>
-                  <dd className="mt-0.5 font-medium text-sm tabular-nums">{s.node}</dd>
+                <div className={cn("flex min-w-0 flex-col gap-0.5 @3xl:flex-row @3xl:justify-between", s.label === "Model" && "hidden @3xl:flex")} key={s.label}>
+                  <dt className="text-muted-foreground">{s.label}</dt>
+                  <dd className="truncate font-medium tabular-nums">{s.node}</dd>
                 </div>
               ))}
             </dl>
-            <div className="-mt-1 flex items-center justify-between gap-2 px-0.5 text-xs">
-              <span className="text-muted-foreground">Model</span>
-              <span className="truncate font-mono text-muted-foreground">{model}</span>
-            </div>
           </aside>
 
           <section className="flex min-h-0 flex-col @3xl:overflow-hidden" aria-label="Run activity">
@@ -1345,7 +1469,7 @@ export function RunReplay({
                     Reading the task…
                   </div>
                 ) : (
-                  <ActivityLog log={state.log} />
+                  <ActivityLog log={state.log} steps={steps} total={total} />
                 )}
               </div>
               <div className={cn(tab === "draft" ? "block" : "hidden", "@6xl:hidden")} id={`${tabsId}-draft`} role="tabpanel">

@@ -9,6 +9,7 @@ import {
   CopyIcon,
   CornerDownLeftIcon,
   ArchiveIcon,
+  CalendarIcon,
   LayersIcon,
   ListFilterIcon,
   type LucideIcon,
@@ -104,6 +105,14 @@ const dotTone: Record<IssueTone, string> = {
 
 const ease = [0.23, 1, 0.32, 1] as const;
 const glide = { type: "spring", stiffness: 500, damping: 44 } as const;
+
+const groupTone: Record<IssueStatus, string> = {
+  backlog: "from-muted/80 to-muted/80 dark:from-muted/60 dark:to-muted/60",
+  todo: "from-muted/80 to-muted/80 dark:from-muted/60 dark:to-muted/60",
+  in_progress: "from-amber-500/6 to-amber-500/6 dark:from-amber-400/7 dark:to-amber-400/7",
+  in_review: "from-emerald-500/6 to-emerald-500/6 dark:from-emerald-400/7 dark:to-emerald-400/7",
+  done: "from-blue-500/6 to-blue-500/6 dark:from-blue-400/7 dark:to-blue-400/7",
+};
 
 const STATUSES: { id: IssueStatus; label: string }[] = [
   { id: "in_progress", label: "In Progress" },
@@ -498,7 +507,7 @@ export function IssueTracker({
   const [picked, setPicked] = useState<Set<string>>(() => new Set());
   const [openId, setOpenId] = useState<string | null>(null);
   const [palette, setPalette] = useState<{ mode: PaletteMode; ids: string[] } | null>(null);
-  const [collapsed, setCollapsed] = useState<Set<IssueStatus>>(() => new Set(["done"]));
+  const [collapsed, setCollapsed] = useState<Set<IssueStatus>>(() => new Set());
   const [query, setQuery] = useState("");
   const [view, setView] = useState<IssueView>("active");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -817,7 +826,7 @@ export function IssueTracker({
             <button
               aria-current={on ? "page" : undefined}
               className={cn(
-                "group/nav relative flex h-8 cursor-pointer items-center gap-2.5 rounded-lg px-2.5 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                "group/nav relative flex h-8 cursor-pointer items-center gap-2.5 rounded-lg px-2.5 text-left text-[13px] outline-none focus-visible:ring-2 focus-visible:ring-ring",
                 on ? "text-foreground" : "text-muted-foreground hover:text-foreground",
               )}
               key={n.id}
@@ -826,12 +835,12 @@ export function IssueTracker({
             >
               {on ? (
                 <motion.span
-                  className="absolute inset-0 rounded-lg bg-background shadow-xs/5 ring-1 ring-border dark:bg-accent dark:ring-0"
+                  className="absolute inset-0 rounded-lg bg-accent"
                   layoutId={onClose ? "issue-nav-drawer" : "issue-nav"}
                   transition={{ type: "spring", stiffness: 520, damping: 42 }}
                 />
               ) : (
-                <span className="absolute inset-0 rounded-lg transition-colors group-hover/nav:bg-accent" />
+                <span className="absolute inset-0 rounded-lg transition-colors group-hover/nav:bg-accent/60" />
               )}
               <n.icon className="relative size-4" />
               <span className="relative flex-1 font-medium">{n.label}</span>
@@ -1054,7 +1063,7 @@ export function IssueTracker({
                     const isCollapsed = collapsed.has(g.id);
                     return (
                       <div key={g.id} role="rowgroup">
-                        <div className="sticky top-0 z-10 flex h-9 items-center gap-2 border-b bg-muted/70 ps-3 pe-2 backdrop-blur-sm @lg:ps-4 dark:bg-muted/50">
+                        <div className={cn("sticky top-0 z-10 flex h-9 items-center gap-2 border-b bg-background bg-linear-to-r ps-3 pe-2 @lg:ps-4", groupTone[g.id])}>
                           <button
                             aria-expanded={!isCollapsed}
                             className="flex cursor-pointer items-center gap-2 rounded outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -1070,7 +1079,7 @@ export function IssueTracker({
                           >
                             <ChevronDownIcon className={cn("size-3.5 text-muted-foreground transition-transform duration-200", isCollapsed && "-rotate-90")} />
                             <StatusIcon status={g.id} />
-                            <span className="font-medium">{g.label}</span>
+                            <span className="font-medium text-[13px]">{g.label}</span>
                             <span className="text-muted-foreground text-xs tabular-nums">{g.items.length}</span>
                           </button>
                           {g.id !== "done" && (
@@ -1100,7 +1109,7 @@ export function IssueTracker({
                                       aria-label={`${issue.id} ${issue.title || "Untitled issue"}`}
                                       aria-selected={isPicked}
                                       className={cn(
-                                        "group/row relative flex h-11 cursor-pointer items-center gap-2.5 border-b border-border/60 ps-3 pe-3 outline-none @lg:ps-4",
+                                        "group/row relative flex h-10 cursor-pointer items-center gap-2.5 border-b border-border/60 ps-3 pe-3 outline-none @lg:ps-4",
                                         isCursor ? "bg-accent" : "hover:bg-accent/50",
                                         isPicked && "bg-info/8 hover:bg-info/10",
                                         issue.id === openId && "bg-accent",
@@ -1146,7 +1155,7 @@ export function IssueTracker({
                                       <span title={statusLabel(issue.status)}>
                                         <StatusIcon status={issue.status} />
                                       </span>
-                                      <span className={cn("min-w-0 flex-1 truncate", !issue.title && "text-muted-foreground italic")}>
+                                      <span className={cn("min-w-0 flex-1 truncate font-medium text-[13px]", !issue.title && "font-normal text-muted-foreground italic", issue.status === "done" && "text-muted-foreground")}>
                                         {issue.title || "Untitled issue"}
                                       </span>
                                       <span className="hidden shrink-0 items-center gap-1 @3xl:flex">
@@ -1163,10 +1172,11 @@ export function IssueTracker({
                                       {issue.due && (
                                         <span
                                           className={cn(
-                                            "hidden shrink-0 text-xs tabular-nums @2xl:block",
-                                            issue.priority === 1 ? "text-destructive-foreground" : "text-muted-foreground",
+                                            "hidden h-5 shrink-0 items-center gap-1 rounded-full border px-1.5 text-[11px] tabular-nums @2xl:inline-flex",
+                                            issue.priority === 1 && issue.status !== "done" ? "border-destructive/30 text-destructive-foreground" : "text-muted-foreground",
                                           )}
                                         >
+                                          <CalendarIcon className="size-3" />
                                           {issue.due}
                                         </span>
                                       )}

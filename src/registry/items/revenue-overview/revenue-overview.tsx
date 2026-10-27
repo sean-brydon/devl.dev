@@ -378,7 +378,6 @@ interface PlacedMoment extends RevenueMoment {
 interface ChannelRow {
   key: string;
   label: string;
-  shade: string;
   total: number;
   prev: number;
 }
@@ -461,12 +460,12 @@ function buildModel(
       prevT: t - span * DAY,
     };
   });
-  const rows = channels.map((c, i) => {
+  const rows = channels.map((c) => {
     let total = 0;
     let prev = 0;
     for (let k = startIdx; k < endIdx; k++) total += days[k].byChannel[c.key] ?? 0;
     if (prevIdx >= 0) for (let k = prevIdx; k < startIdx; k++) prev += days[k].byChannel[c.key] ?? 0;
-    return { key: c.key, label: c.label, shade: SHADES[i % SHADES.length], total, prev };
+    return { key: c.key, label: c.label, total, prev };
   });
   const placed: PlacedMoment[] = [];
   for (const m of moments) {
@@ -1157,11 +1156,11 @@ function Breakdown({ model }: { model: Model }) {
         className="mt-3 flex h-2.5 gap-[3px]"
         role="img"
       >
-        {ranked.map((c) => (
+        {ranked.map((c, i) => (
           <div
             className={cn(
               "h-full min-w-1 basis-0 rounded-full transition-[flex-grow,opacity] duration-300 ease-out motion-reduce:transition-none",
-              c.shade,
+              SHADES[i % SHADES.length],
               hover && hover !== c.key && "opacity-30",
             )}
             key={c.key}
@@ -1170,7 +1169,7 @@ function Breakdown({ model }: { model: Model }) {
         ))}
       </div>
       <ol className="-mx-2 mt-2 flex flex-col">
-        {ranked.map((c) => {
+        {ranked.map((c, i) => {
           const change = c.total - c.prev;
           return (
             <motion.li
@@ -1181,7 +1180,7 @@ function Breakdown({ model }: { model: Model }) {
               onPointerLeave={() => setHover(null)}
               transition={{ type: "spring", visualDuration: 0.3, bounce: 0 }}
             >
-              <span aria-hidden className={cn("size-2.5 rounded-full", c.shade)} />
+              <span aria-hidden className={cn("size-2.5 rounded-full transition-colors duration-300", SHADES[i % SHADES.length])} />
               <div className="min-w-0">
                 <div className="truncate">{c.label}</div>
                 <div className="text-muted-foreground text-xs tabular-nums">{Math.round((c.total / total) * 100)}% of revenue</div>

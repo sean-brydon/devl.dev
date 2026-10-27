@@ -1,0 +1,14 @@
+{
+  "name": "Passkey Sign-in",
+  "description": "A returning-user sign-in: your account chip, one Continue with passkey button that waits for your device and draws a check, and a work email that springs open a single sign-on notice and hands you to your company.",
+  "kind": "screen",
+  "category": "Auth",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "passkey",
+    "webauthn",
+    "sso"
+  ],
+  "no": 263
+}

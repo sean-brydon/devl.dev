@@ -1,0 +1,14 @@
+{
+  "name": "Appearance Settings",
+  "description": "Theme cards with miniature previews above a compact live app that re-themes with a circular wipe, eases into your accent colour and glides between densities as you change them.",
+  "kind": "screen",
+  "category": "Settings",
+  "isNew": true,
+  "featured": false,
+  "keywords": [
+    "theme",
+    "dark mode",
+    "accent colour"
+  ],
+  "no": 268
+}

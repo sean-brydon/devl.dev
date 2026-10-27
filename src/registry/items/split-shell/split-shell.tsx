@@ -12,6 +12,8 @@ import {
   ChevronsUpDownIcon,
   FileTextIcon,
   GlobeIcon,
+  InboxIcon,
+  LibraryIcon,
   LoaderCircleIcon,
   LockIcon,
   type LucideIcon,
@@ -39,6 +41,7 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Kbd } from "@/components/ui/kbd";
 import { Tabs, TabsList, TabsPanel, TabsTab } from "@/components/ui/tabs";
 import { Tooltip, TooltipPopup, TooltipTrigger } from "@/components/ui/tooltip";
 import { cn } from "@/lib/utils";
@@ -115,7 +118,7 @@ function Sidebar({ tasks, onClose }: { tasks: WorkspaceTask[]; onClose?: () => v
           <span className="flex size-7 items-center justify-center rounded-lg bg-foreground text-background">
             <BotIcon className="size-4" />
           </span>
-          <span className="font-heading font-semibold">Orbit</span>
+          <span className="font-semibold">Orbit</span>
           <span className="text-muted-foreground text-xs">Workspace</span>
           {onClose && (
             <Button aria-label="Close navigation" className="ms-auto" onClick={onClose} size="icon-sm" variant="ghost">
@@ -123,13 +126,30 @@ function Sidebar({ tasks, onClose }: { tasks: WorkspaceTask[]; onClose?: () => v
             </Button>
           )}
         </div>
-        <div className="px-3 pb-3">
+        <div className="px-3 pb-2">
           <Button className="w-full justify-start" variant="outline">
             <PlusIcon />
             New task
           </Button>
         </div>
-        <div className="flex items-center justify-between px-5 pt-2 pb-1.5 text-muted-foreground text-xs">
+        <nav aria-label="Workspace" className="flex flex-col gap-0.5 px-2 pb-2">
+          {[
+            { label: "Search", icon: SearchIcon, meta: <Kbd>⌘K</Kbd> },
+            { label: "Inbox", icon: InboxIcon, meta: <span className="rounded-full bg-info/14 px-1.5 font-medium text-[11px] text-info-foreground tabular-nums">2</span> },
+            { label: "Library", icon: LibraryIcon },
+          ].map((n) => (
+            <button
+              className="flex h-8 cursor-pointer items-center gap-2.5 rounded-lg px-3 text-left text-muted-foreground outline-none transition-colors hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+              key={n.label}
+              type="button"
+            >
+              <n.icon className="size-4 shrink-0" />
+              <span className="flex-1">{n.label}</span>
+              {n.meta}
+            </button>
+          ))}
+        </nav>
+        <div className="flex items-center justify-between px-5 pt-3 pb-1.5 text-muted-foreground text-xs">
           <span className="font-medium">Tasks</span>
           <span className="tabular-nums">{tasks.length}</span>
         </div>

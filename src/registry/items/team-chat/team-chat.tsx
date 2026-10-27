@@ -384,7 +384,7 @@ const slugify = (v: string) =>
 function NavPill() {
   return (
     <motion.span
-      className="absolute inset-0 rounded-lg bg-background shadow-xs/5 ring-1 ring-border dark:bg-accent dark:ring-0"
+      className="absolute inset-0 rounded-lg bg-accent"
       layoutId="chat-channel-pill"
       transition={spring}
     />
@@ -1755,12 +1755,14 @@ export function TeamChat({
                       return (
                         <Fragment key={m.id}>
                           {newDay && (
-                            <div className="relative my-3 flex items-center justify-center" role="separator">
-                              <span className="absolute inset-x-3 h-px bg-border" />
-                              <span className="relative rounded-full border bg-background px-2.5 py-0.5 font-medium text-muted-foreground text-xs">
-                                {m.day}
-                              </span>
-                            </div>
+                            <>
+                              <div aria-hidden className="mx-3 mt-4 h-px bg-border" />
+                              <div className="pointer-events-none sticky top-2 z-10 -mt-[11px] mb-3 flex justify-center" role="separator">
+                                <span className="h-[22px] rounded-full border bg-background px-2.5 font-medium text-muted-foreground text-xs leading-5">
+                                  {m.day}
+                                </span>
+                              </div>
+                            </>
                           )}
                           {marker === m.id && (
                             <div className="relative my-2 flex items-center" role="separator">

@@ -450,10 +450,16 @@ export function Habits({
               times.map((t) => {
                 const list = habits.filter((h) => h.time === t.value && (h.since ?? 0) <= day);
                 if (!list.length) return null;
+                const doneHere = list.filter((h) => isDone(h, h.week[day] ?? 0)).length;
                 return (
                   <div className="flex flex-col gap-2" key={t.value}>
-                    <h3 className="px-1 font-medium text-muted-foreground text-xs">{t.label}</h3>
-                    <ul className="flex flex-col gap-2">
+                    <div className="flex items-baseline justify-between px-1 text-xs">
+                      <h3 className="font-medium text-muted-foreground">{t.label}</h3>
+                      <span className="text-muted-foreground tabular-nums">
+                        {doneHere} of {list.length}
+                      </span>
+                    </div>
+                    <ul className={cn(card, "divide-y overflow-hidden")}>
                       <AnimatePresence initial={false}>
                         {list.map((h) => (
                           <HabitRow
@@ -474,7 +480,7 @@ export function Habits({
           </section>
 
           <aside className="flex min-w-0 flex-col gap-4">
-            <div className="grid grid-cols-3 gap-2">
+            <div className={cn(card, "grid grid-cols-3 divide-x")}>
               <Stat label="This week" value={<><Tween value={weekPct} />%</>} />
               <Stat label="Perfect days" value={<Tween value={perfect} />} />
               <Stat
@@ -610,7 +616,7 @@ export function Habits({
 
 function Stat({ label, value, hint }: { label: string; value: React.ReactNode; hint?: string }) {
   return (
-    <div className={cn(card, "flex min-w-0 flex-col gap-1 p-3")}>
+    <div className="flex min-w-0 flex-col gap-1 px-4 py-3">
       <span className="truncate text-muted-foreground text-xs">{label}</span>
       <span className="font-heading font-semibold text-xl tracking-tight">{value}</span>
       {hint ? <span className="-mt-1 truncate text-muted-foreground text-xs">{hint}</span> : null}
@@ -717,17 +723,16 @@ function HabitRow({
     <motion.li
       animate={{ opacity: 1, y: 0 }}
       className={cn(
-        card,
-        "relative flex items-center gap-3 p-3 transition-[border-color,background-color] duration-300",
-        fresh && "border-foreground/24",
+        "relative flex items-center gap-3 px-3 py-3 transition-colors duration-300 @md:px-4",
+        fresh && "bg-accent/50",
       )}
       exit={{ opacity: 0 }}
       initial={reduce ? { opacity: 0 } : { opacity: 0, y: 8 }}
       layout={reduce ? false : "position"}
       transition={spring}
     >
-      <span className={cn("flex size-10 shrink-0 items-center justify-center rounded-xl", t.tile)}>
-        <Icon aria-hidden className="size-5" />
+      <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-lg", t.tile)}>
+        <Icon aria-hidden className="size-4.5" />
       </span>
       <div className="flex min-w-0 flex-1 flex-col gap-0.5">
         <span className="truncate font-medium">{habit.name}</span>

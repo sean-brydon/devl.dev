@@ -24,8 +24,14 @@ async function PreviewBody({ params }: Pick<PageProps<"/preview/[slug]">, "param
   const item = getItem((await params).slug);
   if (!item) notFound();
   const fills = item.kind === "screen" || item.kind === "block";
+  const layout =
+    item.kind === "screen"
+      ? "min-h-svh *:h-svh! *:min-h-[600px]"
+      : fills
+        ? "min-h-svh"
+        : "stage-surface flex min-h-svh items-center justify-center p-6 pb-24";
   return (
-    <main className={fills ? "min-h-svh" : "stage-surface flex min-h-svh items-center justify-center p-6 pb-24"}>
+    <main className={layout}>
       <Preview slug={item.slug} />
     </main>
   );

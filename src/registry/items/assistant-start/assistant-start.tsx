@@ -1148,26 +1148,24 @@ export function AssistantStart({
                     )}
                   </div>
                 </motion.div>
-                <div className="mx-auto w-full max-w-2xl shrink-0 px-3 pb-3 @3xl:px-8 @3xl:pb-5">{promptBox(true)}</div>
+                <div className="mx-auto w-full max-w-2xl shrink-0 px-3 @3xl:px-8">{promptBox(true)}</div>
+                <p className="shrink-0 px-4 py-2.5 text-center text-muted-foreground text-xs">
+                  {productName} can make mistakes. Check what matters.
+                </p>
               </>
             ) : (
               <motion.div className="flex min-h-0 flex-1 flex-col overflow-y-auto" layoutScroll>
                 <div className="m-auto flex w-full max-w-2xl flex-col px-4 py-10 @3xl:px-8">
                   <motion.div
                     animate={{ opacity: 1, y: 0 }}
-                    className="mb-7 flex flex-col items-center gap-4 text-center"
+                    className="mb-8 flex flex-col items-center gap-5 text-center"
                     initial={{ opacity: 0, y: 8 }}
                     transition={softSpring}
                   >
-                    <GooOrb size={56} />
-                    <div>
-                      <h1 className="text-balance font-heading font-semibold text-2xl tracking-tight @3xl:text-[2rem] @3xl:leading-tight">
-                        {greeting}, {firstName}
-                      </h1>
-                      <p className="mt-1.5 text-pretty text-muted-foreground @3xl:text-base">
-                        Pick up a thread, or point {productName} at your apps.
-                      </p>
-                    </div>
+                    <GooOrb size={48} />
+                    <h1 className="text-balance font-medium text-2xl tracking-tight @3xl:text-[1.875rem] @3xl:leading-tight">
+                      {greeting}, {firstName}
+                    </h1>
                   </motion.div>
 
                   <div className="relative z-10">{promptBox(false)}</div>
@@ -1215,6 +1213,9 @@ export function AssistantStart({
                     ))}
                   </div>
                 </div>
+                <p className="mt-auto shrink-0 px-4 py-2.5 text-center text-muted-foreground text-xs">
+                  {productName} can make mistakes. Check what matters.
+                </p>
               </motion.div>
             )}
           </main>

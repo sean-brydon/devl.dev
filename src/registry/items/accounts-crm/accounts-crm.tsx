@@ -166,7 +166,7 @@ export const defaultDeals: Deal[] = [
   },
   {
     id: "mosswood",
-    company: "Mosswood Bakery Co.",
+    company: "Mosswood Bakery",
     domain: "mosswood.co",
     stage: "lead",
     value: 6400,
@@ -1973,8 +1973,27 @@ export function PipelineToday({
                   ) : null}
                 </AnimatePresence>
               </div>
+              <div
+                aria-label={`${progress}% of target`}
+                aria-valuemax={100}
+                aria-valuemin={0}
+                aria-valuenow={Math.min(100, progress)}
+                className="relative mt-1.5 mb-1 h-1 w-full overflow-hidden rounded-full bg-muted @3xl:w-56"
+                role="meter"
+              >
+                <motion.div
+                  animate={{ scaleX: Math.min(1, total / target) }}
+                  className="absolute inset-0 origin-left rounded-full bg-foreground"
+                  initial={false}
+                  transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 260, damping: 32 }}
+                />
+                <div
+                  className="absolute inset-y-0 left-0 bg-emerald-500 dark:bg-emerald-400"
+                  style={{ width: `${Math.min(100, (won / target) * 100)}%` }}
+                />
+              </div>
               <span className="text-muted-foreground text-xs tabular-nums">
-                {progress}% of {shortMoney(target)} target · {shortMoney(won)} won
+                {progress}% of {shortMoney(target)} target · <span className="text-emerald-700 dark:text-emerald-300">{shortMoney(won)} won</span>
               </span>
             </div>
           </header>

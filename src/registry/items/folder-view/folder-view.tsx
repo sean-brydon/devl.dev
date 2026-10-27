@@ -4,14 +4,27 @@ import { AnimatePresence, LayoutGroup, MotionConfig, motion } from "motion/react
 import {
   ArrowLeftIcon,
   ChevronRightIcon,
+  ChevronsUpDownIcon,
+  ClockIcon,
   CloudUploadIcon,
   DownloadIcon,
+  FileIcon,
   FilePlusIcon,
+  FileTextIcon,
+  FilmIcon,
   FolderInputIcon,
+  HouseIcon,
+  ImageIcon,
+  LayoutGridIcon,
+  ListIcon,
   PlayIcon,
   PlusIcon,
+  PresentationIcon,
   Share2Icon,
+  SheetIcon,
+  StarIcon,
   Trash2Icon,
+  UsersRoundIcon,
   XIcon,
 } from "lucide-react";
 import { type KeyboardEvent, useEffect, useId, useMemo, useRef, useState } from "react";
@@ -47,6 +60,8 @@ export interface FolderViewProps {
   members?: string[];
   me?: string;
   defaultEmpty?: boolean;
+  defaultView?: "grid" | "list";
+  workspace?: string;
   className?: string;
 }
 
@@ -55,10 +70,10 @@ const easeOut = [0.23, 1, 0.32, 1] as const;
 const press = "transition-[box-shadow,scale] duration-150 ease-out active:scale-[0.97]";
 
 const people: Record<string, string> = {
-  AK: "bg-orange-500/16 text-orange-600 dark:text-orange-400",
-  JS: "bg-teal-500/16 text-teal-600 dark:text-teal-400",
-  MV: "bg-info/16 text-info-foreground",
-  LO: "bg-violet-500/20 text-violet-600 dark:text-violet-400",
+  AK: "bg-orange-500/16 text-orange-700 dark:text-orange-300",
+  JS: "bg-teal-500/16 text-teal-700 dark:text-teal-300",
+  MV: "bg-blue-500/16 text-blue-700 dark:text-blue-300",
+  LO: "bg-violet-500/18 text-violet-700 dark:text-violet-300",
 };
 
 const defaultFiles: FolderFile[] = [
@@ -103,13 +118,30 @@ const kindLabel: Record<FolderFileKind, string> = {
 };
 
 const kindDot: Record<FolderFileKind, string> = {
-  doc: "bg-info",
-  sheet: "bg-success",
+  doc: "bg-blue-500",
+  sheet: "bg-emerald-500",
   image: "bg-orange-500",
   slides: "bg-violet-500",
-  pdf: "bg-destructive",
-  video: "bg-rose-500",
+  pdf: "bg-red-500",
+  video: "bg-pink-500",
 };
+
+const kindIcon: Record<FolderFileKind, { icon: typeof FileIcon; tint: string }> = {
+  doc: { icon: FileTextIcon, tint: "bg-blue-500/12 text-blue-600 dark:text-blue-400" },
+  sheet: { icon: SheetIcon, tint: "bg-emerald-500/12 text-emerald-600 dark:text-emerald-400" },
+  image: { icon: ImageIcon, tint: "bg-orange-500/12 text-orange-600 dark:text-orange-400" },
+  slides: { icon: PresentationIcon, tint: "bg-violet-500/12 text-violet-600 dark:text-violet-400" },
+  pdf: { icon: FileIcon, tint: "bg-red-500/12 text-red-600 dark:text-red-400" },
+  video: { icon: FilmIcon, tint: "bg-pink-500/12 text-pink-600 dark:text-pink-400" },
+};
+
+const places = [
+  { label: "All files", icon: HouseIcon },
+  { label: "Recent", icon: ClockIcon },
+  { label: "Shared", icon: UsersRoundIcon },
+  { label: "Starred", icon: StarIcon },
+  { label: "Trash", icon: Trash2Icon },
+];
 
 function ImageArt({ art = "photo" }: { art?: FolderFile["art"] }) {
   if (art === "logos") {
@@ -335,8 +367,11 @@ export function FolderView({
   members = ["AK", "JS", "MV", "LO"],
   me = "AK",
   defaultEmpty = false,
+  defaultView = "grid",
+  workspace = "Northwind",
   className,
 }: FolderViewProps) {
+  const [view, setView] = useState(defaultView);
   const [contents, setContents] = useState<Record<string, FolderFile[]>>(() => ({
     root: defaultEmpty ? [] : initialFiles,
     ...Object.fromEntries(initialFolders.map((f) => [f.id, f.files])),
@@ -395,50 +430,148 @@ export function FolderView({
     }
   };
 
+  const grid = view === "grid";
+  const listCols = "grid-cols-[1.75rem_minmax(0,1fr)_4.5rem] @2xl:grid-cols-[1.75rem_minmax(0,1fr)_5rem_6.5rem_6rem_4.5rem]";
+
   return (
     <MotionConfig reducedMotion="user">
       <div
-        className={cn(
-          "@container relative flex h-[760px] w-full flex-col overflow-hidden bg-background text-foreground text-sm",
-          className,
-        )}
+        className={cn("@container relative flex h-[760px] w-full overflow-hidden bg-background text-foreground text-sm", className)}
         onKeyDown={(e) => {
           if (e.key === "Escape" && selecting) setSelected([]);
         }}
       >
-        <header className="flex flex-col gap-3 border-b px-4 pt-4 pb-4 @3xl:px-8 @3xl:pt-5">
-          <nav aria-label="Breadcrumb" className="-ms-1 flex min-w-0 items-center gap-0.5 text-muted-foreground text-xs">
-            {sub && (
+        <aside className="hidden w-56 shrink-0 flex-col border-r bg-muted/30 px-3 py-3 @3xl:flex">
+          <button
+            className="flex h-9 cursor-pointer items-center gap-2 rounded-lg px-1.5 text-left outline-none hover:bg-accent/60 focus-visible:ring-2 focus-visible:ring-ring"
+            type="button"
+          >
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-foreground text-background">
+              <svg aria-hidden className="size-3.5" fill="none" viewBox="0 0 16 16">
+                <path d="M2 9.5c2 2.7 10 2.7 12 0" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
+                <path d="M4 5h8" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
+              </svg>
+            </span>
+            <span className="min-w-0 flex-1 truncate font-medium">{workspace}</span>
+            <ChevronsUpDownIcon className="size-3.5 text-muted-foreground" />
+          </button>
+          <nav aria-label="Drive" className="mt-4 flex flex-col gap-px">
+            {places.map((p) => (
               <button
-                aria-label={`Back to ${name}`}
-                className="flex size-7 shrink-0 cursor-pointer items-center justify-center rounded-md outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring @md:hidden"
-                onClick={() => open("root")}
+                className="flex h-8 cursor-pointer items-center gap-2.5 rounded-md px-2 text-left text-muted-foreground outline-none hover:bg-accent/60 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                key={p.label}
                 type="button"
               >
-                <ArrowLeftIcon className="size-3.5" />
+                <p.icon className="size-4 shrink-0 opacity-80" />
+                {p.label}
               </button>
-            )}
-            {trail.map((p, i) => {
-              const isParent = sub && i === trail.length - 1;
-              return (
-                <span className={cn("flex min-w-0 items-center gap-0.5", i < trail.length - 1 && "hidden @md:flex")} key={`${p}-${i}`}>
+            ))}
+          </nav>
+          <div className="mt-6">
+            <p className="px-2 pb-1.5 font-medium text-muted-foreground text-xs">{path[path.length - 1] ?? "Folders"}</p>
+            <ul className="flex flex-col gap-px">
+              <li>
+                <button
+                  aria-current={!sub ? "page" : undefined}
+                  className={cn(
+                    "flex h-8 w-full cursor-pointer items-center gap-2.5 rounded-md px-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                    !sub ? "bg-accent font-medium text-foreground" : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
+                  )}
+                  onClick={() => open("root")}
+                  type="button"
+                >
+                  <FolderGlyph className="h-3 w-3.5 text-orange-500 dark:text-orange-400" />
+                  <span className="truncate">{name}</span>
+                </button>
+              </li>
+              {initialFolders.map((f) => (
+                <li key={f.id}>
                   <button
-                    className="flex h-7 cursor-pointer items-center truncate rounded-md px-1 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-                    onClick={isParent ? () => open("root") : undefined}
+                    aria-current={at === f.id ? "page" : undefined}
+                    className={cn(
+                      "flex h-8 w-full cursor-pointer items-center gap-2.5 rounded-md ps-7 pe-2 text-left outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      at === f.id ? "bg-accent font-medium text-foreground" : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
+                    )}
+                    onClick={() => open(f.id)}
                     type="button"
                   >
-                    {p}
+                    <FolderGlyph className="h-3 w-3.5 text-muted-foreground/72" />
+                    <span className="truncate">{f.name}</span>
                   </button>
-                  <ChevronRightIcon aria-hidden className="size-3 shrink-0 opacity-60" />
-                </span>
-              );
-            })}
-            <span aria-current="page" className="truncate px-1 text-foreground">
-              {title}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="mt-auto px-2 pt-4 pb-1">
+            <div className="flex items-baseline justify-between text-xs">
+              <span className="font-medium">Storage</span>
+              <span className="text-muted-foreground tabular-nums">43%</span>
+            </div>
+            <span className="relative mt-2 block h-1 overflow-hidden rounded-full bg-foreground/8">
+              <span className="absolute inset-y-0 left-0 w-[43%] rounded-full bg-foreground/72" />
             </span>
-          </nav>
-          <div className="flex items-center gap-3">
-            <span className={cn("flex size-9 shrink-0 items-center justify-center rounded-xl", sub ? "bg-muted text-muted-foreground" : "bg-orange-500/14 text-orange-500")}>
+            <p className="mt-2 text-muted-foreground text-xs tabular-nums">42.6 GB of 100 GB used</p>
+          </div>
+        </aside>
+
+        <div className="flex min-w-0 flex-1 flex-col">
+          <header className="flex h-14 shrink-0 items-center gap-3 border-b px-4 @3xl:px-6">
+            <nav aria-label="Breadcrumb" className="-ms-1 flex min-w-0 flex-1 items-center gap-0.5 text-muted-foreground">
+              {sub && (
+                <button
+                  aria-label={`Back to ${name}`}
+                  className="flex size-8 shrink-0 cursor-pointer items-center justify-center rounded-md outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring @md:hidden"
+                  onClick={() => open("root")}
+                  type="button"
+                >
+                  <ArrowLeftIcon className="size-4" />
+                </button>
+              )}
+              {trail.map((p, i) => {
+                const isParent = sub && i === trail.length - 1;
+                return (
+                  <span className={cn("flex min-w-0 items-center gap-0.5", i < trail.length - 1 && "hidden @md:flex")} key={`${p}-${i}`}>
+                    <button
+                      className="flex h-7 cursor-pointer items-center truncate rounded-md px-1.5 outline-none hover:bg-accent/60 hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+                      onClick={isParent ? () => open("root") : undefined}
+                      type="button"
+                    >
+                      {p}
+                    </button>
+                    <ChevronRightIcon aria-hidden className="size-3.5 shrink-0 opacity-56" />
+                  </span>
+                );
+              })}
+              <span aria-current="page" className="truncate px-1.5 font-medium text-foreground">
+                {title}
+              </span>
+            </nav>
+            <div className="flex shrink-0 items-center gap-2">
+              <div className="me-1 hidden -space-x-1 @2xl:flex">
+                {members.map((m) => (
+                  <Avatar className="size-6 bg-background ring-2 ring-background" key={m}>
+                    <AvatarFallback className={cn("font-medium text-[9px]", people[m] ?? "bg-muted")}>{m}</AvatarFallback>
+                  </Avatar>
+                ))}
+              </div>
+              <Button className={cn("hidden @md:inline-flex", press)} onClick={() => setToast(`Link to ${title} copied`)} variant="outline">
+                <Share2Icon />
+                Share
+              </Button>
+              <Button aria-label="Upload" className={press} onClick={() => add()}>
+                <CloudUploadIcon />
+                <span className="hidden @md:inline">Upload</span>
+              </Button>
+            </div>
+          </header>
+
+          <div className="flex items-center gap-3 px-4 pt-6 @3xl:px-8">
+            <span
+              className={cn(
+                "flex size-10 shrink-0 items-center justify-center rounded-xl",
+                sub ? "bg-muted text-muted-foreground" : "bg-orange-500/12 text-orange-500 dark:text-orange-400",
+              )}
+            >
               <FolderGlyph className="h-4 w-5" />
             </span>
             <div className="min-w-0 flex-1">
@@ -448,209 +581,277 @@ export function FolderView({
                 {!sub && initialFolders.length > 0 && ` · ${initialFolders.length} folders`} · shared with {members.length}
               </p>
             </div>
-            <div className="flex items-center gap-2">
-              <div className="hidden -space-x-1 @lg:flex">
-                {members.map((m) => (
-                  <Avatar className="size-7 bg-background ring-2 ring-background" key={m}>
-                    <AvatarFallback className={cn("text-[10px]", people[m] ?? "bg-muted")}>{m}</AvatarFallback>
-                  </Avatar>
+          </div>
+
+          <div className="mx-4 mt-4 flex h-11 shrink-0 items-center gap-3 border-b @3xl:mx-8">
+            <AnimatePresence initial={false} mode="popLayout">
+              {selecting ? (
+                <motion.label
+                  animate={{ opacity: 1, x: 0 }}
+                  className="flex h-8 cursor-pointer items-center gap-2 font-medium"
+                  exit={{ opacity: 0, x: -6 }}
+                  htmlFor={`${id}-all`}
+                  initial={{ opacity: 0, x: -6 }}
+                  key="all"
+                  transition={{ duration: 0.18, ease: easeOut }}
+                >
+                  <Checkbox
+                    checked={allSelected}
+                    id={`${id}-all`}
+                    indeterminate={!allSelected}
+                    onCheckedChange={() => setSelected(allSelected ? [] : visible.map((f) => f.id))}
+                  />
+                  Select all
+                </motion.label>
+              ) : isEmpty ? (
+                <motion.span animate={{ opacity: 1 }} className="text-muted-foreground text-xs" initial={{ opacity: 0 }} key="none" transition={{ duration: 0.18 }}>
+                  No files yet
+                </motion.span>
+              ) : (
+                <motion.div
+                  animate={{ opacity: 1, x: 0 }}
+                  aria-label="File type"
+                  className="-mx-1 flex min-w-0 items-center gap-0.5 overflow-x-auto px-1 [scrollbar-width:none]"
+                  exit={{ opacity: 0, x: -6 }}
+                  initial={{ opacity: 0, x: -6 }}
+                  key="filters"
+                  role="radiogroup"
+                  transition={{ duration: 0.18, ease: easeOut }}
+                >
+                  <LayoutGroup id={`${id}-filter`}>
+                    {(["all", ...kinds] as const).map((k) => (
+                      <button
+                        aria-checked={activeFilter === k}
+                        className={cn(
+                          "relative flex h-7 shrink-0 cursor-pointer items-center gap-1.5 rounded-md px-2 font-medium text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                          activeFilter === k ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+                        )}
+                        key={k}
+                        onClick={() => setFilter(k)}
+                        role="radio"
+                        type="button"
+                      >
+                        {activeFilter === k && (
+                          <motion.span className="absolute inset-0 rounded-md bg-accent" layoutId={`${id}-filter-on`} transition={{ type: "spring", stiffness: 520, damping: 40 }} />
+                        )}
+                        {k !== "all" && <span className={cn("relative size-1.5 rounded-full", kindDot[k])} />}
+                        <span className="relative">{k === "all" ? "All" : kindLabel[k]}</span>
+                        <span className="relative text-muted-foreground tabular-nums">{k === "all" ? files.length : files.filter((f) => f.kind === k).length}</span>
+                      </button>
+                    ))}
+                  </LayoutGroup>
+                </motion.div>
+              )}
+            </AnimatePresence>
+            <LayoutGroup id={`${id}-view`}>
+              <div aria-label="Layout" className="ms-auto flex shrink-0 rounded-lg bg-muted p-0.5" role="radiogroup">
+                {(
+                  [
+                    ["grid", LayoutGridIcon, "Grid"],
+                    ["list", ListIcon, "List"],
+                  ] as const
+                ).map(([v, Icon, label]) => (
+                  <button
+                    aria-checked={view === v}
+                    aria-label={`${label} view`}
+                    className={cn(
+                      "relative flex size-7 cursor-pointer items-center justify-center rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      view === v ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+                    )}
+                    key={v}
+                    onClick={() => setView(v)}
+                    role="radio"
+                    type="button"
+                  >
+                    {view === v && <motion.span className="absolute inset-0 rounded-md bg-background shadow-xs/5 dark:bg-input" layoutId={`${id}-view-on`} transition={spring} />}
+                    <Icon className="relative size-3.5" />
+                  </button>
                 ))}
               </div>
-              <Button className={cn("hidden @md:inline-flex", press)} onClick={() => setToast(`Link to ${title} copied`)} variant="outline">
-                <Share2Icon />
-                Share
-              </Button>
-              <Button
-                aria-label="Upload"
-                className={press}
-                onClick={() => add()}
-              >
-                <CloudUploadIcon />
-                <span className="hidden @md:inline">Upload</span>
-              </Button>
-            </div>
+            </LayoutGroup>
           </div>
-        </header>
 
-        <div className="flex h-12 shrink-0 items-center gap-3 border-b px-4 @3xl:px-8">
-          <AnimatePresence initial={false} mode="popLayout">
-            {selecting ? (
-              <motion.label
-                animate={{ opacity: 1, x: 0 }}
-                className="flex h-8 cursor-pointer items-center gap-2 font-medium"
-                exit={{ opacity: 0, x: -6 }}
-                htmlFor={`${id}-all`}
-                initial={{ opacity: 0, x: -6 }}
-                key="all"
-                transition={{ duration: 0.18, ease: easeOut }}
-              >
-                <Checkbox
-                  checked={allSelected}
-                  id={`${id}-all`}
-                  indeterminate={!allSelected}
-                  onCheckedChange={() => setSelected(allSelected ? [] : visible.map((f) => f.id))}
-                />
-                Select all
-              </motion.label>
-            ) : isEmpty ? (
-              <motion.span
-                animate={{ opacity: 1 }}
-                className="text-muted-foreground text-xs"
-                initial={{ opacity: 0 }}
-                key="none"
-                transition={{ duration: 0.18 }}
-              >
-                No files yet
-              </motion.span>
-            ) : (
+          <div className="relative min-h-0 flex-1 overflow-y-auto">
+            <AnimatePresence initial={false} mode="wait">
               <motion.div
                 animate={{ opacity: 1, x: 0 }}
-                aria-label="File type"
-                className="-mx-1 flex min-w-0 items-center gap-1 overflow-x-auto px-1 [scrollbar-width:none]"
-                exit={{ opacity: 0, x: -6 }}
-                initial={{ opacity: 0, x: -6 }}
-                key="filters"
-                role="radiogroup"
+                className="h-full"
+                exit={{ opacity: 0, x: sub ? 8 : -8 }}
+                initial={{ opacity: 0, x: sub ? 8 : -8 }}
+                key={`${at}-${view}`}
                 transition={{ duration: 0.18, ease: easeOut }}
               >
-                <LayoutGroup id={`${id}-filter`}>
-                  {(["all", ...kinds] as const).map((k) => (
-                    <button
-                      aria-checked={activeFilter === k}
-                      className={cn(
-                        "relative flex h-8 shrink-0 cursor-pointer items-center gap-1.5 rounded-full px-2.5 font-medium text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring",
-                        activeFilter === k ? "text-foreground" : "text-muted-foreground hover:text-foreground",
-                      )}
-                      key={k}
-                      onClick={() => setFilter(k)}
-                      role="radio"
-                      type="button"
-                    >
-                      {activeFilter === k && (
-                        <motion.span
-                          className="absolute inset-0 rounded-full bg-accent ring-1 ring-border"
-                          layoutId="folder-filter"
-                          transition={{ type: "spring", stiffness: 520, damping: 40 }}
-                        />
-                      )}
-                      {k !== "all" && <span className={cn("relative size-1.5 rounded-full", kindDot[k])} />}
-                      <span className="relative">{k === "all" ? "All" : kindLabel[k]}</span>
-                      <span className="relative text-muted-foreground tabular-nums">
-                        {k === "all" ? files.length : files.filter((f) => f.kind === k).length}
-                      </span>
-                    </button>
-                  ))}
-                </LayoutGroup>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-
-        <div className="relative min-h-0 flex-1 overflow-y-auto">
-          <AnimatePresence initial={false} mode="wait">
-            <motion.div
-              animate={{ opacity: 1, x: 0 }}
-              className="h-full"
-              exit={{ opacity: 0, x: sub ? 8 : -8 }}
-              initial={{ opacity: 0, x: sub ? 8 : -8 }}
-              key={at}
-              transition={{ duration: 0.18, ease: easeOut }}
-            >
-              {showFolders && (
-                <ul aria-label="Folders" className="grid grid-cols-2 gap-3 px-4 pt-5 @2xl:grid-cols-3 @4xl:grid-cols-4 @6xl:grid-cols-5 @3xl:px-8">
-                  {initialFolders.map((f) => {
-                    const n = contents[f.id]?.length ?? 0;
-                    return (
-                      <li key={f.id}>
-                        <button
-                          className={cn(
-                            "flex h-14 w-full cursor-pointer items-center gap-3 rounded-xl border bg-card px-3 text-left outline-none hover:border-foreground/16 focus-visible:ring-2 focus-visible:ring-ring",
-                            press,
-                          )}
-                          onClick={() => open(f.id)}
-                          type="button"
-                        >
-                          <FolderGlyph className="h-4 w-5 text-muted-foreground/72" />
-                          <span className="flex min-w-0 flex-col">
-                            <span className="truncate font-medium">{f.name}</span>
-                            <span className="text-muted-foreground text-xs tabular-nums">{n ? `${n} ${n === 1 ? "file" : "files"}` : "Empty"}</span>
-                          </span>
-                          <ChevronRightIcon aria-hidden className="ms-auto hidden size-4 shrink-0 text-muted-foreground/60 @md:block" />
-                        </button>
-                      </li>
-                    );
-                  })}
-                </ul>
-              )}
-              {isEmpty ? (
-                <EmptyFolder
-                  name={title}
-                  onNewDoc={() => add({ name: "Untitled doc", kind: "doc", size: "1 KB" })}
-                  onUpload={() => add()}
-                />
-              ) : (
-                <ul aria-label="Files" className="grid grid-cols-2 gap-3 px-4 pt-3 pb-28 @2xl:grid-cols-3 @4xl:grid-cols-4 @6xl:grid-cols-5 @3xl:px-8 [&:first-child]:pt-5">
-                  <AnimatePresence initial={false} mode="popLayout">
-                    {visible.map((f) => {
-                      const on = selected.includes(f.id);
-                      return (
-                        <motion.li
-                          animate={{ opacity: 1, scale: 1 }}
-                          exit={{ opacity: 0, scale: 0.95 }}
-                          initial={{ opacity: 0, scale: 0.95 }}
-                          key={f.id}
-                          layout
-                          transition={spring}
-                        >
-                          <div
-                            aria-checked={on}
-                            aria-label={`${f.name}, ${kindLabel[f.kind]}, ${f.size}`}
-                            className={cn(
-                              "group/file relative flex cursor-pointer select-none flex-col overflow-hidden rounded-2xl border bg-card outline-none transition-[box-shadow,border-color,scale] duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]",
-                              on ? "border-info/56 ring-3 ring-info/16" : "hover:border-foreground/16 hover:shadow-sm/5",
-                            )}
-                            onClick={() => toggle(f.id)}
-                            onKeyDown={(e) => onCardKey(e, f.id)}
-                            role="checkbox"
-                            tabIndex={0}
-                          >
-                            <div className="relative h-28 overflow-hidden bg-muted/60 @md:h-32 dark:bg-muted">
-                              <motion.div animate={{ scale: on ? 0.94 : 1 }} className="absolute inset-0" transition={spring}>
-                                <Preview file={f} />
-                              </motion.div>
-                              <span
+                {isEmpty ? (
+                  <EmptyFolder name={title} onNewDoc={() => add({ name: "Untitled doc", kind: "doc", size: "1 KB" })} onUpload={() => add()} />
+                ) : grid ? (
+                  <>
+                    {showFolders && (
+                      <ul aria-label="Folders" className="grid grid-cols-2 gap-3 px-4 pt-5 @2xl:grid-cols-3 @5xl:grid-cols-4 @3xl:px-8">
+                        {initialFolders.map((f) => {
+                          const n = contents[f.id]?.length ?? 0;
+                          return (
+                            <li key={f.id}>
+                              <button
                                 className={cn(
-                                  "absolute top-2 left-2 flex size-6 items-center justify-center rounded-lg bg-background/88 shadow-xs/5 backdrop-blur transition-opacity duration-150",
-                                  on || selecting
-                                    ? "opacity-100"
-                                    : "opacity-0 group-hover/file:opacity-100 group-focus-visible/file:opacity-100 pointer-coarse:opacity-100",
+                                  "flex h-14 w-full cursor-pointer items-center gap-3 rounded-xl border bg-card px-3.5 text-left outline-none hover:border-foreground/16 focus-visible:ring-2 focus-visible:ring-ring",
+                                  press,
                                 )}
+                                onClick={() => open(f.id)}
+                                type="button"
+                              >
+                                <FolderGlyph className="h-4 w-5 text-muted-foreground/72" />
+                                <span className="flex min-w-0 flex-col">
+                                  <span className="truncate font-medium">{f.name}</span>
+                                  <span className="text-muted-foreground text-xs tabular-nums">{n ? `${n} ${n === 1 ? "file" : "files"}` : "Empty"}</span>
+                                </span>
+                                <ChevronRightIcon aria-hidden className="ms-auto hidden size-4 shrink-0 text-muted-foreground/60 @md:block" />
+                              </button>
+                            </li>
+                          );
+                        })}
+                      </ul>
+                    )}
+                    <ul aria-label="Files" className="grid grid-cols-2 gap-3 px-4 pt-3 pb-28 @2xl:grid-cols-3 @5xl:grid-cols-4 @3xl:px-8 [&:first-child]:pt-5">
+                      <AnimatePresence initial={false} mode="popLayout">
+                        {visible.map((f) => {
+                          const on = selected.includes(f.id);
+                          return (
+                            <motion.li animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} initial={{ opacity: 0, scale: 0.95 }} key={f.id} layout transition={spring}>
+                              <div
+                                aria-checked={on}
+                                aria-label={`${f.name}, ${kindLabel[f.kind]}, ${f.size}`}
+                                className={cn(
+                                  "group/file relative flex cursor-pointer select-none flex-col overflow-hidden rounded-xl border bg-card outline-none transition-[box-shadow,border-color,scale] duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.98]",
+                                  on ? "border-foreground/40 ring-3 ring-foreground/8" : "hover:border-foreground/16 hover:shadow-xs/5",
+                                )}
+                                onClick={() => toggle(f.id)}
+                                onKeyDown={(e) => onCardKey(e, f.id)}
+                                role="checkbox"
+                                tabIndex={0}
+                              >
+                                <div className="relative h-28 overflow-hidden bg-muted/60 @md:h-32 dark:bg-muted/72">
+                                  <motion.div animate={{ scale: on ? 0.94 : 1 }} className="absolute inset-0" transition={spring}>
+                                    <Preview file={f} />
+                                  </motion.div>
+                                  <span
+                                    className={cn(
+                                      "absolute top-2 left-2 flex size-6 items-center justify-center rounded-md bg-background/88 shadow-xs/5 backdrop-blur transition-opacity duration-150",
+                                      on || selecting ? "opacity-100" : "opacity-0 group-hover/file:opacity-100 group-focus-visible/file:opacity-100 pointer-coarse:opacity-100",
+                                    )}
+                                  >
+                                    <Checkbox checked={on} className="pointer-events-none" tabIndex={-1} />
+                                  </span>
+                                </div>
+                                <div className="flex flex-col gap-1 border-t px-3 py-2.5">
+                                  <span className="truncate font-medium">{f.name}</span>
+                                  <span className="flex items-center gap-1.5 text-muted-foreground text-xs">
+                                    <span className={cn("size-1.5 shrink-0 rounded-full", kindDot[f.kind])} />
+                                    <span className="truncate tabular-nums">
+                                      {kindLabel[f.kind]} · {f.size}
+                                    </span>
+                                    <Avatar className="ms-auto size-4 shrink-0">
+                                      <AvatarFallback className={cn("font-medium text-[7px]", people[f.editedBy] ?? "bg-muted")}>{f.editedBy}</AvatarFallback>
+                                    </Avatar>
+                                    <span className="hidden shrink-0 tabular-nums @md:inline">{f.edited}</span>
+                                  </span>
+                                </div>
+                              </div>
+                            </motion.li>
+                          );
+                        })}
+                      </AnimatePresence>
+                    </ul>
+                  </>
+                ) : (
+                  <div className="px-4 pt-3 pb-28 @3xl:px-8">
+                    <div className={cn("grid h-9 items-center gap-3 px-2 font-medium text-muted-foreground text-xs", listCols)}>
+                      <span />
+                      <span>Name</span>
+                      <span className="hidden @2xl:block">Type</span>
+                      <span className="hidden @2xl:block">Edited by</span>
+                      <span className="hidden @2xl:block">Edited</span>
+                      <span className="text-end">Size</span>
+                    </div>
+                    <ul aria-label="Files" className="border-t">
+                      {showFolders &&
+                        initialFolders.map((f) => {
+                          const n = contents[f.id]?.length ?? 0;
+                          return (
+                            <li className="border-b" key={f.id}>
+                              <button
+                                className={cn("grid h-12 w-full cursor-pointer items-center gap-3 rounded-md px-2 text-left outline-none hover:bg-accent/48 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset", listCols)}
+                                onClick={() => open(f.id)}
+                                type="button"
+                              >
+                                <span />
+                                <span className="flex min-w-0 items-center gap-3">
+                                  <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-muted text-muted-foreground">
+                                    <FolderGlyph className="h-3 w-3.5" />
+                                  </span>
+                                  <span className="truncate font-medium">{f.name}</span>
+                                </span>
+                                <span className="hidden text-muted-foreground @2xl:block">Folder</span>
+                                <span className="hidden text-muted-foreground @2xl:block">—</span>
+                                <span className="hidden text-muted-foreground @2xl:block">—</span>
+                                <span className="text-end text-muted-foreground tabular-nums">{n ? `${n} ${n === 1 ? "file" : "files"}` : "Empty"}</span>
+                              </button>
+                            </li>
+                          );
+                        })}
+                      <AnimatePresence initial={false} mode="popLayout">
+                        {visible.map((f) => {
+                          const on = selected.includes(f.id);
+                          const K = kindIcon[f.kind];
+                          return (
+                            <motion.li
+                              animate={{ opacity: 1 }}
+                              className="border-b"
+                              exit={{ opacity: 0 }}
+                              initial={{ opacity: 0 }}
+                              key={f.id}
+                              layout="position"
+                              transition={{ opacity: { duration: 0.15 }, layout: spring }}
+                            >
+                              <div
+                                aria-checked={on}
+                                aria-label={`${f.name}, ${kindLabel[f.kind]}, ${f.size}`}
+                                className={cn(
+                                  "grid h-12 cursor-pointer select-none items-center gap-3 rounded-md px-2 outline-none transition-colors duration-150 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+                                  listCols,
+                                  on ? "bg-accent" : "hover:bg-accent/48",
+                                )}
+                                onClick={() => toggle(f.id)}
+                                onKeyDown={(e) => onCardKey(e, f.id)}
+                                role="checkbox"
+                                tabIndex={0}
                               >
                                 <Checkbox checked={on} className="pointer-events-none" tabIndex={-1} />
-                              </span>
-                            </div>
-                            <div className="flex flex-col gap-1 border-t px-3 py-2.5">
-                              <span className="truncate font-medium">{f.name}</span>
-                              <span className="flex items-center gap-1.5 text-muted-foreground text-xs">
-                                <span className={cn("size-1.5 shrink-0 rounded-full", kindDot[f.kind])} />
-                                <span className="truncate tabular-nums">
-                                  {kindLabel[f.kind]} · {f.size}
+                                <span className="flex min-w-0 items-center gap-3">
+                                  <span className={cn("flex size-7 shrink-0 items-center justify-center rounded-md", K.tint)}>
+                                    <K.icon className="size-3.5" />
+                                  </span>
+                                  <span className="truncate font-medium">{f.name}</span>
                                 </span>
-                                <Avatar className="ms-auto size-4 shrink-0">
-                                  <AvatarFallback className={cn("text-[7px]", people[f.editedBy] ?? "bg-muted")}>{f.editedBy}</AvatarFallback>
-                                </Avatar>
-                                <span className="hidden shrink-0 tabular-nums @md:inline">{f.edited}</span>
-                              </span>
-                            </div>
-                          </div>
-                        </motion.li>
-                      );
-                    })}
-                  </AnimatePresence>
-                </ul>
-              )}
-            </motion.div>
-          </AnimatePresence>
+                                <span className="hidden text-muted-foreground @2xl:block">{kindLabel[f.kind]}</span>
+                                <span className="hidden items-center gap-2 text-muted-foreground @2xl:flex">
+                                  <Avatar className="size-5 shrink-0">
+                                    <AvatarFallback className={cn("font-medium text-[8px]", people[f.editedBy] ?? "bg-muted")}>{f.editedBy}</AvatarFallback>
+                                  </Avatar>
+                                  {f.editedBy === me ? "You" : f.editedBy}
+                                </span>
+                                <span className="hidden text-muted-foreground tabular-nums @2xl:block">{f.edited}</span>
+                                <span className="text-end text-muted-foreground tabular-nums">{f.size}</span>
+                              </div>
+                            </motion.li>
+                          );
+                        })}
+                      </AnimatePresence>
+                    </ul>
+                  </div>
+                )}
+              </motion.div>
+            </AnimatePresence>
+          </div>
         </div>
 
         <AnimatePresence>
@@ -658,13 +859,13 @@ export function FolderView({
             <motion.div
               animate={{ y: 0, opacity: 1, scale: 1 }}
               aria-label="Bulk actions"
-              className="absolute inset-x-3 bottom-4 z-20 mx-auto flex max-w-fit origin-bottom items-center gap-1 rounded-2xl border bg-popover p-1.5 shadow-lg/10"
+              className="absolute inset-x-3 bottom-4 z-20 mx-auto flex max-w-fit origin-bottom items-center gap-1 rounded-xl border bg-popover p-1 shadow-lg/10 @3xl:left-56"
               exit={{ y: 16, opacity: 0, scale: 0.96, transition: { duration: 0.15, ease: easeOut } }}
               initial={{ y: 16, opacity: 0, scale: 0.96 }}
               role="toolbar"
               transition={spring}
             >
-              <span className="flex items-center gap-1 ps-2 pe-2 font-medium">
+              <span className="flex items-center gap-1 ps-2.5 pe-2 font-medium">
                 <RollingCount value={selected.length} />
                 <span>selected</span>
               </span>
@@ -672,14 +873,12 @@ export function FolderView({
               {(
                 [
                   ["Share", Share2Icon, () => flash(`Link copied for ${selected.length} ${selected.length === 1 ? "file" : "files"}`)],
-                  ["Move", FolderInputIcon, () => flash(`Moved to Marketing / ${name} / Archive 2025`)],
+                  ["Move", FolderInputIcon, () => flash(`Moved to ${name} / Archive 2025`)],
                   ["Download", DownloadIcon, () => flash(`Zipping ${selected.length} ${selected.length === 1 ? "file" : "files"}…`)],
                 ] as const
               ).map(([label, Icon, run]) => (
                 <Tooltip key={label}>
-                  <TooltipTrigger
-                    render={<Button aria-label={label} className={cn("rounded-xl @lg:w-auto @lg:px-2.5", press)} onClick={run} size="icon" variant="ghost" />}
-                  >
+                  <TooltipTrigger render={<Button aria-label={label} className={cn("@lg:w-auto @lg:px-2.5", press)} onClick={run} size="icon" variant="ghost" />}>
                     <Icon />
                     <span className="hidden @lg:inline">{label}</span>
                   </TooltipTrigger>
@@ -688,7 +887,7 @@ export function FolderView({
               ))}
               <Button
                 aria-label="Delete"
-                className={cn("rounded-xl text-destructive-foreground hover:bg-destructive/8 @lg:w-auto @lg:px-2.5", press)}
+                className={cn("text-destructive-foreground hover:bg-destructive/8 @lg:w-auto @lg:px-2.5", press)}
                 onClick={remove}
                 size="icon"
                 variant="ghost"
@@ -697,7 +896,7 @@ export function FolderView({
                 <span className="hidden @lg:inline">Delete</span>
               </Button>
               <span className="mx-1 h-5 w-px bg-border" />
-              <Button aria-label="Clear selection" className={cn("rounded-xl", press)} onClick={() => setSelected([])} size="icon" variant="ghost">
+              <Button aria-label="Clear selection" className={press} onClick={() => setSelected([])} size="icon" variant="ghost">
                 <XIcon />
               </Button>
             </motion.div>
@@ -708,7 +907,7 @@ export function FolderView({
           {toast && !selecting && (
             <motion.div
               animate={{ y: 0, opacity: 1 }}
-              className="absolute inset-x-3 bottom-4 z-20 mx-auto flex max-w-fit items-center gap-3 rounded-xl border bg-popover py-1.5 ps-3.5 pe-1.5 shadow-lg/10"
+              className="absolute inset-x-3 bottom-4 z-20 mx-auto flex max-w-fit items-center gap-3 rounded-xl border bg-popover py-1.5 ps-3.5 pe-1.5 shadow-lg/10 @3xl:left-56"
               exit={{ y: 12, opacity: 0, transition: { duration: 0.15, ease: easeOut } }}
               initial={{ y: 12, opacity: 0 }}
               role="status"
