@@ -574,7 +574,6 @@ function Block({
       aria-activedescendant={menuOpen ? menuProps.activeId : undefined}
       aria-autocomplete="list"
       aria-controls={menuOpen ? menuProps.listId : undefined}
-      aria-expanded={menuOpen}
       aria-label={`${block.type === "text" ? "Paragraph" : block.type} block`}
       className={cn(
         "block w-full resize-none overflow-hidden bg-transparent outline-none placeholder:text-muted-foreground/60",

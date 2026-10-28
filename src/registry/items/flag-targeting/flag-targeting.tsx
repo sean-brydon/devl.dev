@@ -183,7 +183,7 @@ export function FlagTargeting({
 
       <div className="px-4 pb-3">
         <Tabs onValueChange={(v) => setEnv(String(v))} value={env}>
-          <TabsList className="w-full">
+          <TabsList className="w-full text-muted-foreground">
             {environments.map((e) => (
               <TabsTab className="gap-1.5 text-xs sm:text-xs" key={e.id} value={e.id}>
                 <span
@@ -247,7 +247,7 @@ export function FlagTargeting({
               <VariantLabel align="end" share={bShare} variant={b} />
             </div>
             <Slider
-              aria-label={`Share of everyone else who get ${b.name}`}
+              getAriaLabel={() => `Share of everyone else who get ${b.name}`}
               max={100}
               min={0}
               onValueChange={(v) => {

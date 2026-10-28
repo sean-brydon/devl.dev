@@ -95,7 +95,7 @@ function ThemeSwitch({ value, onChange }: { value: ThemeChoice; onChange: (t: Th
           <SegmentedControlItem
             aria-checked={active}
             aria-label={t.label}
-            className="w-8 px-0"
+            className="w-8 px-0 text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
             data-checked={active ? "" : undefined}
             key={t.value}
             onClick={() => onChange(t.value)}

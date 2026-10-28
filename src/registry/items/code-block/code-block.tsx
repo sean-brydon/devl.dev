@@ -489,7 +489,7 @@ export function CodeBlock({
                         <span
                           aria-hidden
                           className={cn(
-                            "sticky left-0 w-11 shrink-0 cursor-pointer select-none pe-3 text-end text-muted-foreground/60 tabular-nums transition-colors [@media(hover:hover)]:hover:text-foreground",
+                            "sticky left-0 w-11 shrink-0 cursor-pointer select-none pe-3 text-end text-muted-foreground tabular-nums transition-colors [@media(hover:hover)]:hover:text-foreground",
                             marked && "text-info-foreground shadow-[inset_2px_0_0_var(--color-info)]",
                             !wrap && "bg-code",
                             !wrap && row.kind === "add" && "bg-[color-mix(in_srgb,var(--color-success)_10%,var(--color-code))]",

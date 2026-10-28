@@ -298,7 +298,6 @@ function RouteCard({
 
   return (
     <Reorder.Item
-      as="div"
       className="relative"
       dragControls={controls}
       dragListener={false}

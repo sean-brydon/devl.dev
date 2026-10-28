@@ -2,7 +2,7 @@ import { type InboxLabel, InboxPreview } from "@/registry/items/inbox-preview/in
 
 const work: InboxLabel = { name: "Work", tone: "bg-sky-500/12 text-sky-700 dark:text-sky-300" };
 const finance: InboxLabel = { name: "Finance", tone: "bg-emerald-500/12 text-emerald-700 dark:text-emerald-300" };
-const travel: InboxLabel = { name: "Travel", tone: "bg-amber-500/12 text-amber-700 dark:text-amber-300" };
+const travel: InboxLabel = { name: "Travel", tone: "bg-amber-500/12 text-amber-800 dark:text-amber-300" };
 const team: InboxLabel = { name: "Team", tone: "bg-violet-500/12 text-violet-700 dark:text-violet-300" };
 
 export default function InboxPreviewDemo() {
@@ -57,7 +57,7 @@ export default function InboxPreviewDemo() {
           },
           {
             id: "m4",
-            from: { name: "Skylark Air", email: "trips@skylark.air", tone: "bg-amber-500/15 text-amber-700 dark:text-amber-300" },
+            from: { name: "Skylark Air", email: "trips@skylark.air", tone: "bg-amber-500/15 text-amber-800 dark:text-amber-300" },
             subject: "Check-in is open for Lisbon",
             snippet: "Flight SK 218 departs Nov 3 at 07:40. Choose your seat before it fills up.",
             body: [

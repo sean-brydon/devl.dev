@@ -344,7 +344,7 @@ export function DotMap({
           {regions.map((r) => (
             <SegmentedControlItem
               aria-pressed={region === r.id}
-              className="px-2 text-xs sm:px-2.5 sm:text-xs"
+              className="px-2 text-muted-foreground text-xs focus-visible:ring-2 focus-visible:ring-ring sm:px-2.5 sm:text-xs"
               data-pressed={region === r.id ? "" : undefined}
               key={r.id}
               onClick={() => pick(r.id)}

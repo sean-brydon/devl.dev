@@ -369,7 +369,11 @@ function Preview({
         <span>{days} days ago</span>
         <span>Today</span>
       </div>
-      <ul className="mt-2.5 flex h-36 flex-col gap-0.5 overflow-y-auto">
+      <ul
+        aria-label="Incidents that would have fired"
+        className="mt-2.5 flex h-36 flex-col gap-0.5 overflow-y-auto rounded-md outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        tabIndex={0}
+      >
         <AnimatePresence initial={false}>
           {fired.map((incident) => (
             <motion.li

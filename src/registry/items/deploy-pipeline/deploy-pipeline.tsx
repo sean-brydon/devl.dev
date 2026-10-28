@@ -220,7 +220,7 @@ export function DeployPipeline({ stages, commit, url, onRetry, className }: Depl
               )}
             />
             {overall === "ready" ? "Ready" : overall === "failed" ? "Failed" : overall === "building" ? "Building" : "Queued"}
-            <span className="font-mono opacity-70">{secs(total)}</span>
+            <span className="font-mono">{secs(total)}</span>
           </motion.span>
         </AnimatePresence>
       </div>

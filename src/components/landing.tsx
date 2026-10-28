@@ -246,6 +246,9 @@ export function Landing() {
           <Link className="hover:text-foreground" href="/docs">
             Docs
           </Link>
+          <Link className="hover:text-foreground" href="/changelog">
+            Changelog
+          </Link>
           <a className="hover:text-foreground" href="/llms.txt">
             llms.txt
           </a>

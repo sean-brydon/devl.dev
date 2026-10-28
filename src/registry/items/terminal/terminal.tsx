@@ -31,11 +31,11 @@ type Line =
 const fg: Record<number, string> = {
   30: "text-foreground",
   31: "text-red-600 dark:text-red-400",
-  32: "text-emerald-600 dark:text-emerald-400",
-  33: "text-amber-600 dark:text-amber-300",
-  34: "text-sky-600 dark:text-sky-400",
+  32: "text-emerald-700 dark:text-emerald-400",
+  33: "text-amber-700 dark:text-amber-300",
+  34: "text-sky-700 dark:text-sky-400",
   35: "text-violet-600 dark:text-violet-400",
-  36: "text-cyan-600 dark:text-cyan-300",
+  36: "text-cyan-700 dark:text-cyan-300",
   37: "text-foreground",
   90: "text-muted-foreground",
 };
@@ -66,7 +66,7 @@ function Ansi({ text }: { text: string }) {
     }
     if (!chunk) continue;
     parts.push(
-      <span className={cn(color, bold && "font-semibold", dim && "opacity-60")} key={k++}>
+      <span className={cn(color, bold && "font-semibold", dim && "opacity-75")} key={k++}>
         {chunk}
       </span>,
     );
@@ -82,7 +82,7 @@ function Spinner() {
     const t = setInterval(() => setI((n) => (n + 1) % FRAMES.length), 80);
     return () => clearInterval(t);
   }, []);
-  return <span className="text-sky-600 dark:text-sky-400">{FRAMES[i]}</span>;
+  return <span className="text-sky-700 dark:text-sky-400">{FRAMES[i]}</span>;
 }
 
 function Caret({ idle }: { idle: boolean }) {
@@ -100,9 +100,9 @@ function Caret({ idle }: { idle: boolean }) {
 function Prompt({ cwd, branch, ok }: { cwd: string; branch?: string; ok: boolean }) {
   return (
     <span className="select-none">
-      <span className="text-sky-600 dark:text-sky-400">{cwd}</span>
+      <span className="text-sky-700 dark:text-sky-400">{cwd}</span>
       {branch && <span className="text-violet-600 dark:text-violet-400"> {branch}</span>}
-      <span className={ok ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}> ❯ </span>
+      <span className={ok ? "text-emerald-700 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}> ❯ </span>
     </span>
   );
 }
@@ -280,7 +280,7 @@ export function Terminal({
               <div className="whitespace-pre-wrap" key={i}>
                 {line.done ? (
                   <>
-                    <span className={line.ok ? "text-emerald-600 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}>
+                    <span className={line.ok ? "text-emerald-700 dark:text-emerald-400" : "text-red-600 dark:text-red-400"}>
                       {line.ok ? "✓" : "✗"}
                     </span>{" "}
                     <Ansi text={line.done} />

@@ -1,5 +1,6 @@
 // A stateless MCP server over Streamable HTTP (JSON responses, no sessions) that lets agents search and read the catalogue.
 import { categoriesOf, getItem, installCommand, itemHref, items, kinds, type ItemKind, type RegistryItem } from "@/lib/registry";
+import { itemProps } from "@/registry/__generated__/props";
 import { readAsset } from "@/server/platform";
 
 const site = "https://devl.dev";
@@ -130,7 +131,12 @@ async function describe(args: Json, origin: string) {
   if (item.dependencies?.length) parts.push(`npm dependencies: ${item.dependencies.join(", ")}`);
   if (item.uiDependencies?.length) parts.push(`coss ui components used: ${item.uiDependencies.join(", ")}`);
   if (item.component && item.source !== "bklit") {
-    parts.push(`## Use it\n\n\`\`\`tsx\nimport { ${item.component} } from "@/components/${item.slug}";\n\nexport default function Page() {\n  return <${item.component} />;\n}\n\`\`\`\nEvery prop has a typed default; read the source for the props it accepts.`);
+    parts.push(`## Use it\n\n\`\`\`tsx\nimport { ${item.component} } from "@/components/${item.slug}";\n\nexport default function Page() {\n  return <${item.component} />;\n}\n\`\`\`\nEvery prop has a typed default.`);
+  }
+  const api = item.source ? undefined : itemProps[item.slug];
+  if (api && (api.props.length || api.extends.length)) {
+    const rows = api.props.map((p) => `- \`${p.name}${p.required ? "" : "?"}: ${p.type}\`${p.default ? ` (default \`${p.default}\`)` : ""}${p.description ? `: ${p.description}` : ""}`);
+    parts.push(`## Props\n\n${rows.join("\n")}${api.extends.length ? `\n\nAlso accepts ${api.extends.join(", ")}.` : ""}`);
   }
   if (args.includeSource !== false && item.source !== "bklit") {
     const source = await readAsset(`/raw/${item.slug}.tsx`, origin);

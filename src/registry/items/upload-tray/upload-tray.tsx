@@ -32,13 +32,13 @@ export interface UploadTrayProps {
 }
 
 const KINDS: { match: RegExp; label: string; className: string }[] = [
-  { match: /\.pdf$/i, label: "PDF", className: "bg-destructive text-white" },
-  { match: /\.(png|jpe?g|gif|webp|svg|avif)$/i, label: "IMG", className: "bg-info text-white" },
+  { match: /\.pdf$/i, label: "PDF", className: "bg-red-600 text-white" },
+  { match: /\.(png|jpe?g|gif|webp|svg|avif)$/i, label: "IMG", className: "bg-blue-600 text-white" },
   { match: /\.(mp4|mov|webm)$/i, label: "VID", className: "bg-foreground text-background" },
-  { match: /\.(zip|tar|gz|rar)$/i, label: "ZIP", className: "bg-warning text-white" },
-  { match: /\.(docx?|txt|md|pages)$/i, label: "DOC", className: "bg-sky-600 text-white dark:bg-sky-500" },
-  { match: /\.(csv|xlsx?|numbers)$/i, label: "XLS", className: "bg-success text-white" },
-  { match: /\.(fig|sketch|psd)$/i, label: "FIG", className: "bg-violet-600 text-white dark:bg-violet-500" },
+  { match: /\.(zip|tar|gz|rar)$/i, label: "ZIP", className: "bg-amber-700 text-white" },
+  { match: /\.(docx?|txt|md|pages)$/i, label: "DOC", className: "bg-sky-700 text-white" },
+  { match: /\.(csv|xlsx?|numbers)$/i, label: "XLS", className: "bg-emerald-700 text-white" },
+  { match: /\.(fig|sketch|psd)$/i, label: "FIG", className: "bg-violet-600 text-white" },
 ];
 
 function kindOf(name: string) {

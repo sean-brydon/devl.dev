@@ -203,7 +203,7 @@ const roleMeta = (r: AdminRole) => adminRoles.find((x) => x.value === r) ?? admi
 function UserAvatar({ user, size = 8 }: { user: AdminUser; size?: 7 | 8 | 14 }) {
   const sizes = { 7: "[--avatar-size:--spacing(7)]", 8: "[--avatar-size:--spacing(8)]", 14: "[--avatar-size:--spacing(14)]" };
   return (
-    <Avatar className={cn(sizes[size], user.status === "suspended" && "opacity-60 grayscale")}>
+    <Avatar className={cn(sizes[size], user.status === "suspended" && "opacity-80 grayscale")}>
       <AvatarFallback className={cn("font-semibold", avatarTones[hashIndex(user.email, avatarTones.length)])}>{initials(user)}</AvatarFallback>
     </Avatar>
   );
@@ -712,7 +712,7 @@ export function AdminUsers({
                         <motion.span className="absolute inset-0 rounded-md bg-background shadow-xs/5 dark:bg-input" layoutId={`${orgName}-tab`} transition={reduce ? { duration: 0 } : spring} />
                       )}
                       <span className={cn("relative transition-colors", tab === t.value ? "text-foreground" : "text-muted-foreground")}>{t.label}</span>
-                      <span className="relative text-muted-foreground text-xs tabular-nums">{counts[t.value]}</span>
+                      <span className={cn("relative text-xs tabular-nums", tab === t.value ? "text-foreground/70" : "text-muted-foreground")}>{counts[t.value]}</span>
                     </button>
                   ))}
                 </div>

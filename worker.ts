@@ -3,7 +3,7 @@
 // pages for slugs that don't exist get their status fixed here instead. Kept out of tsconfig: it imports build output.
 import { default as handler } from "./.open-next/worker.js";
 import { generatedItems } from "./src/registry/__generated__/index";
-import { assistantReferrer, clientOf, type EventsDataset, isAgentClient, trackedAsset, writeEvent, writeMcpEvents } from "./src/server/events";
+import { assistantReferrer, clientOf, type EventsDataset, isAgentClient, searchMiss, trackedAsset, writeEvent, writeMcpEvents } from "./src/server/events";
 
 export { BucketCachePurge, DOQueueHandler, DOShardedTagCache } from "./.open-next/worker.js";
 
@@ -17,7 +17,7 @@ const sections: Record<string, string> = {
 };
 const slugs = new Set(generatedItems.map((item) => item.slug));
 const itemPaths = new Set(generatedItems.map((item) => `/${sections[item.kind]}/${item.slug}`));
-const topLevel = new Set([...Object.values(sections), "docs", "advertise", "admin", "sponsor-stats", "mcp", "privacy"]);
+const topLevel = new Set([...Object.values(sections), "docs", "advertise", "admin", "sponsor-stats", "mcp", "privacy", "changelog"]);
 
 // No Next route serves HTML at a dotted path (/llms-full.txt, /x.md, /.well-known/...), so an HTML 200 there is the not-found page.
 function isMissing(pathname: string, contentType: string) {
@@ -57,6 +57,11 @@ export default {
         if (request.method === "GET") writeEvent(env.EVENTS, request, served.status, asset.event, asset.subject);
         return served;
       }
+    }
+    if (request.method === "POST" && url.pathname === "/api/search-miss") {
+      const query = searchMiss((await request.text().catch(() => "")).slice(0, 200));
+      if (query) writeEvent(env.EVENTS, request, 200, "search", query);
+      return new Response(null, { status: 204 });
     }
     const isItemPage = itemPaths.has(url.pathname);
     // Agents that ask for Markdown get the item's .md page (description, install, usage, source) instead of the HTML.

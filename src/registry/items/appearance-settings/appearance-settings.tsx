@@ -164,10 +164,10 @@ const defaultTasks: AppearanceTask[] = [
 ];
 
 const ownerHues = [
-  "bg-teal-600 text-white",
+  "bg-teal-700 text-white",
   "bg-amber-500 text-amber-950",
   "bg-fuchsia-600 text-white",
-  "bg-sky-600 text-white",
+  "bg-sky-700 text-white",
   "bg-lime-500 text-lime-950",
 ];
 
@@ -860,7 +860,7 @@ export function AppearanceSettings({
                   {(["compact", "default", "comfortable"] as Density[]).map((d) => (
                     <SegmentedControlItem
                       aria-checked={prefs.density === d}
-                      className="flex-1 capitalize sm:flex-none"
+                      className="flex-1 capitalize sm:flex-none text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
                       data-checked={prefs.density === d ? "" : undefined}
                       key={d}
                       onClick={() => update({ density: d })}

@@ -162,7 +162,7 @@ export function SplitCard({
         <Tabs onValueChange={(v) => setPeriodId(String(v))} value={period.id}>
           <TabsList aria-label={`${title} period`} size="sm">
             {periods.map((p) => (
-              <TabsTab className="px-2 text-xs tabular-nums sm:text-xs" key={p.id} value={p.id}>
+              <TabsTab className="px-2 text-xs tabular-nums text-muted-foreground sm:text-xs" key={p.id} value={p.id}>
                 {p.label}
               </TabsTab>
             ))}

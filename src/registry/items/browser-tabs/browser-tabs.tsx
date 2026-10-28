@@ -219,8 +219,6 @@ export function BrowserTabs({ defaultTabs, defaultActiveId, renderPage, newTab, 
                       return (
                         <Reorder.Item
                           animate={{ width: tab.pinned ? PINNED_W : width, opacity: 1 }}
-                          aria-label={tab.title}
-                          aria-selected={isActive}
                           as="div"
                           className={cn(
                             "group/tab relative flex h-[34px] shrink-0 cursor-default select-none items-center outline-none",
@@ -235,17 +233,12 @@ export function BrowserTabs({ defaultTabs, defaultActiveId, renderPage, newTab, 
                             if (event.button === 1) close(tab.id, true);
                           }}
                           onContextMenu={() => setMenuTab(tab.id)}
-                          onKeyDown={(event) => onTabKey(event, tab)}
                           onPointerDown={(event) => {
                             if (event.button === 0) setActive(tab.id);
                           }}
-                          ref={(el: HTMLDivElement | null) => {
-                            if (el) tabRefs.current.set(tab.id, el);
-                            else tabRefs.current.delete(tab.id);
-                          }}
-                          role="tab"
-                          tabIndex={isActive ? 0 : -1}
-                          title={tab.title}
+                          role="presentation"
+                          // Reorder.Item adds tabIndex 0 unless it is overridden; focus belongs to the inner tab
+                          tabIndex={undefined}
                           transition={spring}
                           value={tab}
                           whileDrag={{ zIndex: 20 }}
@@ -258,14 +251,25 @@ export function BrowserTabs({ defaultTabs, defaultActiveId, renderPage, newTab, 
                             )}
                           />
                           <div
+                            aria-keyshortcuts="Delete"
+                            aria-label={tab.title}
+                            aria-selected={isActive}
                             className={cn(
-                              "relative mx-px flex h-full min-w-0 flex-1 items-center gap-1.5 rounded-t-lg ps-2.5 pe-2 text-xs transition-colors duration-150",
-                              "group-focus-visible/tab:ring-2 group-focus-visible/tab:ring-ring group-focus-visible/tab:ring-inset",
+                              "relative mx-px flex h-full min-w-0 flex-1 items-center gap-1.5 rounded-t-lg ps-2.5 pe-2 text-xs outline-none transition-colors duration-150",
+                              "focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
                               isActive
                                 ? "bg-card text-foreground before:absolute before:-bottom-0 before:-left-2.5 before:size-2.5 before:bg-[radial-gradient(circle_at_0_0,transparent_10px,var(--color-card)_10.5px)] after:absolute after:-right-2.5 after:-bottom-0 after:size-2.5 after:bg-[radial-gradient(circle_at_100%_0,transparent_10px,var(--color-card)_10.5px)]"
                                 : "text-muted-foreground [@media(hover:hover)]:group-hover/tab:text-foreground",
                               tab.pinned && "justify-center px-0",
                             )}
+                            onKeyDown={(event) => onTabKey(event, tab)}
+                            ref={(el: HTMLDivElement | null) => {
+                              if (el) tabRefs.current.set(tab.id, el);
+                              else tabRefs.current.delete(tab.id);
+                            }}
+                            role="tab"
+                            tabIndex={isActive ? 0 : -1}
+                            title={tab.title}
                           >
                             {!isActive && (
                               <span
@@ -277,25 +281,28 @@ export function BrowserTabs({ defaultTabs, defaultActiveId, renderPage, newTab, 
                             {!tab.pinned && (
                               <>
                                 <span className="relative min-w-0 flex-1 truncate">{tab.title}</span>
-                                <button
-                                  aria-label={`Close ${tab.title}`}
-                                  className={cn(
-                                    "relative -me-1 flex size-5 shrink-0 cursor-pointer items-center justify-center rounded-full before:absolute before:-inset-1.5 text-muted-foreground outline-none transition-[opacity,background-color] duration-150 hover:bg-foreground/10 hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring",
-                                    isActive ? "opacity-100" : "opacity-0 group-hover/tab:opacity-100",
-                                  )}
-                                  onClick={(event) => {
-                                    event.stopPropagation();
-                                    close(tab.id, event.detail > 0);
-                                  }}
-                                  onPointerDown={(event) => event.stopPropagation()}
-                                  tabIndex={-1}
-                                  type="button"
-                                >
-                                  <XIcon className="size-3" />
-                                </button>
+                                <span aria-hidden className="-me-1 size-5 shrink-0" />
                               </>
                             )}
                           </div>
+                          {!tab.pinned && (
+                            <button
+                              aria-hidden
+                              className={cn(
+                                "absolute end-[5px] top-1/2 flex size-5 -translate-y-1/2 cursor-pointer items-center justify-center rounded-full before:absolute before:-inset-1.5 text-muted-foreground outline-none transition-[opacity,background-color] duration-150 hover:bg-foreground/10 hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-ring",
+                                isActive ? "opacity-100" : "opacity-0 group-hover/tab:opacity-100",
+                              )}
+                              onClick={(event) => {
+                                event.stopPropagation();
+                                close(tab.id, event.detail > 0);
+                              }}
+                              onPointerDown={(event) => event.stopPropagation()}
+                              tabIndex={-1}
+                              type="button"
+                            >
+                              <XIcon className="size-3" />
+                            </button>
+                          )}
                         </Reorder.Item>
                       );
                     })}

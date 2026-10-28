@@ -98,7 +98,7 @@ export function RevenueAreaCard({
           {periods.map((p) => (
             <SegmentedControlItem
               aria-checked={p.id === period.id}
-              className="px-2 text-xs sm:text-xs"
+              className="px-2 text-xs sm:text-xs text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
               data-checked={p.id === period.id ? "" : undefined}
               key={p.id}
               onClick={() => setPeriodId(p.id)}

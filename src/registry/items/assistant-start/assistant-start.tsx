@@ -599,7 +599,7 @@ function SidebarBody({
           <Button className="justify-start" onClick={onNewChat} variant="outline">
             <SquarePenIcon />
             New chat
-            <Kbd className="ms-auto">⌘ N</Kbd>
+            <Kbd className="ms-auto dark:text-foreground">⌘ N</Kbd>
           </Button>
           <InputGroup>
             <InputGroupAddon>
@@ -707,7 +707,7 @@ function SidebarBody({
                     type="button"
                   >
                     <span className="min-w-0 flex-1 truncate">{c.title}</span>
-                    <span className="shrink-0 text-muted-foreground/72 text-xs tabular-nums">{c.time}</span>
+                    <span className="shrink-0 text-muted-foreground text-xs tabular-nums">{c.time}</span>
                   </button>
                 </motion.li>
               ))}

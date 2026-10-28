@@ -40,10 +40,10 @@ export interface GhostwritersProps {
 
 type Decision = "accepted" | "rejected";
 
-const tones: Record<GhostTone, { solid: string; text: string; soft: string; mark: string; line: string }> = {
-  info: { solid: "bg-info", text: "text-white", soft: "bg-info/14", mark: "bg-info/22", line: "decoration-info" },
-  brand: { solid: "bg-brand", text: "text-brand-foreground", soft: "bg-brand/30", mark: "bg-brand/45", line: "decoration-brand-ink" },
-  destructive: { solid: "bg-destructive", text: "text-white", soft: "bg-destructive/12", mark: "bg-destructive/20", line: "decoration-destructive" },
+const tones: Record<GhostTone, { solid: string; chip: string; soft: string; mark: string; line: string }> = {
+  info: { solid: "bg-info", chip: "bg-blue-600 text-white", soft: "bg-info/14", mark: "bg-info/22", line: "decoration-info" },
+  brand: { solid: "bg-brand", chip: "bg-brand text-brand-foreground", soft: "bg-brand/30", mark: "bg-brand/45", line: "decoration-brand-ink" },
+  destructive: { solid: "bg-destructive", chip: "bg-red-600 text-white", soft: "bg-destructive/12", mark: "bg-destructive/20", line: "decoration-destructive" },
 };
 
 const defaultAgents: Ghostwriter[] = [
@@ -285,7 +285,7 @@ export function Ghostwriters({
               <span
                 className={cn(
                   "flex size-6 items-center justify-center rounded-full font-medium text-[10px] ring-2 ring-card transition-colors duration-200 ease-out",
-                  on ? [t.solid, t.text] : "bg-[color-mix(in_oklab,var(--color-foreground)_10%,var(--color-card))] text-muted-foreground",
+                  on ? t.chip : "bg-[color-mix(in_oklab,var(--color-foreground)_10%,var(--color-card))] text-muted-foreground",
                 )}
                 key={a.id}
                 title={a.name}
@@ -341,8 +341,7 @@ export function Ghostwriters({
                     animate={quiet ? { opacity: 0, scale: 0.9 } : { opacity: 1, scale: 1 }}
                     className={cn(
                       "absolute bottom-full left-0 mb-px origin-bottom-left whitespace-nowrap rounded-full rounded-bl-[calc(var(--radius)*0.3)] px-1.5 font-medium text-[10px] leading-[14px] shadow-xs/5",
-                      t.solid,
-                      t.text,
+                      t.chip,
                     )}
                     initial={false}
                     transition={fade}

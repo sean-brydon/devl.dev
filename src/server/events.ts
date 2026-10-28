@@ -2,7 +2,7 @@
 // No IPs, no cookies, no full user agents: only what was fetched, a coarse client family, the country and the referrer's host.
 // Imported by worker.ts, which is bundled outside the Next build, so this file uses no path aliases or imports.
 
-export type EventName = "install" | "raw" | "llms" | "skill" | "mcp" | "markdown" | "agent" | "referral";
+export type EventName = "install" | "raw" | "llms" | "skill" | "mcp" | "markdown" | "agent" | "referral" | "search";
 
 /**
  * One data point per event. Column order is the SQL schema, so append new columns rather than reorder:
@@ -146,4 +146,11 @@ export function writeMcpEvents(dataset: EventsDataset | undefined, request: Requ
     if (message.method === "tools/call") writeEvent(dataset, request, status, "mcp", clip(params.name) || "unknown", clip(params.arguments?.slug));
     else writeEvent(dataset, request, status, "mcp", message.method, message.method === "initialize" ? clip(params.clientInfo?.name) : "");
   }
+}
+
+/** A site search that found nothing, reduced to a short lowercase phrase. Anything that looks like an email or a long number is dropped. */
+export function searchMiss(raw: string) {
+  const query = raw.toLowerCase().replace(/[^\p{L}\p{N}\s-]/gu, " ").replace(/\s+/g, " ").trim().slice(0, 48);
+  if (query.length < 2 || raw.includes("@") || /\d{6,}/.test(raw)) return null;
+  return query;
 }

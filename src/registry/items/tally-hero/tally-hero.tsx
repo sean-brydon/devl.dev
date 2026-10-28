@@ -216,7 +216,7 @@ function PeriodSwitch({ periods, value, onChange }: { periods: TallyPeriod[]; va
         return (
           <SegmentedControlItem
             aria-checked={checked}
-            className="px-3"
+            className="px-3 text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
             data-checked={checked ? "" : undefined}
             key={period.id}
             onClick={() => onChange(period.id)}

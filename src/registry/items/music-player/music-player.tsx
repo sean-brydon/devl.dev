@@ -702,8 +702,8 @@ export function MusicPlayer({
                     ring,
                     big ? "text-2xl" : "text-xl leading-snug",
                     state === "now" && "text-foreground",
-                    state === "past" && "text-muted-foreground/50",
-                    state === "next" && "text-muted-foreground",
+                    state === "past" && "text-foreground/70",
+                    state === "next" && "text-foreground/85",
                   )}
                   onClick={() => {
                     setPosition(l.time);
@@ -940,6 +940,7 @@ export function MusicPlayer({
         {iconButton(muted ? "Unmute" : "Mute", () => setMuted((m) => !m), <VolumeIcon className="!size-4.5" />, undefined, "size-8 text-muted-foreground")}
         <Slider
           aria-label="Volume"
+          getAriaLabel={() => "Volume"}
           className="flex-1 [&_[data-slot=slider-control]]:min-w-0"
           max={100}
           onValueChange={(v) => {

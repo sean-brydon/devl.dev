@@ -278,6 +278,7 @@ function MiniMonth({
   return (
     <Calendar
       className="mx-auto p-0 [--cell-size:--spacing(8)] sm:[--cell-size:--spacing(8)]"
+      classNames={{ day_button: "in-data-outside:text-muted-foreground", weekday: "text-muted-foreground" }}
       mode="range"
       modifiers={{ busy: [...busy].filter((d) => d !== today).map(toDate) }}
       modifiersClassNames={{
@@ -798,7 +799,7 @@ export function CalendarWeek({
                         <span
                           className={cn(
                             "flex h-6 min-w-6 items-center justify-center rounded-full px-1 font-medium tabular-nums",
-                            isToday && "bg-destructive text-white",
+                            isToday && "bg-red-600 text-white",
                           )}
                         >
                           {parse(d).getUTCDate()}
@@ -856,7 +857,7 @@ export function CalendarWeek({
                 ))}
                 {todayIdx >= 0 && (
                   <span
-                    className="absolute right-1 z-20 -translate-y-1/2 rounded-md bg-destructive px-1 py-px font-medium text-[10px] text-white tabular-nums"
+                    className="absolute right-1 z-20 -translate-y-1/2 rounded-md bg-red-600 px-1 py-px font-medium text-[10px] text-white tabular-nums"
                     style={{ top: nowTop }}
                   >
                     {fmtTime(nowMin).replace(" AM", "").replace(" PM", "")}
@@ -907,6 +908,7 @@ export function CalendarWeek({
                           const height = Math.max((ev.end - ev.start) * PX, 18);
                           const short = height < 40;
                           const past = d < today || (d === today && ev.end <= nowMin);
+                          const faded = past && !isSel && !isDrag;
                           return (
                             <motion.div
                               animate={{ opacity: 1, scale: 1, y: ev.start * PX }}
@@ -915,7 +917,7 @@ export function CalendarWeek({
                                 "group/ev @container absolute top-0 z-10 cursor-grab touch-none overflow-hidden rounded-md bg-clip-padding text-left outline-none before:absolute before:inset-y-1 before:left-1 before:w-0.5 before:rounded-full focus-visible:ring-2 focus-visible:ring-ring",
                                 isSel || isDrag ? toneSolid[cal.tone] : toneBlock[cal.tone],
                                 isDrag && "z-30 cursor-grabbing shadow-lg/20",
-                                past && !isSel && !isDrag && "[&>div]:opacity-65 before:opacity-60",
+                                faded && "[&>div]:opacity-70 before:opacity-60",
                                 cols > 1 && "ring-1 ring-background",
                               )}
                               exit={{ opacity: 0, scale: 0.96 }}
@@ -945,14 +947,14 @@ export function CalendarWeek({
                               transition={isDrag ? { duration: 0 } : { y: settle, opacity: { duration: 0.15 }, scale: { duration: 0.15 } }}
                             >
                               <div className={cn("flex h-full flex-col ps-3 pe-1.5", short ? "flex-row items-center gap-1.5 py-0" : "py-1")}>
-                                <span className={cn("truncate font-medium text-xs leading-4", !ev.title && "italic opacity-70")}>
+                                <span className={cn("truncate font-medium text-xs leading-4", !ev.title && "italic", !ev.title && !faded && "opacity-75")}>
                                   {ev.title || "New event"}
                                 </span>
-                                <span className={cn("truncate text-[11px] tabular-nums leading-4 opacity-75", short && "hidden shrink-0 @[8rem]:inline")}>
+                                <span className={cn("truncate text-[11px] tabular-nums leading-4", !faded && "opacity-75", short && "hidden shrink-0 @[8rem]:inline")}>
                                   {short ? fmtTime(ev.start) : fmtRange(ev.start, ev.end)}
                                 </span>
                                 {!short && height > 64 && ev.location && (
-                                  <span className="mt-0.5 flex items-center gap-1 truncate text-[11px] leading-4 opacity-75">
+                                  <span className={cn("mt-0.5 flex items-center gap-1 truncate text-[11px] leading-4", !faded && "opacity-75")}>
                                     <MapPinIcon className="size-3 shrink-0" />
                                     {ev.location}
                                   </span>

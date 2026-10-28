@@ -102,7 +102,7 @@ const avatarTone: Record<ChatTone, string> = {
   teal: "bg-teal-500/16 text-teal-700 dark:text-teal-300",
   violet: "bg-violet-500/16 text-violet-700 dark:text-violet-300",
   rose: "bg-rose-500/14 text-rose-700 dark:text-rose-300",
-  amber: "bg-amber-500/18 text-amber-700 dark:text-amber-300",
+  amber: "bg-amber-500/18 text-amber-800 dark:text-amber-300",
   emerald: "bg-emerald-500/16 text-emerald-700 dark:text-emerald-300",
   sky: "bg-sky-500/16 text-sky-700 dark:text-sky-300",
 };
@@ -475,7 +475,7 @@ function ChannelNav({
                       className={cn(
                         row,
                         on ? "text-foreground" : loud ? "text-foreground" : "text-muted-foreground hover:text-foreground",
-                        c.muted && !on && "opacity-60",
+                        c.muted && !on && "[&>svg]:opacity-60",
                       )}
                       onClick={() => onSelect(c.id)}
                       type="button"
@@ -493,7 +493,7 @@ function ChannelNav({
                       <span className={cn("relative min-w-0 flex-1 truncate", loud ? "font-semibold" : "font-medium")}>{c.name}</span>
                       {c.muted && <BellOffIcon aria-label="Muted" className="relative size-3 shrink-0" />}
                       {c.mentions ? (
-                        <span className="relative flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-destructive px-1 font-semibold text-[11px] text-white tabular-nums">
+                        <span className="relative flex h-4.5 min-w-4.5 items-center justify-center rounded-full bg-red-600 px-1 font-semibold text-[11px] text-white tabular-nums">
                           {c.mentions}
                         </span>
                       ) : c.unread && kind === "dm" ? (

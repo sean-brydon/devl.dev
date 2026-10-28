@@ -45,6 +45,8 @@ Items in the Filters category (kind `component`, category `Filters`) are devl co
 - No new npm dependencies. No chart libraries: draw charts with SVG.
 - Never import another registry item.
 - Export named components (`export function AgentInbox`). Take data through props with sensible typed defaults, so it is reusable and the demo stays short.
+- Declare props as an interface or type in the same file and give defaults in the parameter destructuring: `scripts/props.mjs` reads both to build the props table on the item page, its Markdown page and the MCP answer.
+- Accessible by default: every control has a name, keyboard focus is visible (`focus-visible:ring-2 focus-visible:ring-ring`), text reaches 4.5:1 contrast in light and dark (use `text-muted-foreground`, never a faded version of it), and roles and lists are valid.
 - `"use client"` at the top when it uses state, effects, or motion.
 - Read the coss ui component source in `src/components/ui/` before using a component; APIs follow Base UI (`render` prop, not `asChild`).
 - **No comments.** People install and read this code; it should explain itself through names and structure. No JSDoc, no section dividers, no "this does X" narration. The only exception is a rare one-line comment explaining *why* a genuinely non-obvious trick is there (e.g. a browser workaround). Same for demo.tsx.
@@ -86,6 +88,7 @@ The dev server is already running on http://localhost:3417. Don't start another 
 pnpm registry                                   # regenerate the index
 pnpm exec tsc --noEmit 2>&1 | grep 'registry/items/<slug>'   # your errors only; others may be mid-edit
 curl -s -o /dev/null -w '%{http_code}\n' http://localhost:3417/preview/<slug>     # must print 200
+node scripts/a11y.mjs <slug>                     # axe (WCAG A/AA) in light and dark + keyboard focus; must print ok
 ```
 
 `/preview/<slug>?theme=dark` and `?theme=light` render just your demo. A 500 means it threw during render: read the HTML body for the error.

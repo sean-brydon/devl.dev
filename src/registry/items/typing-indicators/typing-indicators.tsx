@@ -205,7 +205,7 @@ export function ComposingIndicator({
         {label}
       </motion.span>
       {showElapsed && (
-        <span aria-hidden className="text-muted-foreground/72 tabular-nums">
+        <span aria-hidden className="text-muted-foreground tabular-nums">
           {seconds < 60 ? `${seconds}s` : `${Math.floor(seconds / 60)}m ${seconds % 60}s`}
         </span>
       )}

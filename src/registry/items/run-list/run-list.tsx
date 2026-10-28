@@ -431,7 +431,7 @@ function FilterTabs({
 }) {
   return (
     <Tabs onValueChange={(v) => onChange(v as Filter)} value={value}>
-      <TabsList aria-label="Filter tasks" className="w-full" size="sm">
+      <TabsList aria-label="Filter tasks" className="w-full text-muted-foreground" size="sm">
         {filters.map((f) => (
           <TabsTab
             aria-controls={controls}

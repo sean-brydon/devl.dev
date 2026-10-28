@@ -105,6 +105,17 @@ const dot: Record<ShellTone, string> = {
   warning: "bg-warning",
 };
 
+const tile: Record<ShellTone, string> = {
+  "orange": "bg-orange-700",
+  "teal": "bg-teal-700",
+  "cyan": "bg-cyan-700",
+  "violet": "bg-violet-600",
+  "rose": "bg-rose-700",
+  info: "bg-blue-600",
+  success: "bg-emerald-700",
+  warning: "bg-amber-700",
+};
+
 const soft: Record<ShellTone, string> = {
   orange: "bg-orange-500/14",
   teal: "bg-teal-500/14",
@@ -223,7 +234,7 @@ function SidebarBody({
               <span
                 className={cn(
                   "flex size-7 shrink-0 items-center justify-center rounded-lg font-semibold text-[11px] text-white",
-                  dot[ws.tone],
+                  tile[ws.tone],
                 )}
               >
                 {ws.initials}
@@ -241,7 +252,7 @@ function SidebarBody({
                   {workspaces.map((w) => (
                     <MenuRadioItem key={w.id} value={w.id}>
                       <span className="flex items-center gap-2">
-                        <span className={cn("size-2 rounded-full", dot[w.tone])} />
+                        <span className={cn("size-2 rounded-full", tile[w.tone])} />
                         {w.name}
                         <span className="text-muted-foreground text-xs">{w.plan}</span>
                       </span>
@@ -403,7 +414,7 @@ function SidebarBody({
                               {p.open !== undefined && (
                                 <span
                                   className={cn(
-                                    "relative ms-auto text-muted-foreground/80 text-xs tabular-nums opacity-0 transition-opacity group-hover/row:opacity-100",
+                                    "relative ms-auto text-muted-foreground text-xs tabular-nums opacity-0 transition-opacity group-hover/row:opacity-100",
                                     on && "opacity-100",
                                     collapsed && "opacity-0!",
                                   )}
@@ -438,7 +449,7 @@ function SidebarBody({
               className="mt-1 flex h-12 w-full cursor-pointer items-center gap-2.5 overflow-hidden rounded-xl px-1.5 text-left outline-none transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-ring data-popup-open:bg-accent"
             >
               <Avatar className="size-7 shrink-0">
-                <AvatarFallback className="bg-teal-500/16 text-[11px] text-teal-600 dark:text-teal-400">{user.initials}</AvatarFallback>
+                <AvatarFallback className="bg-teal-500/16 text-[11px] text-teal-800 dark:text-teal-400">{user.initials}</AvatarFallback>
               </Avatar>
               <span className={cn("flex min-w-0 flex-1 flex-col transition-opacity duration-200", collapsed && "opacity-0")}>
                 <span className="truncate font-medium leading-tight">{user.name}</span>
@@ -449,7 +460,7 @@ function SidebarBody({
             <MenuPopup align="start" className="w-56" side="top">
               <div className="flex items-center gap-2.5 px-2 py-1.5">
                 <Avatar className="size-8">
-                  <AvatarFallback className="bg-teal-500/16 text-teal-600 dark:text-teal-400 text-xs">{user.initials}</AvatarFallback>
+                  <AvatarFallback className="bg-teal-500/16 text-teal-800 dark:text-teal-400 text-xs">{user.initials}</AvatarFallback>
                 </Avatar>
                 <div className="min-w-0">
                   <div className="truncate font-medium text-sm">{user.name}</div>
@@ -1213,8 +1224,8 @@ export function InsetShell({
                 <div className="me-1 hidden -space-x-1 @lg:flex">
                   {[
                     ["KT", "bg-info/16 text-info-foreground"],
-                    ["RL", "bg-orange-500/16 text-orange-600 dark:text-orange-400"],
-                    ["TB", "bg-violet-500/20 text-violet-600 dark:text-violet-400"],
+                    ["RL", "bg-orange-500/16 text-orange-800 dark:text-orange-400"],
+                    ["TB", "bg-violet-500/20 text-violet-700 dark:text-violet-400"],
                   ].map(([i, t]) => (
                     <Avatar className="size-6 bg-background ring-2 ring-background" key={i}>
                       <AvatarFallback className={cn("text-[10px]", t)}>{i}</AvatarFallback>

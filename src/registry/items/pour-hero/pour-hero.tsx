@@ -417,7 +417,7 @@ function PourButton({ href, children, reduce }: { href: string; children: ReactN
       </svg>
       <span
         aria-hidden
-        className="pointer-events-none absolute -z-10"
+        className="pointer-events-none absolute"
         style={{
           inset: `-${room.top}px -${room.x}px -${room.bottom}px`,
           filter: `${reduce ? "" : `url(#${filterId}) `}drop-shadow(0 1px 1px color-mix(in srgb, var(--color-black) 12%, transparent))`,
@@ -446,7 +446,7 @@ function PourButton({ href, children, reduce }: { href: string; children: ReactN
       </span>
       <motion.span
         aria-hidden
-        className="pointer-events-none absolute inset-0 -z-10 rounded-full shadow-[inset_0_1px_0_color-mix(in_srgb,var(--color-white)_40%,transparent)]"
+        className="pointer-events-none absolute inset-0 rounded-full shadow-[inset_0_1px_0_color-mix(in_srgb,var(--color-white)_40%,transparent)]"
         style={{ scaleX, scaleY, originX, originY: 1 }}
       />
       <span

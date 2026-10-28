@@ -344,7 +344,7 @@ export function RequestAccess({
                       Request access
                     </Button>
                     <p className="mt-3 flex items-center gap-1.5 text-muted-foreground text-xs">
-                      <Initials className="size-4 bg-amber-500/15 text-[0.4375rem] text-amber-700 dark:text-amber-300" person={owner} />
+                      <Initials className="size-4 bg-amber-500/15 text-[0.4375rem] text-amber-800 dark:text-amber-300" person={owner} />
                       {owner.name} owns this doc
                     </p>
                   </motion.div>

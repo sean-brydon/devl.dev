@@ -83,10 +83,10 @@ export interface MailProps {
 const avatarTone: Record<MailTone, string> = {
   blue: "bg-blue-500/14 text-blue-700 dark:text-blue-300",
   orange: "bg-orange-500/14 text-orange-700 dark:text-orange-300",
-  teal: "bg-teal-500/16 text-teal-700 dark:text-teal-300",
+  teal: "bg-teal-500/16 text-teal-800 dark:text-teal-300",
   violet: "bg-violet-500/16 text-violet-700 dark:text-violet-300",
   rose: "bg-rose-500/14 text-rose-700 dark:text-rose-300",
-  amber: "bg-amber-500/18 text-amber-700 dark:text-amber-300",
+  amber: "bg-amber-500/18 text-amber-800 dark:text-amber-300",
   emerald: "bg-emerald-500/16 text-emerald-700 dark:text-emerald-300",
   sky: "bg-sky-500/16 text-sky-700 dark:text-sky-300",
 };

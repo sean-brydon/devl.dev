@@ -22,6 +22,22 @@ export interface RegistryItem {
   og?: true;
   /** Date (YYYY-MM-DD) of the last commit that touched the item, for the sitemap. */
   updated?: string;
+  /** Date (YYYY-MM-DD) of the first commit that added the item, for the changelog and RSS. */
+  added?: string;
   dependencies?: string[];
   uiDependencies?: string[];
+}
+
+export interface PropInfo {
+  name: string;
+  type: string;
+  required: boolean;
+  default?: string;
+  description?: string;
+}
+
+/** An item's props, read from its TypeScript by scripts/props.mjs. `extends` lists types it also accepts (e.g. a div's props). */
+export interface ItemProps {
+  props: PropInfo[];
+  extends: string[];
 }

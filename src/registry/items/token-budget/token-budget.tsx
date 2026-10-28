@@ -331,6 +331,7 @@ export function TokenBudget({
           ).map(([id, label, Icon]) => (
             <SegmentedControlItem
               aria-pressed={view === id}
+              className="text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
               data-pressed={view === id ? "" : undefined}
               key={id}
               onClick={() => setView(id)}

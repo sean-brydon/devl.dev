@@ -23,6 +23,7 @@ const labels: Record<EventName, { title: string; hint: string }> = {
   markdown: { title: "Markdown", hint: "/<kind>/<slug>.md or Accept: text/markdown" },
   agent: { title: "AI agent pages", hint: "page views by AI crawlers and agents" },
   referral: { title: "AI referrals", hint: "visits from ChatGPT, Claude, Perplexity…" },
+  search: { title: "Empty searches", hint: "site searches that found nothing" },
 };
 
 export default function AdminStatsPage({ searchParams }: PageProps<"/admin/stats">) {
@@ -151,6 +152,7 @@ function Report({ report }: { report: UsageReport }) {
         <Ranked rows={report.top.agent} title="Pages AI agents read" />
         <Ranked rows={report.top.referral} title="AI assistants sending visitors" />
         <Ranked rows={report.top.markdown} title="Markdown pages read" />
+        <Ranked rows={report.top.search} title="Searches that found nothing" />
         <Ranked rows={report.countries} title="Countries" />
         <Ranked rows={report.referrers} title="Referrers" />
       </div>

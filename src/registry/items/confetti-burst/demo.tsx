@@ -35,7 +35,7 @@ export default function ConfettiBurstDemo() {
           {palettes.map((p) => (
             <SegmentedControlItem
               aria-pressed={palette === p}
-              className="capitalize"
+              className="text-muted-foreground capitalize hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
               data-pressed={palette === p ? "" : undefined}
               key={p}
               onClick={() => setPalette(p)}

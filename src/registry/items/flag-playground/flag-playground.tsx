@@ -267,9 +267,9 @@ function RuleStep({ step, name, index, serve }: { step: Step; name: string; inde
   return (
     <li
       className={cn(
-        "rounded-xl border px-3 py-2 transition-[background-color,border-color,opacity] duration-200",
+        "rounded-xl border px-3 py-2 transition-[background-color,border-color,color] duration-200",
         step.state === "match" && "border-success/32 bg-success/6 dark:bg-success/10",
-        step.state === "skipped" && "opacity-48",
+        step.state === "skipped" && "text-muted-foreground",
       )}
     >
       <div className="flex items-center gap-2 text-xs">
@@ -312,8 +312,8 @@ function FallthroughStep({ flag, matched, served }: { flag: PlaygroundFlag; matc
   return (
     <li
       className={cn(
-        "flex items-center gap-2 rounded-xl border border-dashed px-3 py-2 text-xs transition-[background-color,border-color,opacity] duration-200",
-        matched ? "opacity-48" : "border-success/32 border-solid bg-success/6 dark:bg-success/10",
+        "flex items-center gap-2 rounded-xl border border-dashed px-3 py-2 text-xs transition-[background-color,border-color,color] duration-200",
+        matched ? "text-muted-foreground" : "border-success/32 border-solid bg-success/6 dark:bg-success/10",
       )}
     >
       <span className="min-w-0 flex-1 truncate">

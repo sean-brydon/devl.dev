@@ -30,7 +30,7 @@ const AVATAR_TONES = [
   "bg-violet-500/15 text-violet-700 dark:text-violet-300",
   "bg-sky-500/15 text-sky-700 dark:text-sky-300",
   "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
-  "bg-amber-500/15 text-amber-700 dark:text-amber-300",
+  "bg-amber-500/15 text-amber-800 dark:text-amber-300",
   "bg-rose-500/15 text-rose-700 dark:text-rose-300",
   "bg-teal-500/15 text-teal-700 dark:text-teal-300",
   "bg-indigo-500/15 text-indigo-700 dark:text-indigo-300",
@@ -99,6 +99,7 @@ function Movement({ rank, previous }: { rank: number; previous?: number }) {
   return (
     <span
       aria-label={diff === 0 ? "No change" : `${diff > 0 ? "Up" : "Down"} ${Math.abs(diff)}`}
+      role="img"
       className={cn(
         "inline-flex w-8 items-center gap-px text-[11px] tabular-nums @max-[24rem]:w-auto @max-[24rem]:text-[10px] @max-[24rem]:leading-3",
         diff > 0 && "text-success-foreground",

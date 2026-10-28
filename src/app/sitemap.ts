@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...sections,
     ...["", "/mcp", "/skill", "/claude", "/codex", "/cursor", "/vscode"].map((page) => ({ url: `${site}/docs${page}`, changeFrequency: "monthly" as const, priority: 0.5 })),
     { url: `${site}/advertise`, changeFrequency: "monthly", priority: 0.3 },
+    { url: `${site}/changelog`, lastModified: newest, changeFrequency: "weekly", priority: 0.6 },
     { url: `${site}/privacy`, changeFrequency: "yearly", priority: 0.2 },
     ...pages,
   ];

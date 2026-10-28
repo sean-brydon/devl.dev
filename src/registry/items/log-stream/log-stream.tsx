@@ -77,7 +77,7 @@ function Row({ line, q, nested, fresh }: { line: LogLine; q: string; nested?: bo
       initial={fresh && !reduce ? { opacity: 0, y: 4 } : false}
       transition={{ duration: 0.16, ease: [0.23, 1, 0.32, 1] }}
     >
-      <span className="text-muted-foreground/80 tabular-nums">{clock(line.ts)}</span>
+      <span className="text-muted-foreground tabular-nums">{clock(line.ts)}</span>
       <span className={cn("font-semibold", lvl.text)}>{lvl.short}</span>
       <span className="truncate text-muted-foreground max-sm:hidden">{line.service}</span>
       <span className="min-w-0 break-words">
@@ -299,7 +299,7 @@ export function LogStream({ initialLines = [], subscribe, limit = 500, foldAfter
                   }
                   type="button"
                 >
-                  <span className="text-muted-foreground/80 tabular-nums">{clock(last.ts)}</span>
+                  <span className="text-muted-foreground tabular-nums">{clock(last.ts)}</span>
                   <span className={cn("font-semibold", lvl.text)}>{lvl.short}</span>
                   <span className="truncate text-muted-foreground max-sm:hidden">{last.service}</span>
                   <span className="flex min-w-0 items-baseline gap-2">

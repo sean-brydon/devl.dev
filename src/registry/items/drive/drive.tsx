@@ -78,7 +78,7 @@ const tone: Record<FolderTone, string> = {
 };
 
 const memberTone: Record<string, string> = {
-  AK: "bg-orange-500/16 text-orange-700 dark:text-orange-300",
+  AK: "bg-orange-500/16 text-orange-800 dark:text-orange-300",
   JS: "bg-teal-500/16 text-teal-700 dark:text-teal-300",
   MV: "bg-blue-500/16 text-blue-700 dark:text-blue-300",
   LO: "bg-violet-500/18 text-violet-700 dark:text-violet-300",

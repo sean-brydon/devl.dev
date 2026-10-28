@@ -3,6 +3,7 @@
 import { AnimatePresence, LayoutGroup, MotionConfig, motion } from "motion/react";
 import {
   ArrowLeftIcon,
+  CheckIcon,
   ChevronRightIcon,
   ChevronsUpDownIcon,
   ClockIcon,
@@ -70,7 +71,7 @@ const easeOut = [0.23, 1, 0.32, 1] as const;
 const press = "transition-[box-shadow,scale] duration-150 ease-out active:scale-[0.97]";
 
 const people: Record<string, string> = {
-  AK: "bg-orange-500/16 text-orange-700 dark:text-orange-300",
+  AK: "bg-orange-500/16 text-orange-800 dark:text-orange-300",
   JS: "bg-teal-500/16 text-teal-700 dark:text-teal-300",
   MV: "bg-blue-500/16 text-blue-700 dark:text-blue-300",
   LO: "bg-violet-500/18 text-violet-700 dark:text-violet-300",
@@ -237,7 +238,7 @@ function Preview({ file }: { file: FolderFile }) {
     case "pdf":
       return (
         <div className="absolute inset-x-6 top-4 bottom-0 flex flex-col gap-1.5 rounded-t-md bg-card px-3.5 pt-4 shadow-xs/5 ring-1 ring-border">
-          <span className="absolute top-2.5 right-2.5 rounded-[3px] bg-destructive px-1 font-bold text-[8px] text-white">PDF</span>
+          <span className="absolute top-2.5 right-2.5 rounded-[3px] bg-red-700 px-1 font-bold text-[8px] text-white dark:bg-red-600">PDF</span>
           <span className="font-heading font-semibold text-foreground/80 text-lg leading-none">Aa</span>
           <span className="h-1 w-1/2 rounded-full bg-muted-foreground/24" />
           <span className="mt-1 grid grid-cols-6 gap-1">
@@ -295,6 +296,20 @@ function RollingCount({ value }: { value: number }) {
           {value}
         </motion.span>
       </AnimatePresence>
+    </span>
+  );
+}
+
+function CheckMark({ on }: { on: boolean }) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "inline-flex size-4.5 shrink-0 items-center justify-center rounded-xs border shadow-xs/5 sm:size-4",
+        on ? "border-primary bg-primary text-primary-foreground" : "border-input bg-background dark:bg-input/32",
+      )}
+    >
+      {on && <CheckIcon className="size-3.5 sm:size-3" strokeWidth={3} />}
     </span>
   );
 }
@@ -739,7 +754,7 @@ export function FolderView({
                                       on || selecting ? "opacity-100" : "opacity-0 group-hover/file:opacity-100 group-focus-visible/file:opacity-100 pointer-coarse:opacity-100",
                                     )}
                                   >
-                                    <Checkbox checked={on} className="pointer-events-none" tabIndex={-1} />
+                                    <CheckMark on={on} />
                                   </span>
                                 </div>
                                 <div className="flex flex-col gap-1 border-t px-3 py-2.5">
@@ -825,7 +840,7 @@ export function FolderView({
                                 role="checkbox"
                                 tabIndex={0}
                               >
-                                <Checkbox checked={on} className="pointer-events-none" tabIndex={-1} />
+                                <CheckMark on={on} />
                                 <span className="flex min-w-0 items-center gap-3">
                                   <span className={cn("flex size-7 shrink-0 items-center justify-center rounded-md", K.tint)}>
                                     <K.icon className="size-3.5" />

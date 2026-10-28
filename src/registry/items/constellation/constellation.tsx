@@ -577,8 +577,11 @@ export function Constellation({
                 {log.length === 0 && <li className="text-muted-foreground">Waiting for the first call…</li>}
                 {log.map((l, i) => (
                   <motion.li
-                    animate={{ opacity: 1 - i * 0.3, y: 0 }}
-                    className="flex h-4 items-center gap-1.5 overflow-hidden whitespace-nowrap leading-4"
+                    animate={{ opacity: 1, y: 0 }}
+                    className={cn(
+                      "flex h-4 items-center gap-1.5 overflow-hidden whitespace-nowrap leading-4",
+                      i > 0 && "[&>span]:text-muted-foreground",
+                    )}
                     exit={{ opacity: 0, transition: { duration: 0.12 } }}
                     initial={{ opacity: 0, y: -6 }}
                     key={l.id}
@@ -593,6 +596,7 @@ export function Constellation({
                         l.tone === "warn" && "bg-warning",
                         l.tone === "deny" && "bg-destructive",
                       )}
+                      style={{ opacity: 1 - i * 0.3 }}
                     />
                     <span className="text-foreground">{l.agent}</span>
                     <span className="text-muted-foreground">→</span>

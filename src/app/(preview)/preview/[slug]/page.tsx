@@ -5,7 +5,10 @@ import { FrameTheme } from "@/components/frame-theme";
 import { Preview } from "@/components/previews";
 import { getItem, items } from "@/lib/registry";
 
-export const metadata: Metadata = { robots: { index: false } };
+export async function generateMetadata({ params }: PageProps<"/preview/[slug]">): Promise<Metadata> {
+  const item = getItem((await params).slug);
+  return { title: item ? `${item.name} preview · devl` : "Preview · devl", robots: { index: false } };
+}
 
 export function generateStaticParams() {
   return items.map((item) => ({ slug: item.slug }));

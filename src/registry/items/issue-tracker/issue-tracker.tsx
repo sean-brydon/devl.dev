@@ -87,7 +87,7 @@ const avatarTone: Record<IssueTone, string> = {
   teal: "bg-teal-500/16 text-teal-700 dark:text-teal-300",
   violet: "bg-violet-500/16 text-violet-700 dark:text-violet-300",
   rose: "bg-rose-500/14 text-rose-700 dark:text-rose-300",
-  amber: "bg-amber-500/18 text-amber-700 dark:text-amber-300",
+  amber: "bg-amber-500/18 text-amber-800 dark:text-amber-300",
   emerald: "bg-emerald-500/16 text-emerald-700 dark:text-emerald-300",
   sky: "bg-sky-500/16 text-sky-700 dark:text-sky-300",
 };
@@ -795,7 +795,7 @@ export function IssueTracker({
   const sidebar = (onClose?: () => void) => (
     <div className="flex h-full flex-col px-2 pt-3 pb-3">
       <div className="flex items-center gap-2 px-1.5 pb-3">
-        <span className="flex size-7 items-center justify-center rounded-lg bg-sky-600 font-semibold text-[11px] text-white">{team.key.slice(0, 2)}</span>
+        <span className="flex size-7 items-center justify-center rounded-lg bg-sky-700 font-semibold text-[11px] text-white">{team.key.slice(0, 2)}</span>
         <div className="min-w-0 flex-1 leading-tight">
           <div className="truncate font-medium">Kestrel</div>
           <div className="truncate text-muted-foreground text-xs">{team.name} team</div>
@@ -1046,7 +1046,13 @@ export function IssueTracker({
               )}
             </AnimatePresence>
 
-            <div className="relative min-h-0 flex-1 overflow-y-auto [scrollbar-width:thin]" ref={listRef}>
+            <div
+              aria-label={groups.length ? "Issues" : undefined}
+              aria-multiselectable={groups.length ? true : undefined}
+              className="relative min-h-0 flex-1 overflow-y-auto [scrollbar-width:thin]"
+              ref={listRef}
+              role={groups.length ? "grid" : undefined}
+            >
               {groups.length === 0 ? (
                 <div className="flex h-full flex-col items-center justify-center px-6 text-center">
                   <span className="flex size-10 items-center justify-center rounded-xl border bg-card text-muted-foreground shadow-xs/5">
@@ -1063,33 +1069,37 @@ export function IssueTracker({
                     const isCollapsed = collapsed.has(g.id);
                     return (
                       <div key={g.id} role="rowgroup">
-                        <div className={cn("sticky top-0 z-10 flex h-9 items-center gap-2 border-b bg-background bg-linear-to-r ps-3 pe-2 @lg:ps-4", groupTone[g.id])}>
-                          <button
-                            aria-expanded={!isCollapsed}
-                            className="flex cursor-pointer items-center gap-2 rounded outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                            onClick={() =>
-                              setCollapsed((c) => {
-                                const next = new Set(c);
-                                if (next.has(g.id)) next.delete(g.id);
-                                else next.add(g.id);
-                                return next;
-                              })
-                            }
-                            type="button"
-                          >
-                            <ChevronDownIcon className={cn("size-3.5 text-muted-foreground transition-transform duration-200", isCollapsed && "-rotate-90")} />
-                            <StatusIcon status={g.id} />
-                            <span className="font-medium text-[13px]">{g.label}</span>
-                            <span className="text-muted-foreground text-xs tabular-nums">{g.items.length}</span>
-                          </button>
+                        <div className={cn("sticky top-0 z-10 flex h-9 items-center gap-2 border-b bg-background bg-linear-to-r ps-3 pe-2 @lg:ps-4", groupTone[g.id])} role="row">
+                          <span className="contents" role="gridcell">
+                            <button
+                              aria-expanded={!isCollapsed}
+                              className="flex cursor-pointer items-center gap-2 rounded outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                              onClick={() =>
+                                setCollapsed((c) => {
+                                  const next = new Set(c);
+                                  if (next.has(g.id)) next.delete(g.id);
+                                  else next.add(g.id);
+                                  return next;
+                                })
+                              }
+                              type="button"
+                            >
+                              <ChevronDownIcon className={cn("size-3.5 text-muted-foreground transition-transform duration-200", isCollapsed && "-rotate-90")} />
+                              <StatusIcon status={g.id} />
+                              <span className="font-medium text-[13px]">{g.label}</span>
+                              <span className="text-muted-foreground text-xs tabular-nums">{g.items.length}</span>
+                            </button>
+                          </span>
                           {g.id !== "done" && (
-                            <Button aria-label={`New issue in ${g.label}`} className="ms-auto" onClick={() => createIssue(g.id)} size="icon-xs" variant="ghost">
-                              <PlusIcon />
-                            </Button>
+                            <span className="contents" role="gridcell">
+                              <Button aria-label={`New issue in ${g.label}`} className="ms-auto" onClick={() => createIssue(g.id)} size="icon-xs" variant="ghost">
+                                <PlusIcon />
+                              </Button>
+                            </span>
                           )}
                         </div>
                         {!isCollapsed && (
-                          <ul>
+                          <ul role="none">
                             <AnimatePresence initial={false}>
                               {g.items.map((issue) => {
                                 const isCursor = issue.id === cursor;
@@ -1103,6 +1113,7 @@ export function IssueTracker({
                                     key={issue.id}
                                     layout="position"
                                     layoutId={issue.id}
+                                    role="none"
                                     transition={{ layout: glide, opacity: { duration: 0.15 } }}
                                   >
                                     <div
@@ -1127,27 +1138,29 @@ export function IssueTracker({
                                       tabIndex={isCursor ? 0 : -1}
                                     >
                                       {isCursor && <span className="absolute inset-y-0 left-0 w-0.5 bg-foreground/70" />}
-                                      <button
-                                        aria-label={isPicked ? "Deselect" : "Select"}
-                                        aria-pressed={isPicked}
-                                        className={cn(
-                                          "-ms-1 hidden size-5 shrink-0 cursor-pointer items-center justify-center rounded border outline-none transition-opacity focus-visible:ring-2 focus-visible:ring-ring @lg:flex",
-                                          isPicked ? "border-info bg-info text-white" : "border-muted-foreground/40 opacity-0 group-hover/row:opacity-100",
-                                        )}
-                                        onClick={(e) => {
-                                          e.stopPropagation();
-                                          setPicked((p) => {
-                                            const next = new Set(p);
-                                            if (next.has(issue.id)) next.delete(issue.id);
-                                            else next.add(issue.id);
-                                            return next;
-                                          });
-                                        }}
-                                        tabIndex={-1}
-                                        type="button"
-                                      >
-                                        {isPicked && <CheckIcon className="size-3" strokeWidth={3} />}
-                                      </button>
+                                      <span className="contents" role="gridcell">
+                                        <button
+                                          aria-label={isPicked ? "Deselect" : "Select"}
+                                          aria-pressed={isPicked}
+                                          className={cn(
+                                            "-ms-1 hidden size-5 shrink-0 cursor-pointer items-center justify-center rounded border outline-none transition-opacity focus-visible:ring-2 focus-visible:ring-ring @lg:flex",
+                                            isPicked ? "border-info bg-info text-white" : "border-muted-foreground/40 opacity-0 group-hover/row:opacity-100",
+                                          )}
+                                          onClick={(e) => {
+                                            e.stopPropagation();
+                                            setPicked((p) => {
+                                              const next = new Set(p);
+                                              if (next.has(issue.id)) next.delete(issue.id);
+                                              else next.add(issue.id);
+                                              return next;
+                                            });
+                                          }}
+                                          tabIndex={-1}
+                                          type="button"
+                                        >
+                                          {isPicked && <CheckIcon className="size-3" strokeWidth={3} />}
+                                        </button>
+                                      </span>
                                       <span title={priorityLabel(issue.priority)}>
                                         <PriorityIcon priority={issue.priority} />
                                       </span>
@@ -1155,7 +1168,7 @@ export function IssueTracker({
                                       <span title={statusLabel(issue.status)}>
                                         <StatusIcon status={issue.status} />
                                       </span>
-                                      <span className={cn("min-w-0 flex-1 truncate font-medium text-[13px]", !issue.title && "font-normal text-muted-foreground italic", issue.status === "done" && "text-muted-foreground")}>
+                                      <span className={cn("min-w-0 flex-1 truncate font-medium text-[13px]", !issue.title && "font-normal text-muted-foreground italic", issue.status === "done" && "text-muted-foreground")} role="gridcell">
                                         {issue.title || "Untitled issue"}
                                       </span>
                                       <span className="hidden shrink-0 items-center gap-1 @3xl:flex">

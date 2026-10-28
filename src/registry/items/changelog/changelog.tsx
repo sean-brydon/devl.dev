@@ -243,7 +243,7 @@ export function Changelog({
                     )}
                     {f !== "all" && <span className={cn("relative size-1.5 rounded-full", typeStyle[f].dot)} />}
                     <span className="relative">{f === "all" ? "All" : typeStyle[f].label}</span>
-                    <span className="relative font-mono text-[0.625rem] text-muted-foreground tabular-nums">{count(f)}</span>
+                    <span className={cn("relative font-mono text-[0.625rem] text-muted-foreground tabular-nums", on && "dark:text-foreground/72")}>{count(f)}</span>
                   </button>
                 );
               })}

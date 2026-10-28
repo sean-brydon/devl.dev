@@ -517,11 +517,11 @@ export function WeekAgenda({
                     {conflict && <TriangleAlertIcon aria-hidden className="size-3 shrink-0 text-warning-foreground" />}
                     <span className="truncate font-medium text-foreground text-xs">{ev.title}</span>
                     {compact && (
-                      <span className="shrink-0 text-muted-foreground text-xs tabular-nums">{formatTime(s)}</span>
+                      <span className="shrink-0 text-foreground/70 text-xs tabular-nums">{formatTime(s)}</span>
                     )}
                   </span>
                   {!compact && (
-                    <span className="relative truncate text-muted-foreground text-xs tabular-nums">
+                    <span className="relative truncate text-foreground/70 text-xs tabular-nums">
                       {formatRange(s, s + length)}
                     </span>
                   )}
@@ -544,7 +544,7 @@ export function WeekAgenda({
               style={{ top: 8 + (nowMinutes - rangeStart) * PX_PER_MIN }}
             >
               <span className="w-14 pe-1.5 text-right">
-                <span className="rounded-full bg-destructive px-1.5 py-px font-medium text-[10px] text-white tabular-nums">
+                <span className="rounded-full bg-red-600 px-1.5 py-px font-medium text-[10px] text-white tabular-nums">
                   {formatTime(nowMinutes, false)}
                 </span>
               </span>

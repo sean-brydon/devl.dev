@@ -174,7 +174,7 @@ export function CohortGrid({
   }
 
   const cellBg = (s: number) =>
-    `color-mix(in oklab, ${color} calc(8% + var(--lift) + ${s.toFixed(3)} * (92% - var(--lift))), var(--color-card))`;
+    `color-mix(in oklab, ${color} calc(8% + var(--lift) + ${s.toFixed(3)} * (72% - var(--lift))), var(--color-card))`;
   const rows = [...cohorts.map((c, i) => ({ key: c.label, i })), { key: "avg", i: cohorts.length }];
   const wrapW = wrapRef.current?.clientWidth ?? 480;
   const below = tip.y < 120;
@@ -194,10 +194,10 @@ export function CohortGrid({
         </div>
         <Tabs onValueChange={(v) => setMode(v as CohortMode)} value={mode}>
           <TabsList aria-label="Show cells as">
-            <TabsTab className="px-2 text-xs sm:text-xs" value="percent">
+            <TabsTab className="px-2 text-muted-foreground text-xs sm:text-xs" value="percent">
               %
             </TabsTab>
-            <TabsTab className="px-2 text-xs sm:text-xs" value="count">
+            <TabsTab className="px-2 text-muted-foreground text-xs sm:text-xs" value="count">
               Users
             </TabsTab>
           </TabsList>

@@ -15,6 +15,7 @@ export const metadata: Metadata = {
   title: { default: "devl — free React components, blocks and screens for shadcn", template: "%s · devl" },
   description: `${items.length} free, open-source React components, blocks, screens, motion and illustrations on coss ui (Base UI and Tailwind). Copy the source or install with the shadcn CLI.`,
   metadataBase: new URL("https://devl.dev"),
+  alternates: { types: { "application/rss+xml": [{ url: "/rss.xml", title: "devl: new this week" }] } },
   openGraph: {
     type: "website",
     siteName: "devl",

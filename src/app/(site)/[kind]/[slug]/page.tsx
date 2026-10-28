@@ -29,6 +29,8 @@ import {
   type RegistryItem,
   registryUrl,
 } from "@/lib/registry";
+import { itemProps } from "@/registry/__generated__/props";
+import type { ItemProps } from "@/registry/types";
 
 export function generateStaticParams() {
   return items.map((item) => ({ kind: kindOf(item).href.slice(1), slug: item.slug }));
@@ -129,6 +131,7 @@ async function ItemDetail({ params }: Pick<PageProps<"/[kind]/[slug]">, "params"
   const usage = item.component
     ? `import { ${item.component} } from "@/components/${item.slug}";\n\nexport default function Page() {\n  return <${item.component} />;\n}`
     : null;
+  const api = item.source ? undefined : itemProps[item.slug];
   const builtWith = item.uiDependencies ?? [];
   const packages = item.dependencies ?? [];
 
@@ -267,6 +270,8 @@ async function ItemDetail({ params }: Pick<PageProps<"/[kind]/[slug]">, "params"
         </div>
       </section>
 
+      {api && (api.props.length > 0 || api.extends.length > 0) && <PropsTable api={api} name={item.name} />}
+
       <nav aria-label="More items" className="mt-16 grid gap-3 sm:grid-cols-2">
         {[
           { item: prev, label: "Previous", Icon: ArrowLeftIcon },
@@ -304,5 +309,69 @@ async function ItemDetail({ params }: Pick<PageProps<"/[kind]/[slug]">, "params"
         </section>
       )}
     </div>
+  );
+}
+
+function PropsTable({ api, name }: { api: ItemProps; name: string }) {
+  const described = api.props.some((p) => p.description);
+  return (
+    <section aria-labelledby="props-heading" className="mt-16 flex flex-col gap-4">
+      <div className="flex flex-col gap-1">
+        <h2 className="font-heading font-semibold text-lg tracking-tight" id="props-heading">
+          Props
+        </h2>
+        <p className="text-pretty text-muted-foreground text-sm">
+          Read from the {name} source. Everything is optional unless it says required.
+          {api.extends.length > 0 && (
+            <>
+              {" "}
+              It also accepts <code className="font-mono text-foreground text-xs">{api.extends.join(", ")}</code>.
+            </>
+          )}
+        </p>
+      </div>
+      {api.props.length > 0 && (
+        <div
+          aria-labelledby="props-heading"
+          className="overflow-x-auto rounded-2xl border outline-none focus-visible:ring-2 focus-visible:ring-ring"
+          role="region"
+          tabIndex={0}
+        >
+          <table className="w-full min-w-[36rem] text-left text-sm">
+            <thead className="bg-muted/40 text-muted-foreground text-xs">
+              <tr>
+                <th className="px-4 py-2.5 font-medium" scope="col">
+                  Prop
+                </th>
+                <th className="px-4 py-2.5 font-medium" scope="col">
+                  Type
+                </th>
+                <th className="px-4 py-2.5 font-medium" scope="col">
+                  Default
+                </th>
+                {described && (
+                  <th className="px-4 py-2.5 font-medium" scope="col">
+                    Description
+                  </th>
+                )}
+              </tr>
+            </thead>
+            <tbody className="divide-y">
+              {api.props.map((prop) => (
+                <tr className="align-top" key={prop.name}>
+                  <th className="whitespace-nowrap px-4 py-2.5 font-medium font-mono text-xs" scope="row">
+                    {prop.name}
+                    {prop.required && <span className="ms-2 rounded bg-muted px-1.5 py-0.5 font-sans font-normal text-[10px] text-muted-foreground">required</span>}
+                  </th>
+                  <td className="max-w-[28rem] px-4 py-2.5 font-mono text-muted-foreground text-xs [overflow-wrap:anywhere]">{prop.type}</td>
+                  <td className="max-w-[16rem] px-4 py-2.5 font-mono text-muted-foreground text-xs [overflow-wrap:anywhere]">{prop.default ?? "—"}</td>
+                  {described && <td className="px-4 py-2.5 text-muted-foreground">{prop.description}</td>}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </section>
   );
 }

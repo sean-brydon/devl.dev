@@ -1070,7 +1070,7 @@ function PassRateChart({
     >
       <div className="relative min-h-[200px] w-full flex-1" ref={ref}>
         {width > 0 && (
-          <svg aria-label="Pass rate by prompt version" className="absolute inset-0 overflow-visible" height={H} role="img" width={width}>
+          <svg aria-label="Pass rate by prompt version" className="absolute inset-0 overflow-visible" height={H} role="group" width={width}>
             {[0, 0.5, 1].map((t) => (
               <g key={t}>
                 <line
@@ -1246,7 +1246,7 @@ function PromptDiff({
     <Card
       action={
         <Tabs onValueChange={(v) => setMode(v as "unified" | "split")} value={mode}>
-          <TabsList aria-label="Diff layout" size="sm">
+          <TabsList aria-label="Diff layout" className="text-muted-foreground" size="sm">
             <TabsTab className={TAB_HIT} value="unified">
               Unified
             </TabsTab>
@@ -1268,7 +1268,12 @@ function PromptDiff({
         </span>
       }
     >
-      <div className="max-h-72 overflow-auto rounded-xl border bg-background font-mono text-xs leading-5">
+      <div
+        aria-label="Prompt diff"
+        className="max-h-72 overflow-auto rounded-xl border bg-background font-mono text-xs leading-5 outline-none focus-visible:ring-2 focus-visible:ring-ring"
+        role="region"
+        tabIndex={0}
+      >
         <AnimatePresence initial={false} mode="wait">
           <motion.div
             animate={{ opacity: 1 }}
@@ -1281,8 +1286,8 @@ function PromptDiff({
               <div className="py-1">
                 {ops.map((o, k) => (
                   <div className={cn("flex", lineTone(o.type))} key={k}>
-                    <span className="w-8 shrink-0 select-none pe-1 text-right text-muted-foreground/70 tabular-nums">{o.a ?? ""}</span>
-                    <span className="w-8 shrink-0 select-none pe-1 text-right text-muted-foreground/70 tabular-nums">{o.b ?? ""}</span>
+                    <span className="w-8 shrink-0 select-none pe-1 text-right text-muted-foreground tabular-nums">{o.a ?? ""}</span>
+                    <span className="w-8 shrink-0 select-none pe-1 text-right text-muted-foreground tabular-nums">{o.b ?? ""}</span>
                     <Sign type={o.type} />
                     <span className="min-w-0 flex-1 whitespace-pre-wrap break-words pe-3">{o.text || " "}</span>
                   </div>
@@ -1297,7 +1302,7 @@ function PromptDiff({
                       const n = side === "left" ? o?.a : o?.b;
                       return (
                         <div className={cn("flex min-h-5 min-w-0", o ? lineTone(o.type) : "bg-muted/60")} key={side}>
-                          <span className="w-7 shrink-0 select-none pe-1 text-right text-muted-foreground/70 tabular-nums">{n ?? ""}</span>
+                          <span className="w-7 shrink-0 select-none pe-1 text-right text-muted-foreground tabular-nums">{n ?? ""}</span>
                           <Sign type={o?.type} />
                           <span className="min-w-0 flex-1 whitespace-pre-wrap break-words pe-2">{o?.text ?? ""}</span>
                         </div>
@@ -1846,7 +1851,7 @@ function PromptBoard({
       <Card
         action={
           <Tabs onValueChange={(v) => setFilter(v as Filter)} value={filter}>
-            <TabsList aria-label="Filter test cases" size="sm">
+            <TabsList aria-label="Filter test cases" className="text-muted-foreground" size="sm">
               {(
                 [
                   { value: "all", label: "All", count: list.length },

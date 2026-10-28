@@ -56,6 +56,14 @@ export function SiteHeader() {
             Docs
           </Button>
           <Button
+            className="rounded-full px-2.5 text-muted-foreground hover:text-foreground aria-[current=page]:text-foreground max-lg:hidden"
+            render={<Link aria-current={pathname.startsWith("/changelog") ? "page" : undefined} href="/changelog" />}
+            size="sm"
+            variant="ghost"
+          >
+            New
+          </Button>
+          <Button
             className="rounded-full px-2.5 text-muted-foreground hover:text-foreground aria-[current=page]:text-foreground"
             render={<Link aria-current={pathname.startsWith("/advertise") ? "page" : undefined} href="/advertise" />}
             size="sm"

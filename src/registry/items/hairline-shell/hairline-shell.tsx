@@ -168,9 +168,9 @@ const defaultIssues: HairlineIssue[] = [
 ];
 
 const people: Record<string, string> = {
-  IM: "bg-teal-500/16 text-teal-600 dark:text-teal-400",
+  IM: "bg-teal-500/16 text-teal-700 dark:text-teal-400",
   KT: "bg-info/16 text-info-foreground",
-  RL: "bg-orange-500/16 text-orange-600 dark:text-orange-400",
+  RL: "bg-orange-500/16 text-orange-800 dark:text-orange-400",
   TB: "bg-violet-500/20 text-violet-600 dark:text-violet-400",
 };
 
@@ -345,7 +345,7 @@ function HairlineSidebar({ collapsed, workspaces, nav, projects, user, active, o
                     <span className="flex size-4 shrink-0 items-center justify-center">
                       <span className={cn("size-2.5 rounded-[calc(var(--radius)*0.3)]", swatch[p.tone])} />
                     </span>,
-                    <span className="text-muted-foreground/72 text-xs tabular-nums">{p.open}</span>,
+                    <span className="text-muted-foreground text-xs tabular-nums">{p.open}</span>,
                   ),
                 )}
               </motion.div>

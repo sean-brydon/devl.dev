@@ -27,7 +27,7 @@ export default function RadialGaugeDemo() {
         <Tabs onValueChange={(v) => setRegion(v as Region)} value={region}>
           <TabsList aria-label="Region">
             {Object.keys(regions).map((k) => (
-              <TabsTab className="px-2 text-xs sm:text-xs" key={k} value={k}>
+              <TabsTab className="px-2 text-muted-foreground text-xs sm:text-xs" key={k} value={k}>
                 {k}
               </TabsTab>
             ))}

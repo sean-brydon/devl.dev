@@ -310,7 +310,7 @@ export function SinceYouLeft({
           </p>
         </div>
         <Tabs onValueChange={(v) => setPeriodId(String(v))} value={period.id}>
-          <TabsList className="w-full" size="sm">
+          <TabsList className="w-full text-muted-foreground" size="sm">
             {periods.map((p) => (
               <TabsTab className="text-xs sm:text-xs" key={p.id} value={p.id}>
                 {p.label}

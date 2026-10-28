@@ -62,7 +62,7 @@ export function ErrorBudgetGaugeCard({
           {services.map((s) => (
             <SegmentedControlItem
               aria-checked={s.id === service.id}
-              className="px-2 text-xs sm:text-xs"
+              className="px-2 text-muted-foreground text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring sm:text-xs"
               data-checked={s.id === service.id ? "" : undefined}
               key={s.id}
               onClick={() => setServiceId(s.id)}

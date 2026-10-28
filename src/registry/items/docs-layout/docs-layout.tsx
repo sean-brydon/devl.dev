@@ -123,7 +123,7 @@ export function DocsCode({ tabs, caption }: { tabs: { label: string; lang: strin
   return (
     <figure className="my-5 overflow-hidden rounded-xl border bg-muted/40">
       <div className="flex items-center gap-1 border-b bg-muted/40 py-1 ps-1.5 pe-1">
-        <div className="flex min-w-0 flex-1 items-center gap-0.5" role="tablist">
+        <div className="flex min-w-0 flex-1 items-center gap-0.5" role={tabs.length > 1 ? "tablist" : undefined}>
           {tabs.length > 1 ? (
             tabs.map((t, i) => (
               <button
