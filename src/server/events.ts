@@ -2,7 +2,7 @@
 // No IPs, no cookies, no full user agents: only what was fetched, a coarse client family, the country and the referrer's host.
 // Imported by worker.ts, which is bundled outside the Next build, so this file uses no path aliases or imports.
 
-export type EventName = "install" | "raw" | "llms" | "skill" | "mcp";
+export type EventName = "install" | "raw" | "llms" | "skill" | "mcp" | "markdown" | "agent" | "referral";
 
 /**
  * One data point per event. Column order is the SQL schema, so append new columns rather than reorder:
@@ -20,7 +20,7 @@ export interface EventsDataset {
 }
 
 export interface TrackedAsset {
-  event: Exclude<EventName, "mcp">;
+  event: "install" | "raw" | "llms" | "skill" | "markdown";
   subject: string;
 }
 
@@ -30,24 +30,68 @@ export function trackedAsset(pathname: string): TrackedAsset | null {
   if (match) return { event: "install", subject: match[1] };
   match = /^\/raw\/([\w-]+)\.tsx$/.exec(pathname);
   if (match) return { event: "raw", subject: match[1] };
-  if (pathname === "/llms.txt") return { event: "llms", subject: "llms.txt" };
+  if (pathname === "/llms.txt" || pathname === "/llms-full.txt") return { event: "llms", subject: pathname.slice(1) };
+  match = /^\/(?:components|blocks|screens|motion|illustrations)\/([\w-]+)\.md$/.exec(pathname);
+  if (match) return { event: "markdown", subject: match[1] };
   match = /^\/skill\/([\w.-]+)$/.exec(pathname);
   if (match) return { event: "skill", subject: match[1] };
   return null;
 }
 
+// Order matters: the AI vendors' own agents first, split by job (training crawler, search index, fetch on a user's behalf).
 const clients: [RegExp, string][] = [
   [/shadcn/i, "shadcn"],
+  [/ChatGPT-User/i, "chatgpt-user"],
+  [/OAI-SearchBot/i, "oai-searchbot"],
+  [/GPTBot/i, "gptbot"],
+  [/Claude-User/i, "claude-user"],
+  [/Claude-SearchBot/i, "claude-searchbot"],
+  [/ClaudeBot/i, "claudebot"],
+  [/Perplexity-User/i, "perplexity-user"],
+  [/PerplexityBot/i, "perplexitybot"],
   [/claude|anthropic/i, "claude"],
   [/cursor/i, "cursor"],
-  [/openai|chatgpt|gptbot|codex/i, "openai"],
+  [/openai|chatgpt|codex/i, "openai"],
   [/perplexity/i, "perplexity"],
+  [/Google-CloudVertexBot|Gemini/i, "gemini"],
+  [/Applebot/i, "applebot"],
+  [/Googlebot/i, "googlebot"],
+  [/bingbot/i, "bingbot"],
   [/bot|crawl|spider|slurp|preview|facebookexternalhit|embedly|headless|lighthouse/i, "bot"],
   [/curl|wget/i, "curl"],
   [/python|httpx|aiohttp/i, "python"],
   [/\b(node|undici|axios|got|bun|deno)\b/i, "node"],
   [/mozilla/i, "browser"],
 ];
+
+const agentClients = new Set([
+  "chatgpt-user",
+  "oai-searchbot",
+  "gptbot",
+  "claude-user",
+  "claude-searchbot",
+  "claudebot",
+  "perplexity-user",
+  "perplexitybot",
+  "claude",
+  "cursor",
+  "openai",
+  "perplexity",
+  "gemini",
+]);
+
+/** AI crawlers and agents, the families worth counting on plain page views. */
+export function isAgentClient(family: string) {
+  return agentClients.has(family);
+}
+
+const assistantHosts = /(^|\.)(chatgpt\.com|chat\.openai\.com|perplexity\.ai|claude\.ai|gemini\.google\.com|copilot\.microsoft\.com|chat\.mistral\.ai|phind\.com|you\.com|kagi\.com|deepseek\.com|grok\.com)$/i;
+
+/** The referrer's host when a visit came from an AI assistant's answer, otherwise "". */
+export function assistantReferrer(request: Request) {
+  const host = referrerOf(request);
+  return assistantHosts.test(host) ? host : "";
+}
 
 /** A coarse family for the user agent, never the string itself. */
 export function clientOf(userAgent: string | null) {

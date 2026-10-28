@@ -242,6 +242,20 @@ export function Landing() {
             </Button>
           </div>
         </div>
+        <nav aria-label="Site" className="mt-6 flex flex-wrap justify-center gap-x-5 gap-y-2 text-muted-foreground text-sm">
+          <Link className="hover:text-foreground" href="/docs">
+            Docs
+          </Link>
+          <a className="hover:text-foreground" href="/llms.txt">
+            llms.txt
+          </a>
+          <a className="hover:text-foreground" href={devl.repo} rel="noopener" target="_blank">
+            GitHub
+          </a>
+          <Link className="hover:text-foreground" href="/privacy">
+            Privacy
+          </Link>
+        </nav>
       </section>
     </div>
   );

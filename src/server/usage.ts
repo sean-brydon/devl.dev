@@ -21,7 +21,7 @@ export interface UsageReport {
   referrers: Count[];
 }
 
-export const eventNames: EventName[] = ["install", "raw", "mcp", "llms", "skill"];
+export const eventNames: EventName[] = ["install", "raw", "mcp", "llms", "skill", "markdown", "agent", "referral"];
 
 const empty = () => Object.fromEntries(eventNames.map((name) => [name, 0])) as Record<EventName, number>;
 const emptyLists = () => Object.fromEntries(eventNames.map((name) => [name, [] as Count[]])) as Record<EventName, Count[]>;

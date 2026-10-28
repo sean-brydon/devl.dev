@@ -2,6 +2,7 @@
 // the site index, highlighted code for the Code tab (public/code), raw sources (public/raw) and shadcn install files (public/r).
 // Code stays out of the server bundle: the Code tab fetches its file only when opened.
 import { mkdir, readdir, readFile, rename, rm, writeFile } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { codeToHtml } from "shiki";
@@ -72,11 +73,55 @@ async function put(file, content) {
   await rename(tmp, file);
 }
 
+// Last commit that touched each item, for the sitemap's lastmod. Items not committed yet have none.
+const updatedOf = new Map();
+try {
+  const log = execFileSync("git", ["log", "--format=@%cs", "--name-only", "--", "src/registry/items"], { cwd: root, encoding: "utf8", maxBuffer: 64 * 1024 * 1024 });
+  let date = "";
+  for (const line of log.split("\n")) {
+    if (line.startsWith("@")) date = line.slice(1);
+    const slug = /^src\/registry\/items\/([^/]+)\//.exec(line)?.[1];
+    if (slug && !updatedOf.has(slug)) updatedOf.set(slug, date);
+  }
+} catch {}
+
+const kindPaths = { component: "components", block: "blocks", screen: "screens", motion: "motion", illustration: "illustrations" };
+const kindTitles = { component: "Components", block: "Blocks", screen: "Screens", motion: "Motion", illustration: "Illustrations" };
+
 await rm(path.join(outDir, "code"), { recursive: true, force: true });
-for (const dir of [outDir, publicDir, codeDir, rawDir]) await mkdir(dir, { recursive: true });
+for (const dir of [outDir, publicDir, codeDir, rawDir, ...Object.values(kindPaths).map((p) => path.join(root, "public", p))]) {
+  await mkdir(dir, { recursive: true });
+}
 const depsOf = new Map();
-const llms = [];
+const llms = Object.fromEntries(kinds.map((kind) => [kind, []]));
+const full = [];
 const registryIndex = [];
+
+// One Markdown page per item at /<kind>/<slug>.md: what it is, how to install it, a usage example and the full source.
+function itemMarkdown({ slug, meta, source, usage, deps, ui, install, raw }) {
+  const page = `${site}/${kindPaths[meta.kind]}/${slug}`;
+  return [
+    `# ${meta.name}`,
+    "",
+    `> ${meta.description}`,
+    "",
+    `- Page: ${page}`,
+    `- Kind: ${meta.kind} · ${meta.category ?? "General"}`,
+    `- Install: \`${install}\``,
+    ...(raw ? [`- Raw source: ${raw}`] : []),
+    ...(deps.length ? [`- npm: ${deps.join(", ")}`] : []),
+    ...(ui.length ? [`- coss ui: ${ui.join(", ")}`] : []),
+    ...(meta.source ? ["- By bklit (MIT): https://ui.bklit.com"] : ["- License: MIT. The coss ui components it uses (https://coss.com/ui) are AGPL-3.0."]),
+    "",
+    "## Usage",
+    "",
+    "```tsx",
+    usage.trim(),
+    "```",
+    ...(source ? ["", `## Source: components/${slug}.tsx`, "", "```tsx", source.trim(), "```"] : []),
+    "",
+  ].join("\n");
+}
 
 for (const { slug, meta, source, demo } of items) {
   const imports = importsOf(source);
@@ -98,16 +143,24 @@ for (const { slug, meta, source, demo } of items) {
     }),
   );
 
+  const kindPath = kindPaths[meta.kind];
+  const page = `${site}/${kindPath}/${slug}`;
+  const install = meta.source
+    ? `npx shadcn@latest add https://ui.bklit.com/r/${meta.upstream ?? slug}.json`
+    : `npx shadcn@latest add ${site}/r/${slug}.json`;
+  const raw = meta.source ? null : `${site}/raw/${slug}.tsx`;
+  const markdown = { slug, meta, usage: demoForUsers, deps, ui, install, raw };
+  await put(path.join(root, "public", kindPath, `${slug}.md`), itemMarkdown({ ...markdown, source: meta.source ? null : source }));
+  full.push(itemMarkdown({ ...markdown, source: null }).replace(/^# /, "### "));
+
   if (meta.source) {
-    const upstream = meta.upstream ?? slug;
-    llms.push(`- [${meta.name}](${site}/components/${slug}): ${meta.description} Install: \`npx shadcn@latest add https://ui.bklit.com/r/${upstream}.json\` (by bklit, MIT).`);
+    llms[meta.kind].push(`- [${meta.name}](${page}): ${meta.description} Install: \`${install}\` (by bklit, MIT). Markdown: ${page}.md`);
     continue;
   }
 
   await put(path.join(rawDir, `${slug}.tsx`), source);
 
-  const kindPath = { component: "components", block: "blocks", screen: "screens", motion: "motion", illustration: "illustrations" }[meta.kind];
-  llms.push(`- [${meta.name}](${site}/${kindPath}/${slug}): ${meta.description} Install: \`npx shadcn@latest add ${site}/r/${slug}.json\` · Raw: ${site}/raw/${slug}.tsx${deps.length ? ` · npm: ${deps.join(", ")}` : ""}${ui.length ? ` · coss ui: ${ui.join(", ")}` : ""}`);
+  llms[meta.kind].push(`- [${meta.name}](${page}): ${meta.description} Install: \`${install}\` · Markdown with source: ${page}.md${deps.length ? ` · npm: ${deps.join(", ")}` : ""}${ui.length ? ` · coss ui: ${ui.join(", ")}` : ""}`);
 
   const entry = {
     name: slug,
@@ -154,6 +207,7 @@ const index = items.map(({ slug, meta, source }) => ({
   ...(meta.shoutout ? { shoutout: meta.shoutout } : {}),
   ...(source.match(/export function ([A-Z]\w*)/) ? { component: source.match(/export function ([A-Z]\w*)/)[1] } : {}),
   ...(existsSync(path.join(root, "public/og", `${slug}.jpg`)) ? { og: true } : {}),
+  ...(updatedOf.has(slug) ? { updated: updatedOf.get(slug) } : {}),
   ...(depsOf.get(slug).deps.length ? { dependencies: depsOf.get(slug).deps } : {}),
   ...(depsOf.get(slug).ui.length ? { uiDependencies: depsOf.get(slug).ui } : {}),
 }));
@@ -170,9 +224,37 @@ await put(
     .join("\n")}\n};\n`,
 );
 
+const intro = `# devl
+
+> devl (https://devl.dev) is a free, open-source catalogue of ${items.length} React components, blocks, screens, motion pieces and illustrations built on coss ui (Base UI + Tailwind CSS v4). Every item is one TypeScript file: install it with the shadcn CLI, or read its source and adapt it. Use devl when building or restyling React or Next.js UI, to start from a working piece or borrow its patterns.
+
+## How to install
+
+1. Set up coss ui once: \`npx shadcn@latest init @coss/style\`.
+2. Add an item: \`npx shadcn@latest add https://devl.dev/r/<slug>.json\`. It installs components/<slug>.tsx plus its npm and coss ui dependencies. With \`"@devl": "https://devl.dev/r/{name}.json"\` in components.json's registries, \`npx shadcn@latest add @devl/<slug>\` works too.
+3. Import the named export (PascalCase of the slug, e.g. \`LiquidSlider\` from \`@/components/liquid-slider\`). Every prop has a typed default.
+4. Without shadcn: fetch https://devl.dev/raw/<slug>.tsx, save it as components/<slug>.tsx, install the listed npm packages, and add the listed coss ui components from https://coss.com/ui (or point the @/components/ui/* imports at your own kit). \`cn\` is clsx + tailwind-merge.
+
+## For agents
+
+- [MCP server](https://devl.dev/docs/mcp): Streamable HTTP at https://devl.dev/mcp, no auth. Tools: search_items, get_item, list_categories, suggest_for.
+- [Agent skill](https://devl.dev/skill/SKILL.md): a SKILL.md that teaches an agent when and how to use devl. Setup: https://devl.dev/docs/skill
+- [Markdown pages](https://devl.dev/components/liquid-slider.md): add .md to any item page (or send Accept: text/markdown) for its description, install command, usage example and full source.
+- [llms-full.txt](https://devl.dev/llms-full.txt): every item with its usage example, in one file.
+- [shadcn registry index](https://devl.dev/r/registry.json): every installable item in shadcn's registry format.
+
+## Docs
+
+- [Getting started](https://devl.dev/docs): install with the shadcn CLI, the @devl namespace, using devl without shadcn.
+- [Claude Code](https://devl.dev/docs/claude), [Codex](https://devl.dev/docs/codex), [Cursor](https://devl.dev/docs/cursor), [VS Code](https://devl.dev/docs/vscode): connect the MCP server and skill to each editor.
+- Theming: every preview has a theme panel (colour, radius, spacing, font) that exports CSS variables or a shadcn theme item.
+`;
+const sections = kinds.map((kind) => `## ${kindTitles[kind]}\n\n${llms[kind].join("\n")}`).join("\n\n");
+
+await put(path.join(root, "public/llms.txt"), `${intro}\n${sections}\n`);
 await put(
-  path.join(root, "public/llms.txt"),
-  `# devl\n\n> Taste-tested React components on coss ui (Base UI + Tailwind v4). Install any item with the shadcn CLI, or fetch its raw source.\n\n## How to install\n\n1. Prefer the registry: \`npx shadcn@latest add <registry url>\`. It installs the file plus its npm and coss ui dependencies.\n2. If the project doesn't use shadcn, fetch the raw .tsx, save it as components/<slug>.tsx, install the listed npm packages, and add the listed coss ui components from https://coss.com/ui (or adapt imports of @/components/ui/* to your own kit). \`cn\` is clsx + tailwind-merge.\n\n## Items\n\n${llms.join("\n")}\n`,
+  path.join(root, "public/llms-full.txt"),
+  `${intro}\n## Items\n\nEach item's full source is at its Markdown page (the page URL plus .md) or https://devl.dev/raw/<slug>.tsx.\n\n${full.join("\n")}`,
 );
 
 const own = items.filter((i) => !i.meta.source);
@@ -180,6 +262,10 @@ const keep = [
   [codeDir, new Set(items.map((i) => `${i.slug}.json`))],
   [publicDir, new Set([...own.map((i) => `${i.slug}.json`), "registry.json"])],
   [rawDir, new Set(own.map((i) => `${i.slug}.tsx`))],
+  ...kinds.map((kind) => [
+    path.join(root, "public", kindPaths[kind]),
+    new Set(items.filter((i) => i.meta.kind === kind).map((i) => `${i.slug}.md`)),
+  ]),
 ];
 for (const [dir, live] of keep) {
   for (const file of await readdir(dir)) {

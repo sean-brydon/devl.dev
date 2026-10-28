@@ -54,3 +54,9 @@ next-env.d.ts
 /.wrangler
 /.open-next
 /public/llms.txt
+/public/llms-full.txt
+/public/components
+/public/blocks
+/public/screens
+/public/motion
+/public/illustrations

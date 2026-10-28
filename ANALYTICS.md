@@ -5,7 +5,7 @@ devl has two kinds of analytics, both Cloudflare-native and cookieless, so there
 | What | Where it's counted | Where to read it |
 | --- | --- | --- |
 | Page views, referrers, countries, Core Web Vitals | Cloudflare Web Analytics beacon | Cloudflare dashboard → Analytics & Logs → Web Analytics |
-| Installs, raw source, `llms.txt`, the skill, MCP calls | `worker.ts` → Workers Analytics Engine, dataset `devl_events` | `/admin/stats` (admin token), or the SQL API |
+| Installs, raw source, `llms.txt`, Markdown pages, the skill, MCP calls, AI agent page views and AI referrals | `worker.ts` → Workers Analytics Engine, dataset `devl_events` | `/admin/stats` (admin token), or the SQL API |
 
 Neither one stores IP addresses, cookies or full user agents.
 
@@ -17,14 +17,17 @@ Neither one stores IP addresses, cookies or full user agents.
 | --- | --- | --- | --- |
 | `install` | `GET /r/<slug>.json` (the shadcn CLI). `registry` is the index | slug | |
 | `raw` | `GET /raw/<slug>.tsx` | slug | |
-| `llms` | `GET /llms.txt` | `llms.txt` | |
+| `llms` | `GET /llms.txt` or `/llms-full.txt` | file name | |
+| `markdown` | `GET /<kind>/<slug>.md`, or an item page with `Accept: text/markdown` | slug | |
 | `skill` | `GET /skill/<file>` | file name | |
 | `mcp` | each JSON-RPC message in a `POST /mcp` (notifications are skipped) | tool name for `tools/call`, otherwise the method | `get_item` slug, or the client name from `initialize` |
+| `agent` | an HTML page fetched by an AI crawler or agent (client family below) | path | |
+| `referral` | an HTML page opened from an AI assistant (chatgpt.com, claude.ai, perplexity.ai, gemini.google.com, copilot…) | referrer host | path |
 
 Every data point also has these columns:
 
 - `index1` and `blob1`: the event name.
-- `blob4`: a coarse client family taken from the user agent: `shadcn`, `node`, `claude`, `cursor`, `openai`, `perplexity`, `bot`, `curl`, `python`, `browser`, `other` or `none`.
+- `blob4`: a coarse client family taken from the user agent: `shadcn`; the AI vendors' agents split by job, `gptbot` (training crawl), `oai-searchbot` (search index), `chatgpt-user` (fetch for a user), and the same for Claude (`claudebot`, `claude-searchbot`, `claude-user`) and Perplexity (`perplexitybot`, `perplexity-user`); other AI tools `claude`, `cursor`, `openai`, `perplexity`, `gemini`; then `applebot`, `googlebot`, `bingbot`, `bot`, `curl`, `python`, `node`, `browser`, `other` or `none`.
 - `blob5`: the two-letter country code.
 - `blob6`: the referrer's host name.
 - `double1`: always 1.

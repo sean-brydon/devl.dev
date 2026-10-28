@@ -14,8 +14,8 @@
   "assets": {
     "directory": ".open-next/assets",
     "binding": "ASSETS",
-    // Counted in worker.ts (src/server/events.ts), then served with env.ASSETS.fetch. Everything else stays on the assets fast path.
-    "run_worker_first": ["/r/*", "/raw/*", "/llms.txt", "/skill/*"]
+    // Counted in worker.ts (src/server/events.ts), then served with env.ASSETS.fetch. The section paths are here for their .md pages; their HTML pages run the worker anyway.
+    "run_worker_first": ["/r/*", "/raw/*", "/llms.txt", "/llms-full.txt", "/skill/*", "/components/*", "/blocks/*", "/screens/*", "/motion/*", "/illustrations/*"]
   },
   "services": [
     // Self-reference used by OpenNext for caching; must match "name".
