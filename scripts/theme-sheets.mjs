@@ -5,7 +5,7 @@ import path from "node:path";
 import { chromium } from "playwright-core";
 
 const root = path.resolve(import.meta.dirname, "..");
-const dir = path.join(root, ".shots", "theme");
+const dir = path.resolve(process.env.THEME_DIR ?? path.join(root, ".shots", "theme"));
 const [per = "6", ...wanted] = process.argv.slice(2);
 const perSheet = Number(per);
 const themes = ["base", "sharp", "round", "compact", "lime"];

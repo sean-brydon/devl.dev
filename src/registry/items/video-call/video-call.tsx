@@ -1062,8 +1062,8 @@ export function VideoCall({
                               ns="grid"
                               speaking={t.kind === "person" && t.person.id === speakerId && !t.person.muted}
                               style={{
-                                width: "calc((100% - (var(--cc) - 1) * 0.5rem) / var(--cc))",
-                                height: "calc((100% - (var(--rr) - 1) * 0.5rem) / var(--rr))",
+                                width: "calc((100% - (var(--cc) - 1) * var(--spacing) * 2) / var(--cc))",
+                                height: "calc((100% - (var(--rr) - 1) * var(--spacing) * 2) / var(--rr))",
                               }}
                               tile={t}
                               you={you}

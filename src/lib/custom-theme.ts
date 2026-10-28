@@ -1,5 +1,5 @@
 export type Density = "compact" | "default" | "comfy";
-export type FontId = "inter" | "geist" | "dm-sans" | "space-grotesk" | "system";
+export type FontId = "inter" | "geist" | "figtree" | "space-grotesk" | "system";
 
 export interface CustomTheme {
   color: string;
@@ -96,7 +96,7 @@ export const densities: { id: Density; name: string; spacing: number }[] = [
 export const fonts: { id: FontId; name: string; variable: string | null; family: string }[] = [
   { id: "inter", name: "Inter", variable: null, family: '"Inter", ui-sans-serif, system-ui, sans-serif' },
   { id: "geist", name: "Geist", variable: "--font-geist", family: '"Geist", ui-sans-serif, system-ui, sans-serif' },
-  { id: "dm-sans", name: "DM Sans", variable: "--font-dm-sans", family: '"DM Sans", ui-sans-serif, system-ui, sans-serif' },
+  { id: "figtree", name: "Figtree", variable: "--font-figtree", family: '"Figtree", ui-sans-serif, system-ui, sans-serif' },
   {
     id: "space-grotesk",
     name: "Space Grotesk",
@@ -114,7 +114,7 @@ export const presets: { id: string; name: string; theme: CustomTheme }[] = [
   { id: "devl", name: "devl", theme: defaultTheme },
   { id: "lime", name: "Lime goo", theme: { color: "lime", hue: 124, radius: 0.875, density: "default", font: "inter" } },
   { id: "blueprint", name: "Blueprint", theme: { color: "blue", hue: 263, radius: 0, density: "compact", font: "geist" } },
-  { id: "marmalade", name: "Marmalade", theme: { color: "orange", hue: 41, radius: 1, density: "comfy", font: "dm-sans" } },
+  { id: "marmalade", name: "Marmalade", theme: { color: "orange", hue: 41, radius: 1, density: "comfy", font: "figtree" } },
   { id: "grape", name: "Grape soda", theme: { color: "violet", hue: 293, radius: 0.5, density: "default", font: "space-grotesk" } },
   { id: "fern", name: "Fern", theme: { color: "emerald", hue: 160, radius: 0.375, density: "compact", font: "system" } },
 ];

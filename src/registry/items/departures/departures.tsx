@@ -182,7 +182,7 @@ export function Departures({ departures, title = "Departures", time, onApprove, 
     <MotionConfig reducedMotion="user">
       <section
         aria-label={title}
-        className={cn("@container w-full max-w-[600px] rounded-2xl border bg-card text-card-foreground shadow-xs/5", className)}
+        className={cn("@container w-full max-w-150 rounded-2xl border bg-card text-card-foreground shadow-xs/5", className)}
         style={{ "--flap": "color-mix(in srgb, var(--color-card) 92%, var(--color-foreground))" } as CSSProperties}
       >
         <header className="flex items-center justify-between gap-3 border-b px-4 py-3">

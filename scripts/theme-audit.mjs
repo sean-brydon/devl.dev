@@ -17,7 +17,7 @@ const items = wanted.length ? all.filter((i) => wanted.includes(i.slug)) : all;
 const themes = {
   base: null,
   sharp: "blue_263_0_default_geist",
-  round: "orange_41_1_comfy_dm-sans",
+  round: "orange_41_1_comfy_figtree",
   compact: "violet_293_0.375_compact_space-grotesk",
   lime: "lime_124_0.625_default_inter",
 };

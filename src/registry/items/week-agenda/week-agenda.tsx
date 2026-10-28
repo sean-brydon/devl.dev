@@ -378,7 +378,7 @@ export function WeekAgenda({
               </span>
               <span className="relative flex h-1 items-center gap-0.5">
                 {dots.map((t) => (
-                  <span className={cn("size-1 rounded-full", tones[t].dot)} key={t} />
+                  <span className={cn("size-1 rounded-full", active ? "bg-primary-foreground/80" : tones[t].dot)} key={t} />
                 ))}
               </span>
             </button>

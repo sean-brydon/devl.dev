@@ -197,7 +197,7 @@ function Ring({ value, size = 40, stroke = 4, className }: { value: number; size
       <circle className="stroke-muted" cx={size / 2} cy={size / 2} fill="none" r={r} strokeWidth={stroke} />
       <motion.circle
         animate={{ pathLength: value, opacity: value > 0 ? 1 : 0 }}
-        className="stroke-foreground"
+        className="stroke-primary"
         cx={size / 2}
         cy={size / 2}
         fill="none"
@@ -322,7 +322,7 @@ export function Habits({
       </header>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
-        <div className="mx-auto flex max-w-[1100px] flex-col gap-5 px-4 pt-5 pb-10 @3xl:px-6 @3xl:pt-6 @4xl:grid @4xl:grid-cols-[minmax(0,1fr)_380px] @4xl:items-start @4xl:gap-6">
+        <div className="mx-auto flex max-w-[1100px] flex-col gap-5 px-4 pt-5 pb-10 @3xl:px-6 @3xl:pt-6 @4xl:grid @4xl:grid-cols-[minmax(0,1fr)_--spacing(95)] @4xl:items-start @4xl:gap-6">
           <section aria-labelledby={`${uid}-day`} className="flex min-w-0 flex-col gap-4">
             <div className="flex items-center gap-4">
               <div className="flex min-w-0 flex-1 flex-col gap-0.5">
@@ -541,7 +541,7 @@ export function Habits({
                             <span className={cn("flex size-6 shrink-0 items-center justify-center rounded-md", tones[h.tone].tile)}>
                               <Icon aria-hidden className="size-3.5" />
                             </span>
-                            <span className="sr-only @md:not-sr-only @md:truncate @md:text-xs @4xl:max-w-[7.5rem]">{h.name}</span>
+                            <span className="sr-only @md:not-sr-only @md:truncate @md:text-xs @4xl:max-w-30">{h.name}</span>
                           </span>
                         </th>
                         {h.week.map((v, i) => (
@@ -652,7 +652,7 @@ function GridCell({
       aria-label={`${habit.name}, ${day}: ${state}`}
       aria-pressed={future ? undefined : done}
       className={cn(
-        "relative mx-auto flex size-6 cursor-pointer items-center justify-center overflow-hidden rounded-md outline-none after:absolute after:-inset-1 after:content-[''] focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-default",
+        "relative mx-auto flex size-6 cursor-pointer items-center justify-center overflow-hidden rounded-[min(var(--radius-md),--spacing(2))] outline-none after:absolute after:-inset-1 after:content-[''] focus-visible:ring-2 focus-visible:ring-ring disabled:cursor-default",
         press,
         future ? "border border-dashed" : "bg-muted",
         selected && !future && "ring-1 ring-foreground/40 ring-offset-1 ring-offset-card",
@@ -671,7 +671,7 @@ function GridCell({
       )}
       <motion.span
         animate={{ opacity: done ? 1 : 0, scale: done ? 1 : 0.6 }}
-        className={cn("absolute inset-0 rounded-md", t.fill)}
+        className={cn("absolute inset-0 rounded-[inherit]", t.fill)}
         initial={false}
         transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 600, damping: 32 }}
       />
