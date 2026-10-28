@@ -1,0 +1,18 @@
+{
+  "name": "Something Went Wrong",
+  "description": "An app error page with a small 1-bit dithered ?! glyph, Try again that fails once with a shake and then recovers into a check, a copyable error details panel and a quiet Report this link.",
+  "kind": "block",
+  "category": "Empty & Error",
+  "featured": false,
+  "keywords": [
+    "error",
+    "500",
+    "something went wrong",
+    "retry",
+    "error page",
+    "error details",
+    "dither",
+    "empty state"
+  ],
+  "no": 276
+}

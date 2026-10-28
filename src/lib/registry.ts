@@ -13,8 +13,8 @@ export const kinds: { value: ItemKind; label: string; href: string }[] = [
 
 /** Display order of categories per kind; unknown categories sort after these. */
 export const categoryOrder: Record<ItemKind, string[]> = {
-    component: ["Liquid", "Conversation", "Mission Control", "Trust & Control", "Writing", "Forms", "Filters", "Status", "Numbers", "Charts", "Together", "Workspace", "Dev Tools", "Commerce", "Getting Started"],
-    block: ["Heroes", "Marketing", "Content", "Auth", "Dashboards", "Apps", "Filters"],
+    component: ["Liquid", "Conversation", "Mission Control", "Trust & Control", "Writing", "Forms", "Filters", "Status", "Numbers", "Charts", "Together", "Workspace", "Dev Tools", "Commerce", "Empty & Error", "Getting Started"],
+    block: ["Heroes", "Marketing", "Content", "Auth", "Empty & Error", "Dashboards", "Apps", "Filters"],
     screen: ["Shells", "AI", "Product", "Auth", "Settings", "Comms", "Dev", "Commerce", "Personal"],
     motion: ["Liquid", "Text", "Surfaces", "Cursor", "Loading", "Celebration"],
     illustration: ["Connections", "Empty States", "Characters", "Objects", "Celebrations"],

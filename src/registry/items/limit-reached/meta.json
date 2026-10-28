@@ -1,0 +1,17 @@
+{
+  "name": "Limit Reached",
+  "description": "An in-app quota state for when a team runs out of AI runs: a full meter, a countdown to the reset with rolling digits, what still works and what's paused, and an upgrade that rescales the meter in place.",
+  "kind": "component",
+  "category": "Empty & Error",
+  "featured": false,
+  "keywords": [
+    "quota",
+    "usage",
+    "limit",
+    "upgrade",
+    "countdown",
+    "billing",
+    "paywall"
+  ],
+  "no": 279
+}

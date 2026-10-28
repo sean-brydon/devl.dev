@@ -1,0 +1,18 @@
+{
+  "name": "Request Access",
+  "description": "The page you hit when a doc is private: who you are signed in as, a switch-account menu, an optional note and a Request access button. It then shows who the request went to, when, and a resend that unlocks after a countdown.",
+  "kind": "block",
+  "category": "Empty & Error",
+  "featured": false,
+  "keywords": [
+    "request access",
+    "permission denied",
+    "403",
+    "private",
+    "access denied",
+    "switch account",
+    "pending",
+    "resend"
+  ],
+  "no": 275
+}

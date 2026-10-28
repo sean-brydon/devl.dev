@@ -1,0 +1,19 @@
+{
+  "name": "Connection Lost",
+  "description": "An offline banner for apps: it counts the changes kept on the device, rolls a retry countdown with backoff, shows liquid dots while reconnecting, then turns into Back online with a drawn check and slides away.",
+  "kind": "component",
+  "category": "Empty & Error",
+  "featured": false,
+  "keywords": [
+    "offline",
+    "connection lost",
+    "network",
+    "reconnect",
+    "retry",
+    "banner",
+    "toast",
+    "sync",
+    "goo"
+  ],
+  "no": 277
+}
