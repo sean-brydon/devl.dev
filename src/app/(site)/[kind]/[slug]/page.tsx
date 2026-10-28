@@ -42,7 +42,7 @@ export async function generateMetadata({ params }: PageProps<"/[kind]/[slug]">):
   return {
     title: `${item.name}: free React ${nouns[item.kind]}`,
     description: item.description,
-    alternates: { canonical: itemHref(item) },
+    alternates: { canonical: itemHref(item), types: { "text/markdown": `${itemHref(item)}.md` } },
     openGraph: { title, description: item.description, images: [{ url: image, width: 1200, height: 630, alt: title }] },
     twitter: { card: "summary_large_image", title, description: item.description, images: [image] },
   };

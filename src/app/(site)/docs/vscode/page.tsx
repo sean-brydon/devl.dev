@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Code, DocsPage, Step, Steps } from "@/components/docs";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "VS Code",
@@ -10,6 +11,15 @@ export const metadata: Metadata = {
 export default function VsCodePage() {
   return (
     <DocsPage lead="Add devl to VS Code's MCP servers so Copilot's agent mode can search devl and read any piece's source." title="VS Code">
+      <section>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button className="rounded-full" render={<a href="vscode:mcp/install?%7B%22name%22%3A%22devl%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fdevl.dev%2Fmcp%22%7D" />}>
+            Add to VS Code
+          </Button>
+        </div>
+        <p className="text-muted-foreground">VS Code asks you to confirm, then adds devl to your user MCP servers. Or set it up per project:</p>
+      </section>
+
       <section>
         <Steps>
           <Step n={1} title="Add the devl MCP server">

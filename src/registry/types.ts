@@ -20,6 +20,8 @@ export interface RegistryItem {
   component?: string;
   /** Has its own Open Graph card at /og/<slug>.jpg (scripts/og-cards.mjs). */
   og?: true;
+  /** Date (YYYY-MM-DD) of the last commit that touched the item, for the sitemap. */
+  updated?: string;
   dependencies?: string[];
   uiDependencies?: string[];
 }

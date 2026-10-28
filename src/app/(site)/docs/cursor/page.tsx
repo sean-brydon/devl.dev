@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Code, DocsPage, Step, Steps } from "@/components/docs";
+import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
   title: "Cursor",
@@ -10,6 +11,15 @@ export const metadata: Metadata = {
 export default function CursorPage() {
   return (
     <DocsPage lead="Add devl to Cursor's MCP servers and save the skill as a rule, so the agent searches devl before building UI from scratch." title="Cursor">
+      <section>
+        <div className="flex flex-wrap items-center gap-3">
+          <Button className="rounded-full" render={<a href="cursor://anysphere.cursor-deeplink/mcp/install?name=devl&config=eyJ1cmwiOiJodHRwczovL2RldmwuZGV2L21jcCJ9" />}>
+            Add to Cursor
+          </Button>
+        </div>
+        <p className="text-muted-foreground">Cursor asks you to confirm, then adds devl to your global MCP servers. Or set it up by hand:</p>
+      </section>
+
       <section>
         <Steps>
           <Step n={1} title="Add the devl MCP server">

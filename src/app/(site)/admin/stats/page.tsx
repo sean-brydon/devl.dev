@@ -18,8 +18,11 @@ const labels: Record<EventName, { title: string; hint: string }> = {
   install: { title: "Installs", hint: "/r/<slug>.json (shadcn CLI)" },
   raw: { title: "Raw source", hint: "/raw/<slug>.tsx" },
   mcp: { title: "MCP calls", hint: "/mcp tools and methods" },
-  llms: { title: "llms.txt", hint: "/llms.txt" },
+  llms: { title: "llms.txt", hint: "/llms.txt and /llms-full.txt" },
   skill: { title: "Skill", hint: "/skill/SKILL.md" },
+  markdown: { title: "Markdown", hint: "/<kind>/<slug>.md or Accept: text/markdown" },
+  agent: { title: "AI agent pages", hint: "page views by AI crawlers and agents" },
+  referral: { title: "AI referrals", hint: "visits from ChatGPT, Claude, Perplexity…" },
 };
 
 export default function AdminStatsPage({ searchParams }: PageProps<"/admin/stats">) {
@@ -105,7 +108,7 @@ function Report({ report }: { report: UsageReport }) {
   const peak = Math.max(1, ...report.daily.map((d) => d.counts.install + d.counts.raw + d.counts.mcp));
   return (
     <>
-      <dl className="grid grid-cols-2 gap-3 md:grid-cols-5">
+      <dl className="grid grid-cols-2 gap-3 md:grid-cols-4">
         {eventNames.map((event) => (
           <div className="flex flex-col gap-1 rounded-2xl border bg-card p-4" key={event}>
             <dt className="font-mono text-[11px] text-muted-foreground uppercase tracking-widest">{labels[event].title}</dt>
@@ -144,6 +147,10 @@ function Report({ report }: { report: UsageReport }) {
         <Ranked rows={report.mcpItems} title="Items read over MCP (get_item)" />
         <Ranked rows={report.mcpClients} title="MCP clients (initialize)" />
         <Ranked rows={report.clients.install} title="Install clients" />
+        <Ranked rows={report.clients.agent} title="AI agents and crawlers" />
+        <Ranked rows={report.top.agent} title="Pages AI agents read" />
+        <Ranked rows={report.top.referral} title="AI assistants sending visitors" />
+        <Ranked rows={report.top.markdown} title="Markdown pages read" />
         <Ranked rows={report.countries} title="Countries" />
         <Ranked rows={report.referrers} title="Referrers" />
       </div>
