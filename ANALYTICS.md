@@ -66,16 +66,6 @@ curl -s "https://api.cloudflare.com/client/v4/accounts/$CF_ACCOUNT_ID/analytics_
 
 ## Page views (Web Analytics)
 
-There are two ways to turn it on. Use one or the other, never both: a page can only carry one beacon.
+The Web Analytics site for `devl.dev` is `9dff315385294ed690c32485a04c87f1`. Its token, which is public, is hardcoded in `src/app/(site)/layout.tsx`. That layout adds the beacon to site pages only. The full-screen previews (`/preview/*`, also the item page iframes) are left out so they don't double count. Read the numbers in the dashboard: Analytics & Logs → Web Analytics → devl.dev.
 
-- **Token beacon (recommended, works the same everywhere):**
-  1. In the dashboard, go to Analytics & Logs → Web Analytics → Add a site → `devl.dev`, and pick the manual (JS snippet) setup.
-  2. Copy the `token` from the snippet. It isn't a secret, since it ships in every page.
-  3. Build with the token set:
-     ```bash
-     NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN=<token> pnpm cf:deploy
-     ```
-     Or put it in `.env.production.local`. It's inlined at build time, so a build without it ships no beacon.
-
-  `src/app/(site)/layout.tsx` adds the beacon to site pages only. The full-screen previews (`/preview/*`, also the item page iframes) are left out so they don't double count.
-- **Automatic setup:** the zone is proxied, so Web Analytics can inject the beacon at the edge. You turn it on in the same dashboard screen, with no code involved. After turning it on, view the source of a devl.dev page and check that the `cloudflareinsights` script is there. If it isn't, use the token beacon instead. Note that automatic setup also measures the preview iframes.
+Leave the site's automatic setup (`auto_install`) off: a page can only carry one beacon. When it was on, nothing was injected into the Worker's pages anyway.
