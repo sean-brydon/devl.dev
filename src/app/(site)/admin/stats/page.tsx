@@ -1,6 +1,5 @@
 import { Effect, Option } from "effect";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import Link from "next/link";
 import { connection } from "next/server";
 import { Suspense } from "react";
@@ -8,7 +7,7 @@ import { AdminLogin } from "@/components/sponsor/admin-board";
 import { Spinner } from "@/components/ui/spinner";
 import { cn } from "@/lib/utils";
 import type { EventName } from "@/server/events";
-import { ADMIN_COOKIE, devAdminHint, requireAdmin, runEffect } from "@/server/runtime";
+import { adminCredentials, devAdminHint, requireAdmin, runEffect } from "@/server/runtime";
 import { type Count, eventNames, Usage, type UsageReport } from "@/server/usage";
 
 export const metadata: Metadata = { title: "Usage stats", robots: { index: false, follow: false } };
@@ -40,13 +39,13 @@ export default function AdminStatsPage({ searchParams }: PageProps<"/admin/stats
 }
 
 async function StatsGate({ searchParams }: Pick<PageProps<"/admin/stats">, "searchParams">) {
-  const session = (await cookies()).get(ADMIN_COOKIE)?.value;
+  const credentials = await adminCredentials();
   const asked = Number((await searchParams).days);
   const days = ranges.includes(asked) ? asked : 30;
   await connection();
   const state = await runEffect(
     Effect.gen(function* () {
-      const access = yield* requireAdmin(session).pipe(
+      const access = yield* requireAdmin(credentials).pipe(
         Effect.as({ ok: true as const }),
         Effect.catchTag("Unauthorized", (e) => Effect.succeed({ ok: false as const, reason: e.message })),
       );

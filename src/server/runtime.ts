@@ -1,4 +1,6 @@
 import { Effect, Layer, Option, Redacted } from "effect";
+import { cookies, headers } from "next/headers";
+import { verifyAccessJwt } from "@/server/access";
 import { Bookings } from "@/server/bookings";
 import { AppConfig } from "@/server/config";
 import { Db } from "@/server/db";
@@ -95,7 +97,31 @@ export const adminSessionFor = Effect.fn("adminSessionFor")(function* (submitted
   return `${expires}.${signature}`;
 });
 
-export const requireAdmin = Effect.fn("requireAdmin")(function* (session: string | undefined) {
+export interface AdminCredentials {
+  /** The devl_admin cookie from the admin-token sign-in. */
+  readonly session: string | undefined;
+  /** Cf-Access-Jwt-Assertion, set by Cloudflare Access on /admin and /api/admin. */
+  readonly access: string | null;
+}
+
+export async function adminCredentials(): Promise<AdminCredentials> {
+  const [jar, list] = await Promise.all([cookies(), headers()]);
+  return { session: jar.get(ADMIN_COOKIE)?.value, access: list.get("cf-access-jwt-assertion") };
+}
+
+/** The email Cloudflare Access signed in, when ACCESS_TEAM_DOMAIN and ACCESS_AUD are set and the token checks out. */
+const accessEmail = Effect.fn("accessEmail")(function* (jwt: string | null) {
+  const config = yield* AppConfig;
+  if (!jwt || Option.isNone(config.accessTeamDomain) || Option.isNone(config.accessAudience)) return Option.none<string>();
+  const domain = config.accessTeamDomain.value;
+  const audience = config.accessAudience.value;
+  const email = yield* Effect.promise(() => verifyAccessJwt(jwt, domain, audience).catch(() => null));
+  return Option.fromNullishOr(email);
+});
+
+/** A valid Cloudflare Access sign-in is enough; otherwise fall back to the admin-token session (local dev, or Access unset). */
+export const requireAdmin = Effect.fn("requireAdmin")(function* ({ session, access }: AdminCredentials) {
+  if (Option.isSome(yield* accessEmail(access))) return;
   const token = yield* adminToken;
   if (Option.isNone(token)) return yield* new Unauthorized({ message: "Set ADMIN_TOKEN to enable the admin." });
   const [rawExpires, signature] = (session ?? "").split(".");
