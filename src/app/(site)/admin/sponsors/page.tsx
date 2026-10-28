@@ -1,6 +1,5 @@
 import { Effect } from "effect";
 import type { Metadata } from "next";
-import { cookies } from "next/headers";
 import { connection } from "next/server";
 import { Suspense } from "react";
 import { AdminBoard, AdminLogin } from "@/components/sponsor/admin-board";
@@ -8,7 +7,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { periodStartOf } from "@/lib/sponsors";
 import { Bookings } from "@/server/bookings";
 import { Stats } from "@/server/stats";
-import { ADMIN_COOKIE, devAdminHint, requireAdmin, runEffect } from "@/server/runtime";
+import { adminCredentials, devAdminHint, requireAdmin, runEffect } from "@/server/runtime";
 
 export const metadata: Metadata = { title: "Sponsors admin", robots: { index: false, follow: false } };
 
@@ -29,11 +28,11 @@ export default function AdminSponsorsPage() {
 }
 
 async function AdminGate() {
-  const session = (await cookies()).get(ADMIN_COOKIE)?.value;
+  const credentials = await adminCredentials();
   await connection();
   const state = await runEffect(
     Effect.gen(function* () {
-      const access = yield* requireAdmin(session).pipe(
+      const access = yield* requireAdmin(credentials).pipe(
         Effect.as({ ok: true as const }),
         Effect.catchTag("Unauthorized", (e) => Effect.succeed({ ok: false as const, reason: e.message })),
       );

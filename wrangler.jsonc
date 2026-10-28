@@ -6,11 +6,16 @@
     { "pattern": "devl.dev", "custom_domain": true },
     { "pattern": "www.devl.dev", "custom_domain": true }
   ],
+  // Only serve on devl.dev, where Cloudflare Access guards /admin. A workers.dev or preview URL would skip it (both are off by default with routes; keep them off).
+  "workers_dev": false,
+  "preview_urls": false,
   "compatibility_date": "2026-10-15",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    // Counted in worker.ts (src/server/events.ts), then served with env.ASSETS.fetch. Everything else stays on the assets fast path.
+    "run_worker_first": ["/r/*", "/raw/*", "/llms.txt", "/skill/*"]
   },
   "services": [
     // Self-reference used by OpenNext for caching; must match "name".
@@ -31,6 +36,15 @@
       "migrations_dir": "migrations"
     }
   ],
-  "vars": { "SITE_URL": "https://devl.dev" },
+  "analytics_engine_datasets": [
+    // Install and agent events (registry, raw source, llms.txt, skill, MCP). Created on first write; see ANALYTICS.md.
+    { "binding": "EVENTS", "dataset": "devl_events" }
+  ],
+  "vars": {
+    "SITE_URL": "https://devl.dev",
+    // Cloudflare Access app "devl admin" (Zero Trust → Access → Applications). A valid Access sign-in replaces the admin token.
+    "ACCESS_TEAM_DOMAIN": "devl-dev.cloudflareaccess.com",
+    "ACCESS_AUD": "21c4c0b84aebae5e6910b03ed830d23d023fd721977cbc9b2879ed4670b53965"
+  },
   "observability": { "enabled": true }
 }

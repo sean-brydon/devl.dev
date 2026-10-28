@@ -8,6 +8,9 @@ import { fontVariables } from "@/lib/fonts";
 import { items } from "@/lib/registry";
 import "../globals.css";
 
+// Cloudflare Web Analytics (cookieless) for the devl.dev site. The token is public: it ships in every page. See ANALYTICS.md.
+const webAnalyticsToken = "7b83599f04bd40b9afb112cfcbac20b2";
+
 export const metadata: Metadata = {
   title: { default: "devl — free React components, blocks and screens for shadcn", template: "%s · devl" },
   description: `${items.length} free, open-source React components, blocks, screens, motion and illustrations on coss ui (Base UI and Tailwind). Copy the source or install with the shadcn CLI.`,
@@ -36,6 +39,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
             <ThemeCustomiser />
           </CustomThemeProvider>
         </ThemeProvider>
+        <script data-cf-beacon={JSON.stringify({ token: webAnalyticsToken })} defer src="https://static.cloudflareinsights.com/beacon.min.js" />
       </body>
     </html>
   );

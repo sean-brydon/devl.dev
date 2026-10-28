@@ -25,7 +25,12 @@ const statusMeta: Record<BookingStatus, { label: string; chip: string }> = {
 
 const order: BookingStatus[] = ["in_review", "scheduled", "holding", "refunded", "expired"];
 
-export function AdminLogin({ devHint, disabled }: { devHint: boolean; disabled: boolean }) {
+export function AdminLogin({
+  devHint,
+  disabled,
+  title = "Sponsors admin",
+  hint = "Enter the admin token to review bookings.",
+}: { devHint: boolean; disabled: boolean; title?: string; hint?: string }) {
   const router = useRouter();
   const [token, setToken] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -49,9 +54,9 @@ export function AdminLogin({ devHint, disabled }: { devHint: boolean; disabled: 
         <LockIcon className="size-5" />
       </span>
       <div className="flex flex-col gap-1">
-        <h1 className="font-heading font-semibold text-2xl tracking-tight">Sponsors admin</h1>
+        <h1 className="font-heading font-semibold text-2xl tracking-tight">{title}</h1>
         <p className="text-muted-foreground text-sm">
-          {disabled ? "Set ADMIN_TOKEN in the Worker's secrets to enable this page." : "Enter the admin token to review bookings."}
+          {disabled ? "Set ADMIN_TOKEN in the Worker's secrets to enable this page." : hint}
         </p>
       </div>
       {!disabled && (
@@ -94,7 +99,9 @@ export function AdminBoard({ bookings, currentPeriod, stats }: { bookings: Booki
 
   async function signOut() {
     await fetch("/api/admin/session", { method: "DELETE" });
-    router.refresh();
+    // On devl.dev the real sign-in is Cloudflare Access, so end that session too.
+    if (window.location.hostname === "devl.dev") window.location.assign("/cdn-cgi/access/logout");
+    else router.refresh();
   }
 
   return (
