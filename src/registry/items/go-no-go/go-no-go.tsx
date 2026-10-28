@@ -252,7 +252,7 @@ export function GoNoGo({ request, timeout = 30, onDecision, onUndo, className }:
                 <Kbd className={cn("transition-opacity", !focused && "opacity-50")}>N</Kbd>
               </Button>
               <Button
-                className={cn(press, "max-sm:flex-1")}
+                className={cn(press, "max-sm:flex-1", request.risk === "high" && "border-red-600 bg-red-600 hover:bg-red-600/90 data-pressed:bg-red-600/90")}
                 onClick={() => decide("approved")}
                 size="sm"
                 variant={request.risk === "high" ? "destructive" : "default"}

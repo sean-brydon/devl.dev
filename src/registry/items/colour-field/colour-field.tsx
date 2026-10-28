@@ -348,9 +348,9 @@ function Contrast({ background, colour, ratio }: { background: "white" | "black"
         background === "white" ? "bg-white ring-black/10" : "bg-black ring-white/10",
       )}
     >
-      <span className="font-semibold text-lg leading-none" style={{ color: colour }}>
-        Aa
-        <span className="sr-only"> on {background}</span>
+      <span className="flex">
+        <span aria-hidden className="font-semibold text-lg leading-none before:content-['Aa']" style={{ color: colour }} />
+        <span className="sr-only">Contrast on {background}</span>
       </span>
       <span className="grid justify-items-end gap-0.5">
         <span className={cn("font-mono text-xs tabular-nums", background === "white" ? "text-neutral-900" : "text-neutral-100")}>
@@ -359,7 +359,7 @@ function Contrast({ background, colour, ratio }: { background: "white" | "black"
         <span
           className={cn(
             "font-medium text-[10px] uppercase tracking-wide",
-            g === "Fail" ? "text-red-500" : background === "white" ? "text-neutral-500" : "text-neutral-400",
+            g === "Fail" ? (background === "white" ? "text-red-600" : "text-red-400") : background === "white" ? "text-neutral-500" : "text-neutral-400",
           )}
         >
           {g === "Fail" ? "Fails" : g}

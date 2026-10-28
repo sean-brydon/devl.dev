@@ -216,7 +216,7 @@ export function LatencyHistogram({
           </p>
         </div>
         <Tabs onValueChange={(v) => setScale(v as HistogramScale)} value={scale}>
-          <TabsList aria-label="Count scale">
+          <TabsList aria-label="Count scale" className="text-muted-foreground">
             <TabsTab className="px-2 text-xs sm:text-xs" value="linear">
               Linear
             </TabsTab>

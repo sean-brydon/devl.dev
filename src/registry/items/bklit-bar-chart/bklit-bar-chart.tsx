@@ -105,7 +105,7 @@ export function CloudSpendBarCard({
           {(["stacked", "grouped"] as const).map((value) => (
             <SegmentedControlItem
               aria-checked={layout === value}
-              className="px-2 text-xs capitalize sm:text-xs"
+              className="px-2 text-muted-foreground text-xs capitalize hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring sm:text-xs"
               data-checked={layout === value ? "" : undefined}
               key={value}
               onClick={() => setLayout(value)}

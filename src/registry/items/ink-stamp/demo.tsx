@@ -75,6 +75,7 @@ export default function InkStampDemo() {
           {stamps.map((s) => (
             <SegmentedControlItem
               aria-pressed={active.id === s.id}
+              className="text-muted-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
               data-pressed={active.id === s.id ? "" : undefined}
               key={s.id}
               onClick={() => stamp(s)}

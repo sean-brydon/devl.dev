@@ -192,6 +192,7 @@ export function FlameProfile({ root, title = "Agent run", defaultLens = "time", 
           {lenses.map((l) => (
             <SegmentedControlItem
               aria-pressed={lens === l.id}
+              className="text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
               data-pressed={lens === l.id ? "" : undefined}
               key={l.id}
               onClick={() => setLens(l.id)}
@@ -274,7 +275,7 @@ export function FlameProfile({ root, title = "Agent run", defaultLens = "time", 
                   {hot && px > 28 && <FlameIcon aria-hidden className="size-3 shrink-0 text-orange-600 dark:text-orange-400" />}
                   {px > 52 && <span className="truncate">{p.frame.name}</span>}
                   {px > 150 && (
-                    <span className="ml-auto shrink-0 pl-2 font-normal tabular-nums opacity-60">{fmt(metric(p.frame))}</span>
+                    <span className="ml-auto shrink-0 pl-2 font-normal tabular-nums opacity-80">{fmt(metric(p.frame))}</span>
                   )}
                 </span>
               </motion.button>

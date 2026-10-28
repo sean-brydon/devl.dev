@@ -91,7 +91,7 @@ function FilterTabs({
 }) {
   return (
     <Tabs onValueChange={(v) => onChange(v as Filter)} value={value}>
-      <TabsList aria-label="Filter comments" size="sm">
+      <TabsList aria-label="Filter comments" className="text-muted-foreground" size="sm">
         {options.map((o) => (
           <TabsTab className="gap-1 px-2 text-xs sm:text-xs" key={o.value} value={o.value}>
             {o.label}

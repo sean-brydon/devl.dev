@@ -101,11 +101,11 @@ const defaultToolCalls: WorkspaceToolCall[] = [
 ];
 
 const defaultSources: WorkspaceSource[] = [
-  { id: "s1", title: "Quillpad · Plans and pricing", domain: "quillpad.app", cited: 4, tone: "bg-orange-500/14 text-orange-600 dark:text-orange-400" },
-  { id: "s2", title: "Notably plans for teams", domain: "notably.io", cited: 3, tone: "bg-teal-500/14 text-teal-600 dark:text-teal-400" },
+  { id: "s1", title: "Quillpad · Plans and pricing", domain: "quillpad.app", cited: 4, tone: "bg-orange-500/14 text-orange-800 dark:text-orange-400" },
+  { id: "s2", title: "Notably plans for teams", domain: "notably.io", cited: 3, tone: "bg-teal-500/14 text-teal-800 dark:text-teal-400" },
   { id: "s3", title: "Driftnote changelog: October", domain: "driftnote.co", cited: 2, tone: "bg-info/14 text-info-foreground" },
-  { id: "s4", title: "churn-interviews.md", domain: "Orbit files", cited: 5, tone: "bg-violet-500/18 text-violet-600 dark:text-violet-400" },
-  { id: "s5", title: "The state of note apps, 2026", domain: "fieldnotes.blog", cited: 1, tone: "bg-rose-500/14 text-rose-600 dark:text-rose-400" },
+  { id: "s4", title: "churn-interviews.md", domain: "Orbit files", cited: 5, tone: "bg-violet-500/18 text-violet-700 dark:text-violet-400" },
+  { id: "s5", title: "The state of note apps, 2026", domain: "fieldnotes.blog", cited: 1, tone: "bg-rose-500/14 text-rose-700 dark:text-rose-400" },
 ];
 
 function Sidebar({ tasks, onClose }: { tasks: WorkspaceTask[]; onClose?: () => void }) {
@@ -184,7 +184,7 @@ function Sidebar({ tasks, onClose }: { tasks: WorkspaceTask[]; onClose?: () => v
                     )}
                   </span>
                   <span className="relative min-w-0 flex-1 truncate">{t.title}</span>
-                  <span className="relative text-muted-foreground/72 text-xs tabular-nums">{t.time}</span>
+                  <span className="relative text-muted-foreground text-xs tabular-nums">{t.time}</span>
                 </button>
               </li>
             );
@@ -192,7 +192,7 @@ function Sidebar({ tasks, onClose }: { tasks: WorkspaceTask[]; onClose?: () => v
         </ul>
         <div className="flex items-center gap-2.5 p-3">
           <Avatar className="size-7">
-            <AvatarFallback className="bg-orange-500/16 text-[11px] text-orange-600 dark:text-orange-400">DA</AvatarFallback>
+            <AvatarFallback className="bg-orange-500/16 text-[11px] text-orange-800 dark:text-orange-400">DA</AvatarFallback>
           </Avatar>
           <div className="min-w-0 flex-1 leading-tight">
             <div className="truncate font-medium">Dara Achebe</div>
@@ -716,7 +716,7 @@ function WorkPanel({
   return (
     <Tabs className="h-full min-h-0 gap-0" onValueChange={(v) => setTab(v as string)} value={tab}>
       <div className="flex h-13 shrink-0 items-center gap-2 border-b px-3">
-        <TabsList className="min-w-0 overflow-x-auto [scrollbar-width:none]" size="sm">
+        <TabsList className="min-w-0 overflow-x-auto text-muted-foreground [scrollbar-width:none]" size="sm">
           <TabsTab value="tools">
             <WrenchIcon />
             Tools

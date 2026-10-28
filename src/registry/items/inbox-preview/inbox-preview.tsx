@@ -50,7 +50,7 @@ const SWIPE = 88;
 const TONES = [
   "bg-sky-500/15 text-sky-700 dark:text-sky-300",
   "bg-rose-500/15 text-rose-700 dark:text-rose-300",
-  "bg-amber-500/15 text-amber-700 dark:text-amber-300",
+  "bg-amber-500/15 text-amber-800 dark:text-amber-300",
   "bg-emerald-500/15 text-emerald-700 dark:text-emerald-300",
   "bg-violet-500/15 text-violet-700 dark:text-violet-300",
 ];
@@ -105,7 +105,7 @@ function Row({
   return (
     <motion.li
       animate={{ height: "auto", opacity: 1 }}
-      className="relative overflow-hidden"
+      className="group relative overflow-hidden"
       exit={{ height: 0, opacity: 0, transition: { duration: reduce ? 0 : 0.22, ease } }}
       initial={false}
       layout={reduce ? false : "position"}
@@ -122,7 +122,7 @@ function Row({
       </div>
       <motion.div
         className={cn(
-          "group relative isolate flex cursor-pointer touch-pan-y gap-3 border-b bg-card px-4 py-3 outline-none before:absolute before:inset-0 before:-z-10 before:transition-colors before:duration-150 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
+          "relative isolate flex cursor-pointer touch-pan-y gap-3 border-b bg-card px-4 py-3 outline-none before:absolute before:inset-0 before:-z-10 before:transition-colors before:duration-150 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
           selected ? "before:bg-accent dark:before:bg-white/6" : "hover:before:bg-accent/60",
         )}
         data-email-id={email.id}
@@ -139,8 +139,8 @@ function Row({
             onSelect();
           }
         }}
-        role="option"
-        aria-selected={selected}
+        role="button"
+        aria-current={selected || undefined}
         style={{ x }}
         tabIndex={selected ? 0 : -1}
       >
@@ -177,45 +177,45 @@ function Row({
             </div>
           )}
         </div>
-        <div className="absolute top-2 right-2 hidden items-center gap-0.5 rounded-lg border bg-popover p-0.5 opacity-0 shadow-xs/5 transition-opacity duration-150 group-focus-within:opacity-100 sm:flex [@media(hover:hover)]:group-hover:opacity-100">
-          <button
-            aria-label="Archive"
-            className="flex size-7 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-            onClick={(e) => {
-              e.stopPropagation();
-              onArchive();
-            }}
-            tabIndex={-1}
-            type="button"
-          >
-            <ArchiveIcon className="size-3.5" />
-          </button>
-          <button
-            aria-label={email.unread ? "Mark as read" : "Mark as unread"}
-            className="flex size-7 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleRead();
-            }}
-            tabIndex={-1}
-            type="button"
-          >
-            {email.unread ? <MailOpenIcon className="size-3.5" /> : <MailIcon className="size-3.5" />}
-          </button>
-          <button
-            aria-label="Snooze"
-            className="flex size-7 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
-            onClick={(e) => {
-              e.stopPropagation();
-              onSnooze();
-            }}
-            tabIndex={-1}
-            type="button"
-          >
-            <ClockIcon className="size-3.5" />
-          </button>
-        </div>
       </motion.div>
+      <div className="absolute top-2 right-2 z-20 hidden items-center gap-0.5 rounded-lg border bg-popover p-0.5 opacity-0 shadow-xs/5 transition-opacity duration-150 group-focus-within:opacity-100 sm:flex [@media(hover:hover)]:group-hover:opacity-100">
+        <button
+          aria-label="Archive"
+          className="flex size-7 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+          onClick={(e) => {
+            e.stopPropagation();
+            onArchive();
+          }}
+          tabIndex={-1}
+          type="button"
+        >
+          <ArchiveIcon className="size-3.5" />
+        </button>
+        <button
+          aria-label={email.unread ? "Mark as read" : "Mark as unread"}
+          className="flex size-7 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+          onClick={(e) => {
+            e.stopPropagation();
+            onToggleRead();
+          }}
+          tabIndex={-1}
+          type="button"
+        >
+          {email.unread ? <MailOpenIcon className="size-3.5" /> : <MailIcon className="size-3.5" />}
+        </button>
+        <button
+          aria-label="Snooze"
+          className="flex size-7 cursor-pointer items-center justify-center rounded-md text-muted-foreground outline-none hover:bg-accent hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+          onClick={(e) => {
+            e.stopPropagation();
+            onSnooze();
+          }}
+          tabIndex={-1}
+          type="button"
+        >
+          <ClockIcon className="size-3.5" />
+        </button>
+      </div>
     </motion.li>
   );
 }
@@ -374,7 +374,7 @@ export function InboxPreview({ emails: initial, me = "you", onArchive, onReply, 
         </div>
 
         <div className="relative min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
-          <ul aria-label="Messages" className="outline-none" onKeyDown={onListKey} ref={listRef} role="listbox">
+          <ul aria-label="Messages" className="outline-none" onKeyDown={onListKey} ref={listRef}>
             <AnimatePresence initial={false}>
               {visible.map((email) => (
                 <Row
@@ -450,7 +450,7 @@ export function InboxPreview({ emails: initial, me = "you", onArchive, onReply, 
                       </Button>
                     </div>
                   </div>
-                  <div className="min-h-0 flex-1 overflow-y-auto px-5 py-6 sm:px-8">
+                  <div aria-label="Message" className="min-h-0 flex-1 overflow-y-auto px-5 py-6 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset sm:px-8" role="region" tabIndex={0}>
                     <div className="flex flex-wrap gap-1.5">
                       {selected.labels?.map((l) => (
                         <span className={cn("rounded-full px-2 py-0.5 font-medium text-xs", l.tone)} key={l.name}>

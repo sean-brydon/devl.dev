@@ -335,7 +335,7 @@ export function MetricCard({
         >
           <TabsList aria-label="Range">
             {ranges.map((r) => (
-              <TabsTab className="px-2 text-xs tabular-nums sm:text-xs" key={r.id} value={r.id}>
+              <TabsTab className="px-2 text-xs tabular-nums text-muted-foreground sm:text-xs" key={r.id} value={r.id}>
                 {r.label}
               </TabsTab>
             ))}

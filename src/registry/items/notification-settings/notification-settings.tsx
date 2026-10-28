@@ -440,7 +440,7 @@ function QuietTrack({ from, to }: { from: number; to: number }) {
           />
         ))}
       </div>
-      <div className="flex justify-between font-mono text-[10px] text-muted-foreground/80">
+      <div className="flex justify-between font-mono text-[10px] text-muted-foreground">
         <span>00</span>
         <span>06</span>
         <span>12</span>

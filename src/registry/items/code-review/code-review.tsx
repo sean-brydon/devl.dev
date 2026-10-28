@@ -81,7 +81,7 @@ const avatarTone: Record<ReviewTone, string> = {
   teal: "bg-teal-500/16 text-teal-700 dark:text-teal-300",
   violet: "bg-violet-500/16 text-violet-700 dark:text-violet-300",
   rose: "bg-rose-500/14 text-rose-700 dark:text-rose-300",
-  amber: "bg-amber-500/18 text-amber-700 dark:text-amber-300",
+  amber: "bg-amber-500/18 text-amber-800 dark:text-amber-300",
   emerald: "bg-emerald-500/16 text-emerald-700 dark:text-emerald-300",
   sky: "bg-sky-500/16 text-sky-700 dark:text-sky-300",
 };
@@ -398,7 +398,7 @@ const KEYWORDS =
 
 function highlight(text: string, md: boolean): ReactNode[] {
   if (md) {
-    if (text.startsWith("#")) return [<span className="font-semibold text-sky-700 dark:text-sky-300" key="h">{text}</span>];
+    if (text.startsWith("#")) return [<span className="font-semibold text-sky-800 dark:text-sky-300" key="h">{text}</span>];
     return [text];
   }
   const out: ReactNode[] = [];
@@ -412,9 +412,9 @@ function highlight(text: string, md: boolean): ReactNode[] {
     const [tok] = m;
     if (m[1]) out.push(<span className="text-muted-foreground italic" key={k++}>{tok}</span>);
     else if (m[2]) out.push(<span className="text-emerald-700 dark:text-emerald-300" key={k++}>{tok}</span>);
-    else if (m[3]) out.push(<span className="text-amber-700 dark:text-amber-300" key={k++}>{tok}</span>);
+    else if (m[3]) out.push(<span className="text-amber-800 dark:text-amber-300" key={k++}>{tok}</span>);
     else if (KEYWORDS.test(tok)) out.push(<span className="text-violet-700 dark:text-violet-300" key={k++}>{tok}</span>);
-    else if (/^[A-Z]/.test(tok)) out.push(<span className="text-sky-700 dark:text-sky-300" key={k++}>{tok}</span>);
+    else if (/^[A-Z]/.test(tok)) out.push(<span className="text-sky-800 dark:text-sky-300" key={k++}>{tok}</span>);
     else if (text[re.lastIndex] === "(") out.push(<span className="text-blue-700 dark:text-blue-300" key={k++}>{tok}</span>);
     else out.push(tok);
     last = re.lastIndex;
@@ -815,7 +815,7 @@ export function CodeReview({
               type="button"
             >
               <Icon className={cn("size-3.5 shrink-0", n.file.status === "added" ? "text-success" : "text-warning")} />
-              <span className={cn("min-w-0 flex-1 truncate", viewed.has(n.path) && "text-muted-foreground/70")}>{n.name}</span>
+              <span className={cn("min-w-0 flex-1 truncate", viewed.has(n.path) && "text-muted-foreground")}>{n.name}</span>
               {count > 0 && (
                 <span className="flex items-center gap-0.5 text-[11px] text-muted-foreground tabular-nums">
                   <MessageSquareIcon className="size-3" />
@@ -845,7 +845,7 @@ export function CodeReview({
       );
     });
 
-  const lineNo = "w-10 shrink-0 select-none px-1.5 text-right text-muted-foreground/70 tabular-nums";
+  const lineNo = "w-10 shrink-0 select-none px-1.5 text-right text-muted-foreground tabular-nums";
 
   const gutterButton = (file: string, line: number, side: "new" | "old") => (
     <button
@@ -1131,7 +1131,7 @@ export function CodeReview({
                           <div className="font-mono text-[12px] leading-5">
                             {hunks.map((h, hi) => (
                               <Fragment key={h.header}>
-                                <div className="flex items-center gap-2 bg-info/6 px-3 py-1 text-info-foreground/80 dark:bg-info/10">
+                                <div className="flex items-center gap-2 bg-info/6 px-3 py-1 text-info-foreground dark:bg-info/10">
                                   {hi > 0 && <span className="text-[11px]">⋯</span>}
                                   <span className="truncate">{h.header}</span>
                                 </div>

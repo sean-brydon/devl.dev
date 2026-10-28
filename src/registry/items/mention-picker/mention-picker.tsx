@@ -407,7 +407,7 @@ export function MentionPicker({
         <div className="rounded-xl border bg-background transition-shadow focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/24 dark:bg-input/32">
           <div className="relative">
             {empty && (
-              <span aria-hidden className="pointer-events-none absolute top-2.5 left-3 text-muted-foreground/72 text-sm">
+              <span aria-hidden className="pointer-events-none absolute top-2.5 left-3 text-muted-foreground text-sm">
                 Message #{channel}, type @ to mention
               </span>
             )}
@@ -415,7 +415,6 @@ export function MentionPicker({
               aria-activedescendant={trigger && flat[active] ? `${listId}-${flat[active].kind}-${flat[active].id}` : undefined}
               aria-autocomplete="list"
               aria-controls={trigger ? listId : undefined}
-              aria-expanded={!!trigger}
               aria-label={`Message #${channel}`}
               aria-multiline="true"
               className="max-h-32 min-h-11 overflow-y-auto whitespace-pre-wrap break-words px-3 py-2.5 text-sm leading-relaxed outline-none"

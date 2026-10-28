@@ -425,7 +425,7 @@ export function JsonExplorer({
                 {container ? (
                   <span className="flex min-w-0 flex-1 items-center gap-1.5">
                     {!open && <span className="truncate text-muted-foreground">{preview(n)}</span>}
-                    <span className="shrink-0 rounded-full bg-muted px-1.5 font-sans text-[10.5px] text-muted-foreground tabular-nums leading-4">
+                    <span className="shrink-0 rounded-full bg-muted px-1.5 font-sans text-[10.5px] text-muted-foreground tabular-nums leading-4 dark:bg-background">
                       {n.children.length} {n.kind === "array" ? (n.children.length === 1 ? "item" : "items") : n.children.length === 1 ? "key" : "keys"}
                     </span>
                   </span>

@@ -6,7 +6,7 @@ import { Waitlist, type WaitlistReferral } from "@/registry/items/waitlist/waitl
 const FRIENDS: WaitlistReferral[] = [
   { id: "r1", name: "Noor Haddad", tone: "bg-sky-500/15 text-sky-700 dark:text-sky-300" },
   { id: "r2", name: "Felix Brandt", tone: "bg-rose-500/15 text-rose-700 dark:text-rose-300" },
-  { id: "r3", name: "Aiko Tanaka", tone: "bg-amber-500/15 text-amber-700 dark:text-amber-300" },
+  { id: "r3", name: "Aiko Tanaka", tone: "bg-amber-500/15 text-amber-800 dark:text-amber-300" },
 ];
 
 export default function WaitlistDemo() {

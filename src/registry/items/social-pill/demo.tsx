@@ -22,7 +22,7 @@ export default function SocialPillDemo() {
     <article className="grid w-full max-w-sm gap-3 rounded-2xl border bg-card p-4">
       <header className="flex items-center gap-2.5">
         <Avatar className="size-8">
-          <AvatarFallback className="bg-violet-600 text-white text-xs dark:bg-violet-500">IV</AvatarFallback>
+          <AvatarFallback className="bg-violet-600 text-white text-xs">IV</AvatarFallback>
         </Avatar>
         <div className="grid">
           <span className="font-medium text-sm">Ines Varga</span>

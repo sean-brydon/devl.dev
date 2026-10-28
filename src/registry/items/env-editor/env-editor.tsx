@@ -292,7 +292,8 @@ export function EnvEditor({ environments, variables, project, onSave, className 
         </AnimatePresence>
 
         <div className="relative overflow-x-auto border-t [scrollbar-width:thin]">
-          <div className="min-w-fit" role="table">
+          <div className="min-w-fit">
+            <div aria-label="Environment variables" role="table">
             <div className="grid border-b bg-card bg-linear-to-r from-muted/40 to-muted/40 text-muted-foreground text-xs" role="row" style={{ gridTemplateColumns: cols }}>
               <div className="sticky left-0 z-10 bg-card bg-linear-to-r from-muted/40 to-muted/40 px-4 py-2 font-medium" role="columnheader">
                 Key
@@ -425,6 +426,7 @@ export function EnvEditor({ environments, variables, project, onSave, className 
                 );
               })}
             </AnimatePresence>
+            </div>
 
             <div className="sticky left-0 flex w-full max-w-[640px] items-center gap-2 border-t px-3 py-2">
               {newKey === null ? (

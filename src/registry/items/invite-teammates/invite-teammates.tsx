@@ -57,7 +57,7 @@ const EMAIL = /^[^\s@<>()[\],;:"]+@[^\s@<>()[\],;:"]+\.[a-z]{2,}$/i;
 const avatarTones = [
   "bg-info/16 text-info-foreground",
   "bg-success/16 text-success-foreground",
-  "bg-warning/16 text-warning-foreground",
+  "bg-warning/16 text-amber-800 dark:text-warning-foreground",
   "bg-destructive/12 text-destructive-foreground",
   "bg-muted-foreground/16 text-foreground",
 ];
@@ -330,7 +330,7 @@ export function InviteTeammates({
                     <Menu>
                       <MenuTrigger
                         aria-label={`Role for ${invite.email}`}
-                        className="inline-flex h-5 shrink-0 cursor-pointer items-center gap-0.5 rounded-full bg-muted px-1.5 text-muted-foreground outline-none transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring data-popup-open:text-foreground"
+                        className="inline-flex h-5 shrink-0 cursor-pointer items-center gap-0.5 rounded-full bg-muted px-1.5 text-muted-foreground outline-none dark:bg-background transition-colors hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring data-popup-open:text-foreground"
                       >
                         {roleLabel(invite.role)}
                         <ChevronDownIcon aria-hidden className="size-3" />

@@ -68,7 +68,7 @@ function ToneSwitch<T extends string>({ tones, value, onChange }: { tones: T[]; 
         return (
           <SegmentedControlItem
             aria-checked={active}
-            className="px-2.5 text-xs capitalize sm:text-xs"
+            className="px-2.5 text-muted-foreground text-xs capitalize focus-visible:ring-2 focus-visible:ring-ring sm:text-xs"
             data-checked={active ? "" : undefined}
             key={t}
             onClick={() => onChange(t)}

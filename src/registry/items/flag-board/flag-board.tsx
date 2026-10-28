@@ -190,7 +190,7 @@ export function FlagBoard({ flags: initial, environments, segments, defaultEnvir
           }}
           value={env}
         >
-          <TabsList className="w-full">
+          <TabsList className="w-full text-muted-foreground">
             {environments.map((e) => {
               const on = flags.filter((f) => f.envs[e.id]?.on).length;
               return (
@@ -291,7 +291,7 @@ export function FlagBoard({ flags: initial, environments, segments, defaultEnvir
                         <div className="flex flex-col gap-2.5 pt-3">
                           <div className="flex items-center gap-3">
                             <Slider
-                              aria-label={`${f.key} rollout`}
+                              getAriaLabel={() => `${f.key} rollout`}
                               className="min-w-0 flex-1 [&_[data-slot=slider-control]]:min-w-0"
                               onValueChange={(v) => patch(f.key, { rollout: Array.isArray(v) ? v[0] : v })}
                               step={5}

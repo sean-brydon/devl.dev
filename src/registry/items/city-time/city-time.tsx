@@ -594,7 +594,7 @@ function HourCycleSwitch({ value, onChange }: { value: HourCycle; onChange: (val
         return (
           <SegmentedControlItem
             aria-checked={checked}
-            className="min-w-11 px-2.5 font-mono text-xs"
+            className="min-w-11 px-2.5 font-mono text-muted-foreground text-xs outline-none focus-visible:ring-2 focus-visible:ring-ring"
             data-checked={checked ? "" : undefined}
             key={option}
             onClick={() => onChange(option)}
@@ -656,7 +656,7 @@ function CityPicker({
       onValueChange={(next) => next && onChange(next.id)}
       value={city}
     >
-      <ComboboxInput aria-label="Choose a city" placeholder="Search a city" startAddon={<SearchIcon />} />
+      <ComboboxInput aria-label="Choose a city" placeholder="Search a city" startAddon={<SearchIcon />} triggerProps={{ "aria-label": "Show cities" }} />
       <ComboboxPopup className="w-(--anchor-width) min-w-64">
         <ComboboxEmpty>No city by that name.</ComboboxEmpty>
         <ComboboxList>
@@ -1294,14 +1294,14 @@ function Facts({ city }: { city: City }) {
       <h3 className="font-medium text-sm">About {city.name}</h3>
       <dl className="mt-2 grid grid-cols-2 gap-x-5">
         {facts.map((fact) => (
-          <div className="flex min-w-0 items-start gap-2.5 border-t border-dashed py-2.5 first:border-t-0 [&:nth-child(2)]:border-t-0" key={fact.label}>
-            <fact.icon aria-hidden className="mt-0.5 size-3.5 shrink-0 text-muted-foreground" />
-            <div className="min-w-0">
-              <dt className="text-muted-foreground text-xs">{fact.label}</dt>
-              <dd className={cn("mt-0.5 text-sm", "numeric" in fact && "tabular-nums")}>
-                <Swap id={`${city.id}-${fact.label}`}>{fact.value}</Swap>
-              </dd>
-            </div>
+          <div className="relative min-w-0 border-t border-dashed py-2.5 ps-6 first:border-t-0 [&:nth-child(2)]:border-t-0" key={fact.label}>
+            <dt className="text-muted-foreground text-xs">
+              <fact.icon aria-hidden className="absolute start-0 top-3 size-3.5 text-muted-foreground" />
+              {fact.label}
+            </dt>
+            <dd className={cn("mt-0.5 text-sm", "numeric" in fact && "tabular-nums")}>
+              <Swap id={`${city.id}-${fact.label}`}>{fact.value}</Swap>
+            </dd>
           </div>
         ))}
       </dl>

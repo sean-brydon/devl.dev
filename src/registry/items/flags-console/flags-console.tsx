@@ -174,7 +174,7 @@ export function FlagsConsole({ fields, flags: initialFlags, environments, traffi
         </div>
         <span className="flex-1" />
         <Tabs onValueChange={(v) => setEnv(String(v))} value={env}>
-          <TabsList>
+          <TabsList aria-label="Environment" className="text-muted-foreground">
             {environments.map((e) => (
               <TabsTab className="text-xs sm:text-xs" key={e.id} value={e.id}>
                 {e.name}
@@ -190,7 +190,7 @@ export function FlagsConsole({ fields, flags: initialFlags, environments, traffi
             <label className="relative">
               <span className="sr-only">Search flags</span>
               <SearchIcon className="pointer-events-none absolute start-2.5 top-1/2 z-10 size-3.5 -translate-y-1/2 text-muted-foreground" />
-              <Input className="[&_input]:ps-8" onChange={(e) => setSearch(e.target.value)} placeholder="Search flags" size="sm" value={search} />
+              <Input aria-label="Search flags" className="[&_input]:ps-8" onChange={(e) => setSearch(e.target.value)} placeholder="Search flags" size="sm" value={search} />
             </label>
             <div aria-label="Filter by status" className="flex gap-1" role="radiogroup">
               {statusFilters.map((s) => (
@@ -443,6 +443,7 @@ function FlagEditor({
           </div>
           <Slider
             aria-label={`Share of everyone else who get ${b.name}`}
+            getAriaLabel={() => `Share of everyone else who get ${b.name}`}
             max={100}
             min={0}
             onValueChange={(v) => onChange({ rollout: Array.isArray(v) ? v[0] : v })}

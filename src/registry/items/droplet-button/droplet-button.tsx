@@ -293,7 +293,7 @@ export function DropletButton({
         </svg>
         <span
           aria-hidden
-          className="pointer-events-none absolute -z-10"
+          className="pointer-events-none absolute"
           style={{
             inset: `-${room.top}px -${room.x}px -${room.bottom}px`,
             filter: `${reduce ? "" : `url(#${filterId}) `}drop-shadow(0 1px 1.5px var(--droplet-shadow))`,
@@ -315,7 +315,7 @@ export function DropletButton({
         </span>
         <motion.span
           aria-hidden
-          className="pointer-events-none absolute inset-0 -z-10 rounded-full inset-shadow-[0_1px_--theme(--color-white/18%)]"
+          className="pointer-events-none absolute inset-0 rounded-full inset-shadow-[0_1px_--theme(--color-white/18%)]"
           style={{ scaleX, scaleY, transformOrigin }}
         />
         <span

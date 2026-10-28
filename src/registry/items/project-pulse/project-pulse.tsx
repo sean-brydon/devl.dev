@@ -308,7 +308,7 @@ export function ProjectPulse({
               </AvatarFallback>
             </Avatar>
           ))}
-          {members.length > 3 && <AvatarGroupCount className="text-[9px]">+{members.length - 3}</AvatarGroupCount>}
+          {members.length > 3 && <AvatarGroupCount className="text-[9px] dark:text-foreground">+{members.length - 3}</AvatarGroupCount>}
         </AvatarGroup>
         <button
           aria-controls={`${uid}-body`}

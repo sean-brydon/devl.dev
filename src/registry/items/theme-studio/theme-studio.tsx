@@ -351,7 +351,7 @@ function SamplePreview() {
   const gap = "calc(var(--studio-density) * 0.75rem)";
   return (
     <div
-      className="w-full max-w-[300px] border bg-card shadow-xs/5 transition-[border-radius,padding] duration-200 ease-out [--studio-accent:oklch(0.56_0.18_var(--studio-hue))] [--studio-on:oklch(0.99_0_0)] dark:[--studio-accent:oklch(0.7_0.15_var(--studio-hue))] dark:[--studio-on:oklch(0.18_0_0)]"
+      className="w-full max-w-[300px] border bg-card shadow-xs/5 transition-[border-radius,padding] duration-200 ease-out [--studio-accent:oklch(0.56_0.18_var(--studio-hue))] [--studio-ink:oklch(0.48_0.16_var(--studio-hue))] [--studio-on:oklch(0.99_0_0)] dark:[--studio-accent:oklch(0.7_0.15_var(--studio-hue))] dark:[--studio-ink:oklch(0.8_0.12_var(--studio-hue))] dark:[--studio-on:oklch(0.18_0_0)]"
       style={{ borderRadius: "calc(var(--studio-radius) + 6px)", padding: pad }}
     >
       <div className="flex flex-col transition-[gap] duration-200" style={{ gap }}>
@@ -367,7 +367,7 @@ function SamplePreview() {
             <p className="text-muted-foreground text-xs">Team plan · 8 seats</p>
           </div>
           <span
-            className="bg-[color-mix(in_oklch,var(--studio-accent)_14%,transparent)] px-2 py-0.5 font-medium text-(--studio-accent) text-[11px] transition-[border-radius,color,background-color] duration-200"
+            className="bg-[color-mix(in_oklch,var(--studio-accent)_14%,transparent)] px-2 py-0.5 font-medium text-(--studio-ink) text-[11px] transition-[border-radius,color,background-color] duration-200"
             style={{ borderRadius: "calc(var(--studio-radius) * 0.6)" }}
           >
             Pro

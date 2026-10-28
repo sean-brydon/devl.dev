@@ -91,11 +91,11 @@ const labelTones: Record<TaskTone, { chip: string; dot: string }> = {
 };
 
 const personTones: Record<TaskTone, string> = {
-  violet: "bg-violet-500 text-white",
-  sky: "bg-sky-600 text-white",
-  emerald: "bg-emerald-600 text-white",
-  amber: "bg-amber-500 text-white",
-  rose: "bg-rose-500 text-white",
+  violet: "bg-violet-600 text-white",
+  sky: "bg-sky-700 text-white",
+  emerald: "bg-emerald-700 text-white",
+  amber: "bg-amber-500 text-amber-950",
+  rose: "bg-rose-700 text-white",
   slate: "bg-muted-foreground text-background",
 };
 

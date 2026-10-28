@@ -478,7 +478,7 @@ export function CronBuilder({ defaultValue = "30 9 * * 1-5", onChange, presets =
         <div className="flex items-center justify-between gap-3">
           <span className="font-medium text-xs">{spec.label}</span>
           <Tabs onValueChange={(v) => setMode(v as Mode)} value={mode}>
-            <TabsList size="sm">
+            <TabsList className="text-muted-foreground" size="sm">
               <TabsTab className="px-2.5 text-xs sm:text-xs" value="every">
                 Every
               </TabsTab>
@@ -579,7 +579,7 @@ export function CronBuilder({ defaultValue = "30 9 * * 1-5", onChange, presets =
           <ol className="flex flex-col">
             {(now === null ? Array.from({ length: 5 }, () => null) : runsList).map((d, i) => (
               <li className="flex h-7 items-center gap-3 text-xs" key={d ? d.getTime() : `e${i}`}>
-                <span className="w-4 text-muted-foreground/60 tabular-nums">{i + 1}</span>
+                <span className="w-4 text-muted-foreground tabular-nums">{i + 1}</span>
                 {d && now !== null ? (
                   <>
                     <span className={cn("flex-1 tabular-nums", i === 0 && "font-medium")}>

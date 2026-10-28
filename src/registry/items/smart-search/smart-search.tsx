@@ -413,7 +413,12 @@ export function SmartSearch({
             </button>
           )}
         </div>
-        <div className="relative h-[264px] overflow-y-auto px-1.5 pb-1.5" role="table" aria-label="Tickets">
+        <div
+          aria-label="Tickets"
+          className="relative h-[264px] overflow-y-auto px-1.5 pb-1.5 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset"
+          role="table"
+          tabIndex={0}
+        >
           <div className="sr-only" role="row">
             <span role="columnheader">Priority</span>
             <span role="columnheader">Ticket</span>

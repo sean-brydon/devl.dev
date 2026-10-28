@@ -659,7 +659,7 @@ function RangeSwitch({ value, onChange }: { value: RangeKey; onChange: (v: Range
           <SegmentedControlItem
             aria-checked={checked}
             aria-label={r.long}
-            className="min-w-11 px-2.5 text-xs tabular-nums"
+            className="min-w-11 px-2.5 text-muted-foreground text-xs tabular-nums focus-visible:ring-2 focus-visible:ring-ring"
             data-checked={checked ? "" : undefined}
             key={r.value}
             onClick={() => onChange(r.value)}

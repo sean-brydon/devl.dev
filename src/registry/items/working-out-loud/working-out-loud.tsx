@@ -184,7 +184,7 @@ export function WorkingOutLoud({
                       <p
                         className={cn(
                           "leading-5 transition-colors duration-300",
-                          state === "pending" ? "text-muted-foreground/70" : "text-foreground",
+                          state === "pending" ? "text-muted-foreground" : "text-foreground",
                           state === "done" && "text-muted-foreground",
                         )}
                       >

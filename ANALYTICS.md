@@ -22,6 +22,7 @@ Neither one stores IP addresses, cookies or full user agents.
 | `skill` | `GET /skill/<file>` | file name | |
 | `mcp` | each JSON-RPC message in a `POST /mcp` (notifications are skipped) | tool name for `tools/call`, otherwise the method | `get_item` slug, or the client name from `initialize` |
 | `agent` | an HTML page fetched by an AI crawler or agent (client family below) | path | |
+| `search` | `POST /api/search-miss` from the search box when a query finds nothing (once per phrase per visit, after 1.5s idle) | the phrase, lowercased, max 48 characters; emails and long numbers dropped | |
 | `referral` | an HTML page opened from an AI assistant (chatgpt.com, claude.ai, perplexity.ai, gemini.google.com, copilot…) | referrer host | path |
 
 Every data point also has these columns:

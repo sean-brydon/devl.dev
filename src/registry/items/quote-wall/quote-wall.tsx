@@ -33,7 +33,7 @@ export interface QuoteWallProps {
 const avatarTones = [
   "bg-info/16 text-info-foreground",
   "bg-success/16 text-success-foreground",
-  "bg-warning/20 text-warning-foreground",
+  "bg-warning/12 text-warning-foreground",
   "bg-muted text-foreground",
 ];
 
@@ -156,7 +156,13 @@ function ScrollColumn({
   });
 
   return (
-    <div className={cn("h-full", reduce ? "overflow-y-auto" : "overflow-hidden")} ref={viewportRef}>
+    <div
+      aria-label={reduce ? "Customer quotes" : undefined}
+      className={cn("h-full rounded-xl outline-none focus-visible:ring-2 focus-visible:ring-ring", reduce ? "overflow-y-auto" : "overflow-hidden")}
+      ref={viewportRef}
+      role={reduce ? "region" : undefined}
+      tabIndex={reduce ? 0 : undefined}
+    >
       <motion.div style={reduce ? undefined : { y }}>
         {Array.from({ length: reduce ? 1 : copies }, (_, copy) => (
           <div

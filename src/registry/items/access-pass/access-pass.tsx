@@ -86,8 +86,10 @@ function clock(s: number, total: number) {
   return `${Math.floor(s / 3600)}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}`;
 }
 
+const labelClass = "text-[11px] text-muted-foreground uppercase tracking-[0.12em]";
+
 function Label({ children, className }: { children: React.ReactNode; className?: string }) {
-  return <span className={cn("text-[11px] text-muted-foreground uppercase tracking-[0.12em]", className)}>{children}</span>;
+  return <span className={cn(labelClass, className)}>{children}</span>;
 }
 
 export function AccessPass({
@@ -204,17 +206,13 @@ export function AccessPass({
                       <dl className="grid grid-cols-3 gap-3">
                         {request.fields?.slice(0, risk ? 2 : 3).map((f) => (
                           <div className="flex min-w-0 flex-col gap-1" key={f.label}>
-                            <Label className="truncate">
-                              <dt>{f.label}</dt>
-                            </Label>
+                            <dt className={cn(labelClass, "truncate")}>{f.label}</dt>
                             <dd className="truncate font-medium font-mono text-xs">{f.value}</dd>
                           </div>
                         ))}
                         {risk && (
                           <div className="flex min-w-0 flex-col gap-1">
-                            <Label>
-                              <dt>Risk</dt>
-                            </Label>
+                            <dt className={labelClass}>Risk</dt>
                             <dd className={cn("flex items-center gap-1.5 font-medium font-mono text-xs", risk.className)}>
                               <span className="size-1.5 rounded-full bg-current" />
                               {risk.label}
@@ -289,7 +287,7 @@ export function AccessPass({
                       <TicketXIcon className="size-4 shrink-0" />
                       <span className="min-w-0 flex-1 truncate">
                         {ended === "expired" ? "Pass expired" : "Pass revoked"}
-                        <span className="text-muted-foreground/70"> · {request.agent.name} will ask next time</span>
+                        <span> · {request.agent.name} will ask next time</span>
                       </span>
                       <Button className="rounded-full" onClick={() => setPhase("pending")} size="xs" variant="ghost">
                         Reissue
@@ -324,7 +322,7 @@ export function AccessPass({
                         {durations.map((d) => (
                           <SegmentedControlItem
                             aria-checked={d.id === choice}
-                            className="flex-1"
+                            className="flex-1 text-muted-foreground hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
                             data-checked={d.id === choice ? "" : undefined}
                             key={d.id}
                             onClick={() => setChoice(d.id)}

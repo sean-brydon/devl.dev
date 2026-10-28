@@ -66,15 +66,15 @@ const softTone: Record<FirstRunTone, string> = {
   destructive: "bg-destructive/12 text-destructive-foreground",
 };
 
-const solidTone: Record<FirstRunTone, string> = {
-  orange: "bg-orange-500",
-  teal: "bg-teal-500",
-  violet: "bg-violet-500",
-  amber: "bg-amber-500",
-  rose: "bg-rose-500",
-  info: "bg-info",
-  success: "bg-success",
-  destructive: "bg-destructive",
+const tileTone: Record<FirstRunTone, string> = {
+  orange: "bg-orange-700",
+  teal: "bg-teal-700",
+  violet: "bg-violet-600",
+  amber: "bg-amber-700",
+  rose: "bg-rose-700",
+  info: "bg-blue-600",
+  success: "bg-emerald-700",
+  destructive: "bg-red-700",
 };
 
 const defaultTools: FirstRunTool[] = [
@@ -594,7 +594,7 @@ export function FirstRun({
                           <span
                             className={cn(
                               "flex size-14 shrink-0 items-center justify-center rounded-2xl font-heading font-semibold text-lg text-white tabular-nums transition-colors duration-200 ease-out",
-                              solidTone[color],
+                              tileTone[color],
                             )}
                           >
                             {initials(name)}
@@ -630,7 +630,7 @@ export function FirstRun({
                                       transition={reduce ? { duration: 0 } : spring}
                                     />
                                   )}
-                                  <span className={cn("size-5 rounded-full", solidTone[sw.tone])} />
+                                  <span className={cn("size-5 rounded-full", tileTone[sw.tone])} />
                                 </button>
                               ))}
                             </div>
@@ -1219,7 +1219,7 @@ function FinishView({
       step: 0,
       label: "Workspace",
       icon: (
-        <span className={cn("flex size-8 items-center justify-center rounded-lg font-semibold text-[11px] text-white", solidTone[color])}>
+        <span className={cn("flex size-8 items-center justify-center rounded-lg font-semibold text-[11px] text-white", tileTone[color])}>
           {initials(workspace)}
         </span>
       ),

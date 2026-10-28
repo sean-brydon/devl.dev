@@ -44,7 +44,23 @@ export default function PrivacyPage() {
             Search queries and briefs you or your agent send are used to answer the request and then discarded, never logged. The MCP server needs no
             sign-in and has no user data to read or change.
           </p>
+          <p>
+            When a search in the site's search box finds nothing, devl counts the search phrase, lowercased and cut to 48 characters, so it knows what
+            to build next. Phrases that look like an email address or a long number are dropped.
+          </p>
           <p>Analytics Engine keeps these counts for three months.</p>
+        </section>
+
+        <section>
+          <h2>Email updates</h2>
+          <p>
+            If you sign up for updates on the changelog, devl stores your email address, when you signed up and which form you used. It's used only to
+            email you when new pieces land. To be removed,{" "}
+            <a className={link} href={`${devl.repo}/issues`}>
+              ask on GitHub
+            </a>{" "}
+            or reply to any update.
+          </p>
         </section>
 
         <section>

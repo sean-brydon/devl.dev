@@ -692,7 +692,7 @@ export function AssistantApp({
       <div className="shrink-0 border-t p-2">
         <div className="flex w-full items-center gap-2.5 rounded-lg p-1.5">
           <Avatar className="size-7">
-            <AvatarFallback className="bg-teal-500/15 text-teal-700 dark:text-teal-300 text-[11px]">{user.initials}</AvatarFallback>
+            <AvatarFallback className="bg-teal-500/15 text-teal-800 dark:text-teal-300 text-[11px]">{user.initials}</AvatarFallback>
           </Avatar>
           <span className="min-w-0 flex-1">
             <span className="block truncate font-medium text-sm leading-4">{user.name}</span>
@@ -733,7 +733,7 @@ export function AssistantApp({
             </motion.div>
           ) : null}
         </AnimatePresence>
-        <ComposerInput placeholder={scope ? `Ask about ${scope.name}…` : `Ask ${productName} anything…`} />
+        <ComposerInput aria-label="Message" placeholder={scope ? `Ask about ${scope.name}…` : `Ask ${productName} anything…`} />
         <ComposerActions>
           <ComposerActionGroup>
             <Button
@@ -1124,6 +1124,7 @@ export function AssistantApp({
           <SegmentedControl aria-label="View" role="group" size="sm">
             <SegmentedControlItem
               aria-pressed={view === "chats"}
+              className="text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
               data-pressed={view === "chats" ? "" : undefined}
               onClick={() => setView("chats")}
             >
@@ -1132,6 +1133,7 @@ export function AssistantApp({
             </SegmentedControlItem>
             <SegmentedControlItem
               aria-pressed={view === "projects"}
+              className="text-muted-foreground focus-visible:ring-2 focus-visible:ring-ring"
               data-pressed={view === "projects" ? "" : undefined}
               onClick={() => setView("projects")}
             >

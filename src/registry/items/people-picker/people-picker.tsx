@@ -30,13 +30,7 @@ export interface PickerOption {
 type Row = PickerOption & { create?: boolean };
 type Group = { value: string; items: Row[] };
 
-const TINTS = [
-  "bg-sky-600 dark:bg-sky-500",
-  "bg-violet-600 dark:bg-violet-500",
-  "bg-amber-600 dark:bg-amber-500",
-  "bg-emerald-600 dark:bg-emerald-500",
-  "bg-rose-600 dark:bg-rose-500",
-];
+const TINTS = ["bg-sky-700", "bg-violet-700", "bg-amber-700", "bg-emerald-700", "bg-rose-700"];
 const tintFor = (id: string) => TINTS[[...id].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7) % TINTS.length];
 const initials = (label: string) =>
   label

@@ -2,7 +2,7 @@
 
 import { CornerDownLeftIcon, SearchIcon } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Command,
   CommandCollection,
@@ -31,8 +31,27 @@ const groups: MenuGroup[] = kinds.map((kind) => ({
   items: itemsOfKind(kind.value),
 }));
 
+const reported = new Set<string>();
+
+function SearchMiss({ query }: { query: string }) {
+  const latest = useRef(query);
+  latest.current = query;
+  useEffect(() => {
+    const value = query.trim();
+    if (value.length < 2 || reported.has(value.toLowerCase())) return;
+    const timer = setTimeout(() => {
+      if (latest.current.trim() !== value) return;
+      reported.add(value.toLowerCase());
+      navigator.sendBeacon?.("/api/search-miss", value);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, [query]);
+  return null;
+}
+
 export function CommandMenu({ shortcut = true, compact = false }: { shortcut?: boolean; compact?: boolean }) {
   const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
 
   useEffect(() => {
     if (!shortcut) return;
@@ -66,13 +85,16 @@ export function CommandMenu({ shortcut = true, compact = false }: { shortcut?: b
         </CommandDialogTrigger>
       )}
       <CommandDialogPopup>
-        <Command items={groups} itemToStringValue={(item) => {
+        <Command items={groups} onValueChange={(value) => setQuery(String(value ?? ""))} itemToStringValue={(item) => {
           const { name, category, keywords = [] } = item as RegistryItem;
           return [name, category, ...keywords].join(" ");
         }}>
           <CommandInput placeholder="Search components, blocks, screens…" />
           <CommandPanel>
-            <CommandEmpty>Nothing matches that.</CommandEmpty>
+            <CommandEmpty>
+              Nothing matches that.
+              <SearchMiss query={query} />
+            </CommandEmpty>
             <CommandList>
               {(group: MenuGroup) => (
                 <CommandGroup items={group.items} key={group.value}>

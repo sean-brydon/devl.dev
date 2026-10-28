@@ -78,7 +78,7 @@ const toneSoft: Record<LabelTone, string> = {
 const avatarTones = [
   "bg-info/16 text-info-foreground",
   "bg-success/16 text-success-foreground",
-  "bg-warning/20 text-warning-foreground",
+  "bg-warning/14 text-warning-foreground",
   "bg-destructive/14 text-destructive-foreground",
 ];
 const priorities: TaskPriority[] = ["low", "medium", "high", "urgent"];

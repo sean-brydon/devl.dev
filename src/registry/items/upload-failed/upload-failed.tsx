@@ -43,9 +43,9 @@ const defaultFiles: UploadFailedFile[] = [
 
 const tones: { match: RegExp; className: string }[] = [
   { match: /^pdf$/, className: "text-red-600 dark:text-red-400" },
-  { match: /^(jpe?g|png|gif|webp|heic|avif)$/, className: "text-sky-600 dark:text-sky-400" },
+  { match: /^(jpe?g|png|gif|webp|heic|avif)$/, className: "text-sky-700 dark:text-sky-400" },
   { match: /^(mov|mp4|webm)$/, className: "text-violet-600 dark:text-violet-400" },
-  { match: /^(csv|xlsx?)$/, className: "text-emerald-600 dark:text-emerald-400" },
+  { match: /^(csv|xlsx?)$/, className: "text-emerald-700 dark:text-emerald-400" },
 ];
 
 const spring = { type: "spring", stiffness: 420, damping: 36 } as const;

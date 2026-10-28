@@ -117,9 +117,13 @@ export function VerifyEmail({
           }}
         >
           <motion.div animate={shake}>
+            <label className="sr-only" htmlFor={`${id}-code`}>
+              Verification code
+            </label>
             <OTPField
               aria-describedby={error ? `${id}-error` : undefined}
               aria-label="Verification code"
+              id={`${id}-code`}
               disabled={busy || done}
               length={length}
               onValueChange={(value) => {

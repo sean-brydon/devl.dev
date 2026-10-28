@@ -165,6 +165,7 @@ export function RangeCalendar({
         <div className="min-w-0 flex-1 p-3">
           <Calendar
             className="mx-auto [--cell-size:--spacing(8)] sm:[--cell-size:--spacing(8)]"
+            classNames={{ day_button: "in-data-outside:text-muted-foreground", weekday: "text-muted-foreground" }}
             disabled={disableFuture ? { after: today } : undefined}
             mode="range"
             modifiers={{

@@ -286,12 +286,15 @@ export function Launcher({
 
               <motion.div animate={{ height }} className="overflow-hidden" initial={false} transition={spring}>
                 <div
+                  aria-label="Results"
                   className={cn(
-                    "max-h-74 overflow-y-auto overscroll-contain",
+                    "max-h-74 overflow-y-auto overscroll-contain outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
                     more && "mask-[linear-gradient(to_bottom,black_calc(100%-32px),transparent)]",
                   )}
                   onScroll={checkMore}
                   ref={listRef}
+                  role="region"
+                  tabIndex={0}
                 >
                   <AnimatePresence custom={direction} initial={false} mode="popLayout">
                     <motion.div

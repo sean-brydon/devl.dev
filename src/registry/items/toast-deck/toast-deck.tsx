@@ -206,7 +206,6 @@ function ToastItem({ toast, index, offset, expanded, frontHeight, paused, onDism
   return (
     <motion.li
       animate={{ y, scale, height, opacity: hidden ? 0 : 1 }}
-      aria-live={tone === "error" ? "assertive" : "polite"}
       className="absolute inset-x-0 bottom-0 origin-bottom touch-pan-y"
       drag={reduce ? false : "x"}
       dragElastic={0.6}
@@ -218,11 +217,14 @@ function ToastItem({ toast, index, offset, expanded, frontHeight, paused, onDism
       }
       initial={reduce ? false : { y: 40, opacity: 0, scale: 0.96, height: natural }}
       onDragEnd={onDragEnd}
-      role="status"
       style={{ zIndex: 100 - index }}
       transition={spring}
     >
-      <div className="group/toast relative h-full cursor-grab overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-lg/5 active:cursor-grabbing">
+      <div
+        aria-live={tone === "error" ? "assertive" : "polite"}
+        className="group/toast relative h-full cursor-grab overflow-hidden rounded-xl border bg-popover text-popover-foreground shadow-lg/5 active:cursor-grabbing"
+        role="status"
+      >
         <motion.div
           animate={{ opacity: expanded || index === 0 ? 1 : 0 }}
           className="flex items-start gap-2.5 p-3 pe-9"

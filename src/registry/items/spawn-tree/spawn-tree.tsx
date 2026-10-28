@@ -174,7 +174,7 @@ function TreeNode({
         className={cn(
           "relative rounded-lg border bg-background px-3 py-2 transition-[border-color,opacity] duration-300 ease-out",
           l.status === "running" && "border-info/32",
-          l.status === "queued" && "opacity-60",
+          l.status === "queued" && "border-dashed",
         )}
         layout="position"
         transition={spring}
@@ -197,7 +197,7 @@ function TreeNode({
             </button>
           ) : null}
           <StatusDot status={l.status} />
-          <span className="truncate font-medium text-sm">{node.name}</span>
+          <span className={cn("truncate font-medium text-sm", l.status === "queued" && "text-muted-foreground")}>{node.name}</span>
           {node.model && (
             <span className="shrink-0 rounded-full bg-muted px-1.5 py-px font-mono text-[10px] text-muted-foreground">
               {node.model}

@@ -149,7 +149,7 @@ function BillingSwitch({
               <span
                 className={cn(
                   "rounded-full px-1.5 py-px font-medium text-[0.6875rem] tabular-nums transition-colors duration-200",
-                  checked ? "bg-primary-foreground/16 text-primary-foreground" : "bg-success/12 text-success-foreground",
+                  checked ? "bg-primary-foreground/16 text-primary-foreground" : "bg-success/8 text-success-foreground",
                 )}
               >
                 {yearlyBadge}
@@ -293,7 +293,7 @@ function PlanCard({
             <span
               className={cn(
                 "mt-0.5 flex size-4 shrink-0 items-center justify-center rounded-full",
-                featured ? "bg-primary-foreground/16" : "bg-success/12 text-success-foreground",
+                featured ? "bg-primary-foreground/16" : "bg-success/8 text-success-foreground",
               )}
             >
               <CheckIcon className="size-3" strokeWidth={3} />

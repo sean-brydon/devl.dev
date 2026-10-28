@@ -824,7 +824,7 @@ function OutputPanel({ fields, table }: { fields: Fields; table: string }) {
     <div className="border-t bg-muted/32 dark:bg-muted/16">
       <div className="flex items-center gap-2 px-3 pt-2.5 sm:px-4">
         <Tabs onValueChange={(v) => setTab(v as OutputTab)} value={tab}>
-          <TabsList className="h-8">
+          <TabsList className="h-8 text-muted-foreground">
             <TabsTab className="text-xs sm:text-xs" value="sql">
               SQL
             </TabsTab>

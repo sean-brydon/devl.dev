@@ -78,7 +78,7 @@ export function TickerCandlestickCard({
           {ranges.map((r) => (
             <SegmentedControlItem
               aria-checked={r.id === range.id}
-              className="px-2 text-xs sm:text-xs"
+              className="px-2 text-muted-foreground text-xs focus-visible:ring-2 focus-visible:ring-ring sm:text-xs"
               data-checked={r.id === range.id ? "" : undefined}
               key={r.id}
               onClick={() => setRangeId(r.id)}

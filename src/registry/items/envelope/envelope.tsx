@@ -176,7 +176,7 @@ export function Envelope({
                 <span className="flex size-5 items-center justify-center rounded-full bg-(--seal) font-semibold text-[10px] text-white">
                   {monogram}
                 </span>
-                <span className="font-mono text-[9px] text-neutral-400 tabular-nums">No. 0428</span>
+                <span className="font-mono text-[9px] text-neutral-500 tabular-nums">No. 0428</span>
               </div>
               <p className="mt-2 font-semibold text-[15px] tracking-tight">{title}</p>
               <p className="mt-1 text-[10.5px] text-neutral-500 leading-snug">{message}</p>

@@ -591,7 +591,7 @@ function IssueList({ issues, me }: { issues: readonly ViewIssue[]; me: string })
       <p className="shrink-0 px-4 pt-2.5 pb-1 text-muted-foreground text-xs tabular-nums">
         {visible.length} {visible.length === 1 ? "issue" : "issues"}
       </p>
-      <div className="relative min-h-0 flex-1 overflow-y-auto px-1.5 pb-1.5">
+      <div aria-label="Issues" className="relative min-h-0 flex-1 overflow-y-auto rounded-lg px-1.5 pb-1.5 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset" role="region" tabIndex={0}>
         <AnimatePresence initial={false}>
           {visible.map((issue) => (
             <motion.div

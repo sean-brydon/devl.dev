@@ -1,6 +1,6 @@
 "use client";
 
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { motion, useReducedMotion } from "motion/react";
 import { type ComponentProps, useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
@@ -119,7 +119,7 @@ export interface TypewriterProps extends Omit<ComponentProps<"span">, "children"
 
 export function Typewriter({ phrases, caretClassName, className, ...props }: TypewriterProps) {
   const { typeSpeed, deleteSpeed, wpm, erase, loop, paused, ...rest } = props;
-  const { ref, text, phrase, index, phase, reduce, visible } = useTypewriter(phrases, {
+  const { ref, text, phrase, phase, reduce, visible } = useTypewriter(phrases, {
     typeSpeed,
     deleteSpeed,
     wpm,
@@ -134,17 +134,7 @@ export function Typewriter({ phrases, caretClassName, className, ...props }: Typ
       <span className="sr-only">{phrases.join(", ")}</span>
       <span aria-hidden>
         {reduce ? (
-          <AnimatePresence initial={false} mode="wait">
-            <motion.span
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              initial={{ opacity: 0 }}
-              key={index}
-              transition={{ duration: 0.25 }}
-            >
-              {phrase}
-            </motion.span>
-          </AnimatePresence>
+          <span>{phrase}</span>
         ) : (
           <>
             <span

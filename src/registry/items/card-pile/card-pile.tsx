@@ -166,7 +166,7 @@ export function CardPile({ notices, visible = 3, onDismiss, onAction, className 
                       i > 1 && "opacity-0",
                     )}
                   >
-                    <span className="text-muted-foreground/70 text-xs">Swipe to dismiss</span>
+                    <span className="text-muted-foreground text-xs">Swipe to dismiss</span>
                     <div className="ms-auto flex gap-1.5">
                       {n.action && (
                         <Button

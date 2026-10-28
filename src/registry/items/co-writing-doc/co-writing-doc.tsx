@@ -74,7 +74,7 @@ const toneCls: Record<CollaboratorTone, { caret: string; tag: string; soft: stri
   },
   success: {
     caret: "bg-success",
-    tag: "bg-emerald-600 text-white",
+    tag: "bg-emerald-700 text-white",
     soft: "bg-success/16",
     avatar: "bg-success/16 text-success-foreground",
     mark: "decoration-success/60",
@@ -92,9 +92,9 @@ const toneCls: Record<CollaboratorTone, { caret: string; tag: string; soft: stri
   },
   warning: {
     caret: "bg-warning",
-    tag: "bg-amber-600 text-white",
+    tag: "bg-amber-700 text-white",
     soft: "bg-warning/14",
-    avatar: "bg-warning/18 text-warning-foreground",
+    avatar: "bg-warning/18 text-amber-800 dark:text-warning-foreground",
     mark: "decoration-warning/70",
     text: "text-warning-foreground",
     border: "border-warning/32",
@@ -201,7 +201,7 @@ function Caret({ person, label, layoutId, idle }: { person: Collaborator; label?
       <span className={cn("absolute -top-1 -left-px size-1.5 rounded-[calc(var(--radius)*0.2)] transition-opacity duration-200", t.caret, tag ? "opacity-0" : "opacity-100 group-hover/caret:opacity-0")} />
       <span
         className={cn(
-          "pointer-events-none absolute bottom-full -left-px mb-0.5 inline-flex origin-bottom-left items-center gap-1 whitespace-nowrap rounded-md rounded-bl-none px-1.5 py-px font-medium font-sans text-[10px] leading-4 shadow-xs/5 transition-[opacity,scale] duration-200 ease-out",
+          "pointer-events-none absolute bottom-full -left-px mb-0.5 inline-flex origin-bottom-left items-center gap-1 whitespace-nowrap rounded-md rounded-bl-none px-1.5 py-px font-medium font-sans text-[10px] leading-4 shadow-xs/5 transition-[opacity,scale] duration-200 ease-out motion-reduce:transition-none",
           t.tag,
           tag ? "scale-100 opacity-100" : "scale-95 opacity-0 group-hover/caret:scale-100 group-hover/caret:opacity-100",
         )}

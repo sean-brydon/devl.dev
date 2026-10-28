@@ -229,7 +229,7 @@ export function ModelSwitcherPanel({
                   </span>
                 </div>
                 <Slider
-                  aria-label="Thinking effort"
+                  getAriaLabel={() => "Thinking effort"}
                   max={efforts.length - 1}
                   min={0}
                   onValueChange={(v) => update({ effort: Array.isArray(v) ? (v[0] ?? 0) : v })}
