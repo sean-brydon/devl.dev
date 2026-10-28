@@ -126,7 +126,7 @@ export function RangeCalendar({
   };
 
   return (
-    <div className={cn("w-full max-w-[640px] overflow-hidden rounded-2xl border bg-card shadow-xs/5", className)}>
+    <div className={cn("w-full max-w-160 overflow-hidden rounded-2xl border bg-card shadow-xs/5", className)}>
       <div className="flex flex-col sm:flex-row">
         <div
           aria-label="Presets"

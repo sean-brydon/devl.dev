@@ -38,7 +38,9 @@ function useThemeRadius(scale: number) {
   useLayoutEffect(() => {
     const el = probe.current;
     if (!el) return;
-    const observer = new ResizeObserver(() => setRadius(el.offsetWidth));
+    const read = () => setRadius(el.offsetWidth);
+    read();
+    const observer = new ResizeObserver(read);
     observer.observe(el);
     return () => observer.disconnect();
   }, []);

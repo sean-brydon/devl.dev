@@ -231,7 +231,7 @@ export function ProjectPulse({
 
   return (
     <div
-      className={cn("w-[440px] max-w-full rounded-2xl border bg-card text-card-foreground shadow-xs/5", className)}
+      className={cn("w-110 max-w-full rounded-2xl border bg-card text-card-foreground shadow-xs/5", className)}
     >
       <div className="flex items-center gap-3 p-4">
         <div className="relative">
