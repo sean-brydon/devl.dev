@@ -43,7 +43,11 @@ pnpm cf:migrate:remote   # apply D1 migrations
 pnpm cf:deploy           # opennextjs-cloudflare build && deploy
 ```
 
-Secrets (`wrangler secret put <NAME>`): `ADMIN_TOKEN`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, optionally `SITE_URL`.
+Secrets (`wrangler secret put <NAME>`): `ADMIN_TOKEN`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, optionally `SITE_URL`, and `CF_ACCOUNT_ID` + `CF_ANALYTICS_TOKEN` for `/admin/stats`.
+
+## Analytics
+
+Cookieless and Cloudflare-native: Web Analytics for page views, and Workers Analytics Engine (`worker.ts`, dataset `devl_events`) for installs, raw source fetches, `llms.txt`, the skill and MCP tool calls. Read them at `/admin/stats`. [ANALYTICS.md](ANALYTICS.md) covers what's tracked, setup and SQL.
 
 ## License
 

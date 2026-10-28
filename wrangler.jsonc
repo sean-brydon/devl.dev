@@ -10,7 +10,9 @@
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
     "directory": ".open-next/assets",
-    "binding": "ASSETS"
+    "binding": "ASSETS",
+    // Counted in worker.ts (src/server/events.ts), then served with env.ASSETS.fetch. Everything else stays on the assets fast path.
+    "run_worker_first": ["/r/*", "/raw/*", "/llms.txt", "/skill/*"]
   },
   "services": [
     // Self-reference used by OpenNext for caching; must match "name".
@@ -30,6 +32,10 @@
       "database_id": "b5fc9792-835d-471e-b13c-4e5b03a8e687",
       "migrations_dir": "migrations"
     }
+  ],
+  "analytics_engine_datasets": [
+    // Install and agent events (registry, raw source, llms.txt, skill, MCP). Created on first write; see ANALYTICS.md.
+    { "binding": "EVENTS", "dataset": "devl_events" }
   ],
   "vars": { "SITE_URL": "https://devl.dev" },
   "observability": { "enabled": true }

@@ -5,6 +5,9 @@ import { fontVariables } from "@/lib/fonts";
 import { items } from "@/lib/registry";
 import "../globals.css";
 
+// Cloudflare Web Analytics (cookieless). The token is public: it ships in every page. Unset means no beacon. See ANALYTICS.md.
+const webAnalyticsToken = process.env.NEXT_PUBLIC_CF_WEB_ANALYTICS_TOKEN;
+
 export const metadata: Metadata = {
   title: { default: "devl — free React components, blocks and screens for shadcn", template: "%s · devl" },
   description: `${items.length} free, open-source React components, blocks, screens, motion and illustrations on coss ui (Base UI and Tailwind). Copy the source or install with the shadcn CLI.`,
@@ -27,6 +30,9 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           <SiteHeader />
           <main>{children}</main>
         </ThemeProvider>
+        {webAnalyticsToken && (
+          <script data-cf-beacon={JSON.stringify({ token: webAnalyticsToken })} defer src="https://static.cloudflareinsights.com/beacon.min.js" />
+        )}
       </body>
     </html>
   );

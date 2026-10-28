@@ -8,3 +8,6 @@ ALLOW_TEST_CHECKOUT=true
 REVIEW_BOOKINGS=false
 ADMIN_TOKEN=change-me-to-a-long-random-string
 SITE_URL=http://localhost:3417
+# Optional: /admin/stats reads Workers Analytics Engine with these (see ANALYTICS.md).
+CF_ACCOUNT_ID=
+CF_ANALYTICS_TOKEN=

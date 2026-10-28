@@ -11,8 +11,9 @@ import { Platform } from "@/server/platform";
 import { clientIp, durableLimit } from "@/server/rate-limit";
 import { Sponsors } from "@/server/sponsors";
 import { Stats } from "@/server/stats";
+import { Usage } from "@/server/usage";
 
-export const AppLayer = Layer.mergeAll(Inventory.layer, Sponsors.layer, HouseImages.layer, Stats.layer).pipe(
+export const AppLayer = Layer.mergeAll(Inventory.layer, Sponsors.layer, HouseImages.layer, Stats.layer, Usage.layer).pipe(
   Layer.provideMerge(Bookings.layer),
   Layer.provideMerge(Layer.mergeAll(Payments.layer, ImageStore.layer, OgFetcher.layer)),
   Layer.provideMerge(Db.layer),
