@@ -49,7 +49,7 @@ function Mark({ text, q }: { text: string; q: string }) {
   while (hit !== -1) {
     out.push(text.slice(at, hit));
     out.push(
-      <mark className="rounded-[3px] bg-warning/30 px-px text-inherit dark:bg-warning/35" key={hit}>
+      <mark className="rounded-[calc(var(--radius)*0.3)] bg-warning/30 px-px text-inherit dark:bg-warning/35" key={hit}>
         {text.slice(hit, hit + q.length)}
       </mark>,
     );

@@ -269,7 +269,7 @@ export function CohortGrid({
                         <motion.div
                           animate={{ opacity: 1, scale: 1 }}
                           className={cn(
-                            "relative flex items-center justify-center rounded-[6px] text-[11px]",
+                            "relative flex items-center justify-center rounded-sm text-[11px]",
                             c === 0 ? "text-muted-foreground" : "text-foreground",
                             isAvg && "font-medium",
                             on && "ring-2 ring-foreground ring-offset-1 ring-offset-card",

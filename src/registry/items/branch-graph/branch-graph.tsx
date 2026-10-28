@@ -272,7 +272,7 @@ export function BranchGraph({ commits, title = "History", onSelect, className }:
               <div
                 aria-label={`${c.message}, ${c.author.name}, ${shortDate(c.date)}, ${c.sha.slice(0, 7)}`}
                 className={cn(
-                  "relative flex h-9 cursor-default items-center gap-2 pe-4 outline-none transition-colors duration-100",
+                  "relative flex cursor-default items-center gap-2 pe-4 outline-none transition-colors duration-100",
                   hover === i ? "bg-accent/60" : "",
                   "focus-visible:bg-accent/60 focus-visible:shadow-[inset_2px_0_0_var(--color-ring)]",
                 )}
@@ -289,7 +289,7 @@ export function BranchGraph({ commits, title = "History", onSelect, className }:
                   rowRefs.current[i] = el;
                 }}
                 role="listitem"
-                style={{ paddingInlineStart: graphW + 4 }}
+                style={{ height: ROW, paddingInlineStart: graphW + 4 }}
                 tabIndex={i === focusRow ? 0 : -1}
               >
                 {(c.refs ?? []).map((ref) => (

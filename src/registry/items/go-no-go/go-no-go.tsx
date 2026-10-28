@@ -2,7 +2,7 @@
 
 import { CheckIcon, Clock3Icon, ShieldAlertIcon, ShieldCheckIcon, ShieldIcon, Undo2Icon, XIcon } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { type KeyboardEvent, useEffect, useRef, useState } from "react";
+import { type KeyboardEvent, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
@@ -49,8 +49,32 @@ function previewText(p: GoNoGoPreview) {
   return p.type === "command" ? p.command : p.file;
 }
 
+function useThemeRadius(scale: number) {
+  const probe = useRef<HTMLSpanElement>(null);
+  const [radius, setRadius] = useState(scale * 10);
+  useLayoutEffect(() => {
+    const el = probe.current;
+    if (!el) return;
+    const read = () => setRadius(el.offsetWidth);
+    read();
+    const observer = new ResizeObserver(read);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  const marker = (
+    <span
+      aria-hidden
+      className="pointer-events-none invisible absolute h-0"
+      ref={probe}
+      style={{ width: `calc(var(--radius) * ${scale})` }}
+    />
+  );
+  return [radius, marker] as const;
+}
+
 export function GoNoGo({ request, timeout = 30, onDecision, onUndo, className }: GoNoGoProps) {
   const reduce = useReducedMotion();
+  const [radius, radiusProbe] = useThemeRadius(1.8);
   const [decision, setDecision] = useState<GoNoGoDecision | null>(null);
   const [left, setLeft] = useState(timeout * 1000);
   const [hovered, setHovered] = useState(false);
@@ -121,10 +145,11 @@ export function GoNoGo({ request, timeout = 30, onDecision, onUndo, className }:
       onPointerLeave={() => setHovered(false)}
       ref={rootRef}
       role="group"
-      style={{ borderRadius: 18 }}
+      style={{ borderRadius: radius }}
       tabIndex={decision ? -1 : 0}
       transition={spring}
     >
+      {radiusProbe}
       <AnimatePresence initial={false} mode="popLayout">
         {decision ? (
           <motion.div

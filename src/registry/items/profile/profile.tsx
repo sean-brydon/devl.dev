@@ -742,7 +742,7 @@ export function Profile({
                 {Array.from({ length: 60 }, (_, i) => (
                   <span
                     className={cn(
-                      "aspect-square rounded-[2px]",
+                      "aspect-square rounded-[calc(var(--radius)*0.2)]",
                       i > 51
                         ? "bg-muted"
                         : i === 51

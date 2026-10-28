@@ -989,7 +989,7 @@ function DetailPanel({
       tabIndex={-1}
     >
       <div className="flex items-start gap-3 px-4 pt-4 pb-3">
-        <Monogram className="size-9 rounded-[10px] text-xs" name={deal.company} />
+        <Monogram className="size-9 rounded-lg text-xs" name={deal.company} />
         <div className="flex min-w-0 flex-1 flex-col">
           <h2 className="truncate font-heading font-semibold text-base" id={headingId}>
             {deal.company}
@@ -1983,7 +1983,7 @@ export function PipelineToday({
               >
                 <motion.div
                   animate={{ scaleX: Math.min(1, total / target) }}
-                  className="absolute inset-0 origin-left rounded-full bg-foreground"
+                  className="absolute inset-0 origin-left rounded-full bg-primary"
                   initial={false}
                   transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 260, damping: 32 }}
                 />

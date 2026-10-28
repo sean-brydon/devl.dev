@@ -1250,7 +1250,7 @@ function UsageRow({ item, shown }: { item: SettingsUsage; shown: boolean }) {
         )}
         <motion.div
           animate={{ scaleX: shown ? 1 : 0 }}
-          className={cn("absolute inset-y-0 left-0 origin-left rounded-full", pct >= 85 ? "bg-warning" : "bg-foreground")}
+          className={cn("absolute inset-y-0 left-0 origin-left rounded-full", pct >= 85 ? "bg-warning" : "bg-primary")}
           initial={false}
           style={{ width: `${pct}%` }}
           transition={fill}

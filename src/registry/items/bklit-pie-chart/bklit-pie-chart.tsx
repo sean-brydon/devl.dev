@@ -89,7 +89,7 @@ export function StorageDonutCard({ title = "Storage", categories, capacity, clas
                 onMouseLeave={() => setHovered(null)}
                 type="button"
               >
-                <span className={cn("size-2.5 shrink-0 rounded-[3px]", c.swatch)} />
+                <span className={cn("size-2.5 shrink-0 rounded-[calc(var(--radius)*0.3)]", c.swatch)} />
                 <span className="flex-1 truncate">{c.label}</span>
                 <span className="text-muted-foreground text-xs tabular-nums">{gb.format(c.gigabytes)} GB</span>
                 <span className="w-9 text-right font-medium text-xs tabular-nums">

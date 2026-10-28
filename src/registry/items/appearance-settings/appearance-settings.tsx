@@ -342,7 +342,7 @@ function MiniApp({
           <span className="size-[0.55em] rounded-full bg-foreground/16" />
           <span className="size-[0.55em] rounded-full bg-foreground/16" />
         </span>
-        <span className="mx-auto flex h-[1.75em] w-full max-w-[18em] items-center gap-[0.4em] rounded-[0.5em] bg-muted px-[0.6em] text-[0.8em] text-muted-foreground">
+        <span className="mx-auto flex h-[1.75em] w-full max-w-[18em] items-center gap-[0.4em] rounded-[calc(var(--radius)*0.5)] bg-muted px-[0.6em] text-[0.8em] text-muted-foreground">
           <SearchIcon className="size-[1.1em]" />
           Search {workspace}
         </span>
@@ -355,7 +355,7 @@ function MiniApp({
           <div className="mb-[0.4em] flex items-center gap-[0.5em] px-[0.4em] pt-[0.2em]">
             <span
               className={cn(
-                "flex size-[1.5em] items-center justify-center rounded-[0.4em] bg-(--tint) font-semibold text-[0.85em] text-white",
+                "flex size-[1.5em] items-center justify-center rounded-[calc(var(--radius)*0.4)] bg-(--tint) font-semibold text-[0.85em] text-white",
                 tintTransition,
               )}
             >
@@ -371,7 +371,7 @@ function MiniApp({
           ].map((item) => (
             <span
               className={cn(
-                "flex items-center gap-[0.55em] rounded-[0.45em] px-[0.5em] text-[0.88em] [&_svg]:size-[1.05em] [&_svg]:shrink-0",
+                "flex items-center gap-[0.55em] rounded-[calc(var(--radius)*0.5)] px-[0.5em] text-[0.88em] [&_svg]:size-[1.05em] [&_svg]:shrink-0",
                 densityNav[prefs.density],
                 item.active
                   ? "bg-[color-mix(in_srgb,var(--tint)_14%,transparent)] font-medium text-(--tint-ink)"
@@ -404,7 +404,7 @@ function MiniApp({
               </span>
               <span
                 className={cn(
-                  "ms-auto inline-flex shrink-0 items-center gap-[0.3em] rounded-[0.5em] bg-(--tint) px-[0.7em] py-[0.3em] font-medium text-[0.82em] text-white",
+                  "ms-auto inline-flex shrink-0 items-center gap-[0.3em] rounded-[calc(var(--radius)*0.5)] bg-(--tint) px-[0.7em] py-[0.3em] font-medium text-[0.82em] text-white",
                   tintTransition,
                 )}
               >
@@ -438,7 +438,7 @@ function MiniApp({
             {tasks.map((task) => (
               <motion.div
                 className={cn(
-                  "flex items-center gap-[0.7em] rounded-[0.5em] px-[0.6em] transition-[padding] duration-200 ease-out",
+                  "flex items-center gap-[0.7em] rounded-[calc(var(--radius)*0.5)] px-[0.6em] transition-[padding] duration-200 ease-out",
                   densityRow[prefs.density],
                 )}
                 key={task.id}
@@ -450,7 +450,7 @@ function MiniApp({
                   aria-label={`${task.done ? "Reopen" : "Complete"} “${task.title}” in the preview`}
                   aria-pressed={Boolean(task.done)}
                   className={cn(
-                    "relative flex size-[1.15em] shrink-0 items-center justify-center rounded-[0.32em] border outline-none ring-(--tint)/40 focus-visible:ring-[3px]",
+                    "relative flex size-[1.15em] shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.4)] border outline-none ring-(--tint)/40 focus-visible:ring-[3px]",
                     task.done ? "border-transparent bg-(--tint) text-white" : "border-foreground/24 bg-background",
                     tintTransition,
                   )}
@@ -481,7 +481,7 @@ function MiniApp({
                 </span>
                 <span
                   className={cn(
-                    "hidden shrink-0 rounded-[0.4em] px-[0.45em] py-[0.1em] text-[0.75em] @md/app:inline",
+                    "hidden shrink-0 rounded-[calc(var(--radius)*0.4)] px-[0.45em] py-[0.1em] text-[0.75em] @md/app:inline",
                     task.due === "Today"
                       ? cn("bg-[color-mix(in_srgb,var(--tint)_14%,transparent)] font-medium text-(--tint-ink)", tintTransition)
                       : "bg-muted text-muted-foreground",
@@ -578,7 +578,7 @@ function ThemeThumb({ variant, accent }: { variant: "light" | "dark"; accent: Ac
       style={tintStyle(variant, accent)}
     >
       <span className="flex w-[26%] flex-col gap-[6%] border-r bg-muted px-[5%] pt-[9%]">
-        <span className={cn("size-2.5 rounded-[3px] bg-(--tint)", tintTransition)} />
+        <span className={cn("size-2.5 rounded-[calc(var(--radius)*0.3)] bg-(--tint)", tintTransition)} />
         <span className="h-1 w-4/5 rounded-full bg-foreground/20" />
         <span className="h-1 w-3/5 rounded-full bg-foreground/12" />
         <span className="h-1 w-4/5 rounded-full bg-foreground/12" />
@@ -586,11 +586,11 @@ function ThemeThumb({ variant, accent }: { variant: "light" | "dark"; accent: Ac
       <span className="flex flex-1 flex-col gap-[7%] px-[8%] pt-[9%]">
         <span className="flex items-center justify-between">
           <span className="h-1.5 w-2/5 rounded-full bg-foreground/56" />
-          <span className={cn("h-2.5 w-1/4 rounded-[3px] bg-(--tint)", tintTransition)} />
+          <span className={cn("h-2.5 w-1/4 rounded-[calc(var(--radius)*0.3)] bg-(--tint)", tintTransition)} />
         </span>
         {[0, 1, 2, 3].map((row) => (
           <span className="flex items-center gap-[6%] border-b pb-[5%] last:border-b-0" key={row}>
-            <span className="size-1.5 shrink-0 rounded-[2px] border border-foreground/24" />
+            <span className="size-1.5 shrink-0 rounded-[calc(var(--radius)*0.2)] border border-foreground/24" />
             <span className={cn("h-1 rounded-full bg-foreground/16", row % 2 ? "w-1/2" : "w-3/4")} />
           </span>
         ))}

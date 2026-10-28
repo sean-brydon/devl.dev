@@ -40,7 +40,7 @@ async function demoPasskey(): Promise<SignInResult> {
 
 function Mark() {
   return (
-    <span className="flex size-10 items-center justify-center rounded-xl bg-foreground text-background shadow-xs/5">
+    <span className="flex size-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-xs/5">
       <svg aria-hidden className="size-6" fill="none" viewBox="0 0 28 28">
         <path d="M7 18.5 12 12l3.5 4.5 2-2.5 3.5 4.5" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.2" />
       </svg>

@@ -317,7 +317,7 @@ export function Conveyor({
                 exit={{ opacity: 0 }}
                 initial={{ opacity: 0 }}
               >
-                <span className="size-2 rounded-[2px] bg-warning/30" />
+                <span className="size-2 rounded-[calc(var(--radius)*0.2)] bg-warning/30" />
                 Rate limited
               </motion.span>
             )}

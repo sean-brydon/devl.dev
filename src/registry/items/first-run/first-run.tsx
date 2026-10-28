@@ -200,7 +200,7 @@ function CheckDot({ checked, active }: { checked: boolean; active?: boolean }) {
       )}
       transition={{ duration: 0.3, times: [0, 0.4, 1], ease: "easeOut" }}
     >
-      {active && !checked && <span className="size-1.5 rounded-full bg-foreground" />}
+      {active && !checked && <span className="size-1.5 rounded-full bg-primary" />}
       <svg aria-hidden className="absolute size-3" fill="none" viewBox="0 0 24 24">
         <motion.path
           animate={{ pathLength: checked ? 1 : 0, opacity: checked ? 1 : 0 }}
@@ -241,7 +241,7 @@ function Checklist({ items, current, onGo }: { items: ChecklistItem[]; current: 
         <span className="mt-2 block h-1 overflow-hidden rounded-full bg-foreground/8">
           <motion.span
             animate={{ scaleX: doneCount / items.length }}
-            className="block h-full origin-left rounded-full bg-foreground/72"
+            className="block h-full origin-left rounded-full bg-primary/72"
             initial={false}
             transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 220, damping: 32 }}
           />
@@ -555,7 +555,7 @@ export function FirstRun({
                     <span className="h-1 flex-1 overflow-hidden rounded-full bg-foreground/10" key={sName}>
                       <motion.span
                         animate={{ scaleX: i <= step ? 1 : 0 }}
-                        className="block h-full origin-left rounded-full bg-foreground/80"
+                        className="block h-full origin-left rounded-full bg-primary/80"
                         initial={false}
                         transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 320, damping: 36 }}
                       />

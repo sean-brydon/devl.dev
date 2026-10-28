@@ -181,7 +181,7 @@ function PriorityIcon({ priority, className }: { priority: IssuePriority; classN
     return (
       <span
         aria-hidden
-        className={cn("flex size-3.5 shrink-0 items-center justify-center rounded-[3px] bg-orange-500 font-bold text-[10px] text-white leading-none", className)}
+        className={cn("flex size-3.5 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.3)] bg-orange-500 font-bold text-[10px] text-white leading-none", className)}
       >
         !
       </span>

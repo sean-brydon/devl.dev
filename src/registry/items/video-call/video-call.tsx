@@ -23,7 +23,7 @@ import {
   XIcon,
 } from "lucide-react";
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
-import { type CSSProperties, type ReactNode, useEffect, useRef, useState } from "react";
+import { type CSSProperties, type ReactNode, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -322,6 +322,29 @@ function tileKey(t: Tile) {
   return t.kind === "screen" ? "screen" : t.person.id;
 }
 
+function useThemeRadius(scale: number) {
+  const probe = useRef<HTMLSpanElement>(null);
+  const [radius, setRadius] = useState(scale * 10);
+  useLayoutEffect(() => {
+    const el = probe.current;
+    if (!el) return;
+    const read = () => setRadius(el.offsetWidth);
+    read();
+    const observer = new ResizeObserver(read);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  const marker = (
+    <span
+      aria-hidden
+      className="pointer-events-none invisible absolute h-0"
+      ref={probe}
+      style={{ width: `calc(var(--radius) * ${scale})` }}
+    />
+  );
+  return [radius, marker] as const;
+}
+
 function CallTile({
   tile,
   speaking,
@@ -340,6 +363,7 @@ function CallTile({
   ns?: string;
 }) {
   const reduce = useReducedMotionSafe();
+  const [radius, radiusProbe] = useThemeRadius(1.6);
   const p = tile.kind === "person" ? tile.person : null;
   const label = tile.kind === "screen" ? `${firstName(you.name)}'s screen` : tile.isYou ? "You" : p?.name;
 
@@ -353,9 +377,10 @@ function CallTile({
       layout={!reduce && !!ns}
       layoutId={ns ? `${ns}-${tileKey(tile)}` : undefined}
       role="group"
-      style={{ borderRadius: 16, ...style }}
+      style={{ borderRadius: radius, ...style }}
       transition={reduce ? { duration: 0.15 } : spring}
     >
+      {radiusProbe}
       <div className="@container/tile absolute inset-0 overflow-hidden rounded-[inherit] bg-muted">
         {tile.kind === "screen" ? (
           <ScreenShare />
@@ -1039,8 +1064,8 @@ export function VideoCall({
                               ns="grid"
                               speaking={t.kind === "person" && t.person.id === speakerId && !t.person.muted}
                               style={{
-                                width: "calc((100% - (var(--cc) - 1) * 0.5rem) / var(--cc))",
-                                height: "calc((100% - (var(--rr) - 1) * 0.5rem) / var(--rr))",
+                                width: "calc((100% - (var(--cc) - 1) * var(--spacing) * 2) / var(--cc))",
+                                height: "calc((100% - (var(--rr) - 1) * var(--spacing) * 2) / var(--rr))",
                               }}
                               tile={t}
                               you={you}

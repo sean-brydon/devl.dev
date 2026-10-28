@@ -514,7 +514,7 @@ export function PhaseBuilder({
                 <motion.div
                   animate={{ height: v > 0 ? `${Math.max(6, (v / max) * 100)}%` : "2px" }}
                   className={cn(
-                    "relative w-full overflow-hidden rounded-[3px] transition-colors",
+                    "relative w-full overflow-hidden rounded-[calc(var(--radius)*0.3)] transition-colors",
                     v > 0 ? "bg-foreground/40" : "bg-foreground/12",
                     (hover === null ? i === 0 : hover === i) && v > 0 && "bg-foreground",
                   )}
@@ -549,7 +549,7 @@ export function PhaseBuilder({
               initial={reduce ? false : { opacity: 0, height: 0, marginTop: 0 }}
               transition={spring}
             >
-              <span className="mt-1 size-2 shrink-0 rounded-[2px] bg-warning" />
+              <span className="mt-1 size-2 shrink-0 rounded-[calc(var(--radius)*0.2)] bg-warning" />
               <span>
                 {money.whole(totals.trueUp)} short of the {money.whole(phase.minimum.amount)} minimum, billed as a
                 true-up in {monthFmt.format(addMonths(phase.start, totals.trueUpMonth))}.

@@ -607,7 +607,7 @@ function Block({
         aria-checked={!!block.checked}
         aria-label="Done"
         className={cn(
-          "relative mt-[3px] flex size-[18px] shrink-0 cursor-pointer items-center justify-center rounded-[5px] border outline-none transition-[background-color,border-color,scale] duration-150 before:absolute before:-inset-2 focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.92]",
+          "relative mt-[3px] flex size-[18px] shrink-0 cursor-pointer items-center justify-center rounded-[calc(var(--radius)*0.5)] border outline-none transition-[background-color,border-color,scale] duration-150 before:absolute before:-inset-2 focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.92]",
           block.checked ? "border-primary bg-primary text-primary-foreground" : "border-foreground/20 bg-background dark:bg-input/32",
         )}
         onClick={onToggle}

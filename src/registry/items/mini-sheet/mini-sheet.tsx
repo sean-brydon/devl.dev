@@ -603,7 +603,7 @@ export function MiniSheet({
                             aria-label={`Edit ${col.label}, row ${r + 1}`}
                             autoFocus
                             className={cn(
-                              "absolute inset-0 z-20 w-full bg-popover px-2.5 text-sm outline-2 outline-info -outline-offset-2 rounded-[3px]",
+                              "absolute inset-0 z-20 w-full bg-popover px-2.5 text-sm outline-2 outline-info -outline-offset-2 rounded-[calc(var(--radius)*0.3)]",
                               col.type === "number" && "text-right tabular-nums",
                             )}
                             inputMode={col.type === "number" ? "decimal" : undefined}

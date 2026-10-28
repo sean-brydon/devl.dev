@@ -880,7 +880,7 @@ function TraceStrip({
           return (
             <motion.span
               animate={{ opacity: 1, scaleY: 1 }}
-              className={cn("absolute top-1/2 h-2.5 -translate-y-1/2 rounded-[3px]", failed ? "bg-destructive" : meta.bar, e.status === "running" && "animate-pulse motion-reduce:animate-none")}
+              className={cn("absolute top-1/2 h-2.5 -translate-y-1/2 rounded-[calc(var(--radius)*0.3)]", failed ? "bg-destructive" : meta.bar, e.status === "running" && "animate-pulse motion-reduce:animate-none")}
               initial={{ opacity: 0, scaleY: 0.4 }}
               key={e.id}
               style={{ left: `${(e.at / total) * 100}%`, width: `max(3px, ${(span / total) * 100}%)` }}

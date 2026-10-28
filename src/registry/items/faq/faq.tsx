@@ -47,7 +47,7 @@ function Marked({ text, query }: { text: string; query: string }) {
       {parts.map((part, i) =>
         part.toLowerCase() === q.toLowerCase() ? (
           // biome-ignore lint/suspicious/noArrayIndexKey: stable split
-          <mark className="rounded-[3px] bg-warning/25 px-px text-foreground [box-decoration-break:clone]" key={i}>
+          <mark className="rounded-[calc(var(--radius)*0.3)] bg-warning/25 px-px text-foreground [box-decoration-break:clone]" key={i}>
             {part}
           </mark>
         ) : (

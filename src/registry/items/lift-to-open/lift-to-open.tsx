@@ -2,7 +2,7 @@
 
 import { AnimatePresence, LayoutGroup, motion, useReducedMotion } from "motion/react";
 import { XIcon } from "lucide-react";
-import { type KeyboardEvent, type ReactNode, useEffect, useId, useRef, useState } from "react";
+import { type KeyboardEvent, type ReactNode, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 export interface LiftToOpenItem {
@@ -32,12 +32,47 @@ function useCalmMotion() {
   return mounted && !!prefers;
 }
 
-function Cover({ item, scope, shared, className }: { item: LiftToOpenItem; scope: string; shared: boolean; className?: string }) {
+function useThemeRadius(scale: number) {
+  const probe = useRef<HTMLSpanElement>(null);
+  const [radius, setRadius] = useState(scale * 10);
+  useLayoutEffect(() => {
+    const el = probe.current;
+    if (!el) return;
+    const read = () => setRadius(el.offsetWidth);
+    read();
+    const observer = new ResizeObserver(read);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  const marker = (
+    <span
+      aria-hidden
+      className="pointer-events-none invisible absolute h-0"
+      ref={probe}
+      style={{ width: `calc(var(--radius) * ${scale})` }}
+    />
+  );
+  return [radius, marker] as const;
+}
+
+function Cover({
+  item,
+  scope,
+  shared,
+  radius,
+  className,
+}: {
+  item: LiftToOpenItem;
+  scope: string;
+  shared: boolean;
+  radius: number;
+  className?: string;
+}) {
   return (
     <motion.div
       className={cn("relative grid place-items-center overflow-hidden bg-linear-to-br text-white", item.cover, className)}
       layoutId={shared ? `${scope}-cover-${item.id}` : undefined}
-      style={{ borderRadius: 10 }}
+      style={{ borderRadius: radius }}
       transition={frameSpring}
     >
       {item.art && (
@@ -65,6 +100,7 @@ function Heading({ item, scope, shared, size }: { item: LiftToOpenItem; scope: s
 export function LiftToOpen({ items, className, label = "Gallery" }: LiftToOpenProps) {
   const scope = useId();
   const reduce = useCalmMotion();
+  const [radius, radiusProbe] = useThemeRadius(1);
   const shared = !reduce;
   const [openId, setOpenId] = useState<string | null>(null);
   const [closing, setClosing] = useState(false);
@@ -141,6 +177,7 @@ export function LiftToOpen({ items, className, label = "Gallery" }: LiftToOpenPr
   return (
     <LayoutGroup id={scope}>
       <div className={cn("relative", className)}>
+        {radiusProbe}
         <ul aria-label={label} className="grid grid-cols-2 gap-3">
           {items.map((item) => (
             <li className="relative" key={item.id} style={{ zIndex: lifted === item.id ? 30 : undefined }}>
@@ -165,13 +202,13 @@ export function LiftToOpen({ items, className, label = "Gallery" }: LiftToOpenPr
                     if (el) thumbs.current.set(item.id, el);
                     else thumbs.current.delete(item.id);
                   }}
-                  style={{ borderRadius: 16 }}
+                  style={{ borderRadius: radius * 1.6 }}
                   transition={{ ...frameSpring, boxShadow: { duration: 0.3, ease: "easeOut" } }}
                   type="button"
                   whileHover={reduce ? undefined : { y: -2, boxShadow: hover }}
                   whileTap={reduce ? undefined : { scale: 0.97 }}
                 >
-                  <Cover className="aspect-[4/3] w-full" item={item} scope={scope} shared={shared} />
+                  <Cover className="aspect-[4/3] w-full" item={item} radius={radius} scope={scope} shared={shared} />
                   <div className="px-1.5 pb-1.5">
                     <Heading item={item} scope={scope} shared={shared} size="sm" />
                   </div>
@@ -205,10 +242,10 @@ export function LiftToOpen({ items, className, label = "Gallery" }: LiftToOpenPr
             onKeyDown={onKeyDown}
             ref={dialog}
             role="dialog"
-            style={{ borderRadius: 16 }}
+            style={{ borderRadius: radius * 1.6 }}
             transition={{ ...frameSpring, opacity: { duration: 0.15 }, boxShadow: { duration: 0.3, ease: "easeOut" } }}
           >
-            <Cover className="h-20 w-full shrink-0 sm:h-36" item={open} scope={scope} shared={shared} />
+            <Cover className="h-20 w-full shrink-0 sm:h-36" item={open} radius={radius} scope={scope} shared={shared} />
             <motion.button
               animate={{ opacity: closing ? 0 : 1, scale: closing ? 0.9 : 1 }}
               aria-label="Close"

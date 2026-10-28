@@ -446,7 +446,7 @@ export function FolderView({
             className="flex h-9 cursor-pointer items-center gap-2 rounded-lg px-1.5 text-left outline-none hover:bg-accent/60 focus-visible:ring-2 focus-visible:ring-ring"
             type="button"
           >
-            <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-foreground text-background">
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <svg aria-hidden className="size-3.5" fill="none" viewBox="0 0 16 16">
                 <path d="M2 9.5c2 2.7 10 2.7 12 0" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
                 <path d="M4 5h8" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />

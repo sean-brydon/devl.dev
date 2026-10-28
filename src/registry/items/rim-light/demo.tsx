@@ -17,7 +17,7 @@ export default function RimLightDemo() {
             <span className="font-medium text-sm">Deploying northwind-web</span>
             <span className="font-mono text-muted-foreground text-xs">main · 4f2a91c</span>
           </div>
-          <span className="rounded-full bg-brand/24 px-2 py-0.5 font-medium text-brand-foreground text-xs dark:text-brand">Live in ~1 min</span>
+          <span className="rounded-full bg-brand/24 px-2 py-0.5 font-medium text-brand-ink text-xs">Live in ~1 min</span>
         </div>
         <ol className="flex flex-col gap-2.5">
           {steps.map((s) => (

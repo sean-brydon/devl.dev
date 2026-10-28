@@ -145,7 +145,7 @@ export function VisitorsMapCard({
       <div aria-hidden className="mt-2 flex items-center justify-end gap-1.5 text-muted-foreground text-xs">
         Fewer
         {shades.map((amount) => (
-          <span className="size-2.5 rounded-[3px]" key={amount} style={{ background: shade(amount) }} />
+          <span className="size-2.5 rounded-[calc(var(--radius)*0.3)]" key={amount} style={{ background: shade(amount) }} />
         ))}
         More
       </div>

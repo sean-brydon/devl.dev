@@ -121,7 +121,7 @@ function PriorityBars({ priority }: { priority: TaskPriority }) {
     return (
       <span
         aria-label="Urgent"
-        className="flex size-4 items-center justify-center rounded-[4px] bg-destructive font-bold text-[0.625rem] text-white"
+        className="flex size-4 items-center justify-center rounded-[calc(var(--radius)*0.4)] bg-destructive font-bold text-[0.625rem] text-white"
       >
         !
       </span>

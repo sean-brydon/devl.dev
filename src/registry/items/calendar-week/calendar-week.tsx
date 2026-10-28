@@ -599,7 +599,7 @@ export function CalendarWeek({
                 >
                   <span
                     className={cn(
-                      "flex size-4 shrink-0 items-center justify-center rounded-[5px] border-2 transition-colors duration-150",
+                      "flex size-4 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.5)] border-2 transition-colors duration-150",
                       on ? toneCheck[c.tone] : "border-muted-foreground/40 bg-transparent",
                     )}
                   >

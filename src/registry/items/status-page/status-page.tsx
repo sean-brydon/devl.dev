@@ -127,7 +127,7 @@ function UptimeBars({ component, today }: { component: StatusComponent; today: s
         {component.history.map((d, i) => (
           <span
             className={cn(
-              "min-w-0 flex-1 rounded-[2px] transition-[opacity,scale] duration-150",
+              "min-w-0 flex-1 rounded-[calc(var(--radius)*0.2)] transition-[opacity,scale] duration-150",
               DAY[d].bar,
               i < mobileFrom && "max-sm:hidden",
               tip && tip.i !== i && "opacity-50",

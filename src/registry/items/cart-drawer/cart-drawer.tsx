@@ -192,7 +192,7 @@ export function CartDrawer({
                   <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-background dark:bg-input/40">
                     <motion.div
                       animate={{ scaleX: Math.min(1, subtotal / freeShippingAt) }}
-                      className={cn("h-full origin-left rounded-full transition-colors duration-300", unlocked ? "bg-success" : "bg-foreground/80")}
+                      className={cn("h-full origin-left rounded-full transition-colors duration-300", unlocked ? "bg-success" : "bg-primary/80")}
                       initial={false}
                       transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 260, damping: 32 }}
                     />

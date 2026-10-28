@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect } from "react";
+import { decodeTheme, storageKey, themeCss, writeThemeStyle } from "@/lib/custom-theme";
 
 // Theme for the preview iframe: starts from ?theme= (or the system), then follows messages from the parent page.
+// The custom theme comes from ?custom= when given, otherwise from the visitor's saved theme, kept in sync across frames.
 export function FrameTheme() {
   useEffect(() => {
     const root = document.documentElement;
@@ -17,12 +19,22 @@ export function FrameTheme() {
       window.getComputedStyle(document.body).opacity;
       requestAnimationFrame(() => requestAnimationFrame(() => freeze.remove()));
     };
-    apply(new URLSearchParams(location.search).get("theme"));
+    const params = new URLSearchParams(location.search);
+    apply(params.get("theme"));
+    const pinned = decodeTheme(params.get("custom"));
+    if (pinned) writeThemeStyle(themeCss(pinned));
     const onMessage = (event: MessageEvent) => {
       if (event.origin === location.origin && event.data?.type === "devl:theme") apply(event.data.theme);
     };
+    const onStorage = (event: StorageEvent) => {
+      if (!pinned && event.key === `${storageKey}:css`) writeThemeStyle(event.newValue ?? "");
+    };
     window.addEventListener("message", onMessage);
-    return () => window.removeEventListener("message", onMessage);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("message", onMessage);
+      window.removeEventListener("storage", onStorage);
+    };
   }, []);
   return null;
 }

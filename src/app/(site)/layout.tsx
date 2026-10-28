@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
+import { CustomThemeProvider } from "@/components/custom-theme";
 import { SiteHeader } from "@/components/site-header";
+import { ThemeCustomiser } from "@/components/theme-customiser";
 import { ThemeProvider } from "@/components/theme-provider";
+import { bootScript } from "@/lib/custom-theme";
 import { fontVariables } from "@/lib/fonts";
 import { items } from "@/lib/registry";
 import "../globals.css";
@@ -25,10 +28,16 @@ export const metadata: Metadata = {
 export default function SiteLayout({ children }: { children: React.ReactNode }) {
   return (
     <html className={fontVariables} lang="en" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: bootScript }} />
+      </head>
       <body className="min-h-svh bg-background">
         <ThemeProvider>
-          <SiteHeader />
-          <main>{children}</main>
+          <CustomThemeProvider>
+            <SiteHeader />
+            <main>{children}</main>
+            <ThemeCustomiser />
+          </CustomThemeProvider>
         </ThemeProvider>
         <script data-cf-beacon={JSON.stringify({ token: webAnalyticsToken })} defer src="https://static.cloudflareinsights.com/beacon.min.js" />
       </body>

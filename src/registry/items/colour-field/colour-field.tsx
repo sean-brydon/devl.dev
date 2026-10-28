@@ -301,16 +301,16 @@ export function ColourField({
         <Contrast background="black" colour={css(shown)} ratio={onBlack} />
       </div>
 
-      <div aria-live="polite" className="flex h-4 items-center gap-1.5 truncate text-muted-foreground text-xs" id={`${id}-hint`}>
+      <div aria-live="polite" className="flex h-4 min-w-0 items-center gap-1.5 text-muted-foreground text-xs" id={`${id}-hint`}>
         {invalid ? (
-          <span className="text-destructive-foreground">Try a hex like #3B82F6 or oklch(62% 0.19 259).</span>
+          <span className="truncate text-destructive-foreground">Try a hex like #3B82F6 or oklch(62% 0.19 259).</span>
         ) : outside ? (
           <>
             <TriangleAlertIcon className="size-3.5 shrink-0 text-warning-foreground" />
-            Outside sRGB, so hex uses the nearest match.
+            <span className="truncate">Outside sRGB, so hex uses the nearest match.</span>
           </>
         ) : (
-          <>Arrow keys nudge it. Paste a hex to start from one.</>
+          <span className="truncate">Arrow keys nudge it. Paste a hex to start from one.</span>
         )}
       </div>
 

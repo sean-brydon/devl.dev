@@ -55,7 +55,7 @@ const toneClass: Record<AppTone, string> = {
   green: "bg-emerald-500 text-white",
   amber: "bg-amber-500 text-white",
   red: "bg-rose-500 text-white",
-  neutral: "bg-primary text-primary-foreground",
+  neutral: "bg-foreground text-background",
 };
 const press = "transition-[box-shadow,background-color,transform] duration-150 ease-out active:scale-[0.97]";
 

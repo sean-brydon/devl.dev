@@ -227,7 +227,7 @@ export function SwatchCard({
                   aria-label={out ? `${sz.label}, sold out in ${swatch.name}` : sz.label}
                   className={cn(
                     "relative h-8 cursor-pointer overflow-hidden rounded-lg border font-medium text-xs outline-none transition-[background-color,border-color,color,scale] duration-150 focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.97]",
-                    on ? "border-foreground bg-foreground text-background" : "bg-background text-foreground hover:bg-accent dark:bg-input/32",
+                    on ? "border-primary bg-primary text-primary-foreground" : "bg-background text-foreground hover:bg-accent dark:bg-input/32",
                     out && "cursor-not-allowed text-muted-foreground line-through decoration-muted-foreground/60 hover:bg-background active:scale-100",
                   )}
                   key={sz.id}

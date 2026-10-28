@@ -168,7 +168,7 @@ export function DropletRing({
                     animate={reduce || !out ? { y: 0 } : { y: [0, -3, 0, 2, 0] }}
                     className={cn(
                       "relative flex items-center justify-center text-white shadow-md shadow-black/10 inset-shadow-[0_1px_--theme(--color-white/24%)]",
-                      compact ? "size-10 rounded-xl" : "size-12 rounded-[14px]",
+                      compact ? "size-10 rounded-xl" : "size-12 rounded-xl",
                       hueBg[hue],
                     )}
                     transition={{

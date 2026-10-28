@@ -49,7 +49,7 @@ function Value({ value, ours, index }: { value: VersusValue | undefined; ours: b
         )}
         initial={{ opacity: 0, scale: 0.8 }}
         transition={{ type: "spring", stiffness: 520, damping: 30, delay: Math.min(index, 14) * 0.03 }}
-        viewport={{ once: true, amount: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
         whileInView={{ opacity: 1, scale: 1 }}
       >
         <CheckIcon aria-hidden className="size-3" strokeWidth={3} />

@@ -191,11 +191,11 @@ function PlanCard({
         <>
           <span
             aria-hidden
-            className="absolute -top-28 -right-20 -z-10 size-72 rounded-full bg-info/35 blur-3xl dark:bg-info/20"
+            className="absolute -top-28 -right-20 -z-10 size-72 rounded-full bg-primary-foreground/16 blur-3xl"
           />
           <span
             aria-hidden
-            className="absolute -bottom-28 -left-20 -z-10 size-64 rounded-full bg-success/20 blur-3xl dark:bg-success/15"
+            className="absolute -bottom-28 -left-20 -z-10 size-64 rounded-full bg-primary-foreground/10 blur-3xl"
           />
         </>
       )}

@@ -231,12 +231,12 @@ export function CheckoutSummary({
                   <span
                     className={cn(
                       "relative flex size-4 shrink-0 items-center justify-center rounded-full border transition-colors duration-150",
-                      on ? "border-foreground bg-foreground" : "border-input",
+                      on ? "border-primary bg-primary" : "border-input",
                     )}
                   >
                     <motion.span
                       animate={{ scale: on ? 1 : 0 }}
-                      className="size-1.5 rounded-full bg-background"
+                      className="size-1.5 rounded-full bg-primary-foreground"
                       initial={false}
                       transition={{ duration: 0.15, ease }}
                     />

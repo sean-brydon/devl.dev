@@ -115,7 +115,7 @@ function Sidebar({ tasks, onClose }: { tasks: WorkspaceTask[]; onClose?: () => v
     <LayoutGroup id={group}>
       <div className="flex h-full min-h-0 flex-col">
         <div className="flex h-13 items-center gap-2 px-3">
-          <span className="flex size-7 items-center justify-center rounded-lg bg-foreground text-background">
+          <span className="flex size-7 items-center justify-center rounded-lg bg-primary text-primary-foreground">
             <BotIcon className="size-4" />
           </span>
           <span className="font-semibold">Orbit</span>

@@ -155,7 +155,7 @@ export function CloudSpendBarCard({
       <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
         {services.map((s) => (
           <span className="flex items-center gap-1.5 text-muted-foreground text-xs" key={s.key}>
-            <span className={cn("size-2 rounded-[3px]", s.swatch)} />
+            <span className={cn("size-2 rounded-[calc(var(--radius)*0.3)]", s.swatch)} />
             {s.label}
           </span>
         ))}

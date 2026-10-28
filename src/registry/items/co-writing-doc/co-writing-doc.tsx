@@ -198,7 +198,7 @@ function Caret({ person, label, layoutId, idle }: { person: Collaborator; label?
         className={cn("absolute inset-y-0 -left-px w-0.5 rounded-full", t.caret)}
         transition={{ duration: 1.4, repeat: Infinity }}
       />
-      <span className={cn("absolute -top-1 -left-px size-1.5 rounded-[2px] transition-opacity duration-200", t.caret, tag ? "opacity-0" : "opacity-100 group-hover/caret:opacity-0")} />
+      <span className={cn("absolute -top-1 -left-px size-1.5 rounded-[calc(var(--radius)*0.2)] transition-opacity duration-200", t.caret, tag ? "opacity-0" : "opacity-100 group-hover/caret:opacity-0")} />
       <span
         className={cn(
           "pointer-events-none absolute bottom-full -left-px mb-0.5 inline-flex origin-bottom-left items-center gap-1 whitespace-nowrap rounded-md rounded-bl-none px-1.5 py-px font-medium font-sans text-[10px] leading-4 shadow-xs/5 transition-[opacity,scale] duration-200 ease-out",
@@ -324,7 +324,7 @@ export function CoWritingDoc({
         parts.push(
           <span
             className={cn(
-              "rounded-[3px] underline decoration-2 underline-offset-4 transition-colors",
+              "rounded-[calc(var(--radius)*0.3)] underline decoration-2 underline-offset-4 transition-colors",
               toneCls[who.tone].soft,
               toneCls[who.tone].mark,
               comment && activeComment === comment.id && "ring-2 ring-current/10",
@@ -362,7 +362,7 @@ export function CoWritingDoc({
     if (suggestion && suggestion.block === b.id) {
       parts.push(
         <span
-          className={cn("rounded-[3px] underline decoration-dotted underline-offset-4", toneCls[quill.tone].soft, toneCls[quill.tone].text, toneCls[quill.tone].mark)}
+          className={cn("rounded-[calc(var(--radius)*0.3)] underline decoration-dotted underline-offset-4", toneCls[quill.tone].soft, toneCls[quill.tone].text, toneCls[quill.tone].mark)}
           key="sugg"
         >
           {suggestion.text.slice(0, typed)}
@@ -688,8 +688,8 @@ export function CoWritingDoc({
                               {people
                                 .filter((p) => p.id !== "theo")
                                 .map((p) => (
-                                  <Avatar className={cn("size-4 ring-2 ring-background", p.agent && "rounded-[5px]")} key={p.id}>
-                                    <AvatarFallback className={cn("font-medium text-[7px]", toneCls[p.tone].avatar, p.agent && "rounded-[5px]")}>
+                                  <Avatar className={cn("size-4 ring-2 ring-background", p.agent && "rounded-[calc(var(--radius)*0.5)]")} key={p.id}>
+                                    <AvatarFallback className={cn("font-medium text-[7px]", toneCls[p.tone].avatar, p.agent && "rounded-[calc(var(--radius)*0.5)]")}>
                                       {p.agent ? <SparklesIcon className="size-2.5" /> : p.initials}
                                     </AvatarFallback>
                                   </Avatar>

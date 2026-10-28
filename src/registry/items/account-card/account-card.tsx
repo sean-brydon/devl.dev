@@ -275,7 +275,7 @@ export function AccountCard({
 
       <div className="border-t p-1.5">
         <button
-          className="group/out flex h-9 w-full cursor-pointer items-center gap-2.5 rounded-[10px] px-2.5 text-left text-sm outline-none transition-colors hover:bg-destructive/8 hover:text-destructive-foreground focus-visible:bg-destructive/8 focus-visible:text-destructive-foreground"
+          className="group/out flex h-9 w-full cursor-pointer items-center gap-2.5 rounded-lg px-2.5 text-left text-sm outline-none transition-colors hover:bg-destructive/8 hover:text-destructive-foreground focus-visible:bg-destructive/8 focus-visible:text-destructive-foreground"
           onClick={onSignOut}
           type="button"
         >

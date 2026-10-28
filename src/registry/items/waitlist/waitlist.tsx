@@ -344,7 +344,7 @@ export function Waitlist({
                     <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-muted">
                       <motion.div
                         animate={{ scaleX: progressTo }}
-                        className="h-full origin-left rounded-full bg-foreground"
+                        className="h-full origin-left rounded-full bg-primary"
                         initial={{ scaleX: 0 }}
                         transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 120, damping: 24 }}
                       />

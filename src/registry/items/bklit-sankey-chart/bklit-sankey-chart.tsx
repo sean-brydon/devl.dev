@@ -112,7 +112,7 @@ export function ChannelFlowSankeyCard({
       <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-muted-foreground text-xs">
         {outcomes.map((n) => (
           <span className="flex items-center gap-1.5" key={n.name}>
-            <span className={cn("size-2 rounded-[3px]", n.swatch)} />
+            <span className={cn("size-2 rounded-[calc(var(--radius)*0.3)]", n.swatch)} />
             {n.name}
           </span>
         ))}
