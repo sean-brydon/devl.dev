@@ -105,6 +105,9 @@
   --color-info-foreground: var(--info-foreground);
   --color-info: var(--info);
   --color-destructive-foreground: var(--destructive-foreground);
+  /* Bare `rounded` and `rounded-xs` follow the theme radius too: 4px at the default, square when --radius is 0. */
+  --radius: calc(var(--radius) * 0.4);
+  --radius-xs: calc(var(--radius) * 0.4);
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
   --radius-lg: var(--radius);

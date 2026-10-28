@@ -14,7 +14,7 @@ import {
   UnplugIcon,
 } from "lucide-react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { type KeyboardEvent, useEffect, useId, useMemo, useRef, useState } from "react";
+import { type KeyboardEvent, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Kbd } from "@/components/ui/kbd";
@@ -123,6 +123,27 @@ function Row({ k, v, mono }: { k: string; v: React.ReactNode; mono?: boolean }) 
   );
 }
 
+function useThemeRadius(scale: number) {
+  const probe = useRef<HTMLSpanElement>(null);
+  const [radius, setRadius] = useState(scale * 10);
+  useLayoutEffect(() => {
+    const el = probe.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => setRadius(el.offsetWidth));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  const marker = (
+    <span
+      aria-hidden
+      className="pointer-events-none invisible absolute h-0"
+      ref={probe}
+      style={{ width: `calc(var(--radius) * ${scale})` }}
+    />
+  );
+  return [radius, marker] as const;
+}
+
 export function ConnectorSearch({
   connectors,
   defaultOpenId,
@@ -131,6 +152,7 @@ export function ConnectorSearch({
   onOpenSettings,
   className,
 }: ConnectorSearchProps) {
+  const [radius, radiusProbe] = useThemeRadius(1.6);
   const reduce = useReducedMotion();
   const listId = useId();
   const inputRef = useRef<HTMLInputElement>(null);
@@ -307,9 +329,10 @@ export function ConnectorSearch({
         className,
       )}
       layout
-      style={{ borderRadius: 16 }}
+      style={{ borderRadius: radius }}
       transition={spring}
     >
+      {radiusProbe}
       <motion.div className="flex h-12 items-center gap-2 border-b px-3" layout="position" transition={spring}>
         {open ? (
           <>

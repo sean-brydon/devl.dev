@@ -141,7 +141,7 @@ function Impression({ label, caption, rotate, seed, filterId, reduce, onImpact }
 
   const face = (
     <div className="relative rounded-lg border-[3px] border-current px-4 pt-2 pb-1.5 text-center">
-      <span className="absolute inset-[3px] rounded-[4px] border border-current" />
+      <span className="absolute inset-[3px] rounded-[calc(var(--radius)*0.4)] border border-current" />
       <span className="block font-extrabold text-[26px] uppercase leading-none tracking-[0.16em]">{label}</span>
       {caption ? (
         <span className="mt-1 block font-mono font-semibold text-[9px] uppercase tracking-[0.3em]">{caption}</span>

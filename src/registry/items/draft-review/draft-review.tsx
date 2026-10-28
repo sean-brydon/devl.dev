@@ -517,7 +517,7 @@ export function DraftReview<T extends string>({
         {toast && (
           <motion.div
             animate={{ y: 0, opacity: 1, scale: 1 }}
-            className="absolute inset-x-1.5 bottom-1.5 flex items-center gap-3 overflow-hidden rounded-[10px] bg-primary py-1.5 ps-3 pe-1.5 text-primary-foreground text-sm shadow-md/10"
+            className="absolute inset-x-1.5 bottom-1.5 flex items-center gap-3 overflow-hidden rounded-lg bg-primary py-1.5 ps-3 pe-1.5 text-primary-foreground text-sm shadow-md/10"
             exit={reduce ? { opacity: 0 } : { y: 24, opacity: 0, scale: 0.96 }}
             initial={reduce ? false : { y: 24, opacity: 0, scale: 0.96 }}
             key={toast.key}

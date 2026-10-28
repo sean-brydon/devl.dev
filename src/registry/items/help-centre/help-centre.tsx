@@ -383,7 +383,7 @@ function Mark({ text, query }: { text: string; query: string }) {
     <>
       {text.split(re).map((part, i) =>
         i % 2 ? (
-          <mark className="rounded-[3px] bg-warning/25 text-foreground" key={i}>
+          <mark className="rounded-[calc(var(--radius)*0.3)] bg-warning/25 text-foreground" key={i}>
             {part}
           </mark>
         ) : (

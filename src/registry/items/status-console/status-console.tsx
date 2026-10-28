@@ -418,7 +418,7 @@ export function StatusConsole({
           tabIndex={-1}
         >
           <nav aria-label="Console" className="hidden w-14 shrink-0 flex-col items-center gap-1 py-3 @3xl:flex">
-            <span className="mb-3 flex size-8 items-center justify-center rounded-lg bg-foreground text-background">
+            <span className="mb-3 flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
               <ActivityIcon className="size-4" />
             </span>
             {rail.map((r) => (
@@ -600,7 +600,7 @@ export function StatusConsole({
                               render={
                                 <span
                                   className={cn(
-                                    "h-full min-w-0 flex-1 rounded-[2px] transition-[background-color,opacity] duration-500 hover:opacity-70",
+                                    "h-full min-w-0 flex-1 rounded-[calc(var(--radius)*0.2)] transition-[background-color,opacity] duration-500 hover:opacity-70",
                                     b === 0 ? "bg-success/60" : b === 1 ? "bg-warning" : resolved ? "bg-warning" : "bg-destructive",
                                   )}
                                 />

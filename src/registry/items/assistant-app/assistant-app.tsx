@@ -628,7 +628,7 @@ export function AssistantApp({
                         {on ? (
                           <span className="absolute inset-0 rounded-lg bg-card shadow-xs/5 ring-1 ring-border dark:bg-accent dark:ring-0" />
                         ) : null}
-                        <span className={cn("relative size-2 shrink-0 rounded-[3px]", tones[p.tone ?? 1].dot)} />
+                        <span className={cn("relative size-2 shrink-0 rounded-[calc(var(--radius)*0.3)]", tones[p.tone ?? 1].dot)} />
                         <span className="relative flex-1 truncate">{p.name}</span>
                         <span className="relative text-muted-foreground text-xs tabular-nums">{chatCount(p.id)}</span>
                       </button>
@@ -767,7 +767,7 @@ export function AssistantApp({
                   initial={{ opacity: 0, scale: 0.95 }}
                   transition={spring}
                 >
-                  <span className={cn("size-2 shrink-0 rounded-[3px]", tones[scope.tone ?? 1].dot)} />
+                  <span className={cn("size-2 shrink-0 rounded-[calc(var(--radius)*0.3)]", tones[scope.tone ?? 1].dot)} />
                   <span className="truncate font-medium">{scope.name}</span>
                   {!active ? (
                     <button
@@ -1102,7 +1102,7 @@ export function AssistantApp({
                   onClick={() => newChat(scope.id)}
                   type="button"
                 >
-                  <span className={cn("size-2 shrink-0 rounded-[3px]", tones[scope.tone ?? 1].dot)} />
+                  <span className={cn("size-2 shrink-0 rounded-[calc(var(--radius)*0.3)]", tones[scope.tone ?? 1].dot)} />
                   <span className="truncate">{scope.name}</span>
                 </button>
                 <ChevronRightIcon className="hidden size-3.5 shrink-0 text-muted-foreground/70 @xl:block" />

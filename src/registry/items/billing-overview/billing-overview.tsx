@@ -331,7 +331,7 @@ export function BillingOverview({
               {Array.from({ length: plan.seats }, (_, i) => (
                 <motion.span
                   animate={{ opacity: 1, scaleY: 1 }}
-                  className={cn("h-5 flex-1 origin-bottom rounded-[4px]", i < plan.seatsUsed ? "bg-foreground/80" : "bg-muted")}
+                  className={cn("h-5 flex-1 origin-bottom rounded-[calc(var(--radius)*0.4)]", i < plan.seatsUsed ? "bg-foreground/80" : "bg-muted")}
                   initial={{ opacity: 0, scaleY: 0.4 }}
                   key={i}
                   transition={reduce ? { duration: 0 } : { duration: 0.3, ease, delay: 0.1 + i * 0.025 }}

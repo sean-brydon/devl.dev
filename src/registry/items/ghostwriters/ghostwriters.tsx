@@ -340,7 +340,7 @@ export function Ghostwriters({
                   <motion.span
                     animate={quiet ? { opacity: 0, scale: 0.9 } : { opacity: 1, scale: 1 }}
                     className={cn(
-                      "absolute bottom-full left-0 mb-px origin-bottom-left whitespace-nowrap rounded-full rounded-bl-[3px] px-1.5 font-medium text-[10px] leading-[14px] shadow-xs/5",
+                      "absolute bottom-full left-0 mb-px origin-bottom-left whitespace-nowrap rounded-full rounded-bl-[calc(var(--radius)*0.3)] px-1.5 font-medium text-[10px] leading-[14px] shadow-xs/5",
                       t.solid,
                       t.text,
                     )}
@@ -381,7 +381,7 @@ export function Ghostwriters({
                     : "reading…";
           return (
             <li
-              className={cn("flex min-h-11 items-center gap-2.5 rounded-[10px] px-2 py-1.5 transition-colors duration-150 ease-out", focus === st.s.id && pending && "bg-accent")}
+              className={cn("flex min-h-11 items-center gap-2.5 rounded-lg px-2 py-1.5 transition-colors duration-150 ease-out", focus === st.s.id && pending && "bg-accent")}
               key={st.s.id}
               onBlur={() => setFocus(null)}
               onFocus={() => setFocus(st.s.id)}

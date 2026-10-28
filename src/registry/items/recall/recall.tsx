@@ -381,7 +381,7 @@ export function Recall({
         {tray.length > 0 && (
           <motion.div
             animate={{ y: 0, opacity: 1 }}
-            className="absolute inset-x-1.5 bottom-1.5 flex items-center gap-2 rounded-[10px] bg-primary py-1.5 ps-3 pe-1.5 text-primary-foreground text-sm shadow-md/10"
+            className="absolute inset-x-1.5 bottom-1.5 flex items-center gap-2 rounded-lg bg-primary py-1.5 ps-3 pe-1.5 text-primary-foreground text-sm shadow-md/10"
             exit={reduce ? { opacity: 0 } : { y: 20, opacity: 0 }}
             initial={reduce ? false : { y: 20, opacity: 0 }}
             role="status"

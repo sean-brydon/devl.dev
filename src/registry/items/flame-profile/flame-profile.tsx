@@ -338,7 +338,7 @@ export function FlameProfile({ root, title = "Agent run", defaultLens = "time", 
         <ul className="flex items-center gap-3 text-muted-foreground">
           {(Object.keys(kinds) as FrameKind[]).map((k) => (
             <li className="flex items-center gap-1.5" key={k}>
-              <span className={cn("size-2 rounded-[3px]", kinds[k].dot)} />
+              <span className={cn("size-2 rounded-[calc(var(--radius)*0.3)]", kinds[k].dot)} />
               {kinds[k].label}
             </li>
           ))}

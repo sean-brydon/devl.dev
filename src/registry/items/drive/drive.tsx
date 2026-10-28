@@ -16,7 +16,7 @@ import {
   UsersRoundIcon,
   XIcon,
 } from "lucide-react";
-import { useEffect, useId, useMemo, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
@@ -145,14 +145,14 @@ function TemplatePreview({ kind }: { kind: FileTemplate["kind"] }) {
     case "brief":
       return (
         <span className="flex flex-col gap-1">
-          <span className="h-2.5 w-full rounded-[3px] bg-orange-500/20" />
+          <span className="h-2.5 w-full rounded-[calc(var(--radius)*0.3)] bg-orange-500/20" />
           <span className="h-1 w-1/2 rounded-full bg-foreground/40" />
           <span className={line} style={{ width: "80%" }} />
         </span>
       );
     case "sheet":
       return (
-        <span className="grid grid-cols-4 gap-px overflow-hidden rounded-[3px]">
+        <span className="grid grid-cols-4 gap-px overflow-hidden rounded-[calc(var(--radius)*0.3)]">
           {Array.from({ length: 12 }, (_, i) => (
             <span className={cn("h-1.5", i < 4 ? "bg-foreground/20" : i === 6 ? "bg-emerald-500/40" : "bg-foreground/8")} key={i} />
           ))}
@@ -174,17 +174,17 @@ function TemplatePreview({ kind }: { kind: FileTemplate["kind"] }) {
       return (
         <span className="grid grid-cols-3 gap-1">
           {["bg-amber-400/40", "bg-teal-500/30", "bg-violet-500/30", "bg-violet-500/30", "bg-amber-400/40", "bg-foreground/10"].map((c, i) => (
-            <span className={cn("h-2 rounded-[2px]", c)} key={i} />
+            <span className={cn("h-2 rounded-[calc(var(--radius)*0.2)]", c)} key={i} />
           ))}
         </span>
       );
     case "moodboard":
       return (
         <span className="grid h-full grid-cols-3 grid-rows-2 gap-0.5">
-          <span className="row-span-2 rounded-[2px] bg-linear-to-b from-amber-400/60 to-rose-500/50" />
-          <span className="rounded-[2px] bg-teal-500/40" />
-          <span className="rounded-[2px] bg-foreground/16" />
-          <span className="col-span-2 rounded-[2px] bg-blue-500/30" />
+          <span className="row-span-2 rounded-[calc(var(--radius)*0.2)] bg-linear-to-b from-amber-400/60 to-rose-500/50" />
+          <span className="rounded-[calc(var(--radius)*0.2)] bg-teal-500/40" />
+          <span className="rounded-[calc(var(--radius)*0.2)] bg-foreground/16" />
+          <span className="col-span-2 rounded-[calc(var(--radius)*0.2)] bg-blue-500/30" />
         </span>
       );
   }
@@ -211,6 +211,27 @@ function Members({ ids }: { ids: string[] }) {
 type SortKey = "name" | "edited" | "size" | "files";
 type Tab = "all" | "recent" | "shared" | "starred";
 
+function useThemeRadius(scale: number) {
+  const probe = useRef<HTMLSpanElement>(null);
+  const [radius, setRadius] = useState(scale * 10);
+  useLayoutEffect(() => {
+    const el = probe.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => setRadius(el.offsetWidth));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  const marker = (
+    <span
+      aria-hidden
+      className="pointer-events-none invisible absolute h-0"
+      ref={probe}
+      style={{ width: `calc(var(--radius) * ${scale})` }}
+    />
+  );
+  return [radius, marker] as const;
+}
+
 export function Drive({
   title = "Files",
   folders: initialFolders = defaultFolders,
@@ -222,6 +243,7 @@ export function Drive({
   onOpenFolder,
   className,
 }: DriveProps) {
+  const [radius, radiusProbe] = useThemeRadius(1.2);
   const [folders, setFolders] = useState(initialFolders);
   const [tab, setTab] = useState<Tab>("all");
   const [query, setQuery] = useState("");
@@ -285,7 +307,7 @@ export function Drive({
             className="flex h-9 cursor-pointer items-center gap-2 rounded-lg px-1.5 text-left outline-none hover:bg-accent/60 focus-visible:ring-2 focus-visible:ring-ring"
             type="button"
           >
-            <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-foreground text-background">
+            <span className="flex size-6 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
               <svg aria-hidden className="size-3.5" fill="none" viewBox="0 0 16 16">
                 <path d="M2 9.5c2 2.7 10 2.7 12 0" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
                 <path d="M4 5h8" stroke="currentColor" strokeLinecap="round" strokeWidth="2" />
@@ -460,7 +482,7 @@ export function Drive({
                         onClick={() => setCreated(t.name)}
                         type="button"
                       >
-                        <span className="flex h-9 w-8 shrink-0 flex-col justify-center overflow-hidden rounded-[5px] border bg-background p-1">
+                        <span className="flex h-9 w-8 shrink-0 flex-col justify-center overflow-hidden rounded-[calc(var(--radius)*0.5)] border bg-background p-1">
                           <TemplatePreview kind={t.kind} />
                         </span>
                         <span className="truncate font-medium">{t.name}</span>
@@ -537,9 +559,10 @@ export function Drive({
                   <motion.div
                     className={cn("mt-3", !grid && "overflow-hidden rounded-xl border bg-card")}
                     layout
-                    style={{ borderRadius: 12 }}
+                    style={{ borderRadius: radius }}
                     transition={spring}
                   >
+                    {radiusProbe}
                     {!grid && visible.length > 0 && (
                       <div className="hidden h-9 grid-cols-[minmax(0,1fr)_7rem_6rem_6rem_2.5rem] items-center gap-4 border-b bg-muted/40 ps-4 pe-2 font-medium text-muted-foreground text-xs @2xl:grid">
                         <span>Name</span>
@@ -562,7 +585,7 @@ export function Drive({
                             initial={{ opacity: 0, scale: 0.96 }}
                             key={f.id}
                             layout
-                            style={{ borderRadius: grid ? 12 : 0 }}
+                            style={{ borderRadius: grid ? radius : 0 }}
                             transition={spring}
                           >
                             <button

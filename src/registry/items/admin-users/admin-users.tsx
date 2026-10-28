@@ -651,7 +651,7 @@ export function AdminUsers({
                   {Array.from({ length: seats }, (_, i) => (
                     <motion.span
                       animate={{ opacity: 1 }}
-                      className={cn("h-full flex-1 rounded-full transition-colors duration-300", i < seatsUsed ? (seatsUsed / seats > 0.9 ? "bg-warning" : "bg-foreground") : "bg-muted")}
+                      className={cn("h-full flex-1 rounded-full transition-colors duration-300", i < seatsUsed ? (seatsUsed / seats > 0.9 ? "bg-warning" : "bg-primary") : "bg-muted")}
                       initial={false}
                       key={i}
                     />

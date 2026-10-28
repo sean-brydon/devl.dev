@@ -428,7 +428,7 @@ export function StreakHeatmap({
             {MIX.map((_, level) => (
               <span
                 aria-hidden
-                className="size-2.5 rounded-[3px] transition-transform duration-150 ease-out hover:scale-125"
+                className="size-2.5 rounded-[calc(var(--radius)*0.3)] transition-transform duration-150 ease-out hover:scale-125"
                 key={level}
                 onPointerEnter={() =>
                   setFocus({

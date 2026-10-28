@@ -7,6 +7,7 @@ import { GitHubIcon } from "@/components/github-icon";
 import { GooGroup } from "@/components/goo-group";
 import { Logo } from "@/components/logo";
 import { SoundToggle } from "@/components/sound-toggle";
+import { ThemeCustomiserButton } from "@/components/theme-customiser";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { bklit, devl, getItem, itemsOfKind, kinds, qnot } from "@/lib/registry";
@@ -71,6 +72,7 @@ export function SiteHeader() {
           <div className="hidden sm:block">
             <ThemeToggle />
           </div>
+          <ThemeCustomiserButton />
           <SoundToggle />
           {credit ? (
             <Button

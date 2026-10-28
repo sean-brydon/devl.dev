@@ -263,7 +263,7 @@ export function EmojiRating({
               <span
                 className={cn(
                   "relative size-2 rounded-full transition-[background-color,scale] duration-150",
-                  checked ? "scale-125 bg-foreground" : "bg-muted-foreground/48",
+                  checked ? "scale-125 bg-primary" : "bg-muted-foreground/48",
                 )}
               />
             </button>

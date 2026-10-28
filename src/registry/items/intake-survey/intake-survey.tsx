@@ -174,7 +174,7 @@ export function IntakeSurvey({
         >
           <motion.div
             animate={{ scaleX: progress }}
-            className="h-full origin-left rounded-full bg-foreground"
+            className="h-full origin-left rounded-full bg-primary"
             initial={false}
             transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 160, damping: 26 }}
           />
@@ -257,7 +257,7 @@ export function IntakeSurvey({
                           <span
                             className={cn(
                               "flex size-6 shrink-0 items-center justify-center rounded-md border font-medium font-mono text-xs transition-colors duration-150",
-                              selected ? "border-foreground bg-foreground text-background" : "bg-background text-muted-foreground dark:bg-input/32",
+                              selected ? "border-primary bg-primary text-primary-foreground" : "bg-background text-muted-foreground dark:bg-input/32",
                             )}
                           >
                             {LETTERS[i]}

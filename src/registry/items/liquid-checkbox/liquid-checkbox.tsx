@@ -96,7 +96,7 @@ export function LiquidCheckbox({
       aria-describedby={description ? descriptionId : undefined}
       checked={checked}
       className={cn(
-        "group/check relative inline-flex shrink-0 cursor-pointer rounded-[calc(var(--box)*0.3)] border border-input bg-background not-dark:bg-clip-padding shadow-xs/5 outline-none transition-[scale,box-shadow] duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-1.5 active:scale-[0.95] data-disabled:cursor-not-allowed data-disabled:opacity-64 dark:bg-input/32",
+        "group/check relative inline-flex shrink-0 cursor-pointer rounded-[min(calc(var(--box)*0.3),calc(var(--radius)*0.6))] border border-input bg-background not-dark:bg-clip-padding shadow-xs/5 outline-none transition-[scale,box-shadow] duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background after:absolute after:-inset-1.5 active:scale-[0.95] data-disabled:cursor-not-allowed data-disabled:opacity-64 dark:bg-input/32",
         TONES[tone],
         !label && className,
       )}

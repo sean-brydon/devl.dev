@@ -233,15 +233,15 @@ export function DriftChart({ title, agent, steps, unit = "m", tickEvery = 5, cla
 
       <div className="flex flex-wrap items-center gap-x-4 gap-y-1 border-t pt-3 text-muted-foreground text-xs">
         <span className="flex items-center gap-1.5">
-          <span className="h-2.5 w-4 rounded-[3px] border border-muted-foreground/50 border-dashed" />
+          <span className="h-2.5 w-4 rounded-[calc(var(--radius)*0.3)] border border-muted-foreground/50 border-dashed" />
           Plan
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="h-2.5 w-4 rounded-[3px] bg-teal-500 dark:bg-teal-400" />
+          <span className="h-2.5 w-4 rounded-[calc(var(--radius)*0.3)] bg-teal-500 dark:bg-teal-400" />
           Actual
         </span>
         <span className="flex items-center gap-1.5">
-          <span className="h-2.5 w-4 rounded-[3px] bg-warning" />
+          <span className="h-2.5 w-4 rounded-[calc(var(--radius)*0.3)] bg-warning" />
           Overrun
         </span>
         <span className={cn("ms-auto tabular-nums transition-colors duration-300", late && "text-warning-foreground")}>

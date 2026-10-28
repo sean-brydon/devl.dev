@@ -580,7 +580,7 @@ export function Habits({
                     <span className="relative h-2 overflow-hidden rounded-full bg-muted">
                       <motion.span
                         animate={{ scaleX: t.pct / 100 }}
-                        className={cn("absolute inset-0 origin-left rounded-full", t.pct === bestPct ? "bg-foreground" : "bg-foreground/40")}
+                        className={cn("absolute inset-0 origin-left rounded-full", t.pct === bestPct ? "bg-primary" : "bg-primary/40")}
                         initial={false}
                         transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 200, damping: 30 }}
                       />

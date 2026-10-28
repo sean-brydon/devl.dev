@@ -82,7 +82,7 @@ export function OrdersTrendCard({ title = "Orders per week", weeks, window = 4, 
       </div>
       <div className="mt-2 flex gap-4 text-muted-foreground text-xs">
         <span className="flex items-center gap-1.5">
-          <span className="size-2 rounded-[3px] bg-indigo-500" />
+          <span className="size-2 rounded-[calc(var(--radius)*0.3)] bg-indigo-500" />
           Orders
         </span>
         <span className="flex items-center gap-1.5">

@@ -259,7 +259,7 @@ export function BrowserTabs({ defaultTabs, defaultActiveId, renderPage, newTab, 
                           />
                           <div
                             className={cn(
-                              "relative mx-px flex h-full min-w-0 flex-1 items-center gap-1.5 rounded-t-[10px] ps-2.5 pe-2 text-xs transition-colors duration-150",
+                              "relative mx-px flex h-full min-w-0 flex-1 items-center gap-1.5 rounded-t-lg ps-2.5 pe-2 text-xs transition-colors duration-150",
                               "group-focus-visible/tab:ring-2 group-focus-visible/tab:ring-ring group-focus-visible/tab:ring-inset",
                               isActive
                                 ? "bg-card text-foreground before:absolute before:-bottom-0 before:-left-2.5 before:size-2.5 before:bg-[radial-gradient(circle_at_0_0,transparent_10px,var(--color-card)_10.5px)] after:absolute after:-right-2.5 after:-bottom-0 after:size-2.5 after:bg-[radial-gradient(circle_at_100%_0,transparent_10px,var(--color-card)_10.5px)]"
@@ -388,7 +388,7 @@ function Favicon({ tab }: { tab: BrowserTab }) {
     <span
       aria-hidden
       className={cn(
-        "relative flex size-4 shrink-0 items-center justify-center rounded-[4px] font-bold text-[9px] leading-none",
+        "relative flex size-4 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.4)] font-bold text-[9px] leading-none",
         FAVICON[tab.tone ?? "neutral"],
       )}
     >

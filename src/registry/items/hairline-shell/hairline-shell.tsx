@@ -252,7 +252,7 @@ function HairlineSidebar({ collapsed, workspaces, nav, projects, user, active, o
             >
               <span
                 className={cn(
-                  "flex size-5 shrink-0 items-center justify-center rounded-[5px] font-semibold text-[11px] text-white",
+                  "flex size-5 shrink-0 items-center justify-center rounded-[calc(var(--radius)*0.5)] font-semibold text-[11px] text-white",
                   swatch[ws.tone],
                 )}
               >
@@ -343,7 +343,7 @@ function HairlineSidebar({ collapsed, workspaces, nav, projects, user, active, o
                     p.id,
                     p.name,
                     <span className="flex size-4 shrink-0 items-center justify-center">
-                      <span className={cn("size-2.5 rounded-[3px]", swatch[p.tone])} />
+                      <span className={cn("size-2.5 rounded-[calc(var(--radius)*0.3)]", swatch[p.tone])} />
                     </span>,
                     <span className="text-muted-foreground/72 text-xs tabular-nums">{p.open}</span>,
                   ),
@@ -717,7 +717,7 @@ export function HairlineShell({
               <span className="hidden text-muted-foreground @md:inline">Northwind</span>
               <ChevronRightIcon aria-hidden className="hidden size-3.5 text-muted-foreground/60 @md:inline" />
               <span className="flex min-w-0 items-center gap-1.5">
-                {project && <span className={cn("size-2 shrink-0 rounded-[3px]", swatch[project.tone])} />}
+                {project && <span className={cn("size-2 shrink-0 rounded-[calc(var(--radius)*0.3)]", swatch[project.tone])} />}
                 <AnimatePresence initial={false} mode="popLayout">
                   <motion.span
                     animate={{ opacity: 1, filter: "blur(0px)" }}
@@ -746,7 +746,7 @@ export function HairlineShell({
                   <button
                     aria-checked={view === v}
                     className={cn(
-                      "relative h-6 cursor-pointer rounded-[5px] px-2 text-xs capitalize outline-none focus-visible:ring-2 focus-visible:ring-ring",
+                      "relative h-6 cursor-pointer rounded-[calc(var(--radius)*0.5)] px-2 text-xs capitalize outline-none focus-visible:ring-2 focus-visible:ring-ring",
                       view === v ? "text-foreground" : "text-muted-foreground hover:text-foreground",
                     )}
                     key={v}
@@ -755,7 +755,7 @@ export function HairlineShell({
                     type="button"
                   >
                     {view === v && (
-                      <motion.span className="absolute inset-0 rounded-[5px] bg-accent" layoutId="hairline-view" transition={spring} />
+                      <motion.span className="absolute inset-0 rounded-[calc(var(--radius)*0.5)] bg-accent" layoutId="hairline-view" transition={spring} />
                     )}
                     <span className="relative">{v}</span>
                   </button>

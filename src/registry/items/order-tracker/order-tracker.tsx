@@ -152,7 +152,7 @@ export function OrderTracker({
           <div aria-hidden className="absolute top-[9px] h-0.5 rounded-full bg-border" style={{ left: `${50 / steps.length}%`, right: `${50 / steps.length}%` }}>
             <motion.div
               animate={{ scaleX: progress }}
-              className={cn("h-full origin-left rounded-full transition-colors duration-300", isDelivered ? "bg-success" : "bg-foreground")}
+              className={cn("h-full origin-left rounded-full transition-colors duration-300", isDelivered ? "bg-success" : "bg-primary")}
               initial={false}
               transition={reduce ? { duration: 0 } : { type: "spring", stiffness: 140, damping: 24 }}
             />
@@ -174,7 +174,7 @@ export function OrderTracker({
                     animate={{ scale: 1 }}
                     className={cn(
                       "relative flex size-5 items-center justify-center rounded-full border-2 transition-colors duration-300",
-                      done && (isDelivered ? "border-success bg-success text-white" : "border-foreground bg-foreground text-background"),
+                      done && (isDelivered ? "border-success bg-success text-white" : "border-primary bg-primary text-primary-foreground"),
                       active && "border-info bg-card",
                       !done && !active && "border-border bg-card",
                     )}

@@ -437,7 +437,7 @@ export function StackedExplorer({
                     )}
                     key={s}
                   >
-                    <span className="size-2 rounded-[3px]" style={{ background: COLORS[s % COLORS.length] }} />
+                    <span className="size-2 rounded-[calc(var(--radius)*0.3)]" style={{ background: COLORS[s % COLORS.length] }} />
                     <span className="text-muted-foreground">{slice.series[s]}</span>
                     <span className="ms-auto font-medium tabular-nums">{fmt.format(rows[s][column] ?? 0)}</span>
                   </div>
@@ -493,7 +493,7 @@ export function StackedExplorer({
                     <span className="flex items-center gap-2">
                       <motion.span
                         animate={{ scale: lit ? 1.35 : 1 }}
-                        className="size-2.5 rounded-[3px]"
+                        className="size-2.5 rounded-[calc(var(--radius)*0.3)]"
                         style={{ background: COLORS[s % COLORS.length] }}
                         transition={reduce ? { duration: 0 } : { type: "spring", duration: 0.25, bounce: 0 }}
                       />

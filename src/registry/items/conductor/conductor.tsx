@@ -465,7 +465,7 @@ function BriefDoc({
         <span className="h-1 w-12 overflow-hidden rounded-full bg-muted">
           <motion.span
             animate={{ scaleX: pct }}
-            className={cn("block h-full origin-left rounded-full transition-colors duration-300", pct === 1 ? "bg-success" : "bg-foreground")}
+            className={cn("block h-full origin-left rounded-full transition-colors duration-300", pct === 1 ? "bg-success" : "bg-primary")}
             initial={false}
             transition={{ type: "spring", stiffness: 160, damping: 26 }}
           />
@@ -895,7 +895,7 @@ export function Conductor({
                             aria-pressed={on}
                             className={cn(
                               "inline-flex h-7 cursor-pointer items-center gap-1 rounded-full border px-2.5 text-xs outline-none transition-[background-color,color,border-color,scale] duration-150 ease-out focus-visible:ring-2 focus-visible:ring-ring active:scale-[0.97]",
-                              on ? "border-foreground bg-foreground text-background" : "bg-background hover:bg-accent dark:bg-input/32",
+                              on ? "border-primary bg-primary text-primary-foreground" : "bg-background hover:bg-accent dark:bg-input/32",
                             )}
                             key={c}
                             onClick={() => setPicks((p) => (on ? p.filter((x) => x !== c) : [...p, c]))}

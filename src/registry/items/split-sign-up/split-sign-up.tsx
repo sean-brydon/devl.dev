@@ -136,7 +136,7 @@ function DefaultShowcase() {
             <motion.span
               animate={{ scaleY: 1 }}
               className={cn(
-                "flex-1 origin-bottom rounded-[3px]",
+                "flex-1 origin-bottom rounded-[calc(var(--radius)*0.3)]",
                 i === bars.length - 1 ? "bg-violet-500" : "bg-violet-500/25 dark:bg-violet-400/25",
               )}
               initial={{ scaleY: 0.2 }}

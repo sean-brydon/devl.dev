@@ -417,8 +417,8 @@ function CheckCell({
     >
       <span
         className={cn(
-          "relative flex size-[18px] items-center justify-center rounded-[5px] border transition-[background-color,border-color,scale] duration-150 ease-out group-focus-visible/cell:ring-2 group-focus-visible/cell:ring-ring group-focus-visible/cell:ring-offset-1 group-focus-visible/cell:ring-offset-card group-active/cell:scale-90",
-          checked ? "border-foreground bg-foreground text-background" : "border-input bg-background group-hover/cell:border-foreground/40 dark:bg-input/32",
+          "relative flex size-[18px] items-center justify-center rounded-[calc(var(--radius)*0.5)] border transition-[background-color,border-color,scale] duration-150 ease-out group-focus-visible/cell:ring-2 group-focus-visible/cell:ring-ring group-focus-visible/cell:ring-offset-1 group-focus-visible/cell:ring-offset-card group-active/cell:scale-90",
+          checked ? "border-primary bg-primary text-primary-foreground" : "border-input bg-background group-hover/cell:border-foreground/40 dark:bg-input/32",
           locked && "opacity-40",
         )}
       >

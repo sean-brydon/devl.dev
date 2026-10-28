@@ -393,7 +393,7 @@ export function ConnectionCard({
           {showBar && (
             <motion.div
               animate={{ y: 0, opacity: 1 }}
-              className="absolute inset-x-1.5 bottom-1.5 flex h-11 items-center gap-2 rounded-[10px] border bg-popover ps-3 pe-1.5 shadow-lg/5"
+              className="absolute inset-x-1.5 bottom-1.5 flex h-11 items-center gap-2 rounded-lg border bg-popover ps-3 pe-1.5 shadow-lg/5"
               exit={{ y: reduce ? 0 : 56, opacity: reduce ? 0 : 1 }}
               initial={{ y: reduce ? 0 : 56, opacity: reduce ? 0 : 1 }}
               role="status"

@@ -349,7 +349,7 @@ export function TokenBudget({
         </span>
         {focus ? (
           <span className="flex min-w-0 items-center gap-1.5 text-xs" role="status">
-            <span className={cn("size-2 shrink-0 rounded-[2px]", parts[focus.part].dot)} />
+            <span className={cn("size-2 shrink-0 rounded-[calc(var(--radius)*0.2)]", parts[focus.part].dot)} />
             <span className="min-w-0 truncate font-medium">{focus.label}</span>
             <span className="shrink-0 text-muted-foreground tabular-nums">
               {k(focus.tokens)} · {Math.round((focus.tokens / limit) * 100)}%
@@ -384,7 +384,7 @@ export function TokenBudget({
                     ? { scaleX: 0.35, opacity: 0.55 }
                     : { scaleX: 1, opacity: on ? (alt && !hover ? 0.7 : 1) : 0.18 }
                 }
-                className={cn("aspect-square rounded-[3px]", seg ? parts[seg.part].cell : parts.free.cell)}
+                className={cn("aspect-square rounded-[calc(var(--radius)*0.3)]", seg ? parts[seg.part].cell : parts.free.cell)}
                 initial={false}
                 key={i}
                 onPointerEnter={() => setHover(seg ? { part: seg.part, id: seg.part === "files" ? seg.id : undefined } : { part: "free" })}
@@ -460,7 +460,7 @@ export function TokenBudget({
               onPointerLeave={() => setHover(null)}
               type="button"
             >
-              <span className={cn("size-2 rounded-[2px]", parts[part].dot)} />
+              <span className={cn("size-2 rounded-[calc(var(--radius)*0.2)]", parts[part].dot)} />
               <span className="text-muted-foreground">{parts[part].label}</span>
               <Roll className="font-medium" text={k(totals[part])} />
             </button>

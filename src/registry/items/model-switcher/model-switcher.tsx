@@ -133,7 +133,7 @@ export function ModelSwitcherPanel({
           return (
             <button
               aria-checked={on}
-              className="relative flex items-center gap-3 rounded-[10px] px-2.5 py-2 text-start outline-none focus-visible:ring-2 focus-visible:ring-ring"
+              className="relative flex items-center gap-3 rounded-lg px-2.5 py-2 text-start outline-none focus-visible:ring-2 focus-visible:ring-ring"
               key={m.id}
               onClick={() => update({ model: m.id })}
               onFocus={() => setHovered(m.id)}
@@ -148,7 +148,7 @@ export function ModelSwitcherPanel({
             >
               {(hovered ?? value.model) === m.id && (
                 <motion.span
-                  className="absolute inset-0 -z-0 rounded-[10px] bg-accent"
+                  className="absolute inset-0 -z-0 rounded-lg bg-accent"
                   layoutId={`${groupId}-hl`}
                   transition={reduce ? { duration: 0 } : spring}
                 />
@@ -185,7 +185,7 @@ export function ModelSwitcherPanel({
         })}
       </div>
 
-      <div className="mx-1.5 grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-2 rounded-[10px] bg-muted/50 px-2.5 py-2.5 text-xs">
+      <div className="mx-1.5 grid grid-cols-[auto_1fr] items-center gap-x-3 gap-y-2 rounded-lg bg-muted/50 px-2.5 py-2.5 text-xs">
         <Bar label="Speed" tone="bg-sky-500" value={shown?.speed ?? 0} />
         <Bar label="Quality" tone="bg-violet-500" value={shown?.quality ?? 0} />
         <Bar label="Cost" tone="bg-amber-500" value={shown?.cost ?? 0} />

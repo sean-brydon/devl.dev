@@ -5,7 +5,7 @@ import { Preview } from "@/components/previews";
 import { cn } from "@/lib/utils";
 
 /** Mounts children only while near the viewport, so a page of self-running demos stays calm. */
-function WhenVisible({ children, className }: { children: ReactNode; className?: string }) {
+function WhenVisible({ children, className, scoped }: { children: ReactNode; className?: string; scoped?: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const [visible, setVisible] = useState(false);
 
@@ -18,7 +18,7 @@ function WhenVisible({ children, className }: { children: ReactNode; className?:
   }, []);
 
   return (
-    <div className={className} ref={ref}>
+    <div className={className} data-theme-scope={scoped ? "" : undefined} ref={ref}>
       {visible ? children : <div className="size-full animate-pulse rounded-xl bg-muted/40" />}
     </div>
   );
@@ -93,7 +93,7 @@ function Fitted({ slug }: { slug: string }) {
 
 export function LivePreview({ slug, scaledWidth, className }: { slug: string; scaledWidth?: number; className?: string }) {
   return (
-    <WhenVisible className={cn("relative size-full", className)}>
+    <WhenVisible className={cn("relative size-full", className)} scoped>
       {scaledWidth ? (
         <Scaled slug={slug} width={scaledWidth} />
       ) : (

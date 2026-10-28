@@ -103,7 +103,7 @@ function UrlTokens({ url, params }: { url: string; params: Record<string, string
     out.push(
       <span
         className={cn(
-          "rounded-[3px]",
+          "rounded-[calc(var(--radius)*0.3)]",
           params[m[1]] ? "text-sky-700 dark:text-sky-300" : "text-warning-foreground underline decoration-dotted underline-offset-2",
         )}
         key={`t${at}`}
@@ -393,7 +393,7 @@ export function RequestBuilder({
             {names.map((n) => (
               <label className="contents" key={`p-${n}`}>
                 <span className="flex min-w-0 items-center gap-1.5">
-                  <span className="rounded-[4px] bg-sky-500/10 px-1 font-medium text-[10px] text-sky-700 uppercase leading-4 dark:text-sky-300">path</span>
+                  <span className="rounded-[calc(var(--radius)*0.4)] bg-sky-500/10 px-1 font-medium text-[10px] text-sky-700 uppercase leading-4 dark:text-sky-300">path</span>
                   <span className="truncate font-mono text-xs">{n}</span>
                 </span>
                 <input
@@ -409,7 +409,7 @@ export function RequestBuilder({
             {query.map(([k, v], i) => (
               <label className="contents" key={`q-${k}-${i}`}>
                 <span className="flex min-w-0 items-center gap-1.5">
-                  <span className="rounded-[4px] bg-violet-500/10 px-1 font-medium text-[10px] text-violet-700 uppercase leading-4 dark:text-violet-300">query</span>
+                  <span className="rounded-[calc(var(--radius)*0.4)] bg-violet-500/10 px-1 font-medium text-[10px] text-violet-700 uppercase leading-4 dark:text-violet-300">query</span>
                   <span className="truncate font-mono text-xs">{k}</span>
                 </span>
                 <input className={cn(fieldClass, "h-9 sm:h-8")} onChange={(e) => setQueryValue(i, e.target.value)} spellCheck={false} value={v} />

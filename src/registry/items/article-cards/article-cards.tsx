@@ -162,7 +162,7 @@ function Card({ article, index, size }: { article: Article; index: number; size:
     >
       <div
         className={cn(
-          "relative m-1.5 mb-0 overflow-hidden rounded-[calc(1rem-6px)] bg-linear-to-br",
+          "relative m-1.5 mb-0 overflow-hidden rounded-[calc(var(--radius-2xl)-6px)] bg-linear-to-br",
           tone.bg,
           feature ? "aspect-[16/9] lg:aspect-auto lg:min-h-0 lg:flex-1" : size === "side" ? "aspect-[2/1]" : "aspect-[16/9]",
         )}

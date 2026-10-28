@@ -4,6 +4,7 @@ import { CodeIcon, EyeIcon, MonitorIcon, MoonIcon, RotateCwIcon, SmartphoneIcon,
 import { useTheme } from "next-themes";
 import { type ReactNode, useEffect, useRef, useState } from "react";
 import { GooGroup } from "@/components/goo-group";
+import { ThemeCustomiserButton } from "@/components/theme-customiser";
 import { Button } from "@/components/ui/button";
 import type { ItemKind } from "@/lib/registry";
 import { cn } from "@/lib/utils";
@@ -109,6 +110,7 @@ export function ItemStage({ slug, kind, code }: { slug: string; kind: ItemKind; 
                 value={device}
               />
               <span aria-hidden className="mx-1 h-5 w-px shrink-0 bg-border" />
+              <ThemeCustomiserButton className="size-7" />
               <Button
                 aria-label="Replay preview"
                 className="size-7 shrink-0 rounded-full"

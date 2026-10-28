@@ -51,6 +51,27 @@ function score(action: LauncherAction, q: string) {
   return 0;
 }
 
+function useThemeRadius(scale: number) {
+  const probe = useRef<HTMLSpanElement>(null);
+  const [radius, setRadius] = useState(scale * 10);
+  useLayoutEffect(() => {
+    const el = probe.current;
+    if (!el) return;
+    const observer = new ResizeObserver(() => setRadius(el.offsetWidth));
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+  const marker = (
+    <span
+      aria-hidden
+      className="pointer-events-none invisible absolute h-0"
+      ref={probe}
+      style={{ width: `calc(var(--radius) * ${scale})` }}
+    />
+  );
+  return [radius, marker] as const;
+}
+
 export function Launcher({
   actions,
   pages = {},
@@ -61,6 +82,7 @@ export function Launcher({
   defaultOpen = false,
   className,
 }: LauncherProps) {
+  const [radius, radiusProbe] = useThemeRadius(1);
   const [open, setOpen] = useState(defaultOpen);
   const [page, setPage] = useState<string | null>(null);
   const [query, setQuery] = useState("");
@@ -212,6 +234,7 @@ export function Launcher({
 
   return (
     <div className={cn("relative w-full max-w-md", className)} onKeyDown={onWrapperKey}>
+      {radiusProbe}
       <AnimatePresence initial={false} mode="popLayout">
         {open ? (
           <motion.div
@@ -219,7 +242,7 @@ export function Launcher({
             exit={{ opacity: 0, transition: { duration: 0.12 } }}
             key="panel"
             layoutId={`${baseId}-shell`}
-            style={{ borderRadius: 16 }}
+            style={{ borderRadius: radius * 1.6 }}
             transition={spring}
           >
             <motion.div animate={{ opacity: 1 }} initial={reduce ? false : { opacity: 0 }} transition={{ delay: 0.06 }}>
@@ -366,7 +389,7 @@ export function Launcher({
             layoutId={`${baseId}-shell`}
             onClick={show}
             ref={triggerRef}
-            style={{ borderRadius: 12 }}
+            style={{ borderRadius: radius * 1.2 }}
             transition={spring}
             type="button"
           >

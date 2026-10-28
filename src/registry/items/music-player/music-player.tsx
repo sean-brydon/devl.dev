@@ -1093,7 +1093,7 @@ export function MusicPlayer({
               transition={{ duration: 0.22, ease: easeOut }}
             >
               <span className="absolute inset-x-0 top-0 h-0.5 bg-muted">
-                <span className="block h-full origin-left bg-foreground transition-transform duration-250 ease-linear" style={{ transform: `scaleX(${position / current.duration})` }} />
+                <span className="block h-full origin-left bg-primary transition-transform duration-250 ease-linear" style={{ transform: `scaleX(${position / current.duration})` }} />
               </span>
               <div className="flex items-center gap-3 px-3 py-2.5">
                 <button className={cn("flex min-w-0 flex-1 cursor-pointer items-center gap-3 rounded-lg text-left", ring)} onClick={() => setPane("playing")} type="button">

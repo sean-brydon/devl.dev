@@ -240,7 +240,7 @@ export function TriageDesk({ items, onResolve, title = "Needs review", className
                       return (
                         <mark
                           className={cn(
-                            "rounded-[4px] px-0.5 text-foreground underline decoration-2 underline-offset-[3px]",
+                            "rounded-[calc(var(--radius)*0.4)] px-0.5 text-foreground underline decoration-2 underline-offset-[3px]",
                             seg.risk === "high"
                               ? "bg-destructive/12 decoration-destructive/70 decoration-wavy"
                               : "bg-warning/16 decoration-warning/80",

@@ -252,7 +252,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
   return (
     <>
       {text.slice(0, i)}
-      <mark className="rounded-[3px] bg-warning/30 text-foreground">{text.slice(i, i + q.length)}</mark>
+      <mark className="rounded-[calc(var(--radius)*0.3)] bg-warning/30 text-foreground">{text.slice(i, i + q.length)}</mark>
       {text.slice(i + q.length)}
     </>
   );
@@ -327,7 +327,7 @@ function CheckBox({ checked, onToggle, label }: { checked: boolean; onToggle: ()
       aria-checked={checked}
       aria-label={label}
       className={cn(
-        "relative mt-[5px] flex size-4.5 shrink-0 cursor-pointer items-center justify-center rounded-[5px] border transition-[background-color,border-color,scale] duration-150 ease-out after:absolute after:-inset-2.5 after:content-[''] active:scale-[0.92]",
+        "relative mt-[5px] flex size-4.5 shrink-0 cursor-pointer items-center justify-center rounded-[calc(var(--radius)*0.5)] border transition-[background-color,border-color,scale] duration-150 ease-out after:absolute after:-inset-2.5 after:content-[''] active:scale-[0.92]",
         ring,
         "focus-visible:ring-offset-1 focus-visible:ring-offset-background",
         checked ? "border-primary bg-primary text-primary-foreground" : "border-input bg-background hover:border-foreground/40 dark:bg-input/32",

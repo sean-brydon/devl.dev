@@ -91,7 +91,7 @@ function ChartMedia() {
         <div className="mt-3 flex h-20 items-end gap-1.5">
           {bars.map((h, i) => (
             <div
-              className={cn("flex-1 rounded-[3px]", i === bars.length - 1 ? "bg-foreground/80" : "bg-foreground/12")}
+              className={cn("flex-1 rounded-[calc(var(--radius)*0.3)]", i === bars.length - 1 ? "bg-foreground/80" : "bg-foreground/12")}
               // biome-ignore lint/suspicious/noArrayIndexKey: fixed chart
               key={i}
               style={{ height: `${h}%` }}

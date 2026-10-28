@@ -249,7 +249,7 @@ function ServiceRow({
             <motion.span
               animate={{ scaleY: 1 }}
               className={cn(
-                "relative h-full min-w-0 flex-1 rounded-[2px]",
+                "relative h-full min-w-0 flex-1 rounded-[calc(var(--radius)*0.2)]",
                 LEVEL[d.level].bar,
                 active !== null && active !== i && "opacity-45",
                 i < days - COMPACT_DAYS && "@max-[26rem]:hidden",

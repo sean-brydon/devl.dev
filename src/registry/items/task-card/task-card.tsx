@@ -159,7 +159,7 @@ function dueState(due: Date | null, now: Date, complete: boolean): DueState | nu
 function PriorityGlyph({ level }: { level: TaskPriority }) {
   if (level === "urgent") {
     return (
-      <span className="flex size-4 items-center justify-center rounded-[4px] bg-destructive font-bold text-[10px] text-white leading-none">
+      <span className="flex size-4 items-center justify-center rounded-[calc(var(--radius)*0.4)] bg-destructive font-bold text-[10px] text-white leading-none">
         !
       </span>
     );

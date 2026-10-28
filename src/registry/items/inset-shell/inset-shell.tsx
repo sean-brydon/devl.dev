@@ -816,7 +816,7 @@ function ProjectOverview({ project }: { project: ShellProject }) {
                   <span
                     aria-label={done ? "Complete" : `${m.done}% complete`}
                     className={cn(
-                      "size-2.5 shrink-0 rotate-45 rounded-[2px] border",
+                      "size-2.5 shrink-0 rotate-45 rounded-[calc(var(--radius)*0.2)] border",
                       done ? "border-success bg-success" : m.done > 0 ? cn("border-transparent", dot[project.tone]) : "border-muted-foreground/50",
                     )}
                     role="img"

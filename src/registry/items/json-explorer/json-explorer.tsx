@@ -91,7 +91,7 @@ function Highlight({ text, query }: { text: string; query: string }) {
   while (hit !== -1) {
     if (hit > at) out.push(text.slice(at, hit));
     out.push(
-      <mark className="rounded-[3px] bg-warning/30 text-inherit dark:bg-warning/35" key={hit}>
+      <mark className="rounded-[calc(var(--radius)*0.3)] bg-warning/30 text-inherit dark:bg-warning/35" key={hit}>
         {text.slice(hit, hit + query.length)}
       </mark>,
     );

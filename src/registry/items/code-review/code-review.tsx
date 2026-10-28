@@ -431,7 +431,7 @@ function CodeText({ line, partner, md }: { line: Line; partner?: Line; md: boole
   return (
     <>
       {highlight(line.text.slice(0, r.start), md)}
-      <span className={cn("rounded-[3px]", line.kind === "del" ? "bg-destructive/22" : "bg-success/24")}>{highlight(line.text.slice(r.start, end), md)}</span>
+      <span className={cn("rounded-[calc(var(--radius)*0.3)]", line.kind === "del" ? "bg-destructive/22" : "bg-success/24")}>{highlight(line.text.slice(r.start, end), md)}</span>
       {highlight(line.text.slice(end), md)}
     </>
   );
@@ -489,7 +489,7 @@ function ThreadView({
                 <p className="mt-1 text-pretty text-[13px] text-foreground/90 leading-5 [overflow-wrap:anywhere]">
                   {c.body.split(/(`[^`]+`)/g).map((part, j) =>
                     part.startsWith("`") ? (
-                      <code className="rounded-[5px] border bg-muted px-1 py-px font-mono text-[12px]" key={j}>
+                      <code className="rounded-[calc(var(--radius)*0.5)] border bg-muted px-1 py-px font-mono text-[12px]" key={j}>
                         {part.slice(1, -1)}
                       </code>
                     ) : (
@@ -1113,7 +1113,7 @@ export function CodeReview({
                       </span>
                       <label className="flex h-7 cursor-pointer items-center gap-1.5 rounded-md border px-2 text-muted-foreground text-xs focus-within:ring-2 focus-within:ring-ring transition-colors hover:text-foreground has-checked:border-success/40 has-checked:bg-success/8 has-checked:text-success-foreground">
                         <input checked={isViewed} className="sr-only" onChange={() => toggleViewed(file.path)} type="checkbox" />
-                        <span className={cn("flex size-3.5 items-center justify-center rounded-[4px] border transition-colors", isViewed ? "border-success bg-success text-white" : "border-muted-foreground/50")}>
+                        <span className={cn("flex size-3.5 items-center justify-center rounded-[calc(var(--radius)*0.4)] border transition-colors", isViewed ? "border-success bg-success text-white" : "border-muted-foreground/50")}>
                           {isViewed && <CheckIcon className="size-2.5" strokeWidth={3} />}
                         </span>
                         Viewed
