@@ -1,0 +1,18 @@
+{
+  "name": "No Results",
+  "description": "A search that comes up empty: it repeats the query, suggests the spelling fix, names the filter that is hiding matches and offers popular searches. Removing a filter springs the results back in.",
+  "kind": "component",
+  "category": "Empty & Error",
+  "featured": false,
+  "keywords": [
+    "no results",
+    "empty search",
+    "did you mean",
+    "typo",
+    "filters",
+    "filter chips",
+    "popular searches",
+    "empty state"
+  ],
+  "no": 274
+}

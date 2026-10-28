@@ -1,0 +1,9 @@
+{
+  "name": "Payment Failed",
+  "description": "A billing state for a declined renewal that names the card and the reason, counts down the grace period, and puts the fixes right there: retry, switch to a saved card or add a new one.",
+  "kind": "component",
+  "category": "Empty & Error",
+  "featured": false,
+  "keywords": ["payment", "billing", "declined", "card", "dunning", "subscription", "grace period"],
+  "no": 280
+}

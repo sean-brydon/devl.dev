@@ -1,0 +1,16 @@
+{
+  "name": "Upload Failed",
+  "description": "A batch upload where each failed file says exactly why, too large, wrong type or a dropped connection, next to the fix for it, and a retry picks up where the upload stopped.",
+  "kind": "component",
+  "category": "Empty & Error",
+  "featured": false,
+  "keywords": [
+    "upload",
+    "error",
+    "retry",
+    "file size",
+    "file type",
+    "progress"
+  ],
+  "no": 278
+}
