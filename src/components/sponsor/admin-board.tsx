@@ -99,7 +99,9 @@ export function AdminBoard({ bookings, currentPeriod, stats }: { bookings: Booki
 
   async function signOut() {
     await fetch("/api/admin/session", { method: "DELETE" });
-    router.refresh();
+    // On devl.dev the real sign-in is Cloudflare Access, so end that session too.
+    if (window.location.hostname === "devl.dev") window.location.assign("/cdn-cgi/access/logout");
+    else router.refresh();
   }
 
   return (

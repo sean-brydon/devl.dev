@@ -47,7 +47,7 @@ Secrets (`wrangler secret put <NAME>`): `ADMIN_TOKEN`, `STRIPE_SECRET_KEY`, `STR
 
 ## Admin
 
-`/admin/*` and `/api/admin/*` sit behind Cloudflare Access (app "devl admin": an email one-time PIN, allowing only the owner's address), and they still ask for the `ADMIN_TOKEN` sign-in as well. `/sponsor-stats` and the sponsor and Stripe APIs stay public. `wrangler.jsonc` turns off `workers_dev` and `preview_urls` so there's no URL that skips Access. To change who can sign in, edit the app's policy in Zero Trust → Access → Applications.
+`/admin/*` and `/api/admin/*` sit behind Cloudflare Access: the app "devl admin" signs in with an email one-time PIN and allows only the owner's address. The Worker checks the `Cf-Access-Jwt-Assertion` header Access adds (`src/server/access.ts`, using `ACCESS_TEAM_DOMAIN` and `ACCESS_AUD` in `wrangler.jsonc`), so a valid Access sign-in is all it takes. Without one, as in local dev, the pages fall back to the `ADMIN_TOKEN` sign-in. `/sponsor-stats` and the sponsor and Stripe APIs stay public. `wrangler.jsonc` keeps `workers_dev` and `preview_urls` off so no URL skips Access. To change who can sign in, edit the app's policy in Zero Trust → Access → Applications. If the team or app is recreated, update the two vars.
 
 ## Analytics
 

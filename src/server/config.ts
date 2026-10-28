@@ -8,6 +8,8 @@ export interface AppConfigShape {
   readonly siteUrl: Option.Option<string>;
   readonly cfAccountId: Option.Option<string>;
   readonly analyticsToken: Option.Option<Redacted.Redacted>;
+  readonly accessTeamDomain: Option.Option<string>;
+  readonly accessAudience: Option.Option<string>;
   readonly isDev: boolean;
   readonly allowTestCheckout: boolean;
   readonly reviewBookings: boolean;
@@ -24,6 +26,8 @@ export class AppConfig extends Context.Service<AppConfig, AppConfigShape>()("dev
         siteUrl: Config.option(Config.String("SITE_URL")),
         cfAccountId: Config.option(Config.String("CF_ACCOUNT_ID")),
         analyticsToken: Config.option(Config.Redacted("CF_ANALYTICS_TOKEN")),
+        accessTeamDomain: Config.option(Config.String("ACCESS_TEAM_DOMAIN")),
+        accessAudience: Config.option(Config.String("ACCESS_AUD")),
         nodeEnv: Config.String("NODE_ENV").pipe(Config.withDefault("production")),
         allowTestCheckout: Config.Boolean("ALLOW_TEST_CHECKOUT").pipe(Config.withDefault(false)),
         reviewBookings: Config.Boolean("REVIEW_BOOKINGS").pipe(Config.withDefault(false)),

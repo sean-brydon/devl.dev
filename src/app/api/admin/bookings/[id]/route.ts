@@ -1,17 +1,16 @@
 import { Effect } from "effect";
-import { cookies } from "next/headers";
 import { Bookings, publicBooking } from "@/server/bookings";
-import { ADMIN_COOKIE, requireAdmin, respond } from "@/server/runtime";
+import { adminCredentials, requireAdmin, respond } from "@/server/runtime";
 import { AdminActionRequest, decodeBody } from "@/server/schemas";
 
 const decode = decodeBody(AdminActionRequest);
 
 export async function POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const session = (await cookies()).get(ADMIN_COOKIE)?.value;
+  const credentials = await adminCredentials();
   return respond(
     Effect.gen(function* () {
-      yield* requireAdmin(session);
+      yield* requireAdmin(credentials);
       const { action } = yield* decode(request);
       const bookings = yield* Bookings;
       const booking =
