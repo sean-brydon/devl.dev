@@ -6,6 +6,9 @@
     { "pattern": "devl.dev", "custom_domain": true },
     { "pattern": "www.devl.dev", "custom_domain": true }
   ],
+  // Only serve on devl.dev, where Cloudflare Access guards /admin. A workers.dev or preview URL would skip it (both are off by default with routes; keep them off).
+  "workers_dev": false,
+  "preview_urls": false,
   "compatibility_date": "2026-10-15",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "assets": {
