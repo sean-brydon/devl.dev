@@ -6,6 +6,8 @@ export interface AppConfigShape {
   readonly stripeWebhookSecret: Option.Option<Redacted.Redacted>;
   readonly adminToken: Option.Option<Redacted.Redacted>;
   readonly siteUrl: Option.Option<string>;
+  readonly cfAccountId: Option.Option<string>;
+  readonly analyticsToken: Option.Option<Redacted.Redacted>;
   readonly isDev: boolean;
   readonly allowTestCheckout: boolean;
   readonly reviewBookings: boolean;
@@ -20,6 +22,8 @@ export class AppConfig extends Context.Service<AppConfig, AppConfigShape>()("dev
         stripeWebhookSecret: Config.option(Config.Redacted("STRIPE_WEBHOOK_SECRET")),
         adminToken: Config.option(Config.Redacted("ADMIN_TOKEN")),
         siteUrl: Config.option(Config.String("SITE_URL")),
+        cfAccountId: Config.option(Config.String("CF_ACCOUNT_ID")),
+        analyticsToken: Config.option(Config.Redacted("CF_ANALYTICS_TOKEN")),
         nodeEnv: Config.String("NODE_ENV").pipe(Config.withDefault("production")),
         allowTestCheckout: Config.Boolean("ALLOW_TEST_CHECKOUT").pipe(Config.withDefault(false)),
         reviewBookings: Config.Boolean("REVIEW_BOOKINGS").pipe(Config.withDefault(false)),

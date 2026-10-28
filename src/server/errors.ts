@@ -67,6 +67,10 @@ export class RateLimited extends Schema.TaggedError<RateLimited>()("RateLimited"
   message: Schema.String,
 }) {}
 
+export class AnalyticsUnavailable extends Schema.TaggedError<AnalyticsUnavailable>()("AnalyticsUnavailable", {
+  message: Schema.String,
+}) {}
+
 export type OgError = OgNotFound | OgFetchFailed | OgInvalidImage;
 
 export type AppError =
@@ -82,7 +86,8 @@ export type AppError =
   | PlatformUnavailable
   | OgError
   | StorageError
-  | RateLimited;
+  | RateLimited
+  | AnalyticsUnavailable;
 
 export function statusOf(error: AppError) {
   switch (error._tag) {
@@ -106,6 +111,7 @@ export function statusOf(error: AppError) {
     case "StorageError":
       return 500;
     case "PaymentError":
+    case "AnalyticsUnavailable":
       return 502;
     case "DbError":
     case "PlatformUnavailable":

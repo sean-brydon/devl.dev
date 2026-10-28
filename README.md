@@ -43,7 +43,15 @@ pnpm cf:migrate:remote   # apply D1 migrations
 pnpm cf:deploy           # opennextjs-cloudflare build && deploy
 ```
 
-Secrets (`wrangler secret put <NAME>`): `ADMIN_TOKEN`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, optionally `SITE_URL`.
+Secrets (`wrangler secret put <NAME>`): `ADMIN_TOKEN`, `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, optionally `SITE_URL`, and `CF_ACCOUNT_ID` + `CF_ANALYTICS_TOKEN` for `/admin/stats`.
+
+## Admin
+
+`/admin/*` and `/api/admin/*` sit behind Cloudflare Access (app "devl admin": an email one-time PIN, allowing only the owner's address), and they still ask for the `ADMIN_TOKEN` sign-in as well. `/sponsor-stats` and the sponsor and Stripe APIs stay public. `wrangler.jsonc` turns off `workers_dev` and `preview_urls` so there's no URL that skips Access. To change who can sign in, edit the app's policy in Zero Trust → Access → Applications.
+
+## Analytics
+
+Cookieless and Cloudflare-native: Web Analytics for page views, and Workers Analytics Engine (`worker.ts`, dataset `devl_events`) for installs, raw source fetches, `llms.txt`, the skill and MCP tool calls. Read them at `/admin/stats`. [ANALYTICS.md](ANALYTICS.md) covers what's tracked, setup and SQL.
 
 ## License
 
